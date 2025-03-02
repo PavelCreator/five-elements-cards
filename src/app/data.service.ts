@@ -13,6 +13,9 @@ export class DataService {
   private _selectedCardSubject$: BehaviorSubject<Card | undefined> = new BehaviorSubject<Card | undefined>(undefined);
   public selectedCard$: Observable<Card | undefined> = this._selectedCardSubject$.asObservable();
 
+  private _removedArtSubject$: BehaviorSubject<Art | undefined> = new BehaviorSubject<Art | undefined>(undefined);
+  public removedArt$: Observable<Art | undefined> = this._removedArtSubject$.asObservable();
+
   public toggleCardSelection(inCard: Card) {
     if (inCard?.picturePath === this._selectedCardSubject$.value?.picturePath) {
       this._selectedCardSubject$.next(undefined);
@@ -36,8 +39,10 @@ export class DataService {
 
   private _dataFlow() {
     if (this._selectedCardSubject$.value && this._selectedArtSubject$.value) {
-      this._selectedCardSubject$.value.picturePath = this._selectedArtSubject$.value.picturePath;
-      this._selectedCardSubject$.value.name = this._selectedArtSubject$.value.name;
+      this._selectedCardSubject$.value.artData = {... this._selectedArtSubject$.value};
+      this._selectedCardSubject$.next(undefined);
+      this._selectedArtSubject$.next(undefined);
+      this._removedArtSubject$.next(this._selectedArtSubject$.value);
     }
   }
 }

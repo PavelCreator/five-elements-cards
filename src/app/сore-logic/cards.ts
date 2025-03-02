@@ -1,3 +1,5 @@
+import {Card} from "../interfaces/card.interface";
+
 export interface Elements {
     red?: number,
     green?: number,
@@ -6,21 +8,11 @@ export interface Elements {
     purple?: number,
     black?: number
 }
-export interface Card {
-    pay: Elements,
-    get: Elements,
-    orderNumber: number,
-    level: number,
-    levelSpecial: boolean,
-    picturePath?: string,
-    isSelected?: boolean
-}
 export const cards: Card[] = [
     {
         orderNumber: 1,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/68716612-040a-47a8-acb9-63f190da5661/0_1.png',
         pay: {
             red: 1,
             green: 1,
@@ -37,7 +29,6 @@ export const cards: Card[] = [
         orderNumber: 2,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/49d972ea-3300-4a92-b398-e1ab5a96d57e/0_2.png',
         pay: {
             red: 1,
             green: 1,
@@ -54,7 +45,6 @@ export const cards: Card[] = [
         orderNumber: 3,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/46907397-32a2-4d56-b9c9-a4b42f81f3f6/0_3.png',
         pay: {
             red: 1,
             green: 1,
@@ -71,7 +61,6 @@ export const cards: Card[] = [
         orderNumber: 4,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/8458a932-84dc-4956-8125-36060666b8a4/0_2.png',
         pay: {
             red: 1,
             green: 1,
@@ -88,7 +77,6 @@ export const cards: Card[] = [
         orderNumber: 5,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/c94c308d-d23d-4fc1-955f-748e652fd573/0_2.png',
         pay: {
             red: 0,
             green: 1,
@@ -105,7 +93,6 @@ export const cards: Card[] = [
         orderNumber: 6,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/c18a8c5a-7f3f-4df8-aeb2-fec2e63e4e15/0_3.png',
         pay: {
             red: 2,
             green: 1,
@@ -122,7 +109,6 @@ export const cards: Card[] = [
         orderNumber: 7,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/99d75ed6-bcfc-4e72-af6d-e1c1ffdebcef/0_1.png',
         pay: {
             red: 1,
             green: 2,
@@ -139,7 +125,6 @@ export const cards: Card[] = [
         orderNumber: 8,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/d8aed608-8464-44d2-8f5f-91887cb48617/0_0.png',
         pay: {
             red: 1,
             green: 0,
@@ -156,7 +141,6 @@ export const cards: Card[] = [
         orderNumber: 9,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/f16f9cfd-9000-4800-8644-d9042a3faa86/0_2.png',
         pay: {
             red: 2,
             green: 2,
@@ -173,7 +157,6 @@ export const cards: Card[] = [
         orderNumber: 10,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/15ec2331-55c6-4981-b353-182ff68cf1ea/0_0.png',
         pay: {
             red: 0,
             green: 0,
@@ -190,7 +173,6 @@ export const cards: Card[] = [
         orderNumber: 11,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/7913eccb-be34-461a-97e9-76b7a38296b4/0_1.png',
         pay: {
             red: 0,
             green: 0,
@@ -207,7 +189,6 @@ export const cards: Card[] = [
         orderNumber: 12,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/6ade81f9-55b5-4f7e-8849-08a220dd09d6/0_1.png',
         pay: {
             red: 2,
             green: 2,
@@ -224,7 +205,6 @@ export const cards: Card[] = [
         orderNumber: 13,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/0bfee4eb-ca57-4666-955b-d141c254bfeb/0_3.png',
         pay: {
             red: 0,
             green: 2,
@@ -241,7 +221,6 @@ export const cards: Card[] = [
         orderNumber: 14,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/a809220a-b3f0-48d6-92cc-8a5ae1fd4782/0_1.png',
         pay: {
             red: 0,
             green: 2,
@@ -258,7 +237,6 @@ export const cards: Card[] = [
         orderNumber: 15,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/ff2e6f4b-c3e9-47b1-a75b-aba5d47802e0/0_2.png',
         pay: {
             red: 2,
             green: 0,
@@ -275,7 +253,6 @@ export const cards: Card[] = [
         orderNumber: 16,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/4b727454-97ae-4c81-b548-4f9c9c10badf/0_1.png',
         pay: {
             red: 2,
             green: 0,
@@ -292,7 +269,6 @@ export const cards: Card[] = [
         orderNumber: 17,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/b24e98cc-70b3-4da5-98f4-78baa44a4943/0_2.png',
         pay: {
             red: 0,
             green: 2,
@@ -309,7 +285,6 @@ export const cards: Card[] = [
         orderNumber: 18,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/5ee1833d-5a26-44b1-b931-06c65680f640/0_2.png',
         pay: {
             red: 0,
             green: 0,
@@ -326,7 +301,6 @@ export const cards: Card[] = [
         orderNumber: 19,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/2a328e2c-2aad-40f3-8385-81ce1b9d7ddd/0_1.png',
         pay: {
             red: 0,
             green: 0,
@@ -343,7 +317,6 @@ export const cards: Card[] = [
         orderNumber: 20,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/7440bafd-78a7-4b14-9f3b-98380e52e8b1/0_1.png',
         pay: {
             red: 2,
             green: 0,
@@ -360,7 +333,6 @@ export const cards: Card[] = [
         orderNumber: 21,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/82caa037-5d20-4823-ac3b-2965a4df713d/0_3.png',
         pay: {
             red: 0,
             green: 2,
@@ -377,7 +349,6 @@ export const cards: Card[] = [
         orderNumber: 22,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/7e671de6-41cb-4028-b9a5-9a011c49d733/0_1.png',
         pay: {
             red: 1,
             green: 2,
@@ -394,7 +365,6 @@ export const cards: Card[] = [
         orderNumber: 23,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/5a0efe8f-7d5f-4c04-bdbb-e89e9a870909/0_2.png',
         pay: {
             red: 2,
             green: 1,
@@ -411,7 +381,6 @@ export const cards: Card[] = [
         orderNumber: 24,
         level: 1,
         levelSpecial: false,
-        picturePath: 'https://cdn.midjourney.com/733f1f6d-b241-489e-9b8e-4f5635c2e120/0_0.png',
         pay: {
             red: 2,
             green: 0,

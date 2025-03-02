@@ -1,5 +1,6 @@
 import { Elements } from "./elements.interface";
 import { Color } from "./color.type";
+import {Art} from "./art.interface";
 
 export interface Card {
     pay: Elements;
@@ -7,7 +8,6 @@ export interface Card {
     orderNumber: number;
     level: number;
     levelSpecial: boolean;
-    picturePath?: string;
-    name?: string;
     color?: Color;
+    artData?: Art;
 }

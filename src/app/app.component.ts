@@ -8,6 +8,7 @@ import { artsSorted } from "./сore-logic/arts-sorted";
 import { artsUnsorted } from "./сore-logic/arts-unsorted";
 import { Collection } from "./interfaces/collection.interface";
 import { CollectionHeaderComponent } from "./collection-header/collection-header.component";
+import {DataService} from "./data.service";
 
 @Component({
     selector: 'app-root',
@@ -86,6 +87,11 @@ export class AppComponent implements OnInit {
     public haveBlack4: number = 0;
     public haveMix4: number = 0;
 
+    constructor(
+        private _dataService: DataService
+    ) {
+    }
+
     ngOnInit() {
         artsSorted.forEach((art) => {
             const collection = this.collections.find(collection => collection.name === art.collection);
@@ -99,7 +105,23 @@ export class AppComponent implements OnInit {
             }
         })
 
+        this._dataService.removedArt$.subscribe(artToRemove => {
+            this.artsUnsorted.forEach((art: Art, i: number) => {
+                if (art.picturePath == artToRemove?.picturePath) {
+                    console.log('this.artsUnsorted.length = ', this.artsUnsorted.length);
+                    console.log('this.artsUnsorted[i] = ', this.artsUnsorted[i]);
+                    this.artsUnsorted.splice(i, 1);
+                    this._recalculateLevels();
+                    console.log('this.artsUnsorted.length = ', this.artsUnsorted.length);
+                }
+                // this.artsUnsorted = this.artsUnsorted.filter(art => art.picturePath !== artToRemove?.picturePath);
+            })
+        })
 
+        this._recalculateLevels();
+    }
+
+    private _recalculateLevels() {
         artsUnsorted.sort((a, b) => String(a.color).localeCompare(String(b.color))).reverse();
 
         this.red1 = this.artsUnsorted.filter(art => art.color === 'red' && art.level === 1).sort((x, y) => (x.hidden === y.hidden)? 0 : x.hidden ? 1 : -1);; this.needRed1 = this.cards.filter(card => card.level === 1 && card.get.red).length;
@@ -171,5 +193,6 @@ export class AppComponent implements OnInit {
         console.log('arts need Earth = ', this.cards.filter(card => (card.level !== 4 && !card.levelSpecial) && card.get.green).length - this.artsUnsorted.filter(art => art.color === 'green').length);
         console.log('arts need Dark = ', this.cards.filter(card => (card.level !== 4 && !card.levelSpecial) && card.get.black).length - this.artsUnsorted.filter(art => art.color === 'black').length);
         console.log('arts need Ether = ', this.cards.filter(card => (card.level !== 4 && !card.levelSpecial) && card.get.purple).length - this.artsUnsorted.filter(art => art.color === 'purple').length);
+
     }
 }
