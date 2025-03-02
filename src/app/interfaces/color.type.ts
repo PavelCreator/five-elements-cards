@@ -1,0 +1,1 @@
+export type Color = 'red' | 'green' | 'lightBlue' | 'darkBlue' | 'purple' | 'black' | 'mix';

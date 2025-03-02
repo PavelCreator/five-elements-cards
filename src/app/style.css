@@ -1,0 +1,103 @@
+:host {
+  --content-padding: 10px;
+}
+.card {
+  border: 3px solid grey;
+  border-radius: 15px;
+  width: 239px;
+  height: 334px;
+  margin: 5px;
+  box-sizing: border-box;
+  position: relative;
+}
+.card-hidden-overlay {
+  position: absolute;
+  width: 237px;
+  height: 332px;
+  top: 0;
+  left: 0;
+  background: black;
+  opacity: 0.7;
+  border-radius: 15px;
+  z-index:5;
+}
+.card-overlay {
+  position: absolute;
+  width: 235px;
+  height: 330px;
+  top: 0;
+  left: 0;
+  border-radius: 13px;
+  background-size: 239px 334px;
+  z-index:3;
+}
+
+.collection-header-wrapper{
+  width: 239px;
+  background:#1f1f1f;
+  & .art-name {
+    font-size: 22px;
+  }
+}
+
+.order-num {
+  position: absolute;
+  color: white;
+  right: 5px;
+  bottom: 5px;
+}
+
+.text-container {
+  font-family: "Macondo", cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 32px;
+  line-height: 28px;
+  position: absolute;
+  color: #fff;
+/*  filter: invert(1);
+  mix-blend-mode: difference;*/
+  width: 155px;
+  right: 15px;
+  text-align: right;
+  left: auto;
+  bottom: 15px;
+  z-index:7;
+}
+
+.collection-header-text {
+  font-family: "Macondo", cursive;
+  font-weight: 400;
+  font-style: normal;
+
+  position: absolute;
+  color: #fff;
+  width: 180px;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.art-name {
+  -webkit-text-stroke: 0.5px #000;
+}
+
+.collection-name {
+  -webkit-text-stroke: 0.1px #000;
+  font-size: 12px;
+}
+
+.pay-wrapper {
+  position: absolute;
+  left: 10px;
+  bottom: 15px;
+  z-index: 10;
+}
+
+.get-wrapper {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 10;
+}

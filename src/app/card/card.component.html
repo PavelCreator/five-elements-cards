@@ -1,0 +1,29 @@
+<div class="card" [ngStyle]="{'background-image': 'url(' + card.picturePath + ')', 'border': '3px solid '+ borderColor }" (click)="toggleCardSelection()">
+    <div class="pay-wrapper">
+        <app-hexagon *ngIf="card.pay.green" [color]="'green'" [number]="card.pay.green" [type]="'pay'"></app-hexagon>
+        <app-hexagon *ngIf="card.pay.lightBlue" [color]="'lightBlue'" [number]="card.pay.lightBlue" [type]="'pay'"></app-hexagon>
+        <app-hexagon *ngIf="card.pay.darkBlue" [color]="'darkBlue'" [number]="card.pay.darkBlue" [type]="'pay'"></app-hexagon>
+        <app-hexagon *ngIf="card.pay.red" [color]="'red'" [number]="card.pay.red" [type]="'pay'"></app-hexagon>
+        <app-hexagon *ngIf="card.pay.purple" [color]="'purple'" [number]="card.pay.purple" [type]="'pay'"></app-hexagon>
+        <app-hexagon *ngIf="card.pay.black" [color]="'black'" [number]="card.pay.black" [type]="'pay'"></app-hexagon>
+    </div>
+    <div class="get-wrapper">
+        <app-hexagon *ngIf="card.get.green" [color]="'green'" [number]="card.get.green" [type]="'get'"></app-hexagon>
+        <app-hexagon *ngIf="card.get.lightBlue" [color]="'lightBlue'" [number]="card.get.lightBlue" [type]="'get'"></app-hexagon>
+        <app-hexagon *ngIf="card.get.darkBlue" [color]="'darkBlue'" [number]="card.get.darkBlue" [type]="'get'"></app-hexagon>
+        <app-hexagon *ngIf="card.get.red" [color]="'red'" [number]="card.get.red" [type]="'get'"></app-hexagon>
+        <app-hexagon *ngIf="card.get.purple" [color]="'purple'" [number]="card.get.purple" [type]="'get'"></app-hexagon>
+        <app-hexagon *ngIf="card.get.black" [color]="'black'" [number]="card.get.black" [type]="'get'"></app-hexagon>
+    </div>
+    <div class="get-wrapper"></div>
+    <div class="order-num">{{ card.orderNumber }}</div>
+		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + card.picturePath + ')'}"></div>
+</div>
+
+<!--
+
+<div class="card">
+		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + card?.picturePath + ')'}"></div>
+    <div class="text-container">}
+    </div>
+</div>-->

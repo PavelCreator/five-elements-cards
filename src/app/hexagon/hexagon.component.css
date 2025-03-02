@@ -1,0 +1,28 @@
+.hexagon{
+    height:47px;
+    width:50px;
+    background-size:50px 47px;
+    color:#fff;
+    text-align:center;
+    -webkit-text-stroke: 1px #000;
+
+    .number-wrapper{
+        padding-right:1px;
+        font-size:25px;
+        padding-top:8px;
+    }
+}
+.hexagon-big{
+    height:65px;
+    width:70px;
+    background-size:70px 65px;
+    color:#fff;
+    text-align:center;
+    -webkit-text-stroke: 1px #000;
+
+    .number-wrapper{
+        padding-right:1px;
+        font-size:30px;
+        padding-top:14px;
+    }
+}
