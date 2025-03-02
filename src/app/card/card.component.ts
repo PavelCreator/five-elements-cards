@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgIf, NgStyle } from "@angular/common";
-import { Card } from "../сore-logic/cards";
 import { HexagonComponent } from "../hexagon/hexagon.component";
 import { DataService } from "../data.service";
+import { Card } from "../interfaces/card.interface";
 
 @Component({
     selector: 'app-card',
@@ -26,13 +26,13 @@ export class CardComponent implements OnInit {
     ngOnInit() {
         console.log('Card Component');
         this._dataService.selectedCard$.subscribe((inCard: Card | undefined) => {
-            if (inCard === undefined && this.card.isSelected) {
+            if (inCard === undefined && this.card.artData?.isSelected) {
                 this._removeCardSelection();
             }
-            if (inCard?.picturePath && inCard?.picturePath === this.card.picturePath && !this.card.isSelected) {
+            if (inCard?.artData?.picturePath && inCard?.artData?.picturePath === this.card.artData?.picturePath && !this.card.artData?.isSelected) {
                 this._addCardSelection();
             }
-            if (inCard?.picturePath !== this.card.picturePath && this.card.isSelected) {
+            if (inCard?.artData?.picturePath !== this.card.artData?.picturePath && this.card.artData?.isSelected) {
                 this._removeCardSelection();
             }
         })

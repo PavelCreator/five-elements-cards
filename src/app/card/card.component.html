@@ -1,4 +1,4 @@
-<div class="card" [ngStyle]="{'background-image': 'url(' + card.picturePath + ')', 'border': '3px solid '+ borderColor }" (click)="toggleCardSelection()">
+<div class="card" [ngStyle]="{'background-image': 'url(' + card.artData?.picturePath + ')', 'border': '3px solid '+ borderColor }" (click)="toggleCardSelection()">
     <div class="pay-wrapper">
         <app-hexagon *ngIf="card.pay.green" [color]="'green'" [number]="card.pay.green" [type]="'pay'"></app-hexagon>
         <app-hexagon *ngIf="card.pay.lightBlue" [color]="'lightBlue'" [number]="card.pay.lightBlue" [type]="'pay'"></app-hexagon>
@@ -17,7 +17,7 @@
     </div>
     <div class="get-wrapper"></div>
     <div class="order-num">{{ card.orderNumber }}</div>
-		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + card.picturePath + ')'}"></div>
+		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + card.artData?.picturePath + ')'}"></div>
 </div>
 
 <!--

@@ -10,4 +10,5 @@ export interface Card {
     levelSpecial: boolean;
     color?: Color;
     artData?: Art;
+    isSelected?: boolean;
 }

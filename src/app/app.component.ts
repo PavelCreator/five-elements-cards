@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CardComponent } from "./card/card.component";
-import { Card, cards } from "./сore-logic/cards";
+import { cards } from "./сore-logic/cards";
 import { NgFor, NgIf } from "@angular/common";
 import { ArtComponent } from "./art/art.component";
 import { Art } from "./interfaces/art.interface";
@@ -9,6 +9,7 @@ import { artsUnsorted } from "./сore-logic/arts-unsorted";
 import { Collection } from "./interfaces/collection.interface";
 import { CollectionHeaderComponent } from "./collection-header/collection-header.component";
 import {DataService} from "./data.service";
+import { Card } from "./interfaces/card.interface";
 
 @Component({
     selector: 'app-root',
@@ -116,6 +117,12 @@ export class AppComponent implements OnInit {
                 }
                 // this.artsUnsorted = this.artsUnsorted.filter(art => art.picturePath !== artToRemove?.picturePath);
             })
+        })
+
+        this._dataService.addArt$.subscribe((artToAdd: Art | undefined) => {
+            if (artToAdd) {
+                this.artsUnsorted.push(artToAdd);
+            }
         })
 
         this._recalculateLevels();
