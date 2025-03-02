@@ -24,6 +24,13 @@ export class DataService {
       this._selectedCardSubject$.next(undefined);
       this._addArtSubject$.next(this._selectedCardSubject$.value?.artData);
     } else {
+      if (inCard?.artData && this._selectedArtSubject$.value?.picturePath !== inCard?.artData?.picturePath) {
+
+        this._addArtSubject$.next(inCard?.artData);
+        inCard.artData = undefined;
+        inCard.isSelected = false;
+        this._selectedCardSubject$.next(undefined);
+      }
       this._selectedCardSubject$.next(inCard);
       this._dataFlow();
     }
@@ -45,8 +52,8 @@ export class DataService {
     if (this._selectedCardSubject$.value && this._selectedArtSubject$.value) {
       this._selectedCardSubject$.value.artData = {... this._selectedArtSubject$.value};
       this._selectedCardSubject$.next(undefined);
-      this._selectedArtSubject$.next(undefined);
       this._removedArtSubject$.next(this._selectedArtSubject$.value);
+      this._selectedArtSubject$.next(undefined);
     }
   }
 }

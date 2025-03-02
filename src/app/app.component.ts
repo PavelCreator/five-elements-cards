@@ -107,8 +107,9 @@ export class AppComponent implements OnInit {
         })
 
         this._dataService.removedArt$.subscribe(artToRemove => {
+            if (!artToRemove) return;
             this.artsUnsorted.forEach((art: Art, i: number) => {
-                if (art.picturePath == artToRemove?.picturePath) {
+                if (art.picturePath === artToRemove?.picturePath) {
                     console.log('this.artsUnsorted.length = ', this.artsUnsorted.length);
                     console.log('this.artsUnsorted[i] = ', this.artsUnsorted[i]);
                     this.artsUnsorted.splice(i, 1);
@@ -122,6 +123,7 @@ export class AppComponent implements OnInit {
         this._dataService.addArt$.subscribe((artToAdd: Art | undefined) => {
             if (artToAdd) {
                 this.artsUnsorted.push(artToAdd);
+                this._recalculateLevels();
             }
         })
 

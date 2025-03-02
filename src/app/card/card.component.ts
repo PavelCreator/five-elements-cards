@@ -26,13 +26,13 @@ export class CardComponent implements OnInit {
     ngOnInit() {
         console.log('Card Component');
         this._dataService.selectedCard$.subscribe((inCard: Card | undefined) => {
-            if (inCard === undefined && this.card.artData?.isSelected) {
+            if (inCard === undefined && this.card.isSelected) {
                 this._removeCardSelection();
             }
-            if (inCard?.artData?.picturePath && inCard?.artData?.picturePath === this.card.artData?.picturePath && !this.card.artData?.isSelected) {
+            if (inCard?.orderNumber && inCard?.orderNumber === this.card.orderNumber && !this.card.isSelected) {
                 this._addCardSelection();
             }
-            if (inCard?.artData?.picturePath !== this.card.artData?.picturePath && this.card.artData?.isSelected) {
+            if (inCard?.orderNumber !== this.card.orderNumber && this.card.isSelected) {
                 this._removeCardSelection();
             }
         })
