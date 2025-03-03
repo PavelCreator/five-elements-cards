@@ -27,9 +27,9 @@ export class DataService {
       if (inCard?.artData && this._selectedArtSubject$.value?.picturePath !== inCard?.artData?.picturePath) {
 
         this._addArtSubject$.next(inCard?.artData);
-        inCard.artData = undefined;
+        inCard.artData = this._selectedArtSubject$.value;
         inCard.isSelected = false;
-        this._selectedCardSubject$.next(undefined);
+        return;
       }
       this._selectedCardSubject$.next(inCard);
       this._dataFlow();
