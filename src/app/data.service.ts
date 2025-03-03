@@ -39,6 +39,13 @@ export class DataService {
   private _selectedArtSubject$: BehaviorSubject<Art | undefined> = new BehaviorSubject<Art | undefined>(undefined);
   public selectedArt$: Observable<Art | undefined> = this._selectedArtSubject$.asObservable();
 
+  private _selectedViewModeSubject$: BehaviorSubject<number | undefined> = new BehaviorSubject<number | undefined>(undefined);
+  public selectedViewMode$: Observable<number | undefined> = this._selectedViewModeSubject$.asObservable();
+
+  public selectViewMode(inViewModeIndex: number) {
+    this._selectedViewModeSubject$.next(inViewModeIndex);
+  }
+
   public toggleArtSelection(inArt: Art) {
     if (inArt?.picturePath === this._selectedArtSubject$.value?.picturePath) {
       this._selectedArtSubject$.next(undefined);

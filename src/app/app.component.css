@@ -1,23 +1,17 @@
-:host {
-  --content-padding: 10px;
+:host{
+    --content-padding:10px;
 }
-.card-wrapper {
-  height: 50vh;
-  overflow: scroll;
-  display: flex;
-  flex-wrap: wrap;
+.cards-wrapper{
+    height:0vh;
+    overflow:scroll;
+    display:flex;
+    flex-wrap:wrap;
+    transition:height 1s ease;
 }
-.art-wrapper-1 {
-  height: 0vh;
-  overflow: scroll;
-  display: flex;
-  flex-wrap: wrap;
-}
-.art-wrapper-2 {
-  height: 50vh;
-  overflow: scroll;
-}
-.level-wrapper {
-  display: flex;
-  flex-wrap: wrap;
+.arts-wrapper{
+    height:0vh;
+    overflow:scroll;
+    display:flex;
+    flex-wrap:wrap;
+    transition:height 1s ease;
 }

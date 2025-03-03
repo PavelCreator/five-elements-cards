@@ -1,0 +1,29 @@
+.menu-wrapper{
+    font-family:"Faculty Glyphic", sans-serif;
+    font-weight:400;
+    font-style:normal;
+
+    font-size:30px;
+    position:absolute;
+    top:0;
+    right:34px;
+    z-index:10000;
+    background-color:cornsilk;
+    padding:21px;
+
+    border-radius:15px;
+    border:1px solid #000;
+}
+.menu-visibility{
+    text-align:center;
+}
+.menu-item{
+    cursor:pointer;
+}
+.menu-collapse-area{
+    overflow:hidden;
+    transition:height 0.1s ease;
+    transition:width 0.1s ease;
+    height:fit-content;
+    width:370px;
+}

@@ -1,4 +1,5 @@
-<div class="card-wrapper">
+<div class="cards-wrapper" [ngStyle]="{'height': cardsWrapperHeight }">
     <app-card *ngFor='let card of cards' [card]="card"></app-card>
 </div>
-<app-arts class="art-wrapper-2 unsorted"></app-arts>
+<app-arts class="arts-wrapper" [ngStyle]="{'height': artsWrapperHeight }"></app-arts>
+<app-menu></app-menu>
