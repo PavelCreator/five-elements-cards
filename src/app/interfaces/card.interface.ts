@@ -1,6 +1,7 @@
 import { Elements } from "./elements.interface";
 import { Color } from "./color.type";
-import {Art} from "./art.interface";
+import { Art } from "./art.interface";
+import { BoundingClientRect } from "./bounding-client-rect.interface";
 
 export interface Card {
     pay: Elements;
@@ -11,4 +12,5 @@ export interface Card {
     color?: Color;
     artData?: Art;
     isSelected?: boolean;
+    boundingClientRect?: BoundingClientRect;
 }

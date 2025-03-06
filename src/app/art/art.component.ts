@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 import { NgIf, NgStyle } from "@angular/common";
 import { Art } from "../interfaces/art.interface";
 import { DataService } from "../data.service";
+import { logging } from "protractor";
+import { BoundingClientRect } from "../interfaces/bounding-client-rect.interface";
 
 @Component({
     selector: 'app-art',
@@ -18,13 +20,30 @@ export class ArtComponent implements OnInit {
     @Input() art: Art;
     public borderColor: string | undefined = 'grey';
 
+    public showHidden: boolean = false;
+    private _boundingClientRect: BoundingClientRect = {
+        top: 0,
+        left: 0
+    }
+
     constructor(
-        private _dataService: DataService
+        private _dataService: DataService,
+        private el: ElementRef,
+        private render: Renderer2
     ) {
     }
 
     ngOnInit() {
         this._setBorderColorFromArtColor();
+
+        this.render.listen('window', 'load', () => {
+            const viewportOffset = this.el.nativeElement.getBoundingClientRect();
+            this._boundingClientRect = {
+                top: viewportOffset.top,
+                left: viewportOffset.left
+            }
+            console.log(this._boundingClientRect);
+        })
 
         console.log('Art Component');
         this._dataService.selectedArt$.subscribe((inArt: Art | undefined) => {
@@ -36,6 +55,12 @@ export class ArtComponent implements OnInit {
             }
             if (inArt?.picturePath !== this.art.picturePath && this.art.isSelected) {
                 this._removeArtSelection();
+            }
+        })
+
+        this._dataService.showHidden$.subscribe((inShowHidden: boolean | undefined) => {
+            if (inShowHidden !== undefined) {
+                this.showHidden = inShowHidden;
             }
         })
     }
@@ -59,6 +84,7 @@ export class ArtComponent implements OnInit {
     }
 
     private _selectArt() {
+        this.art.boundingClientRect = {...this._boundingClientRect};
         this._dataService.toggleArtSelection(this.art);
     }
 

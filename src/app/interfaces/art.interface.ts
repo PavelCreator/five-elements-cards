@@ -1,4 +1,5 @@
 import { Color } from "./color.type";
+import { BoundingClientRect } from "./bounding-client-rect.interface";
 
 export interface Art {
     picturePath?: string,
@@ -9,4 +10,5 @@ export interface Art {
     hidden?: boolean;
     horizontalReverse?: boolean;
     isSelected?: boolean;
+    boundingClientRect?: BoundingClientRect;
 }

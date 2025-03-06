@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 import { NgIf, NgStyle } from "@angular/common";
 import { HexagonComponent } from "../hexagon/hexagon.component";
 import { DataService } from "../data.service";
 import { Card } from "../interfaces/card.interface";
+import { BoundingClientRect } from "../interfaces/bounding-client-rect.interface";
 
 @Component({
     selector: 'app-card',
@@ -17,13 +18,28 @@ export class CardComponent implements OnInit {
     // @ts-ignore
     @Input() card: Card;
     public borderColor: string | undefined = 'grey';
+    private _boundingClientRect: BoundingClientRect = {
+        top: 0,
+        left: 0
+    }
 
     constructor(
-        private _dataService: DataService
+        private _dataService: DataService,
+        private el: ElementRef,
+        private render: Renderer2
     ) {
     }
 
     ngOnInit() {
+        this.render.listen('window', 'load', () => {
+            const viewportOffset = this.el.nativeElement.getBoundingClientRect();
+            this._boundingClientRect = {
+                top: viewportOffset.top,
+                left: viewportOffset.left
+            }
+            console.log(this._boundingClientRect);
+        })
+
         console.log('Card Component');
         this._dataService.selectedCard$.subscribe((inCard: Card | undefined) => {
             if (inCard === undefined && this.card.isSelected) {
@@ -57,6 +73,7 @@ export class CardComponent implements OnInit {
     }
 
     private _selectCard() {
+        this.card.boundingClientRect = {...this._boundingClientRect};
         this._dataService.toggleCardSelection(this.card);
     }
 }

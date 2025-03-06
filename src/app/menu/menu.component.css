@@ -3,7 +3,7 @@
     font-weight:400;
     font-style:normal;
 
-    font-size:30px;
+    font-size:20px;
     position:absolute;
     top:0;
     right:34px;
@@ -25,5 +25,5 @@
     transition:height 0.1s ease;
     transition:width 0.1s ease;
     height:fit-content;
-    width:370px;
+    width:240px;
 }

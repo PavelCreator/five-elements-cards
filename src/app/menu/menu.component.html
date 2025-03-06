@@ -3,7 +3,7 @@
 	<div class="menu-item menu-visibility" *ngIf="menuVisibility === 'collapsed'" (click)="menuVisibility = 'expanded'">S<br/>H<br/>O<br/>W<br/><br/>M<br/>E<br/>N<br/>U</div>
 	<div class="menu-collapse-area"[ngStyle]="{
 	'height': menuVisibility === 'expanded' ? 'fit-content' : '0px',
-	'width': menuVisibility === 'expanded' ? '370px' : '36px'
+	'width': menuVisibility === 'expanded' ? 'fit-content' : '30px'
 	}">
 		<br>
 		<div class="menu-item" [ngStyle]="{'color': selectedMenuItem === 1 ? 'blue' : 'black' }" (click)="selectViewMode(1)">
@@ -24,5 +24,6 @@
 		<br>
 		<div class="menu-item">* Reset All Cards+Arts</div>
 		<div class="menu-item">* Generate Array</div>
+		<div class="menu-item" (click)="toggleHiddenArtVisibility()">* Show Hidden Arts</div>
 	</div>
 </div>

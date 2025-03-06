@@ -259,7 +259,7 @@ export const artsUnsorted: Art[] = [
         level: 4
     },
     {
-        picturePath: 'https://cdn.midjourney.com/08ba3c4d-19d5-486e-8eeb-bce95b4abf6f/0_1.png',
+        picturePath: 'https://cdn.midjourney.com/8d593943-cc97-44c3-ab0b-daae40c877c5/0_1.png', //https://cdn.midjourney.com/08ba3c4d-19d5-486e-8eeb-bce95b4abf6f/0_1.png',
         name: 'Cavalryman',
         collection: '',
         color: 'lightBlue',
@@ -308,7 +308,8 @@ export const artsUnsorted: Art[] = [
         name: 'White Mage',
         collection: '',
         color: 'lightBlue',
-        level: 2
+        level: 2,
+        hidden: true
     },
     {
         picturePath: 'https://cdn.midjourney.com/18e89b25-614b-438e-b704-fcbd2b1b9050/0_2.png',
@@ -431,7 +432,7 @@ export const artsUnsorted: Art[] = [
         hidden: true
     },
     {
-        picturePath: 'https://cdn.midjourney.com/f2ef8569-8e53-4c55-9320-49205fd5a4cf/0_2.png',
+        picturePath: 'https://cdn.midjourney.com/4ac9808a-cd66-4600-bd8e-fe7cf1e9ad4b/0_3.png', //'https://cdn.midjourney.com/f2ef8569-8e53-4c55-9320-49205fd5a4cf/0_2.png',
         name: 'Paladin',
         collection: '',
         color: 'lightBlue',
@@ -722,8 +723,16 @@ export const artsUnsorted: Art[] = [
         hidden: true
     },
     {
-        picturePath: 'https://cdn.midjourney.com/66ececff-1bd5-43a4-8c87-8a0c2fdcfcc1/0_3.png',
+        picturePath: 'https://cdn.midjourney.com/8d719ab2-565d-47bd-af72-7fd079d09452/0_0.png', //'https://cdn.midjourney.com/66ececff-1bd5-43a4-8c87-8a0c2fdcfcc1/0_3.png',
         name: 'Crusader',
+        collection: '',
+        color: 'lightBlue',
+        level: 2,
+        hidden: true
+    },
+    {
+        picturePath: 'https://cdn.midjourney.com/b36e04e2-5313-43e4-ae86-d30e9892d981/0_2.png',
+        name: 'Knight',
         collection: '',
         color: 'lightBlue',
         level: 2
@@ -733,8 +742,7 @@ export const artsUnsorted: Art[] = [
         name: 'Thunderbird',
         collection: '',
         color: 'lightBlue',
-        level: 2,
-        hidden: true
+        level: 2
     },
     {
         picturePath: 'https://cdn.midjourney.com/45d38492-5e14-46a6-b488-3c47ccb358ce/0_0.png',
@@ -940,7 +948,7 @@ export const artsUnsorted: Art[] = [
         level: 4
     },
     {
-        picturePath: 'https://cdn.midjourney.com/57a23505-e29e-4d3f-9a13-e15a4c128834/0_0.png',
+        picturePath: 'https://cdn.midjourney.com/0ac40d59-862d-47ba-b5cc-f5d2f75137f1/0_2.png',
         name: 'Archangel',
         collection: '',
         color: 'lightBlue',
@@ -1335,6 +1343,20 @@ export const artsUnsorted: Art[] = [
         picturePath: 'https://cdn.midjourney.com/46907397-32a2-4d56-b9c9-a4b42f81f3f6/0_3.png',
         name: 'Angel Knight',
         collection: 'Element Knights',
+        color: 'lightBlue',
+        level: 3,
+        hidden: true
+    },
+    {
+        picturePath: 'https://cdn.midjourney.com/38642bae-948f-4060-92b0-eed0e913c4dc/0_2.png',
+        name: 'Archmage',
+        color: 'lightBlue',
+        level: 3,
+        hidden: true
+    },
+    {
+        picturePath: 'https://cdn.midjourney.com/822350dd-abbe-498d-94d9-8268f6619101/0_2.png',
+        name: 'Roc Giant Bird',
         color: 'lightBlue',
         level: 3
     },
