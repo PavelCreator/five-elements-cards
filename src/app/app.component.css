@@ -21,20 +21,4 @@
     left: 0;
     top: 0;
     z-index: 10000;
-
-    animation: myAnim 0.4s ease 0s 1 normal forwards;
-
-    @keyframes myAnim {
-	0% {
-		opacity: 1;
-	}
-
-	50% {
-		opacity: 0.2;
-	}
-
-	100% {
-		opacity: 1;
-	}
-}
 }

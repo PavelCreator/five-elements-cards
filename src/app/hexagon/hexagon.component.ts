@@ -8,7 +8,7 @@ import { Color } from "../interfaces/color.type";
     standalone: true,
     template: `
 			<!--<div class="hexagon" [ngStyle]="{'background': gradient}">-->
-			<div [ngClass]="type === 'pay' ? 'hexagon' : 'hexagon-big'" [ngStyle]="{'background-image': 'url(\\'' + hexUrl + '\\')'}">
+			<div class="coin" [ngClass]="coinClass" [ngStyle]="{'background-image': 'url(\\'' + hexUrl + '\\')'}">
 				<div class="number-wrapper">{{ number }}</div>
 			</div>
     `,
@@ -18,10 +18,11 @@ import { Color } from "../interfaces/color.type";
 export class HexagonComponent implements OnInit {
     @Input() number: number | undefined;
     @Input() color: Color | undefined;
-    @Input() type: 'get' | 'pay' | undefined;
+    @Input() type: 'get' | 'pay' | 'getMix' | undefined;
 
     public gradient: string | undefined;
     public hexUrl: string | undefined;
+    public coinClass: 'coin-small' | 'coin-medium' | 'coin-big'  = 'coin-small';
 
     ngOnInit() {
         switch (this.color) {
@@ -87,6 +88,18 @@ export class HexagonComponent implements OnInit {
                     this.hexUrl = './assets/hex/Hex-black-big-4.png';
                     break;
             }
+        }
+
+        switch (this.type) {
+            case 'pay':
+                this.coinClass = 'coin-small';
+                break;
+            case 'getMix':
+                this.coinClass = 'coin-medium';
+                break;
+            case 'get':
+                this.coinClass = 'coin-big';
+                break;
         }
     }
 }

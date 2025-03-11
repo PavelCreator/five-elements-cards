@@ -1,10 +1,12 @@
-.hexagon{
-    height:47px;
-    width:50px;
-    background-size:50px 47px;
+.coin {
     color:#fff;
     text-align:center;
     -webkit-text-stroke: 1px #000;
+}
+.coin-small{
+    height:47px;
+    width:50px;
+    background-size:50px 47px;
 
     .number-wrapper{
         padding-right:1px;
@@ -12,13 +14,21 @@
         padding-top:8px;
     }
 }
-.hexagon-big{
+.coin-medium{
+    height:56px;
+    width:60px;
+    background-size:60px 56px;
+
+    .number-wrapper{
+        padding-right:1px;
+        font-size:27.5px;
+        padding-top:11px;
+    }
+}
+.coin-big{
     height:65px;
     width:70px;
     background-size:70px 65px;
-    color:#fff;
-    text-align:center;
-    -webkit-text-stroke: 1px #000;
 
     .number-wrapper{
         padding-right:1px;

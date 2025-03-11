@@ -22,6 +22,7 @@ export class CardComponent implements OnInit {
         top: 0,
         left: 0
     }
+    public typeOfGetHexagon: 'get' | 'getMix' = 'get';
 
     constructor(
         private _dataService: DataService,
@@ -40,7 +41,6 @@ export class CardComponent implements OnInit {
             console.log(this._boundingClientRect);
         })
 
-        console.log('Card Component');
         this._dataService.selectedCard$.subscribe((inCard: Card | undefined) => {
             if (inCard === undefined && this.card.isSelected) {
                 this._removeCardSelection();
@@ -52,6 +52,10 @@ export class CardComponent implements OnInit {
                 this._removeCardSelection();
             }
         })
+
+        if (this.card.color === 'mix') {
+            this.typeOfGetHexagon = 'getMix';
+        }
     }
 
     public toggleCardSelection() {

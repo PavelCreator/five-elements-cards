@@ -251,6 +251,7 @@ export const artsUnsorted: Art[] = [
     {
         picturePath: 'https://cdn.midjourney.com/c394833f-fdc0-4efb-acdb-af69cda2dc46/0_1.png',
         name: 'Yeti',
+        horizontalReverse: true,
         collection: '',
         color: 'mix',
         level: 4

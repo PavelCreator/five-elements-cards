@@ -8,16 +8,16 @@
         <app-hexagon *ngIf="card.pay.black" [color]="'black'" [number]="card.pay.black" [type]="'pay'"></app-hexagon>
     </div>
     <div class="get-wrapper">
-        <app-hexagon *ngIf="card.get.green" [color]="'green'" [number]="card.get.green" [type]="'get'"></app-hexagon>
-        <app-hexagon *ngIf="card.get.lightBlue" [color]="'lightBlue'" [number]="card.get.lightBlue" [type]="'get'"></app-hexagon>
-        <app-hexagon *ngIf="card.get.darkBlue" [color]="'darkBlue'" [number]="card.get.darkBlue" [type]="'get'"></app-hexagon>
-        <app-hexagon *ngIf="card.get.red" [color]="'red'" [number]="card.get.red" [type]="'get'"></app-hexagon>
-        <app-hexagon *ngIf="card.get.purple" [color]="'purple'" [number]="card.get.purple" [type]="'get'"></app-hexagon>
-        <app-hexagon *ngIf="card.get.black" [color]="'black'" [number]="card.get.black" [type]="'get'"></app-hexagon>
+        <app-hexagon *ngIf="card.get.green" [color]="'green'" [number]="card.get.green" [type]="typeOfGetHexagon"></app-hexagon>
+        <app-hexagon *ngIf="card.get.lightBlue" [color]="'lightBlue'" [number]="card.get.lightBlue" [type]="typeOfGetHexagon"></app-hexagon>
+        <app-hexagon *ngIf="card.get.darkBlue" [color]="'darkBlue'" [number]="card.get.darkBlue" [type]="typeOfGetHexagon"></app-hexagon>
+        <app-hexagon *ngIf="card.get.red" [color]="'red'" [number]="card.get.red" [type]="typeOfGetHexagon"></app-hexagon>
+        <app-hexagon *ngIf="card.get.purple" [color]="'purple'" [number]="card.get.purple" [type]="typeOfGetHexagon"></app-hexagon>
+        <app-hexagon *ngIf="card.get.black" [color]="'black'" [number]="card.get.black" [type]="typeOfGetHexagon"></app-hexagon>
     </div>
     <div class="get-wrapper"></div>
     <div class="order-num">{{ card.orderNumber }}</div>
-		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + card.artData?.picturePath + ')'}"></div>
+		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + card.artData?.picturePath + ')', transform: (card.artData?.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')}"></div>
 	<div class="text-container">
         <div class="art-name">{{ card.artData?.name }}</div>
     </div>

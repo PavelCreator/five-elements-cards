@@ -1,23 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { CardComponent } from "./card/card.component";
-import { cards } from "./сore-logic/cards";
-import { NgFor, NgIf, NgStyle } from "@angular/common";
-import { Card } from "./interfaces/card.interface";
+import { NgIf, NgStyle } from "@angular/common";
 import { ArtsComponent } from "./arts/arts.component";
 import { DataService } from "./data.service";
 import { MenuComponent } from "./menu/menu.component";
 import { ArtComponent } from "./art/art.component";
 import { Art } from "./interfaces/art.interface";
+import { CardsComponent } from "./cards/cards.component";
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [CardComponent, NgFor, NgIf, ArtsComponent, NgStyle, MenuComponent, ArtComponent, ArtComponent],
+    imports: [CardsComponent, ArtsComponent, ArtComponent, ArtComponent, MenuComponent, NgIf, NgStyle],
     templateUrl: 'app.component.html',
     styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit{
-    public cards: Card[] = cards;
     public artsWrapperHeight: string = '50vh';
     public cardsWrapperHeight: string = '50vh';
     // @ts-ignore
