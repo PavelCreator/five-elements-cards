@@ -1,4 +1,4 @@
-<div class="card" [ngStyle]="{'border-color': borderColor, 'display': art.hidden && !showHidden ? 'block' : 'block'}" (click)="toggleArtSelection()">
+<div class="card" *ngIf="!art.hidden || (art.hidden && showDisabledArt)" [ngStyle]="{'border-color': borderColor}" (click)="toggleArtSelection()">
 		<div class="card-hidden-overlay" *ngIf="art.hidden"></div>
 		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + art.picturePath + ')', transform: (art.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')}"></div>
     <div class="text-container">

@@ -18,6 +18,9 @@
     <div class="get-wrapper"></div>
     <div class="order-num">{{ card.orderNumber }}</div>
 		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + card.artData?.picturePath + ')'}"></div>
+	<div class="text-container">
+        <div class="art-name">{{ card.artData?.name }}</div>
+    </div>
 </div>
 
 <!--

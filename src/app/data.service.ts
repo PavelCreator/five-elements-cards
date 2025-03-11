@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from "rxjs";
 import { Card } from "./interfaces/card.interface";
 import { Art } from "./interfaces/art.interface";
-import { BoundingClientRect } from "./interfaces/bounding-client-rect.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +12,9 @@ export class DataService {
 
   private _selectedCardSubject$: BehaviorSubject<Card | undefined> = new BehaviorSubject<Card | undefined>(undefined);
   public selectedCard$: Observable<Card | undefined> = this._selectedCardSubject$.asObservable();
+
+  private _tempFlyingArtSubject$: BehaviorSubject<Art | undefined> = new BehaviorSubject<Art | undefined>(undefined);
+  public tempFlyingArt$: Observable<Art | undefined> = this._tempFlyingArtSubject$.asObservable();
 
   private _removedArtSubject$: BehaviorSubject<Art | undefined> = new BehaviorSubject<Art | undefined>(undefined);
   public removedArt$: Observable<Art | undefined> = this._removedArtSubject$.asObservable();
@@ -33,15 +35,15 @@ export class DataService {
         return;
       }
       this._selectedCardSubject$.next(inCard);
-      this._dataFlow();
+      this._addArtToCard();
     }
   }
 
   private _selectedArtSubject$: BehaviorSubject<Art | undefined> = new BehaviorSubject<Art | undefined>(undefined);
   public selectedArt$: Observable<Art | undefined> = this._selectedArtSubject$.asObservable();
 
-  private _showHiddenSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public showHidden$: Observable<boolean> = this._showHiddenSubject$.asObservable();
+  private _showDisabledArtsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public showDisabledArts$: Observable<boolean> = this._showDisabledArtsSubject$.asObservable();
 
   private _selectedViewModeSubject$: BehaviorSubject<number | undefined> = new BehaviorSubject<number | undefined>(undefined);
   public selectedViewMode$: Observable<number | undefined> = this._selectedViewModeSubject$.asObservable();
@@ -50,8 +52,8 @@ export class DataService {
     this._selectedViewModeSubject$.next(inViewModeIndex);
   }
 
-  public setHiddenArtVisibility(inShowHidden: boolean) {
-    this._showHiddenSubject$.next(inShowHidden);
+  public setDisabledArtVisibility(inShowHidden: boolean) {
+    this._showDisabledArtsSubject$.next(inShowHidden);
   }
 
   public toggleArtSelection(inArt: Art) {
@@ -59,16 +61,23 @@ export class DataService {
       this._selectedArtSubject$.next(undefined);
     } else {
       this._selectedArtSubject$.next(inArt);
-      this._dataFlow();
+      this._addArtToCard();
     }
   }
 
-  private _dataFlow() {
+  public animationFlyingArtTime = 400;
+
+  private _addArtToCard() {
     if (this._selectedCardSubject$.value && this._selectedArtSubject$.value) {
-      this._selectedCardSubject$.value.artData = {... this._selectedArtSubject$.value};
-      this._selectedCardSubject$.next(undefined);
+      const selectedArtCopy = {... this._selectedArtSubject$.value};
+      setTimeout(() => {
+        if (this._selectedCardSubject$.value) this._selectedCardSubject$.value.artData = selectedArtCopy;
+        this._selectedCardSubject$.next(undefined);
+        this._selectedArtSubject$.next(undefined);
+      }, this.animationFlyingArtTime);
+      this._tempFlyingArtSubject$.next({... this._selectedArtSubject$.value, boundingClientRectEnd: this._selectedCardSubject$.value.boundingClientRect});
       this._removedArtSubject$.next(this._selectedArtSubject$.value);
-      this._selectedArtSubject$.next(undefined);
     }
   }
+
 }

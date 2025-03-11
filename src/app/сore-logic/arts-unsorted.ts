@@ -4,14 +4,12 @@ export const artsUnsorted: Art[] = [
     {
         picturePath: 'https://cdn.midjourney.com/6b97a3e2-e633-4884-961e-19a74713e6f1/0_1.png',
         name: 'Dead Monk',
-        collection: 'Healers',
         color: 'black',
         level: 2
     },
     {
         picturePath: 'https://cdn.midjourney.com/1f3aea18-d852-4767-a972-a72376ee7278/0_0.png',
         name: 'Lost in the Woods',
-        collection: '',
         color: 'green',
         level: 1,
         hidden: true,
@@ -19,7 +17,6 @@ export const artsUnsorted: Art[] = [
     {
         picturePath: 'https://cdn.midjourney.com/f4615b9c-8396-422c-9a22-3d0c341d9ab3/0_1.png',
         name: 'Heart of the Tree',
-        collection: '',
         color: 'green',
         hidden: true,
         level: 2
@@ -259,7 +256,7 @@ export const artsUnsorted: Art[] = [
         level: 4
     },
     {
-        picturePath: 'https://cdn.midjourney.com/8d593943-cc97-44c3-ab0b-daae40c877c5/0_1.png', //https://cdn.midjourney.com/08ba3c4d-19d5-486e-8eeb-bce95b4abf6f/0_1.png',
+        picturePath: 'https://cdn.midjourney.com/ddb42751-f254-4cd3-8c43-3f1f1eca1822/0_3.png', //https://cdn.midjourney.com/08ba3c4d-19d5-486e-8eeb-bce95b4abf6f/0_1.png',
         name: 'Cavalryman',
         collection: '',
         color: 'lightBlue',
@@ -270,7 +267,16 @@ export const artsUnsorted: Art[] = [
         name: 'Merchant',
         collection: '',
         color: 'lightBlue',
-        level: 1
+        level: 1,
+        hidden: true
+    },
+    {
+        picturePath: 'https://cdn.midjourney.com/47b46bd3-bb85-44aa-a3af-a1ca15fe1a38/0_2.png', // 'https://cdn.midjourney.com/7587cd05-a86c-41e3-8043-6c19b412bf08/0_0.png',
+        name: 'Vityaz',
+        collection: '',
+        color: 'lightBlue',
+        level: 1,
+        hidden: true
     },
     {
         picturePath: 'https://cdn.midjourney.com/fcd1191a-e102-4463-9147-fe1b26c6ae3e/0_0.png',
@@ -432,7 +438,7 @@ export const artsUnsorted: Art[] = [
         hidden: true
     },
     {
-        picturePath: 'https://cdn.midjourney.com/4ac9808a-cd66-4600-bd8e-fe7cf1e9ad4b/0_3.png', //'https://cdn.midjourney.com/f2ef8569-8e53-4c55-9320-49205fd5a4cf/0_2.png',
+        picturePath: 'https://cdn.midjourney.com/4ac9808a-cd66-4600-bd8e-fe7cf1e9ad4b/0_0.png', // 'https://cdn.midjourney.com/4ac9808a-cd66-4600-bd8e-fe7cf1e9ad4b/0_3.png', //'https://cdn.midjourney.com/f2ef8569-8e53-4c55-9320-49205fd5a4cf/0_2.png',
         name: 'Paladin',
         collection: '',
         color: 'lightBlue',
@@ -1369,7 +1375,7 @@ export const artsUnsorted: Art[] = [
     },
     {
         picturePath: 'https://cdn.midjourney.com/c94c308d-d23d-4fc1-955f-748e652fd573/0_2.png',
-        name: 'Knight of Fire',
+        name: 'Hell Knight',
         collection: 'Element Knights',
         color: 'red',
         level: 3
@@ -1580,6 +1586,13 @@ export const artsUnsorted: Art[] = [
         name: 'Fire Spider',
         collection: 'Spider Elementals',
         color: 'red',
+        level: 1,
+        hidden: true
+    },
+    {
+        picturePath: 'https://cdn.midjourney.com/e3fb5619-71bb-49cc-8de3-168df7824e86/0_2.png',
+        name: 'Burning Skull',
+        color: 'red',
         level: 1
     },
     {
@@ -1624,6 +1637,19 @@ export const artsUnsorted: Art[] = [
     {
         picturePath: 'https://cdn.midjourney.com/86ad7122-0358-447e-896e-e542939e61c7/0_1.png',
         name: 'Shepherd',
+        color: 'lightBlue',
+        level: 1,
+        hidden: true
+    },
+    {
+        picturePath: 'https://cdn.midjourney.com/3a1d59ad-7e1b-4931-b79c-29607b83ad70/0_1.png',
+        name: 'Farmer',
+        color: 'lightBlue',
+        level: 1
+    },
+    {
+        picturePath: 'https://cdn.midjourney.com/85fe9e05-44c6-42aa-9b32-2d35023c527f/0_0.png',
+        name: 'Lumberjack',
         color: 'lightBlue',
         level: 1
     },

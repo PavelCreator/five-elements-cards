@@ -10,5 +10,6 @@ export interface Art {
     hidden?: boolean;
     horizontalReverse?: boolean;
     isSelected?: boolean;
-    boundingClientRect?: BoundingClientRect;
+    boundingClientRectStart?: BoundingClientRect;
+    boundingClientRectEnd?: BoundingClientRect;
 }
