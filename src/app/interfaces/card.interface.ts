@@ -11,6 +11,7 @@ export interface Card {
     levelSpecial: boolean;
     color?: Color;
     artData?: Art;
+    disabled?: boolean;
     isSelected?: boolean;
     boundingClientRect?: BoundingClientRect;
 }

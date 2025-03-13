@@ -1,4 +1,9 @@
-<div class="card" [ngStyle]="{'background-image': 'url(' + card.artData?.picturePath + ')', 'border': '3px solid '+ borderColor }" (click)="toggleCardSelection()">
+<div class="card"
+		 [ngStyle]="{'background-image': 'url(' + card.artData?.picturePath + ')', 'border': '3px solid '+ borderColor }"
+		 (click)="toggleCardSelection()"
+		 (mouseenter) ="hovered = true"
+		 (mouseleave) ="hovered = false"
+>
     <div class="pay-wrapper">
         <app-hexagon *ngIf="card.pay.green" [color]="'green'" [number]="card.pay.green" [type]="'pay'"></app-hexagon>
         <app-hexagon *ngIf="card.pay.lightBlue" [color]="'lightBlue'" [number]="card.pay.lightBlue" [type]="'pay'"></app-hexagon>
@@ -18,9 +23,14 @@
     <div class="get-wrapper"></div>
     <div class="order-num">{{ card.orderNumber }}</div>
 		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + card.artData?.picturePath + ')', transform: (card.artData?.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')}"></div>
-	<div class="text-container">
+		<div class="text-container">
         <div class="art-name">{{ card.artData?.name }}</div>
     </div>
+
+		<div class="hover-buttons-wrapper" *ngIf="card.artData" [ngStyle]="{'display': hovered ? 'block' : 'none'}">
+			<div class="hover-button" *ngIf="!card.artData?.horizontalReverse" (click)="flip($event)">Flip Horizontal</div>
+			<div class="hover-button" *ngIf="card.artData?.horizontalReverse" (click)="flip($event)">Unflip Horizontal</div>
+		</div>
 </div>
 
 <!--

@@ -1,8 +1,20 @@
-<div class="card" *ngIf="!art.hidden || (art.hidden && showDisabledArt)" [ngStyle]="{'border-color': borderColor}" (click)="toggleArtSelection()">
+<div class="card"
+		 *ngIf="!art.hidden || (art.hidden && showDisabledArt)"
+		 [ngStyle]="{'border-color': borderColor}"
+		 (click)="toggleArtSelection()"
+		 (mouseenter) ="hovered = true"
+		 (mouseleave) ="hovered = false"
+>
 		<div class="card-hidden-overlay" *ngIf="art.hidden"></div>
 		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + art.picturePath + ')', transform: (art.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')}"></div>
     <div class="text-container">
         <!-- <div class="collection-name">{{ art.collection }}</div> -->
         <div class="art-name" [ngStyle]="{'color': art.hidden ? 'grey' : 'white'}">{{ art.name }}</div>
     </div>
+		<div class="hover-buttons-wrapper" [ngStyle]="{'display': hovered ? 'block' : 'none'}">
+			<div class="hover-button" *ngIf="!art.horizontalReverse" (click)="flip($event)">Flip Horizontal</div>
+			<div class="hover-button" *ngIf="art.horizontalReverse" (click)="flip($event)">Unflip Horizontal</div>
+			<div class="hover-button" *ngIf="!art.hidden" (click)="disable($event)">Disable Art</div>
+			<div class="hover-button" *ngIf="art.hidden" (click)="enable($event)">Enable Art</div>
+		</div>
 </div>

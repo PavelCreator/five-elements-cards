@@ -128,6 +128,10 @@ export class ArtsComponent implements OnInit {
         })
 
         this._recalculateLevels();
+
+        this._dataService.recalculateArts$.subscribe(() => {
+            this._recalculateLevels();
+        });
     }
 
     private _recalculateLevels() {

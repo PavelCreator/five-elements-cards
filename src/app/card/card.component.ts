@@ -23,6 +23,7 @@ export class CardComponent implements OnInit {
         left: 0
     }
     public typeOfGetHexagon: 'get' | 'getMix' = 'get';
+    public hovered: boolean = false;
 
     constructor(
         private _dataService: DataService,
@@ -79,5 +80,12 @@ export class CardComponent implements OnInit {
     private _selectCard() {
         this.card.boundingClientRect = {...this._boundingClientRect};
         this._dataService.toggleCardSelection(this.card);
+    }
+
+    public flip(event: MouseEvent) {
+        event.stopPropagation();
+        if (this.card.artData) {
+            this.card.artData.horizontalReverse = !this.card.artData.horizontalReverse;
+        }
     }
 }

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { DataService } from "../data.service";
 import { NgIf, NgStyle } from "@angular/common";
 
+type MenuVisibilityMode = 'collapsed' | 'expanded';
+
 @Component({
     selector: 'app-menu',
     standalone: true,
@@ -11,12 +13,14 @@ import { NgIf, NgStyle } from "@angular/common";
 })
 export class MenuComponent {
     public selectedMenuItem: number = 3;
-    public menuVisibility: 'collapsed' | 'expanded' = 'expanded';
+    public menuVisibility: MenuVisibilityMode;
     public disabledArtVisibility: 'hidden' | 'visible' = 'hidden';
 
     constructor(
         private _dataService: DataService
     ) {
+        this.menuVisibility = localStorage.getItem('menuVisibilityMode') as MenuVisibilityMode || 'expanded';
+
         const selectedMenuItemFromLocalStorage: string | null = localStorage.getItem('selectedMenuItem');
         if (selectedMenuItemFromLocalStorage) {
             this.selectViewMode(+selectedMenuItemFromLocalStorage);
@@ -41,13 +45,18 @@ export class MenuComponent {
 
     public showDisabledArtVisibility() {
         this.disabledArtVisibility = 'visible';
-        localStorage.setItem('disabledArtVisibility', 'visible')
+        localStorage.setItem('disabledArtVisibility', 'visible');
         this._dataService.setDisabledArtVisibility(true);
     }
 
     public hideDisabledArtVisibility() {
         this.disabledArtVisibility = 'hidden';
-        localStorage.setItem('disabledArtVisibility', 'hidden')
+        localStorage.setItem('disabledArtVisibility', 'hidden');
         this._dataService.setDisabledArtVisibility(false);
+    }
+
+    public changeVisibilityMode(visibilityMode: MenuVisibilityMode) {
+        this.menuVisibility = visibilityMode;
+        localStorage.setItem('menuVisibilityMode', visibilityMode);
     }
 }

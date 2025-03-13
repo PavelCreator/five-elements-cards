@@ -47,6 +47,27 @@
   bottom: 5px;
 }
 
+.hover-buttons-wrapper {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 5;
+}
+
+.hover-button {
+  background: rgba(0, 0, 0, 0.5);
+  font-family: "Macondo", cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 20px;
+  padding: 6px;
+  margin: 4px;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+}
+
 .text-container {
   font-family: "Macondo", cursive;
   font-weight: 400;

@@ -48,6 +48,20 @@ export class DataService {
   private _selectedViewModeSubject$: BehaviorSubject<number | undefined> = new BehaviorSubject<number | undefined>(undefined);
   public selectedViewMode$: Observable<number | undefined> = this._selectedViewModeSubject$.asObservable();
 
+  private _recalculateArtsSubject$: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
+  public recalculateArts$: Observable<void> = this._recalculateArtsSubject$.asObservable();
+
+  private _recalculateCardsSubject$: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
+  public recalculateCards$: Observable<void> = this._recalculateCardsSubject$.asObservable();
+
+  public recalculateArts() {
+    this._recalculateArtsSubject$.next();
+  }
+
+  public recalculateCards() {
+    this._recalculateCardsSubject$.next();
+  }
+
   public selectViewMode(inViewModeIndex: number) {
     this._selectedViewModeSubject$.next(inViewModeIndex);
   }

@@ -18,6 +18,7 @@ export class ArtComponent implements OnInit {
     @Input() art: Art;
     public borderColor: string | undefined = 'grey';
 
+    public hovered: boolean = false;
     public showDisabledArt: boolean = false;
 
     constructor(
@@ -101,5 +102,19 @@ export class ArtComponent implements OnInit {
                 this.borderColor = '#888888'
                 break;
         }
+    }
+
+    public flip(event: MouseEvent) {
+        this.art.horizontalReverse = !this.art.horizontalReverse;
+    }
+
+    public disable(event: MouseEvent) {
+        this.art.hidden = true;
+        this._dataService.recalculateArts();
+    }
+
+    public enable(event: MouseEvent) {
+        this.art.hidden = false;
+        this._dataService.recalculateArts();
     }
 }

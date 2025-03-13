@@ -1,6 +1,6 @@
 <div class="menu-wrapper">
-	<div class="menu-item menu-visibility" *ngIf="menuVisibility === 'expanded'" (click)="menuVisibility = 'collapsed'">>>> HIDE MENU >>></div>
-	<div class="menu-item menu-visibility" *ngIf="menuVisibility === 'collapsed'" (click)="menuVisibility = 'expanded'">S<br/>H<br/>O<br/>W<br/><br/>M<br/>E<br/>N<br/>U</div>
+	<div class="menu-item menu-visibility" *ngIf="menuVisibility === 'expanded'" (click)="changeVisibilityMode('collapsed')">>>> HIDE MENU >>></div>
+	<div class="menu-item menu-visibility" *ngIf="menuVisibility === 'collapsed'" (click)="changeVisibilityMode('expanded')">S<br/>H<br/>O<br/>W<br/><br/>M<br/>E<br/>N<br/>U</div>
 	<div class="menu-collapse-area"[ngStyle]="{
 	'height': menuVisibility === 'expanded' ? 'fit-content' : '0px',
 	'width': menuVisibility === 'expanded' ? 'fit-content' : '30px'

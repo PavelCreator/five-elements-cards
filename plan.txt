@@ -1,5 +1,3 @@
-Show Hide Menu to Local Storage
-Load Hide Menu from Local Storage
 Disabled status to hover Art
 Change disabled status on click
 Reverse Art status to hover Art

@@ -100,6 +100,10 @@ export class CardsComponent implements OnInit {
             if (mixColorDetector > 1) card.color = 'mix';
         });
         this._recalculateLevels();
+
+        this._dataService.recalculateCards$.subscribe(() => {
+            this._recalculateLevels();
+        });
     }
 
     private _recalculateLevels() {
