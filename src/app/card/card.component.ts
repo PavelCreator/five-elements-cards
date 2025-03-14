@@ -88,4 +88,11 @@ export class CardComponent implements OnInit {
             this.card.artData.horizontalReverse = !this.card.artData.horizontalReverse;
         }
     }
+
+    public rename(event: MouseEvent) {
+        event.stopPropagation();
+        if (this.card?.artData?.name) {
+            this.card.artData.name = '12345';
+        }
+    }
 }

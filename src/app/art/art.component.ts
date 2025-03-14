@@ -1,7 +1,9 @@
-import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NgIf, NgStyle } from "@angular/common";
 import { Art } from "../interfaces/art.interface";
 import { DataService } from "../data.service";
+import { FormsModule } from "@angular/forms";
+import { AutosizeModule } from "ngx-autosize";
 
 @Component({
     selector: 'app-art',
@@ -9,17 +11,22 @@ import { DataService } from "../data.service";
     standalone: true,
     imports: [
         NgStyle,
-        NgIf
+        NgIf,
+        FormsModule,
+        AutosizeModule
     ],
     styleUrls: ['../style.css']
 })
 export class ArtComponent implements OnInit {
     //@ts-ignore
     @Input() art: Art;
+    @ViewChild('renameTextarea') renameTextarea: ElementRef | undefined;
+
     public borderColor: string | undefined = 'grey';
 
     public hovered: boolean = false;
     public showDisabledArt: boolean = false;
+    public renameModeOn: boolean = false;
 
     constructor(
         private _dataService: DataService,
@@ -105,16 +112,27 @@ export class ArtComponent implements OnInit {
     }
 
     public flip(event: MouseEvent) {
+        event.stopPropagation();
         this.art.horizontalReverse = !this.art.horizontalReverse;
     }
 
     public disable(event: MouseEvent) {
+        event.stopPropagation();
         this.art.hidden = true;
         this._dataService.recalculateArts();
     }
 
     public enable(event: MouseEvent) {
+        event.stopPropagation();
         this.art.hidden = false;
         this._dataService.recalculateArts();
+    }
+
+    public toggleRename(event: MouseEvent, renameModeOn: boolean) {
+        event.stopPropagation();
+        this.renameModeOn = renameModeOn;
+        setTimeout(() => {
+            if (renameModeOn) this.renameTextarea?.nativeElement.focus();
+        });
     }
 }

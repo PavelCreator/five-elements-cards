@@ -8,13 +8,15 @@
 		<div class="card-hidden-overlay" *ngIf="art.hidden"></div>
 		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + art.picturePath + ')', transform: (art.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')}"></div>
     <div class="text-container">
-        <!-- <div class="collection-name">{{ art.collection }}</div> -->
-        <div class="art-name" [ngStyle]="{'color': art.hidden ? 'grey' : 'white'}">{{ art.name }}</div>
+        <div *ngIf="!renameModeOn" class="art-name" [ngStyle]="{'color': art.hidden ? 'grey' : 'white'}">{{ art.name }}</div>
     </div>
-		<div class="hover-buttons-wrapper" [ngStyle]="{'display': hovered ? 'block' : 'none'}">
+		<textarea #renameTextarea autosize *ngIf="renameModeOn" (click)="$event.stopPropagation()" class="art-name-textarea" [(ngModel)]="art.name"></textarea>
+		<div class="hover-buttons-wrapper" [ngStyle]="{'opacity': hovered ? '1' : '0'}">
 			<div class="hover-button" *ngIf="!art.horizontalReverse" (click)="flip($event)">Flip Horizontal</div>
 			<div class="hover-button" *ngIf="art.horizontalReverse" (click)="flip($event)">Unflip Horizontal</div>
 			<div class="hover-button" *ngIf="!art.hidden" (click)="disable($event)">Disable Art</div>
 			<div class="hover-button" *ngIf="art.hidden" (click)="enable($event)">Enable Art</div>
+			<div class="hover-button" *ngIf="!renameModeOn" (click)="toggleRename($event, true)">Rename</div>
+			<div class="hover-button" *ngIf="renameModeOn" (click)="toggleRename($event, false)">End Rename</div>
 		</div>
 </div>
