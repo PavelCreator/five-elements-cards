@@ -3,7 +3,7 @@ import { NgIf, NgStyle } from "@angular/common";
 import { Art } from "../interfaces/art.interface";
 import { DataService } from "../data.service";
 import { FormsModule } from "@angular/forms";
-import { AutosizeModule } from "ngx-autosize";
+import { TextareaAutoresizeDirective } from "../textarea-autoresize.directive";
 
 @Component({
     selector: 'app-art',
@@ -13,7 +13,7 @@ import { AutosizeModule } from "ngx-autosize";
         NgStyle,
         NgIf,
         FormsModule,
-        AutosizeModule
+        TextareaAutoresizeDirective
     ],
     styleUrls: ['../style.css']
 })
@@ -128,11 +128,22 @@ export class ArtComponent implements OnInit {
         this._dataService.recalculateArts();
     }
 
-    public toggleRename(event: MouseEvent, renameModeOn: boolean) {
+    public cachedName: string = '';
+    public toggleRename(event: MouseEvent | FocusEvent, renameModeOn: boolean) {
         event.stopPropagation();
         this.renameModeOn = renameModeOn;
+        this.cachedName = this.art.name;
         setTimeout(() => {
-            if (renameModeOn) this.renameTextarea?.nativeElement.focus();
+            if (renameModeOn) {
+                this.renameTextarea?.nativeElement.focus();
+                this.renameTextarea?.nativeElement.setSelectionRange(0, this.art.name.length)
+            }
         });
+    }
+
+    public cancelRename(event: MouseEvent) {
+        event.stopPropagation();
+        this.art.name = this.cachedName;
+        this.renameModeOn = false;
     }
 }

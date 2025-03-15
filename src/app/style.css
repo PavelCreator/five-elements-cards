@@ -11,6 +11,7 @@
   position: relative;
   background-size: 239px 334px;
   backdrop-filter: sepia(90%);
+  cursor: auto;
 }
 .card-hidden-overlay {
   position: absolute;
@@ -70,6 +71,7 @@
   border-radius: 4px;
   color: #fff;
   cursor: pointer;
+  width: fit-content;
 }
 
 .text-container {
@@ -127,7 +129,7 @@
     text-align: right;
     left: auto;
     z-index: 7;
-    bottom: -13px;
+    bottom: 10px;
     height: 56px;
 }
 

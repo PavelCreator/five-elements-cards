@@ -1,7 +1,6 @@
-Disabled status to hover Art
-Change disabled status on click
-Reverse Art status to hover Art
-Change Reverse Art status on click
+Apply rename to card
+Animation for disabling
+Implement drag-n-drop
 Save mapping every change to LS
 Load mapping from LS
 Clean LS on reset DB
@@ -10,3 +9,5 @@ Round Ether
 Square Black Coins
 Modal with FAQ
 Link to FAQ modal to menu
+Implement signals
+Refactoring

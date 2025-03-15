@@ -1,22 +1,30 @@
-import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NgIf, NgStyle } from "@angular/common";
 import { HexagonComponent } from "../hexagon/hexagon.component";
 import { DataService } from "../data.service";
 import { Card } from "../interfaces/card.interface";
 import { BoundingClientRect } from "../interfaces/bounding-client-rect.interface";
+import { FormsModule } from "@angular/forms";
+import { TextareaAutoresizeDirective } from "../textarea-autoresize.directive";
 
 @Component({
     selector: 'app-card',
     templateUrl: './card.component.html',
     standalone: true,
     imports: [
-        NgStyle, HexagonComponent, NgIf
+        NgStyle,
+        HexagonComponent,
+        NgIf,
+        FormsModule,
+        TextareaAutoresizeDirective
     ],
     styleUrls: ['../style.css']
 })
 export class CardComponent implements OnInit {
     // @ts-ignore
-    @Input() card: Card;
+    @Input() card: Card = {} as Card;
+    @ViewChild('renameTextarea') renameTextarea: ElementRef | undefined;
+
     public borderColor: string | undefined = 'grey';
     private _boundingClientRect: BoundingClientRect = {
         top: 0,
@@ -24,6 +32,7 @@ export class CardComponent implements OnInit {
     }
     public typeOfGetHexagon: 'get' | 'getMix' = 'get';
     public hovered: boolean = false;
+    public renameModeOn: boolean = false;
 
     constructor(
         private _dataService: DataService,
@@ -89,10 +98,22 @@ export class CardComponent implements OnInit {
         }
     }
 
-    public rename(event: MouseEvent) {
+    public cachedName: string = '';
+    public toggleRename(event: MouseEvent | FocusEvent, renameModeOn: boolean) {
         event.stopPropagation();
-        if (this.card?.artData?.name) {
-            this.card.artData.name = '12345';
-        }
+        this.renameModeOn = renameModeOn;
+        if (this.card?.artData?.name) this.cachedName = this.card?.artData?.name;
+        setTimeout(() => {
+            if (renameModeOn) {
+                this.renameTextarea?.nativeElement.focus();
+                this.renameTextarea?.nativeElement.setSelectionRange(0, this.card?.artData?.name.length)
+            }
+        });
+    }
+
+    public cancelRename(event: MouseEvent) {
+        event.stopPropagation();
+        if (this.card.artData) this.card.artData.name = this.cachedName;
+        this.renameModeOn = false;
     }
 }
