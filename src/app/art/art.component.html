@@ -15,7 +15,7 @@
 			appTextareaAutoresize
 			*ngIf="renameModeOn"
 			(click)="$event.stopPropagation()"
-			(blur)="toggleRename($event, false)"
+			(focusout)="endRenameOnFocusOut()"
 			class="art-name-textarea"
 			[(ngModel)]="art.name">
 		</textarea>
@@ -25,7 +25,8 @@
 			<div class="hover-button" *ngIf="!art.hidden" (click)="disable($event)">Disable Art</div>
 			<div class="hover-button" *ngIf="art.hidden" (click)="enable($event)">Enable Art</div>
 			<div class="hover-button" *ngIf="!renameModeOn" (click)="toggleRename($event, true)">Rename</div>
-			<div class="hover-button" *ngIf="renameModeOn" (click)="toggleRename($event, false)">End Rename</div>
-			<div class="hover-button" *ngIf="renameModeOn" (click)="cancelRename($event)">Cancel Rename</div>
+			<div class="hover-button hover-button-confirm" *ngIf="renameModeOn" (click)="toggleRename($event, false)">Confirm Rename</div>
+			<div class="hover-button hover-button-cancel" *ngIf="renameModeOn" (click)="cancelRename($event)">Cancel Rename</div>
 		</div>
 </div>
+			<!--(focusout)="toggleRename($event, false)"-->

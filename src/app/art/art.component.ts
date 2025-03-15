@@ -146,4 +146,13 @@ export class ArtComponent implements OnInit {
         this.art.name = this.cachedName;
         this.renameModeOn = false;
     }
+
+    public endRenameOnFocusOut() {
+        setTimeout(() => {
+            if (this.renameModeOn) {
+                this.renameModeOn = false;
+                this.cachedName = this.art.name;
+            }
+        }, 300);
+    }
 }

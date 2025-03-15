@@ -74,6 +74,14 @@
   width: fit-content;
 }
 
+.hover-button-confirm {
+  background:rgba(12, 124, 0, 0.5);
+}
+
+.hover-button-cancel {
+  background:rgba(136, 0, 0, 0.5);
+}
+
 .text-container {
   font-family: "Macondo", cursive;
   font-weight: 400;

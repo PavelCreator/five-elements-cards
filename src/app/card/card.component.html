@@ -24,7 +24,7 @@
     <div class="order-num">{{ card.orderNumber }}</div>
 		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + card.artData?.picturePath + ')', transform: (card.artData?.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')}"></div>
     <div class="text-container" (click)="toggleRename($event, true)">
-        <div *ngIf="!renameModeOn" class="art-name">{{ card?.artData?.name }}</div>
+        <div *ngIf="!renameModeOn" class="art-name">{{ card.artData?.name }}</div>
     </div>
 		<textarea
 			#renameTextarea
@@ -40,8 +40,8 @@
 			<div class="hover-button" *ngIf="!card.artData?.horizontalReverse" (click)="flip($event)">Flip Horizontal</div>
 			<div class="hover-button" *ngIf="card.artData?.horizontalReverse" (click)="flip($event)">Unflip Horizontal</div>
 			<div class="hover-button" *ngIf="!renameModeOn" (click)="toggleRename($event, true)">Rename</div>
-			<div class="hover-button" *ngIf="renameModeOn" (click)="toggleRename($event, false)">End Rename</div>
-			<div class="hover-button" *ngIf="renameModeOn" (click)="cancelRename($event)">Cancel Rename</div>
+			<div class="hover-button hover-button-confirm" *ngIf="renameModeOn" (click)="toggleRename($event, false)">Confirm Rename</div>
+			<div class="hover-button hover-button-cancel" *ngIf="renameModeOn" (click)="cancelRename($event)">Cancel Rename</div>
 		</div>
 </div>
 
