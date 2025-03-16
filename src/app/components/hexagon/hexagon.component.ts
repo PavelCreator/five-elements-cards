@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgClass, NgStyle } from "@angular/common";
-import { Color } from "../interfaces/color.type";
+import { Color } from "../../interfaces/color.type";
 
 @Component({
     selector: 'app-hexagon',

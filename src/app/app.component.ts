@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgIf, NgStyle } from "@angular/common";
-import { ArtsComponent } from "./arts/arts.component";
-import { DataService } from "./data.service";
-import { MenuComponent } from "./menu/menu.component";
-import { ArtComponent } from "./art/art.component";
+import { ArtsComponent } from "./components/arts/arts.component";
+import { DataService } from "./services/data.service";
+import { MenuComponent } from "./components/menu/menu.component";
+import { ArtComponent } from "./components/art/art.component";
 import { Art } from "./interfaces/art.interface";
-import { CardsComponent } from "./cards/cards.component";
+import { CardsComponent } from "./components/cards/cards.component";
 
 @Component({
     selector: 'app-root',

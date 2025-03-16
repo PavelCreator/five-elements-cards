@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgFor, NgIf } from "@angular/common";
 import { CollectionHeaderComponent } from "../collection-header/collection-header.component";
-import { DataService } from "../data.service";
-import { Card } from "../interfaces/card.interface";
-import { cards } from "../data/cards";
+import { DataService } from "../../services/data.service";
+import { Card } from "../../interfaces/card.interface";
+import { cards } from "../../data/cards";
 import { CardComponent } from "../card/card.component";
-import { Color } from "../interfaces/color.type";
+import { Color } from "../../interfaces/color.type";
 
 @Component({
     selector: 'app-cards',

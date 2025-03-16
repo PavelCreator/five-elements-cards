@@ -1,11 +1,11 @@
 import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NgIf, NgStyle } from "@angular/common";
 import { HexagonComponent } from "../hexagon/hexagon.component";
-import { DataService } from "../data.service";
-import { Card } from "../interfaces/card.interface";
-import { BoundingClientRect } from "../interfaces/bounding-client-rect.interface";
+import { DataService } from "../../services/data.service";
+import { Card } from "../../interfaces/card.interface";
+import { BoundingClientRect } from "../../interfaces/bounding-client-rect.interface";
 import { FormsModule } from "@angular/forms";
-import { TextareaAutoresizeDirective } from "../textarea-autoresize.directive";
+import { TextareaAutoresizeDirective } from "../../directives/textarea-autoresize.directive";
 
 @Component({
     selector: 'app-card',

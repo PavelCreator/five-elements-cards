@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ArtComponent } from "../art/art.component";
 import { NgFor, NgIf } from "@angular/common";
 import { CollectionHeaderComponent } from "../collection-header/collection-header.component";
-import { Art } from "../interfaces/art.interface";
-import { Collection } from "../interfaces/collection.interface";
-import { DataService } from "../data.service";
-import { arts } from "../data/arts";
-import { Card } from "../interfaces/card.interface";
-import { cards } from "../data/cards";
+import { Art } from "../../interfaces/art.interface";
+import { Collection } from "../../interfaces/collection.interface";
+import { DataService } from "../../services/data.service";
+import { arts } from "../../data/arts";
+import { Card } from "../../interfaces/card.interface";
+import { cards } from "../../data/cards";
 
 @Component({
     selector: 'app-arts',
