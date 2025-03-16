@@ -1,6 +1,6 @@
 import { Art } from "../interfaces/art.interface";
 
-export const artsUnsorted: Art[] = [
+export const arts: Art[] = [
     {
         picturePath: 'https://cdn.midjourney.com/6b97a3e2-e633-4884-961e-19a74713e6f1/0_1.png',
         name: 'Dead Monk',

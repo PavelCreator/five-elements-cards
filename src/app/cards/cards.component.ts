@@ -3,7 +3,7 @@ import { NgFor, NgIf } from "@angular/common";
 import { CollectionHeaderComponent } from "../collection-header/collection-header.component";
 import { DataService } from "../data.service";
 import { Card } from "../interfaces/card.interface";
-import { cards } from "../сore-logic/cards";
+import { cards } from "../data/cards";
 import { CardComponent } from "../card/card.component";
 import { Color } from "../interfaces/color.type";
 
