@@ -18,7 +18,7 @@ import { TextareaAutoresizeDirective } from "../../directives/textarea-autoresiz
         FormsModule,
         TextareaAutoresizeDirective
     ],
-    styleUrls: ['../style.css']
+    styleUrls: ['../../style.css']
 })
 export class CardComponent implements OnInit {
     // @ts-ignore
@@ -115,5 +115,14 @@ export class CardComponent implements OnInit {
         event.stopPropagation();
         if (this.card.artData) this.card.artData.name = this.cachedName;
         this.renameModeOn = false;
+    }
+
+    public endRenameOnFocusOut() {
+        setTimeout(() => {
+            if (this.renameModeOn) {
+                this.renameModeOn = false;
+                if (this.card.artData) this.cachedName = this.card.artData.name;
+            }
+        }, 1000);
     }
 }

@@ -15,7 +15,7 @@ import { TextareaAutoresizeDirective } from "../../directives/textarea-autoresiz
         FormsModule,
         TextareaAutoresizeDirective
     ],
-    styleUrls: ['../style.css']
+    styleUrls: ['../../style.css']
 })
 export class ArtComponent implements OnInit {
     //@ts-ignore

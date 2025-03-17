@@ -6,7 +6,7 @@ import {Art} from "../../interfaces/art.interface";
   imports: [],
   standalone: true,
   templateUrl:'./collection-header.component.html',
-  styleUrls: ['../style.css']
+  styleUrls: ['../../style.css']
 })
 export class CollectionHeaderComponent {
   @Input() art: Art | undefined;
