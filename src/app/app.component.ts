@@ -3,25 +3,19 @@ import { NgIf, NgStyle } from "@angular/common";
 import { ArtsComponent } from "./components/arts/arts.component";
 import { DataService } from "./services/data.service";
 import { MenuComponent } from "./components/menu/menu.component";
-import { ArtComponent } from "./components/art/art.component";
-import { Art } from "./interfaces/art.interface";
 import { CardsComponent } from "./components/cards/cards.component";
+import { ArtToCardAnimationComponent } from "./components/art-to-card-animation/art-to-card-animation.component";
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [CardsComponent, ArtsComponent, ArtComponent, ArtComponent, MenuComponent, NgIf, NgStyle],
+    imports: [CardsComponent, ArtsComponent, MenuComponent, NgStyle, ArtToCardAnimationComponent],
     templateUrl: 'app.component.html',
     styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit{
     public artsWrapperHeight: string = '50vh';
     public cardsWrapperHeight: string = '50vh';
-    // @ts-ignore
-    public tempArt: Art;
-    public showTempArt: boolean = false;
-    public tempArtTopPosition: string = '0px';
-    public tempArtLeftPosition: string = '0px';
 
     constructor(
         private _dataService: DataService
@@ -54,26 +48,5 @@ export class AppComponent implements OnInit{
                     break;
             }
         })
-
-        this._dataService.tempFlyingArt$.subscribe((inArt: Art | undefined) => {
-            if (inArt) {
-                this.tempArtTopPosition = (Math.round(inArt.boundingClientRectStart?.top || 0)).toString() + 'px';
-                this.tempArtLeftPosition = (Math.round(inArt.boundingClientRectStart?.left || 0)).toString() + 'px';
-                this.showTempArt = true;
-                this.tempArt = inArt;
-                setTimeout(() => {
-                    if (this.tempArt && this.tempArt.boundingClientRectStart && this.tempArt.boundingClientRectEnd) {
-                        this.tempArtTopPosition = (Math.round(inArt.boundingClientRectEnd?.top || 0)).toString() + 'px';
-                        this.tempArtLeftPosition = (Math.round(inArt.boundingClientRectEnd?.left || 0)).toString() + 'px';
-                        console.log('(Math.round(inArt.boundingClientRectStart?.top || 0)).toString() + \'px\' =', (Math.round(inArt.boundingClientRectEnd?.top || 0)).toString() + 'px');
-                    }
-                }, 1);
-                setTimeout(() => {
-                    this.showTempArt = false;
-                    this.tempArtTopPosition = '0px';
-                    this.tempArtLeftPosition = '0px';
-                }, this._dataService.animationFlyingArtTime + 1);
-            }
-        });
     }
 }

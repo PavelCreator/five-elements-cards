@@ -1,9 +1,4 @@
-<!--<div class="cards-wrapper" [ngStyle]="{'height': cardsWrapperHeight }">
-    <app-card *ngFor='let card of cards' [card]="card"></app-card>
-</div>-->
 <app-cards class="cards-wrapper" [ngStyle]="{'height': cardsWrapperHeight }"></app-cards>
 <app-arts class="arts-wrapper" [ngStyle]="{'height': artsWrapperHeight }"></app-arts>
 <app-menu></app-menu>
-<div class="temp-flying-art" *ngIf="showTempArt" [ngStyle]="{'top': tempArtTopPosition, 'left': tempArtLeftPosition }">
-	<app-art [art]="tempArt"></app-art>
-</div>
+<app-art-to-card-animation></app-art-to-card-animation>

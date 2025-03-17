@@ -154,3 +154,10 @@
   top: 10px;
   z-index: 10;
 }
+.temp-flying-art {
+    position: absolute;
+    transition: left 0.4s ease, top 0.4s ease;
+    left: 0;
+    top: 0;
+    z-index: 10000;
+}

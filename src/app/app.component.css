@@ -15,10 +15,3 @@
     flex-wrap:wrap;
     transition:height 1s ease;
 }
-.temp-flying-art {
-    position: absolute;
-    transition: left 0.4s ease, top 0.4s ease;
-    left: 0;
-    top: 0;
-    z-index: 10000;
-}
