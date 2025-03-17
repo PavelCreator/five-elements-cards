@@ -94,7 +94,8 @@ export class CardComponent implements OnInit {
 
     public removeArt(event: MouseEvent) {
         event.stopPropagation();
-        this._interactionService.removeArtFromCard();
+        if (this.card?.artData) this._interactionService.removeArtFromCard(this.card?.artData);
+        this.card.artData = undefined;
     }
 
     public flip(event: MouseEvent) {

@@ -22,9 +22,9 @@ export class InteractionService {
   private _addArtSubject$: BehaviorSubject<Art | undefined> = new BehaviorSubject<Art | undefined>(undefined);
   public addArt$: Observable<Art | undefined> = this._addArtSubject$.asObservable();
 
-  public removeArtFromCard() {
+  public removeArtFromCard(art: Art) {
     this._selectedCardSubject$.next(undefined);
-    this._addArtSubject$.next(this._selectedCardSubject$.value?.artData);
+    this._addArtSubject$.next(art);
   }
 
   public toggleCardSelection(inCard: Card) {
