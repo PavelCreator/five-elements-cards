@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgIf, NgStyle } from "@angular/common";
+import { NgStyle } from "@angular/common";
 import { ArtsComponent } from "./components/arts/arts.component";
-import { DataService } from "./services/data.service";
+import { InteractionService } from "./services/interaction.service";
 import { MenuComponent } from "./components/menu/menu.component";
 import { CardsComponent } from "./components/cards/cards.component";
 import { ArtToCardAnimationComponent } from "./components/art-to-card-animation/art-to-card-animation.component";
@@ -11,19 +11,19 @@ import { ArtToCardAnimationComponent } from "./components/art-to-card-animation/
     standalone: true,
     imports: [CardsComponent, ArtsComponent, MenuComponent, NgStyle, ArtToCardAnimationComponent],
     templateUrl: 'app.component.html',
-    styleUrls: ['./app.component.css'],
+    styleUrls: ['style.css'],
 })
 export class AppComponent implements OnInit{
     public artsWrapperHeight: string = '50vh';
     public cardsWrapperHeight: string = '50vh';
 
     constructor(
-        private _dataService: DataService
+        private _interactionService: InteractionService
     ) {
     }
 
     ngOnInit() {
-        this._dataService.selectedViewMode$.subscribe((inSelectedMenuItem: number | undefined) => {
+        this._interactionService.selectedViewMode$.subscribe((inSelectedMenuItem: number | undefined) => {
             switch (inSelectedMenuItem) {
                 case 1:
                     this.artsWrapperHeight = '0vh'

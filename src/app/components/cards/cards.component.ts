@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgFor, NgIf } from "@angular/common";
 import { CollectionHeaderComponent } from "../collection-header/collection-header.component";
-import { DataService } from "../../services/data.service";
+import { InteractionService } from "../../services/interaction.service";
 import { Card } from "../../interfaces/card.interface";
 import { cards } from "../../data/cards";
 import { CardComponent } from "../card/card.component";
@@ -83,7 +83,7 @@ export class CardsComponent implements OnInit {
     public haveMix4: number = 0;
 
     constructor(
-        private _dataService: DataService
+        private _interactionService: InteractionService
     ) {
     }
 
@@ -101,7 +101,7 @@ export class CardsComponent implements OnInit {
         });
         this._recalculateLevels();
 
-        this._dataService.recalculateCards$.subscribe(() => {
+        this._interactionService.recalculateCards$.subscribe(() => {
             this._recalculateLevels();
         });
     }

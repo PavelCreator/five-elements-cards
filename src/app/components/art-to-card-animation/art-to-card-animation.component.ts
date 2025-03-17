@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgIf, NgStyle } from "@angular/common";
-import { DataService } from "../../services/data.service";
+import { InteractionService } from "../../services/interaction.service";
 import { ArtComponent } from "../art/art.component";
 import { Art } from "../../interfaces/art.interface";
 
@@ -19,12 +19,12 @@ export class ArtToCardAnimationComponent implements OnInit{
     public tempArtLeftPosition: string = '0px';
 
     constructor(
-        private _dataService: DataService
+        private _interactionService: InteractionService
     ) {
     }
 
     ngOnInit() {
-        this._dataService.tempFlyingArt$.subscribe((inArt: Art | undefined) => {
+        this._interactionService.tempFlyingArt$.subscribe((inArt: Art | undefined) => {
             if (inArt) {
                 this.tempArtTopPosition = (Math.round(inArt.boundingClientRectStart?.top || 0)).toString() + 'px';
                 this.tempArtLeftPosition = (Math.round(inArt.boundingClientRectStart?.left || 0)).toString() + 'px';
@@ -41,7 +41,7 @@ export class ArtToCardAnimationComponent implements OnInit{
                     this.showTempArt = false;
                     this.tempArtTopPosition = '0px';
                     this.tempArtLeftPosition = '0px';
-                }, this._dataService.animationFlyingArtTime + 1);
+                }, this._interactionService.animationFlyingArtTime + 1);
             }
         });
     }

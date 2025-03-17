@@ -6,7 +6,7 @@ import { Art } from "../interfaces/art.interface";
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class InteractionService {
 
   constructor() { }
 
@@ -21,6 +21,11 @@ export class DataService {
 
   private _addArtSubject$: BehaviorSubject<Art | undefined> = new BehaviorSubject<Art | undefined>(undefined);
   public addArt$: Observable<Art | undefined> = this._addArtSubject$.asObservable();
+
+  public removeArtFromCard() {
+    this._selectedCardSubject$.next(undefined);
+    this._addArtSubject$.next(this._selectedCardSubject$.value?.artData);
+  }
 
   public toggleCardSelection(inCard: Card) {
     if (inCard?.artData && inCard?.artData?.picturePath === this._selectedCardSubject$.value?.artData?.picturePath) {

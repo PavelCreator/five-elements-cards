@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NgIf, NgStyle } from "@angular/common";
 import { Art } from "../../interfaces/art.interface";
-import { DataService } from "../../services/data.service";
+import { InteractionService } from "../../services/interaction.service";
 import { FormsModule } from "@angular/forms";
 import { TextareaAutoresizeDirective } from "../../directives/textarea-autoresize.directive";
 
@@ -29,7 +29,7 @@ export class ArtComponent implements OnInit {
     public renameModeOn: boolean = false;
 
     constructor(
-        private _dataService: DataService,
+        private _interactionService: InteractionService,
         private el: ElementRef
     ) {
     }
@@ -38,7 +38,7 @@ export class ArtComponent implements OnInit {
         this._setBorderColorFromArtColor();
 
         console.log('Art Component');
-        this._dataService.selectedArt$.subscribe((inArt: Art | undefined) => {
+        this._interactionService.selectedArt$.subscribe((inArt: Art | undefined) => {
             if (inArt === undefined && this.art.isSelected) {
                 this._removeArtSelection();
             }
@@ -50,7 +50,7 @@ export class ArtComponent implements OnInit {
             }
         })
 
-        this._dataService.showDisabledArts$.subscribe((inShowHidden: boolean | undefined) => {
+        this._interactionService.showDisabledArts$.subscribe((inShowHidden: boolean | undefined) => {
             if (inShowHidden !== undefined) {
                 this.showDisabledArt = inShowHidden;
                 console.log('this.showDisabledArt =', this.showDisabledArt);
@@ -82,7 +82,7 @@ export class ArtComponent implements OnInit {
             top: viewportOffset.top,
             left: viewportOffset.left
         }
-        this._dataService.toggleArtSelection(this.art);
+        this._interactionService.toggleArtSelection(this.art);
     }
 
     private _setBorderColorFromArtColor() {
@@ -119,13 +119,13 @@ export class ArtComponent implements OnInit {
     public disable(event: MouseEvent) {
         event.stopPropagation();
         this.art.hidden = true;
-        this._dataService.recalculateArts();
+        this._interactionService.recalculateArts();
     }
 
     public enable(event: MouseEvent) {
         event.stopPropagation();
         this.art.hidden = false;
-        this._dataService.recalculateArts();
+        this._interactionService.recalculateArts();
     }
 
     public cachedName: string = '';

@@ -32,3 +32,19 @@ button.primary {
   color: white;
   border-radius: 8px;
 }
+
+
+.cards-wrapper{
+    height:0vh;
+    overflow:scroll;
+    display:flex;
+    flex-wrap:wrap;
+    transition:height 1s ease;
+}
+.arts-wrapper{
+    height:0vh;
+    overflow:scroll;
+    display:flex;
+    flex-wrap:wrap;
+    transition:height 1s ease;
+}

@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NgIf, NgStyle } from "@angular/common";
 import { HexagonComponent } from "../hexagon/hexagon.component";
-import { DataService } from "../../services/data.service";
+import { InteractionService } from "../../services/interaction.service";
 import { Card } from "../../interfaces/card.interface";
 import { BoundingClientRect } from "../../interfaces/bounding-client-rect.interface";
 import { FormsModule } from "@angular/forms";
@@ -35,7 +35,7 @@ export class CardComponent implements OnInit {
     public renameModeOn: boolean = false;
 
     constructor(
-        private _dataService: DataService,
+        private _interactionService: InteractionService,
         private el: ElementRef,
         private render: Renderer2
     ) {
@@ -51,7 +51,7 @@ export class CardComponent implements OnInit {
             console.log(this._boundingClientRect);
         })
 
-        this._dataService.selectedCard$.subscribe((inCard: Card | undefined) => {
+        this._interactionService.selectedCard$.subscribe((inCard: Card | undefined) => {
             if (inCard === undefined && this.card.isSelected) {
                 this._removeCardSelection();
             }
@@ -69,6 +69,7 @@ export class CardComponent implements OnInit {
     }
 
     public toggleCardSelection() {
+        if (this.card.artData) return;
         if (this.card.isSelected) {
             this._removeCardSelection();
         } else {
@@ -88,7 +89,12 @@ export class CardComponent implements OnInit {
 
     private _selectCard() {
         this.card.boundingClientRect = {...this._boundingClientRect};
-        this._dataService.toggleCardSelection(this.card);
+        this._interactionService.toggleCardSelection(this.card);
+    }
+
+    public removeArt(event: MouseEvent) {
+        event.stopPropagation();
+        this._interactionService.removeArtFromCard();
     }
 
     public flip(event: MouseEvent) {
@@ -123,6 +129,6 @@ export class CardComponent implements OnInit {
                 this.renameModeOn = false;
                 if (this.card.artData) this.cachedName = this.card.artData.name;
             }
-        }, 1000);
+        }, 300);
     }
 }

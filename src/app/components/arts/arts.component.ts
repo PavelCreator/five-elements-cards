@@ -4,7 +4,7 @@ import { NgFor, NgIf } from "@angular/common";
 import { CollectionHeaderComponent } from "../collection-header/collection-header.component";
 import { Art } from "../../interfaces/art.interface";
 import { Collection } from "../../interfaces/collection.interface";
-import { DataService } from "../../services/data.service";
+import { InteractionService } from "../../services/interaction.service";
 import { arts } from "../../data/arts";
 import { Card } from "../../interfaces/card.interface";
 import { cards } from "../../data/cards";
@@ -87,12 +87,12 @@ export class ArtsComponent implements OnInit {
     public haveMix4: number = 0;
 
     constructor(
-        private _dataService: DataService
+        private _interactionService: InteractionService
     ) {
     }
 
     ngOnInit() {
-        this._dataService.removedArt$.subscribe(artToRemove => {
+        this._interactionService.removedArt$.subscribe(artToRemove => {
             if (!artToRemove) return;
             this.arts.forEach((art: Art, i: number) => {
                 if (art.picturePath === artToRemove?.picturePath) {
@@ -102,11 +102,10 @@ export class ArtsComponent implements OnInit {
                     this._recalculateLevels();
                     console.log('this.arts.length = ', this.arts.length);
                 }
-                // this.arts = this.arts.filter(art => art.picturePath !== artToRemove?.picturePath);
             })
         })
 
-        this._dataService.addArt$.subscribe((artToAdd: Art | undefined) => {
+        this._interactionService.addArt$.subscribe((artToAdd: Art | undefined) => {
             if (artToAdd) {
                 this.arts.push(artToAdd);
                 this._recalculateLevels();
@@ -115,7 +114,7 @@ export class ArtsComponent implements OnInit {
 
         this._recalculateLevels();
 
-        this._dataService.recalculateArts$.subscribe(() => {
+        this._interactionService.recalculateArts$.subscribe(() => {
             this._recalculateLevels();
         });
     }

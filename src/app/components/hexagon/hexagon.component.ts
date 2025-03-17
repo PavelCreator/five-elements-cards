@@ -7,7 +7,6 @@ import { Color } from "../../interfaces/color.type";
     imports: [NgStyle, NgClass],
     standalone: true,
     template: `
-			<!--<div class="hexagon" [ngStyle]="{'background': gradient}">-->
 			<div class="coin" [ngClass]="coinClass" [ngStyle]="{'background-image': 'url(\\'' + hexUrl + '\\')'}">
 				<div class="number-wrapper">{{ number }}</div>
 			</div>
