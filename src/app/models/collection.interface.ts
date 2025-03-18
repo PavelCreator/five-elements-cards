@@ -1,4 +1,4 @@
-import { Art } from "../interfaces/art.interface";
+import { Art } from "../models/art.interface";
 
 export interface Collection {
     name: string;

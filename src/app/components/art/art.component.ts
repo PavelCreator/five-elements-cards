@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NgIf, NgStyle } from "@angular/common";
-import { Art } from "../../interfaces/art.interface";
+import { Art } from "../../models/art.interface";
 import { InteractionService } from "../../services/interaction.service";
 import { FormsModule } from "@angular/forms";
 import { TextareaAutoresizeDirective } from "../../directives/textarea-autoresize.directive";
@@ -93,10 +93,10 @@ export class ArtComponent implements OnInit {
             case 'green':
                 this.borderColor = this.art.hidden ? '#004d00' : '#009a00';
                 break;
-            case 'lightBlue':
+            case 'white':
                 this.borderColor = this.art.hidden ? '#545454' : '#bfbfbf';
                 break;
-            case 'darkBlue':
+            case 'blue':
                 this.borderColor = this.art.hidden ? '#002b59' : '#005cb9';
                 break;
             case 'purple':
@@ -116,15 +116,9 @@ export class ArtComponent implements OnInit {
         this.art.horizontalReverse = !this.art.horizontalReverse;
     }
 
-    public disable(event: MouseEvent) {
+    public changeDisableState(event: MouseEvent, state: boolean) {
         event.stopPropagation();
-        this.art.hidden = true;
-        this._interactionService.recalculateArts();
-    }
-
-    public enable(event: MouseEvent) {
-        event.stopPropagation();
-        this.art.hidden = false;
+        this.art.hidden = state;
         this._interactionService.recalculateArts();
     }
 

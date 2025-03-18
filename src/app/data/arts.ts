@@ -1,4 +1,4 @@
-import { Art } from "../interfaces/art.interface";
+import { Art } from "../models/art.interface";
 
 export const arts: Art[] = [
     {
@@ -61,7 +61,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/5fb092fd-ad78-4659-9c7a-ae2933ce6a3d/0_1.png',
         name: 'Kraken',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 3
     },
     {
@@ -125,14 +125,14 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/0665a590-f802-498f-afce-910e966b536b/0_0.png',
         name: 'Small Swamp Spirit',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 1
     },
     {
         picturePath: 'https://cdn.midjourney.com/5a5c595c-fa23-4913-aed1-963521110406/0_1.png',
         name: 'Ice Troll',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 3
     },
     {
@@ -162,14 +162,14 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/ddc67abb-9c0f-4581-8e76-7fad2017a984/0_1.png',
         name: 'King',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 3
     },
     {
         picturePath: 'https://cdn.midjourney.com/7a0958bb-7b07-42df-9b36-609584fcdd92/0_1.png',
         name: 'Dwarven Gunner',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 2,
         hidden: true
     },
@@ -177,14 +177,14 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/b0f1bd0b-5132-4751-9232-2e7c3f275273/0_3.png',
         name: 'Sea Devil',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 2
     },
     {
         picturePath: 'https://cdn.midjourney.com/37285cec-13f5-4740-a918-8676a5a4080f/0_3.png',
         name: 'Anglerfish',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 1
     },
     {
@@ -198,7 +198,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/5daf9f83-7214-4727-b386-b33333360c32/0_2.png',
         name: 'Baby Lake Dragon',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 1,
         hidden: true
     },
@@ -229,7 +229,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/0f860c81-83dd-4e28-ac74-bc552e2c81ce/0_3.png',
         name: 'Sky Guardian',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 3,
         hidden: true
     },
@@ -260,14 +260,14 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/ddb42751-f254-4cd3-8c43-3f1f1eca1822/0_3.png', //https://cdn.midjourney.com/08ba3c4d-19d5-486e-8eeb-bce95b4abf6f/0_1.png',
         name: 'Cavalryman',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 3
     },
     {
         picturePath: 'https://cdn.midjourney.com/b9c048f7-2dae-4734-a32e-ea53593eb2e1/0_0.png',
         name: 'Merchant',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 1,
         hidden: true
     },
@@ -275,7 +275,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/47b46bd3-bb85-44aa-a3af-a1ca15fe1a38/0_2.png', // 'https://cdn.midjourney.com/7587cd05-a86c-41e3-8043-6c19b412bf08/0_0.png',
         name: 'Vityaz',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 1,
         hidden: true
     },
@@ -291,7 +291,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/aee912c7-f8bc-40ce-8d66-808ebe2bd878/0_1.png',
         name: 'Anaconda',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 2,
         hidden: true
     },
@@ -314,7 +314,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/bd38302b-3784-4bd8-bd23-921ede2d394f/0_3.png',
         name: 'White Mage',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 2,
         hidden: true
     },
@@ -329,7 +329,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/9725c2d4-cbc1-4145-a110-91801e904984/0_3.png',
         name: 'Inquisitor',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 2
     },
     {
@@ -365,7 +365,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/f4902e1e-c9b3-4319-9596-d7dd4f0e8a08/0_2.png',
         name: 'Viking',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 2,
         hidden: true
     },
@@ -373,7 +373,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/468ad241-1b97-4a43-8c9c-2ccd8289d06c/0_2.png',
         name: 'Pagan Priest',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 1,
         hidden: true
     },
@@ -381,14 +381,14 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/5e7853a0-f8d8-43c9-b428-0bc1259dd4de/0_2.png',
         name: 'Herbalist',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 1
     },
     {
         picturePath: 'https://cdn.midjourney.com/f0765455-64c3-4ea6-aa6d-d45aa8078f40/0_1.png',
         name: 'Barbarian',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 2,
         hidden: true
     },
@@ -396,7 +396,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/e47a19ba-b6a1-43c3-9f83-97806fd45454/0_3.png',
         name: 'Skald',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 1,
         hidden: true
     },
@@ -404,14 +404,14 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/db6137d6-2bee-463e-ba34-a552f0d2a563/0_2.png',
         name: 'Blacksmit',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 1
     },
     {
         picturePath: 'https://cdn.midjourney.com/a9cc5775-8de8-4e5a-addd-a1642a98aace/0_0.png',
         name: 'Kennel master',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 1,
         hidden: true
     },
@@ -419,7 +419,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/62d89b06-cfb2-44c5-97e6-fdd47f80f9f7/0_1.png',
         name: 'Priest',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 1,
         hidden: true
     },
@@ -427,7 +427,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/138568cf-857d-4deb-908c-c1aeb9edc69e/0_2.png',
         name: 'Squire',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 1
     },
     {
@@ -442,7 +442,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/4ac9808a-cd66-4600-bd8e-fe7cf1e9ad4b/0_0.png', // 'https://cdn.midjourney.com/4ac9808a-cd66-4600-bd8e-fe7cf1e9ad4b/0_3.png', //'https://cdn.midjourney.com/f2ef8569-8e53-4c55-9320-49205fd5a4cf/0_2.png',
         name: 'Paladin',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 2
     },
     {
@@ -456,7 +456,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/2f76757f-76f7-4c6d-9573-01ddaf25d419/0_3.png',
         name: 'Piranhas',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 1
     },
     {
@@ -478,7 +478,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/aa55980d-94c8-425e-8f50-921e101030df/0_2.png',
         name: 'Wizard',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 2
     },
     {
@@ -536,7 +536,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/59881e16-73c6-4c8b-8bf0-476048c71bf2/0_1.png',
         name: 'Thief',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 1
     },
     {
@@ -550,7 +550,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/8baf0469-bb51-4ac6-b3ea-e2f182b40d1a/0_3.png',
         name: 'Nomad',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 1,
         hidden: true
     },
@@ -566,7 +566,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/8ef38077-a164-4b36-9b1c-d78bef69cfbc/0_0.png',
         name: 'Swamp Troll',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 2
     },
     {
@@ -675,7 +675,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/5bf9cd15-3277-4348-819d-8aa2f963ab02/0_0.png',
         name: 'Griffin',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 3
     },
     {
@@ -689,7 +689,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/e40054d4-57f4-4599-a668-f7bf157ef169/0_1.png',
         name: 'Lizard Warrior',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 2
     },
     {
@@ -711,7 +711,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/8c96c80d-ac70-4fef-88e9-aa9bebf90d7c/0_1.png',
         name: 'Seraph',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 3
     },*/
     {
@@ -733,7 +733,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/8d719ab2-565d-47bd-af72-7fd079d09452/0_0.png', //'https://cdn.midjourney.com/66ececff-1bd5-43a4-8c87-8a0c2fdcfcc1/0_3.png',
         name: 'Crusader',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 2,
         hidden: true
     },
@@ -741,14 +741,14 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/b36e04e2-5313-43e4-ae86-d30e9892d981/0_2.png',
         name: 'Knight',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 2
     },
     {
         picturePath: 'https://cdn.midjourney.com/b435ea17-a06c-4bcd-b78e-2ab3389f4e2a/0_2.png',
         name: 'Thunderbird',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 2
     },
     {
@@ -787,7 +787,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/52ad565f-fcac-47f2-824e-abcfddbd4e10/0_2.png',
         name: 'Gorgon',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 2,
         hidden: true
     },
@@ -809,21 +809,21 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/18eef1ac-c0ca-4074-af22-5c557ca80290/0_2.png',
         name: 'Ghost ship',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 2
     },*/
     {
         picturePath: 'https://cdn.midjourney.com/8afe1d57-820d-4a74-b421-edeb7a218bfd/0_0.png',
         name: 'Hydra',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 3
     },
     {
         picturePath: 'https://cdn.midjourney.com/676aedab-df0c-4d7a-aca8-c9c5d9bc3e84/0_2.png',
         name: 'Basilisk',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 2
     },
     {
@@ -958,7 +958,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/0ac40d59-862d-47ba-b5cc-f5d2f75137f1/0_2.png',
         name: 'Archangel',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 3
     },
     {
@@ -1009,7 +1009,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/1d9484c1-af1c-45fb-94df-ed5c43288847/0_2.png',
         name: 'Angel',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 2
     },
     {
@@ -1038,7 +1038,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/1ef0da23-d68c-4186-830a-a408129a6b13/0_2.png',
         name: 'Zealot',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 2,
         hidden: true
     },
@@ -1046,7 +1046,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/0f98f19b-0433-47ac-a315-9443c8aa56fd/0_3.png',
         name: 'Pikeman',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 1
     },
     {
@@ -1061,7 +1061,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/ed595818-16e6-4ad5-9036-081d2515411d/0_2.png',
         name: 'Dragonfly Warrior',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 1
     },
     {
@@ -1075,14 +1075,14 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/9c9e1cb7-4441-4dff-bba7-6211585f04c9/0_0.png',
         name: 'Naga',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 2
     },
     {
         picturePath: 'https://cdn.midjourney.com/23a2965a-e15e-43b9-9179-60635585f91d/0_0.png',
         name: 'Monk',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 2
     },
     {
@@ -1111,7 +1111,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/389aab14-43ce-4442-a0ab-303af84009e3/0_1.png',
         name: 'Dwarf',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 1,
         hidden: true
     },
@@ -1126,7 +1126,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/635333c8-4a66-4728-a442-54b0f38a88d8/0_3.png',
         name: 'Griffin',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 2,
         hidden: true
     },
@@ -1148,21 +1148,21 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/ec55a7d8-3401-44aa-9720-3443020fbe9b/0_1.png',
         name: 'Dolphin Rider',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 1
     },
     {
         picturePath: 'https://cdn.midjourney.com/29698fdf-fa15-4bdd-8d07-c5efd9f11ac6/0_2.png',
         name: 'Warrior of Atlantis',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 2
     },
     {
         picturePath: 'https://cdn.midjourney.com/c521fdb4-f54c-4ee6-ab3c-834c292c6426/0_2.png',
         name: 'Shark Rider',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 2
     },
     {
@@ -1220,7 +1220,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/190a4fc6-fa97-4a7b-a3a9-2d319620d6bf/0_3.png',
         name: 'Small Water Dragon',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 1
     },
     {
@@ -1249,56 +1249,56 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/441984a4-4839-42ea-be24-2396ad071c27/0_3.png',
         name: 'Siren',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 1
     },
     {
         picturePath: 'https://cdn.midjourney.com/feb28348-6eeb-46ba-92b8-a07184086f1b/0_1.png', //https://cdn.midjourney.com/5ac4c4a3-93cd-45c3-b69b-90370aef988f/0_3.png
         name: 'Sea King',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 3
     },
     {
         picturePath: 'https://cdn.midjourney.com/1f6edf35-1215-4f71-a846-fb21412480da/0_3.png',
         name: 'Pegasus',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 2
     },
     {
         picturePath: 'https://cdn.midjourney.com/7a8efd00-4d7c-4919-8d9b-94b8831dc903/0_3.png',
         name: 'Catapult',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 2
     },
     {
         picturePath: 'https://cdn.midjourney.com/d13bdb2c-407b-4919-9dd2-2fc21c460196/0_2.png',
         name: 'Mermaid',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 1
     },
     {
         picturePath: 'https://cdn.midjourney.com/adadec2c-704b-45a8-b446-1ee4c6f0054e/0_0.png',
         name: 'Archer',
         collection: '',
-        color: 'lightBlue',
+        color: 'white',
         level: 1
     },
     {
         picturePath: 'https://cdn.midjourney.com/9a7fe3b5-67a6-4659-b213-bce4e9e86cc4/0_2.png',
         name: 'Water Leviathan',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 3
     },
     {
         picturePath: 'https://cdn.midjourney.com/345e8e70-0e60-40d8-893d-2f8014e37e7d/0_1.png',
         name: 'Horror from the Deep',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 2
     },
     {
@@ -1312,7 +1312,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/8b87856b-55a6-4057-8d75-e88482f117c8/0_1.png',
         name: 'Vodianoy',
         collection: '',
-        color: 'darkBlue',
+        color: 'blue',
         level: 1
     },
 /*    {
@@ -1350,28 +1350,28 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/46907397-32a2-4d56-b9c9-a4b42f81f3f6/0_3.png',
         name: 'Angel Knight',
         collection: 'Element Knights',
-        color: 'lightBlue',
+        color: 'white',
         level: 3,
         hidden: true
     },
     {
         picturePath: 'https://cdn.midjourney.com/38642bae-948f-4060-92b0-eed0e913c4dc/0_2.png',
         name: 'Archmage',
-        color: 'lightBlue',
+        color: 'white',
         level: 3,
         hidden: true
     },
     {
         picturePath: 'https://cdn.midjourney.com/822350dd-abbe-498d-94d9-8268f6619101/0_2.png',
         name: 'Roc Giant Bird',
-        color: 'lightBlue',
+        color: 'white',
         level: 3
     },
     {
         picturePath: 'https://cdn.midjourney.com/8458a932-84dc-4956-8125-36060666b8a4/0_2.png',
         name: 'Ice Knight',
         collection: 'Element Knights',
-        color: 'darkBlue',
+        color: 'blue',
         level: 2
     },
     {
@@ -1558,20 +1558,20 @@ export const arts: Art[] = [
     {
         picturePath: 'https://cdn.midjourney.com/3b406997-dff7-45a8-a46a-33810fb4a7e4/0_3.png',
         name: 'Peasant',
-        color: 'lightBlue',
+        color: 'white',
         level: 1
     },
     {
         picturePath: 'https://cdn.midjourney.com/96cac146-5e6b-430e-b805-0e6d7e0715a9/0_3.png',
         name: 'Bard',
-        color: 'lightBlue',
+        color: 'white',
         level: 1
     },
     {
         picturePath: 'https://cdn.midjourney.com/6975bca5-59b1-4c96-9f34-d4f3c7e23208/0_2.png',
         name: 'Air Spider',
         collection: 'Spider Elementals',
-        color: 'lightBlue',
+        color: 'white',
         level: 1,
         hidden: true
     },
@@ -1579,7 +1579,7 @@ export const arts: Art[] = [
         picturePath: 'https://cdn.midjourney.com/1fb012d8-cc90-4bd0-af8d-1f66c77baa82/0_0.png',
         name: 'Ice Spider',
         collection: 'Spider Elementals',
-        color: 'darkBlue',
+        color: 'blue',
         level: 1
     },
     {
@@ -1638,20 +1638,20 @@ export const arts: Art[] = [
     {
         picturePath: 'https://cdn.midjourney.com/86ad7122-0358-447e-896e-e542939e61c7/0_1.png',
         name: 'Shepherd',
-        color: 'lightBlue',
+        color: 'white',
         level: 1,
         hidden: true
     },
     {
         picturePath: 'https://cdn.midjourney.com/3a1d59ad-7e1b-4931-b79c-29607b83ad70/0_1.png',
         name: 'Farmer',
-        color: 'lightBlue',
+        color: 'white',
         level: 1
     },
     {
         picturePath: 'https://cdn.midjourney.com/85fe9e05-44c6-42aa-9b32-2d35023c527f/0_0.png',
         name: 'Lumberjack',
-        color: 'lightBlue',
+        color: 'white',
         level: 1
     },
     {

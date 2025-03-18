@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgClass, NgStyle } from "@angular/common";
-import { Color } from "../../interfaces/color.type";
+import { Color } from "../../models/color.type";
 
 @Component({
     selector: 'app-hexagon',
@@ -28,10 +28,10 @@ export class HexagonComponent implements OnInit {
             case 'green':
                 this.gradient = 'linear-gradient(180deg, rgba(10,88,0,1) 0%, rgba(0,183,13,1) 50%, rgba(10,88,0,1) 100%)';
                 break;
-            case 'lightBlue':
+            case 'white':
                 this.gradient = 'linear-gradient(180deg, rgba(184,184,184,1) 0%, rgba(255,255,255,1) 50%, rgba(184,184,184,1) 100%)';
                 break;
-            case 'darkBlue':
+            case 'blue':
                 this.gradient = 'linear-gradient(180deg, rgba(0,4,167,1) 0%, rgba(39,70,255,1) 50%, rgba(0,4,167,1) 100%)';
                 break;
             case 'red':
@@ -50,10 +50,10 @@ export class HexagonComponent implements OnInit {
                 case 'green':
                     this.hexUrl = './assets/hex/Hex-green4.png';
                     break;
-                case 'lightBlue':
+                case 'white':
                     this.hexUrl = './assets/hex/Hex-white2.png';
                     break;
-                case 'darkBlue':
+                case 'blue':
                     this.hexUrl = './assets/hex/Hex-blue2.png';
                     break;
                 case 'red':
@@ -71,10 +71,10 @@ export class HexagonComponent implements OnInit {
                 case 'green':
                     this.hexUrl = './assets/hex/Hex-green-big-7.png';
                     break;
-                case 'lightBlue':
+                case 'white':
                     this.hexUrl = './assets/hex/Hex-white-big-6.png';
                     break;
-                case 'darkBlue':
+                case 'blue':
                     this.hexUrl = './assets/hex/Hex-blue-big-3.png';
                     break;
                 case 'red':

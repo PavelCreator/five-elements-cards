@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ArtComponent } from "../art/art.component";
 import { NgFor, NgIf } from "@angular/common";
 import { CollectionHeaderComponent } from "../collection-header/collection-header.component";
-import { Art } from "../../interfaces/art.interface";
-import { Collection } from "../../interfaces/collection.interface";
+import { Art } from "../../models/art.interface";
+import { Collection } from "../../models/collection.interface";
 import { InteractionService } from "../../services/interaction.service";
 import { arts } from "../../data/arts";
-import { Card } from "../../interfaces/card.interface";
+import { Card } from "../../models/card.interface";
 import { cards } from "../../data/cards";
+import { Color } from "../../models/color.type";
+import { HelperService } from "../../services/helper.service";
 
 @Component({
     selector: 'app-arts',
@@ -18,18 +20,17 @@ import { cards } from "../../data/cards";
 })
 export class ArtsComponent implements OnInit {
     public arts: Art[] = arts;
-    public collections: Collection[] = [];
     public cards: Card[] = cards;
 
     public red1: Art[] = [];
     public red2: Art[] = [];
     public red3: Art[] = [];
-    public lightBlue1: Art[] = [];
-    public lightBlue2: Art[] = [];
-    public lightBlue3: Art[] = [];
-    public darkBlue1: Art[] = [];
-    public darkBlue2: Art[] = [];
-    public darkBlue3: Art[] = [];
+    public white1: Art[] = [];
+    public white2: Art[] = [];
+    public white3: Art[] = [];
+    public blue1: Art[] = [];
+    public blue2: Art[] = [];
+    public blue3: Art[] = [];
     public green1: Art[] = [];
     public green2: Art[] = [];
     public green3: Art[] = [];
@@ -46,12 +47,12 @@ export class ArtsComponent implements OnInit {
     public needRed1: number = 0;
     public needRed2: number = 0;
     public needRed3: number = 0;
-    public needLightBlue1: number = 0;
-    public needLightBlue2: number = 0;
-    public needLightBlue3: number = 0;
-    public needDarkBlue1: number = 0;
-    public needDarkBlue2: number = 0;
-    public needDarkBlue3: number = 0;
+    public needWhite1: number = 0;
+    public needWhite2: number = 0;
+    public needWhite3: number = 0;
+    public needBlue1: number = 0;
+    public needBlue2: number = 0;
+    public needBlue3: number = 0;
     public needGreen1: number = 0;
     public needGreen2: number = 0;
     public needGreen3: number = 0;
@@ -67,12 +68,12 @@ export class ArtsComponent implements OnInit {
     public haveRed1: number = 0;
     public haveRed2: number = 0;
     public haveRed3: number = 0;
-    public haveLightBlue1: number = 0;
-    public haveLightBlue2: number = 0;
-    public haveLightBlue3: number = 0;
-    public haveDarkBlue1: number = 0;
-    public haveDarkBlue2: number = 0;
-    public haveDarkBlue3: number = 0;
+    public haveWhite1: number = 0;
+    public haveWhite2: number = 0;
+    public haveWhite3: number = 0;
+    public haveBlue1: number = 0;
+    public haveBlue2: number = 0;
+    public haveBlue3: number = 0;
     public haveGreen1: number = 0;
     public haveGreen2: number = 0;
     public haveGreen3: number = 0;
@@ -122,94 +123,30 @@ export class ArtsComponent implements OnInit {
     private _recalculateLevels() {
         arts.sort((a, b) => String(a.color).localeCompare(String(b.color))).reverse();
 
-        this.red1 = this.arts.filter(art => art.color === 'red' && art.level === 1).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needRed1 = this.cards.filter(card => card.level === 1 && card.get.red).length;
-        this.red2 = this.arts.filter(art => art.color === 'red' && art.level === 2).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needRed2 = this.cards.filter(card => card.level === 2 && card.get.red).length;
-        this.red3 = this.arts.filter(art => art.color === 'red' && art.level === 3).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needRed3 = this.cards.filter(card => card.level === 3 && card.get.red).length;
-        this.lightBlue1 = this.arts.filter(art => art.color === 'lightBlue' && art.level === 1).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needLightBlue1 = this.cards.filter(card => card.level === 1 && card.get.lightBlue).length;
-        this.lightBlue2 = this.arts.filter(art => art.color === 'lightBlue' && art.level === 2).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needLightBlue2 = this.cards.filter(card => card.level === 2 && card.get.lightBlue).length;
-        this.lightBlue3 = this.arts.filter(art => art.color === 'lightBlue' && art.level === 3).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needLightBlue3 = this.cards.filter(card => card.level === 3 && card.get.lightBlue).length;
-        this.darkBlue1 = this.arts.filter(art => art.color === 'darkBlue' && art.level === 1).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needDarkBlue1 = this.cards.filter(card => card.level === 1 && card.get.darkBlue).length;
-        this.darkBlue2 = this.arts.filter(art => art.color === 'darkBlue' && art.level === 2).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needDarkBlue2 = this.cards.filter(card => card.level === 2 && card.get.darkBlue).length;
-        this.darkBlue3 = this.arts.filter(art => art.color === 'darkBlue' && art.level === 3).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needDarkBlue3 = this.cards.filter(card => card.level === 3 && card.get.darkBlue).length;
-        this.green1 = this.arts.filter(art => art.color === 'green' && art.level === 1).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needGreen1 = this.cards.filter(card => card.level === 1 && card.get.green).length;
-        this.green2 = this.arts.filter(art => art.color === 'green' && art.level === 2).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needGreen2 = this.cards.filter(card => card.level === 2 && card.get.green).length;
-        this.green3 = this.arts.filter(art => art.color === 'green' && art.level === 3).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needGreen3 = this.cards.filter(card => card.level === 3 && card.get.green).length;
-        this.purple1 = this.arts.filter(art => art.color === 'purple' && art.level === 1).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needPurple1 = this.cards.filter(card => card.level === 1 && card.get.purple).length;
-        this.purple2 = this.arts.filter(art => art.color === 'purple' && art.level === 2).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needPurple2 = this.cards.filter(card => card.level === 2 && card.get.purple).length;
-        this.purple3 = this.arts.filter(art => art.color === 'purple' && art.level === 3).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needPurple3 = this.cards.filter(card => card.level === 3 && card.get.purple).length;
-        this.purple4 = this.arts.filter(art => art.color === 'purple' && art.level === 4).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needPurple4 = this.cards.filter(card => card.level === 4 && card.get.purple).length;
-        this.black1 = this.arts.filter(art => art.color === 'black' && art.level === 1).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needBlack1 = this.cards.filter(card => card.level === 1 && card.get.black).length;
-        this.black2 = this.arts.filter(art => art.color === 'black' && art.level === 2).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needBlack2 = this.cards.filter(card => card.level === 2 && card.get.black).length;
-        this.black3 = this.arts.filter(art => art.color === 'black' && art.level === 3).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needBlack3 = this.cards.filter(card => card.level === 3 && card.get.black).length;
-        this.black4 = this.arts.filter(art => art.color === 'black' && art.level === 4).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needBlack4 = this.cards.filter(card => card.level === 4 && card.get.black).length;
-        this.mix4 = this.arts.filter(art => art.color === 'mix' && art.level === 4).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-        ;this.needMix4 = this.cards.filter(card => card.level === 4 && !card.levelSpecial).length;
+        const colors: Color[] = ['red', 'purple', 'blue', 'green', 'white', 'black', 'mix'];
+        let levels: number[] = [];
 
-        this.haveRed1 = this.arts.filter(art => art.color === 'red' && art.level === 1 && !art.hidden).length;
-        this.haveRed2 = this.arts.filter(art => art.color === 'red' && art.level === 2 && !art.hidden).length;
-        this.haveRed3 = this.arts.filter(art => art.color === 'red' && art.level === 3 && !art.hidden).length;
-        this.haveLightBlue1 = this.arts.filter(art => art.color === 'lightBlue' && art.level === 1 && !art.hidden).length;
-        this.haveLightBlue2 = this.arts.filter(art => art.color === 'lightBlue' && art.level === 2 && !art.hidden).length;
-        this.haveLightBlue3 = this.arts.filter(art => art.color === 'lightBlue' && art.level === 3 && !art.hidden).length;
-        this.haveDarkBlue1 = this.arts.filter(art => art.color === 'darkBlue' && art.level === 1 && !art.hidden).length;
-        this.haveDarkBlue2 = this.arts.filter(art => art.color === 'darkBlue' && art.level === 2 && !art.hidden).length;
-        this.haveDarkBlue3 = this.arts.filter(art => art.color === 'darkBlue' && art.level === 3 && !art.hidden).length;
-        this.haveGreen1 = this.arts.filter(art => art.color === 'green' && art.level === 1 && !art.hidden).length;
-        this.haveGreen2 = this.arts.filter(art => art.color === 'green' && art.level === 2 && !art.hidden).length;
-        this.haveGreen3 = this.arts.filter(art => art.color === 'green' && art.level === 3 && !art.hidden).length;
-        this.havePurple1 = this.arts.filter(art => art.color === 'purple' && art.level === 1 && !art.hidden).length;
-        this.havePurple2 = this.arts.filter(art => art.color === 'purple' && art.level === 2 && !art.hidden).length;
-        this.havePurple3 = this.arts.filter(art => art.color === 'purple' && art.level === 3 && !art.hidden).length;
-        this.havePurple4 = this.arts.filter(art => art.color === 'purple' && art.level === 4 && !art.hidden).length;
-        this.haveBlack1 = this.arts.filter(art => art.color === 'black' && art.level === 1 && !art.hidden).length;
-        this.haveBlack2 = this.arts.filter(art => art.color === 'black' && art.level === 2 && !art.hidden).length;
-        this.haveBlack3 = this.arts.filter(art => art.color === 'black' && art.level === 3 && !art.hidden).length;
-        this.haveBlack4 = this.arts.filter(art => art.color === 'black' && art.level === 4 && !art.hidden).length;
-        this.haveMix4 = this.arts.filter(art => art.color === 'mix' && art.level === 4 && !art.hidden).length;
+        colors.forEach((color: Color) => {
+            switch (color) {
+                case 'black':
+                case 'purple':
+                    levels = [1, 2, 3, 4];
+                    break;
+                case 'red':
+                case 'blue':
+                case 'green':
+                case 'white':
+                    levels = [1, 2, 3];
+                    break;
 
-        console.log('-------------------------------')
-        console.log('arts = ', this.arts.length);
-        console.log('arts Fire = ', this.arts.filter(art => art.color === 'red').length);
-        console.log('arts Air = ', this.arts.filter(art => art.color === 'lightBlue').length);
-        console.log('arts Water = ', this.arts.filter(art => art.color === 'darkBlue').length);
-        console.log('arts Earth = ', this.arts.filter(art => art.color === 'green').length);
-        console.log('arts Dark = ', this.arts.filter(art => art.color === 'black').length);
-        console.log('arts Ether = ', this.arts.filter(art => art.color === 'purple').length);
-        console.log('arts = ', this.arts.length);
-        console.log('-------------------------------')
-        console.log('cards =', this.cards.length);
-        console.log('cards Fire = ', this.cards.filter(card => (card.level !== 4 && !card.levelSpecial) && card.get.red).length);
-        console.log('cards Air = ', this.cards.filter(card => (card.level !== 4 && !card.levelSpecial) && card.get.lightBlue).length);
-        console.log('cards Water = ', this.cards.filter(card => (card.level !== 4 && !card.levelSpecial) && card.get.darkBlue).length);
-        console.log('cards Earth = ', this.cards.filter(card => (card.level !== 4 && !card.levelSpecial) && card.get.green).length);
-        console.log('cards Dark = ', this.cards.filter(card => (card.level !== 4 && !card.levelSpecial) && card.get.black).length);
-        console.log('cards Ether = ', this.cards.filter(card => (card.level !== 4 && !card.levelSpecial) && card.get.purple).length);
-        console.log('-------------------------------')
-        console.log('arts need Fire = ', this.cards.filter(card => (card.level !== 4 && !card.levelSpecial) && card.get.red).length - this.arts.filter(art => art.color === 'red').length);
-        console.log('arts need Air = ', this.cards.filter(card => (card.level !== 4 && !card.levelSpecial) && card.get.lightBlue).length - this.arts.filter(art => art.color === 'lightBlue').length);
-        console.log('arts need Water = ', this.cards.filter(card => (card.level !== 4 && !card.levelSpecial) && card.get.darkBlue).length - this.arts.filter(art => art.color === 'darkBlue').length);
-        console.log('arts need Earth = ', this.cards.filter(card => (card.level !== 4 && !card.levelSpecial) && card.get.green).length - this.arts.filter(art => art.color === 'green').length);
-        console.log('arts need Dark = ', this.cards.filter(card => (card.level !== 4 && !card.levelSpecial) && card.get.black).length - this.arts.filter(art => art.color === 'black').length);
-        console.log('arts need Ether = ', this.cards.filter(card => (card.level !== 4 && !card.levelSpecial) && card.get.purple).length - this.arts.filter(art => art.color === 'purple').length);
+                case 'mix':
+                    levels = [4];
+            }
+            levels.forEach((level: number) => {
+                (this as {[key: string]: any})[color + level.toString()] = this.arts.filter(art => art.color === color && art.level === level).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
+                (this as {[key: string]: any})['need'+HelperService.ToPascalCase(color)+level.toString()] = this.cards.filter(card => card.level === level && (color !== 'mix' ? card.get[color] : !card.levelSpecial)).length;
+                (this as {[key: string]: any})['have'+HelperService.ToPascalCase(color)+level.toString()] = this.arts.filter(art => art.color === 'red' && art.level === 1 && !art.hidden).length;
+            });
+        });
     }
 }

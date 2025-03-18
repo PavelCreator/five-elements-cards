@@ -1,8 +1,8 @@
 export interface Elements {
     red?: number,
     green?: number,
-    lightBlue?: number,
-    darkBlue?: number,
+    white?: number,
+    blue?: number,
     purple?: number,
     black?: number
 }

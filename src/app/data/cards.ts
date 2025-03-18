@@ -1,13 +1,5 @@
-import {Card} from "../interfaces/card.interface";
+import {Card} from "../models/card.interface";
 
-export interface Elements {
-    red?: number,
-    green?: number,
-    lightBlue?: number,
-    darkBlue?: number,
-    purple?: number,
-    black?: number
-}
 export const cards: Card[] = [
     {
         orderNumber: 1,
@@ -16,8 +8,8 @@ export const cards: Card[] = [
         pay: {
             red: 1,
             green: 1,
-            lightBlue: 1,
-            darkBlue: 1,
+            white: 1,
+            blue: 1,
             purple: 0,
             black: 0
         },
@@ -32,13 +24,13 @@ export const cards: Card[] = [
         pay: {
             red: 1,
             green: 1,
-            lightBlue: 1,
-            darkBlue: 1,
+            white: 1,
+            blue: 1,
             purple: 0,
             black: 0
         },
         get: {
-            lightBlue: 1
+            white: 1
         }
     },
     {
@@ -48,13 +40,13 @@ export const cards: Card[] = [
         pay: {
             red: 1,
             green: 1,
-            lightBlue: 1,
-            darkBlue: 1,
+            white: 1,
+            blue: 1,
             purple: 0,
             black: 0
         },
         get: {
-            darkBlue: 1
+            blue: 1
         }
     },
     {
@@ -64,8 +56,8 @@ export const cards: Card[] = [
         pay: {
             red: 1,
             green: 1,
-            lightBlue: 1,
-            darkBlue: 1,
+            white: 1,
+            blue: 1,
             purple: 0,
             black: 0
         },
@@ -80,8 +72,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 1,
-            lightBlue: 1,
-            darkBlue: 2,
+            white: 1,
+            blue: 2,
             purple: 0,
             black: 0
         },
@@ -96,13 +88,13 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 1,
-            lightBlue: 0,
-            darkBlue: 1,
+            white: 0,
+            blue: 1,
             purple: 0,
             black: 0
         },
         get: {
-            lightBlue: 1
+            white: 1
         }
     },
     {
@@ -112,13 +104,13 @@ export const cards: Card[] = [
         pay: {
             red: 1,
             green: 2,
-            lightBlue: 1,
-            darkBlue: 0,
+            white: 1,
+            blue: 0,
             purple: 0,
             black: 0
         },
         get: {
-            darkBlue: 1
+            blue: 1
         }
     },
     {
@@ -128,8 +120,8 @@ export const cards: Card[] = [
         pay: {
             red: 1,
             green: 0,
-            lightBlue: 2,
-            darkBlue: 1,
+            white: 2,
+            blue: 1,
             purple: 0,
             black: 0
         },
@@ -144,8 +136,8 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 2,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 0,
             black: 0
         },
@@ -160,13 +152,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 2,
-            darkBlue: 2,
+            white: 2,
+            blue: 2,
             purple: 0,
             black: 0
         },
         get: {
-            lightBlue: 1
+            white: 1
         }
     },
     {
@@ -176,13 +168,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 2,
-            darkBlue: 2,
+            white: 2,
+            blue: 2,
             purple: 0,
             black: 0
         },
         get: {
-            darkBlue: 1
+            blue: 1
         }
     },
     {
@@ -192,8 +184,8 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 2,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 0,
             black: 0
         },
@@ -208,8 +200,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 2,
-            lightBlue: 2,
-            darkBlue: 0,
+            white: 2,
+            blue: 0,
             purple: 0,
             black: 0
         },
@@ -224,13 +216,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 2,
-            lightBlue: 0,
-            darkBlue: 2,
+            white: 0,
+            blue: 2,
             purple: 0,
             black: 0
         },
         get: {
-            lightBlue: 1
+            white: 1
         }
     },
     {
@@ -240,13 +232,13 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 0,
-            lightBlue: 2,
-            darkBlue: 0,
+            white: 2,
+            blue: 0,
             purple: 0,
             black: 0
         },
         get: {
-            darkBlue: 1
+            blue: 1
         }
     },
     {
@@ -256,8 +248,8 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 2,
+            white: 0,
+            blue: 2,
             purple: 0,
             black: 0
         },
@@ -272,8 +264,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 2,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 0,
             black: 1
         },
@@ -288,13 +280,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 2,
+            white: 0,
+            blue: 2,
             purple: 0,
             black: 1
         },
         get: {
-            lightBlue: 1
+            white: 1
         }
     },
     {
@@ -304,13 +296,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 2,
-            darkBlue: 0,
+            white: 2,
+            blue: 0,
             purple: 0,
             black: 1
         },
         get: {
-            darkBlue: 1
+            blue: 1
         }
     },
     {
@@ -320,8 +312,8 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 0,
             black: 1
         },
@@ -336,8 +328,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 2,
-            lightBlue: 1,
-            darkBlue: 2,
+            white: 1,
+            blue: 2,
             purple: 0,
             black: 0
         },
@@ -352,13 +344,13 @@ export const cards: Card[] = [
         pay: {
             red: 1,
             green: 2,
-            lightBlue: 0,
-            darkBlue: 2,
+            white: 0,
+            blue: 2,
             purple: 0,
             black: 0
         },
         get: {
-            lightBlue: 1
+            white: 1
         }
     },
     {
@@ -368,13 +360,13 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 1,
-            lightBlue: 2,
-            darkBlue: 0,
+            white: 2,
+            blue: 0,
             purple: 0,
             black: 0
         },
         get: {
-            darkBlue: 1
+            blue: 1
         }
     },
     {
@@ -384,8 +376,8 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 0,
-            lightBlue: 2,
-            darkBlue: 1,
+            white: 2,
+            blue: 1,
             purple: 0,
             black: 0
         },
@@ -400,8 +392,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 1,
-            lightBlue: 3,
-            darkBlue: 0,
+            white: 3,
+            blue: 0,
             purple: 0,
             black: 0
         },
@@ -416,13 +408,13 @@ export const cards: Card[] = [
         pay: {
             red: 1,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 3,
+            white: 0,
+            blue: 3,
             purple: 0,
             black: 0
         },
         get: {
-            lightBlue: 1
+            white: 1
         }
     },
     {
@@ -432,13 +424,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 3,
-            lightBlue: 1,
-            darkBlue: 0,
+            white: 1,
+            blue: 0,
             purple: 0,
             black: 0
         },
         get: {
-            darkBlue: 1
+            blue: 1
         }
     },
     {
@@ -448,8 +440,8 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 1,
+            white: 0,
+            blue: 1,
             purple: 0,
             black: 0
         },
@@ -464,8 +456,8 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 3,
+            white: 0,
+            blue: 3,
             purple: 0,
             black: 0
         },
@@ -480,13 +472,13 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 0,
-            lightBlue: 2,
-            darkBlue: 0,
+            white: 2,
+            blue: 0,
             purple: 0,
             black: 0
         },
         get: {
-            lightBlue: 1
+            white: 1
         }
     },
     {
@@ -496,13 +488,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 3,
-            lightBlue: 0,
-            darkBlue: 2,
+            white: 0,
+            blue: 2,
             purple: 0,
             black: 0
         },
         get: {
-            darkBlue: 1
+            blue: 1
         }
     },
     {
@@ -512,8 +504,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 2,
-            lightBlue: 0,
-            darkBlue: 3,
+            white: 0,
+            blue: 3,
             purple: 0,
             black: 0
         },
@@ -528,8 +520,8 @@ export const cards: Card[] = [
         pay: {
             red: 4,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 0,
             black: 0
         },
@@ -544,13 +536,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 4,
-            darkBlue: 0,
+            white: 4,
+            blue: 0,
             purple: 0,
             black: 0
         },
         get: {
-            lightBlue: 4
+            white: 4
         }
     },
     {
@@ -560,13 +552,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 4,
+            white: 0,
+            blue: 4,
             purple: 0,
             black: 0
         },
         get: {
-            darkBlue: 1
+            blue: 1
         }
     },
     {
@@ -576,8 +568,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 4,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 0,
             black: 0
         },
@@ -592,8 +584,8 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 3,
+            white: 0,
+            blue: 3,
             purple: 0,
             black: 2
         },
@@ -608,8 +600,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 3,
-            lightBlue: 3,
-            darkBlue: 0,
+            white: 3,
+            blue: 0,
             purple: 0,
             black: 2
         },
@@ -624,8 +616,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 3,
-            darkBlue: 3,
+            white: 3,
+            blue: 3,
             purple: 0,
             black: 2
         },
@@ -640,8 +632,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 3,
-            lightBlue: 0,
-            darkBlue: 3,
+            white: 0,
+            blue: 3,
             purple: 0,
             black: 2
         },
@@ -656,8 +648,8 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 0,
-            lightBlue: 3,
-            darkBlue: 0,
+            white: 3,
+            blue: 0,
             purple: 0,
             black: 2
         },
@@ -672,8 +664,8 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 3,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 0,
             black: 2
         },
@@ -688,8 +680,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 2,
             black: 1
         },
@@ -704,8 +696,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 2,
             black: 1
         },
@@ -720,8 +712,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 2,
             black: 1
         },
@@ -736,8 +728,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 2,
             black: 1
         },
@@ -752,8 +744,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 2,
             black: 1
         },
@@ -768,8 +760,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 2,
             black: 1
         },
@@ -784,8 +776,8 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 1,
-            lightBlue: 2,
-            darkBlue: 1,
+            white: 2,
+            blue: 1,
             purple: 1,
             black: 0
         },
@@ -800,13 +792,13 @@ export const cards: Card[] = [
         pay: {
             red: 1,
             green: 2,
-            lightBlue: 3,
-            darkBlue: 1,
+            white: 3,
+            blue: 1,
             purple: 1,
             black: 0
         },
         get: {
-            lightBlue: 2
+            white: 2
         }
     },
     {
@@ -816,13 +808,13 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 1,
-            lightBlue: 1,
-            darkBlue: 3,
+            white: 1,
+            blue: 3,
             purple: 1,
             black: 0
         },
         get: {
-            darkBlue: 2
+            blue: 2
         }
     },
     {
@@ -832,8 +824,8 @@ export const cards: Card[] = [
         pay: {
             red: 1,
             green: 3,
-            lightBlue: 1,
-            darkBlue: 2,
+            white: 1,
+            blue: 2,
             purple: 1,
             black: 0
         },
@@ -848,8 +840,8 @@ export const cards: Card[] = [
         pay: {
             red: 1,
             green: 3,
-            lightBlue: 1,
-            darkBlue: 3,
+            white: 1,
+            blue: 3,
             purple: 0,
             black: 1
         },
@@ -864,13 +856,13 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 3,
-            lightBlue: 1,
-            darkBlue: 1,
+            white: 1,
+            blue: 1,
             purple: 1,
             black: 0
         },
         get: {
-            lightBlue: 2
+            white: 2
         }
     },
     {
@@ -880,8 +872,8 @@ export const cards: Card[] = [
         pay: {
             red: 1,
             green: 1,
-            lightBlue: 3,
-            darkBlue: 3,
+            white: 3,
+            blue: 3,
             purple: 1,
             black: 0
         },
@@ -896,13 +888,13 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 1,
-            lightBlue: 3,
-            darkBlue: 1,
+            white: 3,
+            blue: 1,
             purple: 1,
             black: 0
         },
         get: {
-            darkBlue: 2
+            blue: 2
         }
     },
     {
@@ -912,8 +904,8 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 2,
-            lightBlue: 3,
-            darkBlue: 3,
+            white: 3,
+            blue: 3,
             purple: 0,
             black: 0
         },
@@ -928,13 +920,13 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 3,
-            lightBlue: 2,
-            darkBlue: 2,
+            white: 2,
+            blue: 2,
             purple: 0,
             black: 0
         },
         get: {
-            lightBlue: 2
+            white: 2
         }
     },
     {
@@ -944,13 +936,13 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 3,
-            lightBlue: 2,
-            darkBlue: 2,
+            white: 2,
+            blue: 2,
             purple: 0,
             black: 0
         },
         get: {
-            darkBlue: 2
+            blue: 2
         }
     },
     {
@@ -960,8 +952,8 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 2,
-            lightBlue: 3,
-            darkBlue: 3,
+            white: 3,
+            blue: 3,
             purple: 0,
             black: 0
         },
@@ -976,8 +968,8 @@ export const cards: Card[] = [
         pay: {
             red: 1,
             green: 2,
-            lightBlue: 0,
-            darkBlue: 4,
+            white: 0,
+            blue: 4,
             purple: 0,
             black: 1
         },
@@ -992,13 +984,13 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 4,
-            lightBlue: 1,
-            darkBlue: 0,
+            white: 1,
+            blue: 0,
             purple: 0,
             black: 1
         },
         get: {
-            lightBlue: 2
+            white: 2
         }
     },
     {
@@ -1008,8 +1000,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 1,
-            lightBlue: 4,
-            darkBlue: 2,
+            white: 4,
+            blue: 2,
             purple: 0,
             black: 1
         },
@@ -1024,13 +1016,13 @@ export const cards: Card[] = [
         pay: {
             red: 4,
             green: 0,
-            lightBlue: 2,
-            darkBlue: 1,
+            white: 2,
+            blue: 1,
             purple: 0,
             black: 1
         },
         get: {
-            darkBlue: 2
+            blue: 2
         }
     },
     {
@@ -1040,8 +1032,8 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 2,
-            lightBlue: 2,
-            darkBlue: 2,
+            white: 2,
+            blue: 2,
             purple: 1,
             black: 0
         },
@@ -1056,13 +1048,13 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 2,
-            lightBlue: 2,
-            darkBlue: 2,
+            white: 2,
+            blue: 2,
             purple: 1,
             black: 0
         },
         get: {
-            lightBlue: 2
+            white: 2
         }
     },
     {
@@ -1072,13 +1064,13 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 2,
-            lightBlue: 2,
-            darkBlue: 2,
+            white: 2,
+            blue: 2,
             purple: 1,
             black: 0
         },
         get: {
-            darkBlue: 2
+            blue: 2
         }
     },
     {
@@ -1088,8 +1080,8 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 2,
-            lightBlue: 2,
-            darkBlue: 2,
+            white: 2,
+            blue: 2,
             purple: 1,
             black: 0
         },
@@ -1104,8 +1096,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 1,
-            lightBlue: 5,
-            darkBlue: 3,
+            white: 5,
+            blue: 3,
             purple: 0,
             black: 0
         },
@@ -1120,13 +1112,13 @@ export const cards: Card[] = [
         pay: {
             red: 5,
             green: 3,
-            lightBlue: 0,
-            darkBlue: 1,
+            white: 0,
+            blue: 1,
             purple: 0,
             black: 0
         },
         get: {
-            lightBlue: 2
+            white: 2
         }
     },
     {
@@ -1136,8 +1128,8 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 0,
-            lightBlue: 1,
-            darkBlue: 5,
+            white: 1,
+            blue: 5,
             purple: 0,
             black: 0
         },
@@ -1152,13 +1144,13 @@ export const cards: Card[] = [
         pay: {
             red: 1,
             green: 5,
-            lightBlue: 3,
-            darkBlue: 0,
+            white: 3,
+            blue: 0,
             purple: 0,
             black: 0
         },
         get: {
-            darkBlue: 2
+            blue: 2
         }
     },
     {
@@ -1168,8 +1160,8 @@ export const cards: Card[] = [
         pay: {
             red: 8,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 0,
             black: 3
         },
@@ -1184,8 +1176,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 8,
-            darkBlue: 0,
+            white: 8,
+            blue: 0,
             purple: 0,
             black: 3
         },
@@ -1200,8 +1192,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 8,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 0,
             black: 3
         },
@@ -1216,8 +1208,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 8,
+            white: 0,
+            blue: 8,
             purple: 0,
             black: 3
         },
@@ -1232,8 +1224,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 3,
             black: 3
         },
@@ -1248,8 +1240,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 3,
             black: 3
         },
@@ -1264,8 +1256,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 6,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 3,
             black: 0
         },
@@ -1280,8 +1272,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 6,
+            white: 0,
+            blue: 6,
             purple: 3,
             black: 0
         },
@@ -1296,8 +1288,8 @@ export const cards: Card[] = [
         pay: {
             red: 6,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 3,
             black: 0
         },
@@ -1312,8 +1304,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 6,
-            darkBlue: 0,
+            white: 6,
+            blue: 0,
             purple: 3,
             black: 0
         },
@@ -1328,8 +1320,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 3,
             black: 3
         },
@@ -1344,8 +1336,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 3,
             black: 3
         },
@@ -1361,8 +1353,8 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 6,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 0,
             black: 0
         },
@@ -1377,13 +1369,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 2,
-            darkBlue: 6,
+            white: 2,
+            blue: 6,
             purple: 0,
             black: 0
         },
         get: {
-            lightBlue: 2
+            white: 2
         }
     },
     {
@@ -1393,13 +1385,13 @@ export const cards: Card[] = [
         pay: {
             red: 6,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 2,
+            white: 0,
+            blue: 2,
             purple: 0,
             black: 0
         },
         get: {
-            darkBlue: 2
+            blue: 2
         }
     },
     {
@@ -1409,8 +1401,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 2,
-            lightBlue: 6,
-            darkBlue: 0,
+            white: 6,
+            blue: 0,
             purple: 0,
             black: 0
         },
@@ -1425,8 +1417,8 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 3,
-            lightBlue: 3,
-            darkBlue: 3,
+            white: 3,
+            blue: 3,
             purple: 0,
             black: 0
         },
@@ -1441,13 +1433,13 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 3,
-            lightBlue: 3,
-            darkBlue: 3,
+            white: 3,
+            blue: 3,
             purple: 0,
             black: 0
         },
         get: {
-            lightBlue: 2
+            white: 2
         }
     },
     {
@@ -1457,13 +1449,13 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 3,
-            lightBlue: 3,
-            darkBlue: 3,
+            white: 3,
+            blue: 3,
             purple: 0,
             black: 0
         },
         get: {
-            darkBlue: 2
+            blue: 2
         }
     },
     {
@@ -1473,8 +1465,8 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 3,
-            lightBlue: 3,
-            darkBlue: 3,
+            white: 3,
+            blue: 3,
             purple: 0,
             black: 0
         },
@@ -1489,8 +1481,8 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 4,
-            lightBlue: 2,
-            darkBlue: 5,
+            white: 2,
+            blue: 5,
             purple: 1,
             black: 0
         },
@@ -1505,13 +1497,13 @@ export const cards: Card[] = [
         pay: {
             red: 4,
             green: 5,
-            lightBlue: 3,
-            darkBlue: 2,
+            white: 3,
+            blue: 2,
             purple: 1,
             black: 0
         },
         get: {
-            lightBlue: 3
+            white: 3
         }
     },
     {
@@ -1521,8 +1513,8 @@ export const cards: Card[] = [
         pay: {
             red: 2,
             green: 3,
-            lightBlue: 5,
-            darkBlue: 4,
+            white: 5,
+            blue: 4,
             purple: 1,
             black: 0
         },
@@ -1537,13 +1529,13 @@ export const cards: Card[] = [
         pay: {
             red: 5,
             green: 2,
-            lightBlue: 4,
-            darkBlue: 3,
+            white: 4,
+            blue: 3,
             purple: 1,
             black: 0
         },
         get: {
-            darkBlue: 3
+            blue: 3
         }
     },
     {
@@ -1553,8 +1545,8 @@ export const cards: Card[] = [
         pay: {
             red: 11,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 0,
             black: 0
         },
@@ -1569,8 +1561,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 11,
-            darkBlue: 0,
+            white: 11,
+            blue: 0,
             purple: 0,
             black: 0
         },
@@ -1585,8 +1577,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 11,
+            white: 0,
+            blue: 11,
             purple: 0,
             black: 0
         },
@@ -1601,8 +1593,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 11,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 0,
             black: 0
         },
@@ -1617,8 +1609,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 5,
             black: 4
         },
@@ -1633,8 +1625,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 4,
             black: 4
         },
@@ -1649,8 +1641,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 7,
-            lightBlue: 5,
-            darkBlue: 3,
+            white: 5,
+            blue: 3,
             purple: 1,
             black: 0
         },
@@ -1665,8 +1657,8 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 0,
-            lightBlue: 7,
-            darkBlue: 5,
+            white: 7,
+            blue: 5,
             purple: 1,
             black: 0
         },
@@ -1681,13 +1673,13 @@ export const cards: Card[] = [
         pay: {
             red: 5,
             green: 3,
-            lightBlue: 0,
-            darkBlue: 7,
+            white: 0,
+            blue: 7,
             purple: 1,
             black: 0
         },
         get: {
-            lightBlue: 3
+            white: 3
         }
     },
     {
@@ -1697,13 +1689,13 @@ export const cards: Card[] = [
         pay: {
             red: 7,
             green: 5,
-            lightBlue: 3,
-            darkBlue: 0,
+            white: 3,
+            blue: 0,
             purple: 1,
             black: 0
         },
         get: {
-            darkBlue: 3
+            blue: 3
         }
     },
     {
@@ -1713,8 +1705,8 @@ export const cards: Card[] = [
         pay: {
             red: 6,
             green: 0,
-            lightBlue: 4,
-            darkBlue: 4,
+            white: 4,
+            blue: 4,
             purple: 0,
             black: 2
         },
@@ -1729,8 +1721,8 @@ export const cards: Card[] = [
         pay: {
             red: 4,
             green: 6,
-            lightBlue: 0,
-            darkBlue: 4,
+            white: 0,
+            blue: 4,
             purple: 0,
             black: 2
         },
@@ -1745,13 +1737,13 @@ export const cards: Card[] = [
         pay: {
             red: 4,
             green: 4,
-            lightBlue: 6,
-            darkBlue: 0,
+            white: 6,
+            blue: 0,
             purple: 0,
             black: 2
         },
         get: {
-            lightBlue: 3
+            white: 3
         }
     },
     {
@@ -1761,13 +1753,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 4,
-            lightBlue: 4,
-            darkBlue: 6,
+            white: 4,
+            blue: 6,
             purple: 0,
             black: 2
         },
         get: {
-            darkBlue: 3
+            blue: 3
         }
     },
     {
@@ -1777,8 +1769,8 @@ export const cards: Card[] = [
         pay: {
             red: 4,
             green: 3,
-            lightBlue: 0,
-            darkBlue: 5,
+            white: 0,
+            blue: 5,
             purple: 2,
             black: 1
         },
@@ -1793,8 +1785,8 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 5,
-            lightBlue: 4,
-            darkBlue: 0,
+            white: 4,
+            blue: 0,
             purple: 2,
             black: 1
         },
@@ -1809,13 +1801,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 4,
-            lightBlue: 5,
-            darkBlue: 3,
+            white: 5,
+            blue: 3,
             purple: 2,
             black: 1
         },
         get: {
-            lightBlue: 3
+            white: 3
         }
     },
     {
@@ -1825,13 +1817,13 @@ export const cards: Card[] = [
         pay: {
             red: 5,
             green: 0,
-            lightBlue: 3,
-            darkBlue: 4,
+            white: 3,
+            blue: 4,
             purple: 2,
             black: 1
         },
         get: {
-            darkBlue: 3
+            blue: 3
         }
     },
     {
@@ -1841,13 +1833,13 @@ export const cards: Card[] = [
         pay: {
             red: 10,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 10,
+            white: 0,
+            blue: 10,
             purple: 0,
             black: 4
         },
         get: {
-            darkBlue: 2,
+            blue: 2,
             red: 2
         }
     },
@@ -1858,13 +1850,13 @@ export const cards: Card[] = [
         pay: {
             red: 10,
             green: 0,
-            lightBlue: 10,
-            darkBlue: 0,
+            white: 10,
+            blue: 0,
             purple: 0,
             black: 4
         },
         get: {
-            lightBlue: 2,
+            white: 2,
             red: 2
         }
     },
@@ -1875,13 +1867,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 10,
-            lightBlue: 10,
-            darkBlue: 0,
+            white: 10,
+            blue: 0,
             purple: 0,
             black: 4
         },
         get: {
-            lightBlue: 2,
+            white: 2,
             green: 2
         }
     },
@@ -1892,13 +1884,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 10,
-            lightBlue: 0,
-            darkBlue: 10,
+            white: 0,
+            blue: 10,
             purple: 0,
             black: 4
         },
         get: {
-            darkBlue: 2,
+            blue: 2,
             green: 2
         }
     },
@@ -1909,15 +1901,15 @@ export const cards: Card[] = [
         pay: {
             red: 6,
             green: 6,
-            lightBlue: 6,
-            darkBlue: 6,
+            white: 6,
+            blue: 6,
             purple: 0,
             black: 4
         },
         get: {
             red: 1,
-            darkBlue: 1,
-            lightBlue: 1,
+            blue: 1,
+            white: 1,
             green: 1
         }
     },
@@ -1928,15 +1920,15 @@ export const cards: Card[] = [
         pay: {
             red: 6,
             green: 6,
-            lightBlue: 6,
-            darkBlue: 6,
+            white: 6,
+            blue: 6,
             purple: 0,
             black: 4
         },
         get: {
             red: 1,
-            darkBlue: 1,
-            lightBlue: 1,
+            blue: 1,
+            white: 1,
             green: 1
         }
     },
@@ -1947,15 +1939,15 @@ export const cards: Card[] = [
         pay: {
             red: 6,
             green: 6,
-            lightBlue: 6,
-            darkBlue: 6,
+            white: 6,
+            blue: 6,
             purple: 0,
             black: 4
         },
         get: {
             red: 1,
-            darkBlue: 1,
-            lightBlue: 1,
+            blue: 1,
+            white: 1,
             green: 1
         }
     },
@@ -1966,15 +1958,15 @@ export const cards: Card[] = [
         pay: {
             red: 6,
             green: 6,
-            lightBlue: 6,
-            darkBlue: 6,
+            white: 6,
+            blue: 6,
             purple: 0,
             black: 4
         },
         get: {
             red: 1,
-            darkBlue: 1,
-            lightBlue: 1,
+            blue: 1,
+            white: 1,
             green: 1
         }
     },
@@ -1985,8 +1977,8 @@ export const cards: Card[] = [
         pay: {
             red: 6,
             green: 6,
-            lightBlue: 6,
-            darkBlue: 6,
+            white: 6,
+            blue: 6,
             purple: 0,
             black: 6
         },
@@ -2001,8 +1993,8 @@ export const cards: Card[] = [
         pay: {
             red: 6,
             green: 6,
-            lightBlue: 6,
-            darkBlue: 6,
+            white: 6,
+            blue: 6,
             purple: 0,
             black: 6
         },
@@ -2017,8 +2009,8 @@ export const cards: Card[] = [
         pay: {
             red: 6,
             green: 6,
-            lightBlue: 6,
-            darkBlue: 6,
+            white: 6,
+            blue: 6,
             purple: 0,
             black: 6
         },
@@ -2033,8 +2025,8 @@ export const cards: Card[] = [
         pay: {
             red: 6,
             green: 6,
-            lightBlue: 6,
-            darkBlue: 6,
+            white: 6,
+            blue: 6,
             purple: 0,
             black: 6
         },
@@ -2049,8 +2041,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 6,
             black: 0
         },
@@ -2065,8 +2057,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 6,
             black: 0
         },
@@ -2081,8 +2073,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 6,
             black: 0
         },
@@ -2097,8 +2089,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 6,
             black: 0
         },
@@ -2113,8 +2105,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 6,
             black: 0
         },
@@ -2129,8 +2121,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 6,
             black: 0
         },
@@ -2145,14 +2137,14 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 10,
-            darkBlue: 10,
+            white: 10,
+            blue: 10,
             purple: 0,
             black: 4
         },
         get: {
-            lightBlue: 2,
-            darkBlue: 2
+            white: 2,
+            blue: 2
         }
     },
     {
@@ -2162,8 +2154,8 @@ export const cards: Card[] = [
         pay: {
             red: 10,
             green: 10,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 0,
             black: 4
         },
@@ -2179,8 +2171,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 3,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 2,
             black: 0
         },
@@ -2195,13 +2187,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 3,
+            white: 0,
+            blue: 3,
             purple: 2,
             black: 0
         },
         get: {
-            lightBlue: 2,
+            white: 2,
         }
     },
     {
@@ -2211,13 +2203,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 3,
-            darkBlue: 0,
+            white: 3,
+            blue: 0,
             purple: 2,
             black: 0
         },
         get: {
-            darkBlue: 2,
+            blue: 2,
         }
     },
     {
@@ -2227,8 +2219,8 @@ export const cards: Card[] = [
         pay: {
             red: 3,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 2,
             black: 0
         },
@@ -2243,8 +2235,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 5,
-            darkBlue: 0,
+            white: 5,
+            blue: 0,
             purple: 3,
             black: 0
         },
@@ -2259,13 +2251,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 5,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 3,
             black: 0
         },
         get: {
-            lightBlue: 3,
+            white: 3,
         }
     },
     {
@@ -2275,13 +2267,13 @@ export const cards: Card[] = [
         pay: {
             red: 5,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 3,
             black: 0
         },
         get: {
-            darkBlue: 3,
+            blue: 3,
         }
     },
     {
@@ -2291,8 +2283,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 5,
+            white: 0,
+            blue: 5,
             purple: 3,
             black: 0
         },
@@ -2307,16 +2299,16 @@ export const cards: Card[] = [
         pay: {
             red: 6,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 4,
             black: 0
         },
         get: {
             red: 1,
             green: 1,
-            lightBlue: 1,
-            darkBlue: 1,
+            white: 1,
+            blue: 1,
         }
     },
     {
@@ -2326,16 +2318,16 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 6,
-            darkBlue: 0,
+            white: 6,
+            blue: 0,
             purple: 4,
             black: 0
         },
         get: {
             red: 1,
             green: 1,
-            lightBlue: 1,
-            darkBlue: 1,
+            white: 1,
+            blue: 1,
         }
     },
     {
@@ -2345,16 +2337,16 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 6,
+            white: 0,
+            blue: 6,
             purple: 4,
             black: 0
         },
         get: {
             red: 1,
             green: 1,
-            lightBlue: 1,
-            darkBlue: 1,
+            white: 1,
+            blue: 1,
         }
     },
     {
@@ -2364,16 +2356,16 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 6,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 4,
             black: 0
         },
         get: {
             red: 1,
             green: 1,
-            lightBlue: 1,
-            darkBlue: 1,
+            white: 1,
+            blue: 1,
         }
     },
     {
@@ -2383,8 +2375,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 1,
-            darkBlue: 0,
+            white: 1,
+            blue: 0,
             purple: 1,
             black: 0
         },
@@ -2399,13 +2391,13 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 1,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 1,
             black: 0
         },
         get: {
-            lightBlue: 1
+            white: 1
         }
     },
     {
@@ -2415,13 +2407,13 @@ export const cards: Card[] = [
         pay: {
             red: 1,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 0,
+            white: 0,
+            blue: 0,
             purple: 1,
             black: 0
         },
         get: {
-            darkBlue: 1
+            blue: 1
         }
     },
     {
@@ -2431,8 +2423,8 @@ export const cards: Card[] = [
         pay: {
             red: 0,
             green: 0,
-            lightBlue: 0,
-            darkBlue: 1,
+            white: 0,
+            blue: 1,
             purple: 1,
             black: 0
         },
@@ -2453,19 +2445,19 @@ console.log('Cards 4 level special =', cards.filter(card => card.level === 4 && 
 console.log('----------------------------')
 console.log('Cards 1 level, red =', cards.filter(card => card.level === 1 && card.get.red).length);
 console.log('Cards 1 level, green =', cards.filter(card => card.level === 1 && card.get.green).length);
-console.log('Cards 1 level, lightBlue =', cards.filter(card => card.level === 1 && card.get.lightBlue).length);
-console.log('Cards 1 level, darkBlue =', cards.filter(card => card.level === 1 && card.get.darkBlue).length);
+console.log('Cards 1 level, white =', cards.filter(card => card.level === 1 && card.get.white).length);
+console.log('Cards 1 level, blue =', cards.filter(card => card.level === 1 && card.get.blue).length);
 console.log('Cards 1 level, purple =', cards.filter(card => card.level === 1 && card.get.purple).length);
 console.log('Cards 1 level, black =', cards.filter(card => card.level === 1 && card.get.black).length);
 console.log('Cards 2 level, red =', cards.filter(card => card.level === 2 && card.get.red).length);
 console.log('Cards 2 level, green =', cards.filter(card => card.level === 2 && card.get.green).length);
-console.log('Cards 2 level, lightBlue =', cards.filter(card => card.level === 2 && card.get.lightBlue).length);
-console.log('Cards 2 level, darkBlue =', cards.filter(card => card.level === 2 && card.get.darkBlue).length);
+console.log('Cards 2 level, white =', cards.filter(card => card.level === 2 && card.get.white).length);
+console.log('Cards 2 level, blue =', cards.filter(card => card.level === 2 && card.get.blue).length);
 console.log('Cards 2 level, purple =', cards.filter(card => card.level === 2 && card.get.purple).length);
 console.log('Cards 2 level, black =', cards.filter(card => card.level === 2 && card.get.black).length);
 console.log('Cards 3 level, red =', cards.filter(card => card.level === 3 && card.get.red).length);
 console.log('Cards 3 level, green =', cards.filter(card => card.level === 3 && card.get.green).length);
-console.log('Cards 3 level, lightBlue =', cards.filter(card => card.level === 3 && card.get.lightBlue).length);
-console.log('Cards 3 level, darkBlue =', cards.filter(card => card.level === 3 && card.get.darkBlue).length);
+console.log('Cards 3 level, white =', cards.filter(card => card.level === 3 && card.get.white).length);
+console.log('Cards 3 level, blue =', cards.filter(card => card.level === 3 && card.get.blue).length);
 console.log('Cards 3 level, purple =', cards.filter(card => card.level === 3 && card.get.purple).length);
 console.log('Cards 3 level, black =', cards.filter(card => card.level === 3 && card.get.black).length);

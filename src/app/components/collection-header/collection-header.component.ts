@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {Art} from "../../interfaces/art.interface";
+import {Art} from "../../models/art.interface";
 
 @Component({
   selector: 'app-collection-header',

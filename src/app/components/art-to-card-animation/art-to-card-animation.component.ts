@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgIf, NgStyle } from "@angular/common";
 import { InteractionService } from "../../services/interaction.service";
 import { ArtComponent } from "../art/art.component";
-import { Art } from "../../interfaces/art.interface";
+import { Art } from "../../models/art.interface";
 
 @Component({
     selector: 'app-art-to-card-animation',
