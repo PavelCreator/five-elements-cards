@@ -13,4 +13,4 @@ Using this project we can:
 All settings and data are stored in the local storage of the user's browser.
 The project is written on the latest version of Angular for spring 2025 and uses many innovations, such as standalone components, Signals, etc.
 
-![screenshot]([https://prnt.sc/ZR8SS8cKvOOO](https://i.ibb.co/sJ9pn8pW/image.png))
+![screenshot](https://i.ibb.co/sJ9pn8pW/image.png)
