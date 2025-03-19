@@ -22,7 +22,7 @@
 			* Arts only
 		</div>
 		<br>
-		<div class="menu-item">* Reset All Cards+Arts</div>
+		<div class="menu-item" (click)="resetAllCardsAndArts()">* Reset All Cards+Arts</div>
 		<div class="menu-item">* Generate Array</div>
 		<div class="menu-item" *ngIf="disabledArtVisibility === 'hidden'" (click)="showDisabledArtVisibility()">* Show Disabled Arts</div>
 		<div class="menu-item" *ngIf="disabledArtVisibility === 'visible'" (click)="hideDisabledArtVisibility()">* Hide Disabled Arts</div>

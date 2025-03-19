@@ -1,9 +1,5 @@
-Apply rename to card
 Animation for disabling
 Implement drag-n-drop
-Save mapping every change to LS
-Load mapping from LS
-Clean LS on reset DB
 Extract DB
 Round Ether
 Square Black Coins

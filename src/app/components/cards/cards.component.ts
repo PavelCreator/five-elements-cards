@@ -7,6 +7,7 @@ import { cards } from "../../data/cards";
 import { CardComponent } from "../card/card.component";
 import { Color } from "../../models/color.type";
 import { HelperService } from "../../services/helper.service";
+import { LocalStorageService } from "../../services/local-storage.service";
 
 @Component({
     selector: 'app-cards',
@@ -84,11 +85,15 @@ export class CardsComponent implements OnInit {
     public haveMix4: number = 0;
 
     constructor(
-        private _interactionService: InteractionService
+        private _interactionService: InteractionService,
+        private _localStorageService: LocalStorageService
     ) {
     }
 
     ngOnInit() {
+        const cardsFromLocalStorage = this._localStorageService.loadArray('cards');
+        if (cardsFromLocalStorage) this.cards = cardsFromLocalStorage;
+
         const colors: Color[] = ['red', 'purple', 'blue', 'white', 'black', 'green'];
         this.cards.forEach((card: Card) => {
             let mixColorDetector: number = 0;
@@ -104,6 +109,10 @@ export class CardsComponent implements OnInit {
 
         this._interactionService.recalculateCards$.subscribe(() => {
             this._recalculateLevels();
+        });
+
+        this._interactionService.saveCards$.subscribe(() => {
+            this._localStorageService.saveArray(this.cards, 'cards');
         });
     }
 
@@ -133,5 +142,6 @@ export class CardsComponent implements OnInit {
                 (this as {[key: string]: any})['have'+HelperService.ToPascalCase(color)+level.toString()] = this.cards.filter(card => card.color === color && card.level === level).length;
             });
         });
+        this._localStorageService.saveArray(this.cards, 'cards');
     }
 }

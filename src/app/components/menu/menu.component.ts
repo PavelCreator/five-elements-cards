@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { InteractionService } from "../../services/interaction.service";
 import { NgIf, NgStyle } from "@angular/common";
+import { LocalStorageService } from "../../services/local-storage.service";
 
 type MenuVisibilityMode = 'collapsed' | 'expanded';
 
@@ -17,16 +18,17 @@ export class MenuComponent {
     public disabledArtVisibility: 'hidden' | 'visible' = 'hidden';
 
     constructor(
-        private _interactionService: InteractionService
+        private _interactionService: InteractionService,
+        private _localStorageService: LocalStorageService
     ) {
-        this.menuVisibility = localStorage.getItem('menuVisibilityMode') as MenuVisibilityMode || 'expanded';
+        this.menuVisibility = this._localStorageService.getItem('menuVisibilityMode') as MenuVisibilityMode || 'expanded';
 
-        const selectedMenuItemFromLocalStorage: string | null = localStorage.getItem('selectedMenuItem');
+        const selectedMenuItemFromLocalStorage: string | null = this._localStorageService.getItem('selectedMenuItem');
         if (selectedMenuItemFromLocalStorage) {
             this.selectViewMode(+selectedMenuItemFromLocalStorage);
         }
 
-        const disabledArtVisibilityFromLocalStorage: string | null = localStorage.getItem('disabledArtVisibility');
+        const disabledArtVisibilityFromLocalStorage: string | null = this._localStorageService.getItem('disabledArtVisibility');
         if (disabledArtVisibilityFromLocalStorage) {
             if (disabledArtVisibilityFromLocalStorage === 'hidden') {
                 this.hideDisabledArtVisibility();
@@ -39,24 +41,29 @@ export class MenuComponent {
 
     public selectViewMode(inSelectedMenuIndex: number) {
         this.selectedMenuItem = inSelectedMenuIndex;
-        localStorage.setItem('selectedMenuItem', inSelectedMenuIndex.toString())
+        this._localStorageService.setItem('selectedMenuItem', inSelectedMenuIndex.toString())
         this._interactionService.selectViewMode(inSelectedMenuIndex);
     }
 
     public showDisabledArtVisibility() {
         this.disabledArtVisibility = 'visible';
-        localStorage.setItem('disabledArtVisibility', 'visible');
+        this._localStorageService.setItem('disabledArtVisibility', 'visible');
         this._interactionService.setDisabledArtVisibility(true);
     }
 
     public hideDisabledArtVisibility() {
         this.disabledArtVisibility = 'hidden';
-        localStorage.setItem('disabledArtVisibility', 'hidden');
+        this._localStorageService.setItem('disabledArtVisibility', 'hidden');
         this._interactionService.setDisabledArtVisibility(false);
     }
 
     public changeVisibilityMode(visibilityMode: MenuVisibilityMode) {
         this.menuVisibility = visibilityMode;
-        localStorage.setItem('menuVisibilityMode', visibilityMode);
+        this._localStorageService.setItem('menuVisibilityMode', visibilityMode);
+    }
+
+    public resetAllCardsAndArts() {
+        this._localStorageService.clearArtsAndCards();
+        window.location.reload();
     }
 }

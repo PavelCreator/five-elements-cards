@@ -114,12 +114,14 @@ export class ArtComponent implements OnInit {
     public flip(event: MouseEvent) {
         event.stopPropagation();
         this.art.horizontalReverse = !this.art.horizontalReverse;
+        this._interactionService.saveArts();
     }
 
     public changeDisableState(event: MouseEvent, state: boolean) {
         event.stopPropagation();
         this.art.hidden = state;
         this._interactionService.recalculateArts();
+        this._interactionService.saveArts();
     }
 
     public cachedName: string = '';
@@ -131,6 +133,10 @@ export class ArtComponent implements OnInit {
             if (renameModeOn) {
                 this.renameTextarea?.nativeElement.focus();
                 this.renameTextarea?.nativeElement.setSelectionRange(0, this.art.name.length)
+            } else {
+                this.renameModeOn = false;
+                this.cachedName = this.art.name;
+                this._interactionService.saveArts();
             }
         });
     }
@@ -146,6 +152,7 @@ export class ArtComponent implements OnInit {
             if (this.renameModeOn) {
                 this.renameModeOn = false;
                 this.cachedName = this.art.name;
+                this._interactionService.saveArts();
             }
         }, 300);
     }

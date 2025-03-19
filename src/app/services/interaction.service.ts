@@ -25,12 +25,18 @@ export class InteractionService {
   public removeArtFromCard(art: Art) {
     this._selectedCardSubject$.next(undefined);
     this._addArtSubject$.next(art);
+    setTimeout(() => {
+      this.saveArts();
+      this.saveCards();
+    }, 100);
   }
 
   public toggleCardSelection(inCard: Card) {
     if (inCard?.artData && inCard?.artData?.picturePath === this._selectedCardSubject$.value?.artData?.picturePath) {
       this._selectedCardSubject$.next(undefined);
       this._addArtSubject$.next(this._selectedCardSubject$.value?.artData);
+      this.saveCards();
+      this.saveArts();
     } else {
       if (inCard?.artData && this._selectedArtSubject$.value?.picturePath !== inCard?.artData?.picturePath) {
 
@@ -59,12 +65,26 @@ export class InteractionService {
   private _recalculateCardsSubject$: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
   public recalculateCards$: Observable<void> = this._recalculateCardsSubject$.asObservable();
 
+  private _saveArtsSubject$: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
+  public saveArts$: Observable<void> = this._saveArtsSubject$.asObservable();
+
+  private _saveCardsSubject$: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
+  public saveCards$: Observable<void> = this._saveCardsSubject$.asObservable();
+
   public recalculateArts() {
     this._recalculateArtsSubject$.next();
   }
 
   public recalculateCards() {
     this._recalculateCardsSubject$.next();
+  }
+
+  public saveArts() {
+    this._saveArtsSubject$.next();
+  }
+
+  public saveCards() {
+    this._saveCardsSubject$.next();
   }
 
   public selectViewMode(inViewModeIndex: number) {
@@ -93,6 +113,8 @@ export class InteractionService {
         if (this._selectedCardSubject$.value) this._selectedCardSubject$.value.artData = selectedArtCopy;
         this._selectedCardSubject$.next(undefined);
         this._selectedArtSubject$.next(undefined);
+        this.saveCards();
+        this.saveArts();
       }, this.animationFlyingArtTime);
       this._tempFlyingArtSubject$.next({... this._selectedArtSubject$.value, boundingClientRectEnd: this._selectedCardSubject$.value.boundingClientRect});
       this._removedArtSubject$.next(this._selectedArtSubject$.value);

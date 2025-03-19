@@ -102,6 +102,7 @@ export class CardComponent implements OnInit {
         event.stopPropagation();
         if (this.card.artData) {
             this.card.artData.horizontalReverse = !this.card.artData.horizontalReverse;
+            this._interactionService.saveCards();
         }
     }
 
@@ -114,6 +115,10 @@ export class CardComponent implements OnInit {
             if (renameModeOn) {
                 this.renameTextarea?.nativeElement.focus();
                 this.renameTextarea?.nativeElement.setSelectionRange(0, this.card?.artData?.name.length)
+            } else {
+                this.renameModeOn = false;
+                if (this.card.artData) this.cachedName = this.card.artData.name;
+                this._interactionService.saveCards();
             }
         });
     }
@@ -129,6 +134,7 @@ export class CardComponent implements OnInit {
             if (this.renameModeOn) {
                 this.renameModeOn = false;
                 if (this.card.artData) this.cachedName = this.card.artData.name;
+                this._interactionService.saveCards();
             }
         }, 300);
     }

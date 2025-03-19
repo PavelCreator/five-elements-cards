@@ -10,6 +10,7 @@ import { Card } from "../../models/card.interface";
 import { cards } from "../../data/cards";
 import { Color } from "../../models/color.type";
 import { HelperService } from "../../services/helper.service";
+import { LocalStorageService } from "../../services/local-storage.service";
 
 @Component({
     selector: 'app-arts',
@@ -88,20 +89,21 @@ export class ArtsComponent implements OnInit {
     public haveMix4: number = 0;
 
     constructor(
-        private _interactionService: InteractionService
+        private _interactionService: InteractionService,
+        private _localStorageService: LocalStorageService
     ) {
     }
 
     ngOnInit() {
+        const artsFromLocalStorage = this._localStorageService.loadArray('arts');
+        if (artsFromLocalStorage) this.arts = artsFromLocalStorage;
+
         this._interactionService.removedArt$.subscribe(artToRemove => {
             if (!artToRemove) return;
             this.arts.forEach((art: Art, i: number) => {
                 if (art.picturePath === artToRemove?.picturePath) {
-                    console.log('this.arts.length = ', this.arts.length);
-                    console.log('this.arts[i] = ', this.arts[i]);
                     this.arts.splice(i, 1);
                     this._recalculateLevels();
-                    console.log('this.arts.length = ', this.arts.length);
                 }
             })
         })
@@ -117,6 +119,10 @@ export class ArtsComponent implements OnInit {
 
         this._interactionService.recalculateArts$.subscribe(() => {
             this._recalculateLevels();
+        });
+
+        this._interactionService.saveArts$.subscribe(() => {
+            this._localStorageService.saveArray(this.arts, 'arts');
         });
     }
 
@@ -148,5 +154,6 @@ export class ArtsComponent implements OnInit {
                 (this as {[key: string]: any})['have'+HelperService.ToPascalCase(color)+level.toString()] = this.arts.filter(art => art.color === 'red' && art.level === 1 && !art.hidden).length;
             });
         });
+        this._localStorageService.saveArray(this.arts, 'arts');
     }
 }
