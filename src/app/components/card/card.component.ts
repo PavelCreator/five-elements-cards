@@ -6,6 +6,7 @@ import { Card } from "../../models/card.interface";
 import { BoundingClientRect } from "../../models/bounding-client-rect.interface";
 import { FormsModule } from "@angular/forms";
 import { TextareaAutoresizeDirective } from "../../directives/textarea-autoresize.directive";
+import { ImageService } from "../../services/image.service";
 
 @Component({
     selector: 'app-card',
@@ -33,16 +34,20 @@ export class CardComponent implements OnInit {
     public typeOfGetHexagon: 'get' | 'getMix' = 'get';
     public hovered: boolean = false;
     public renameModeOn: boolean = false;
+    public cardBackUrl: string = '';
 
     constructor(
         private _interactionService: InteractionService,
+        private _imageService: ImageService,
         private el: ElementRef,
         private render: Renderer2
     ) {
     }
 
     ngOnInit() {
+        this.cardBackUrl = this._imageService.generateCardBackUrl(this.card);
         this.render.listen('window', 'load', () => {
+
             const viewportOffset = this.el.nativeElement.getBoundingClientRect();
             this._boundingClientRect = {
                 top: viewportOffset.top,
