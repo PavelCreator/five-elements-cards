@@ -4,6 +4,7 @@
 		 (mouseenter) ="hovered = true"
 		 (mouseleave) ="hovered = false"
 >
+	<ng-container *ngIf="cardSide === 'front'">
     <div class="pay-wrapper">
         <app-hexagon *ngIf="card.pay.green" [color]="'green'" [number]="card.pay.green" [type]="'pay'"></app-hexagon>
         <app-hexagon *ngIf="card.pay.white" [color]="'white'" [number]="card.pay.white" [type]="'pay'"></app-hexagon>
@@ -23,7 +24,7 @@
     <div class="get-wrapper"></div>
     <div class="order-num">{{ card.orderNumber }}</div>
 		<div class="card-overlay" *ngIf="card.artData" [ngStyle]="{'background-image': 'url(' + card.artData.picturePath + ')', transform: (card.artData.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')}"></div>
-		<div class="card-overlay" *ngIf="!card.artData" [ngStyle]="{'background-image': 'url(' + cardBackUrl + ')'}"></div>
+		<!--<div class="card-overlay" *ngIf="!card.artData" [ngStyle]="{'background-image': 'url(' + cardBackUrl + ')'}"></div>-->
     <div class="text-container" (click)="toggleRename($event, true)">
         <div *ngIf="!renameModeOn" class="art-name">{{ card.artData?.name }}</div>
     </div>
@@ -45,4 +46,8 @@
 			<div class="hover-button hover-button-confirm" *ngIf="renameModeOn" (click)="toggleRename($event, false)">Confirm Rename</div>
 			<div class="hover-button hover-button-cancel" *ngIf="renameModeOn" (click)="cancelRename($event)">Cancel Rename</div>
 		</div>
+	</ng-container>
+	<ng-container *ngIf="cardSide === 'back'">
+		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + cardBackUrl + ')', transform: (cardSideAnimation === true ? 'scaleX(1)' : 'scaleX(-1)')}"></div>
+	</ng-container>
 </div>

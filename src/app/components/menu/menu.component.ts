@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { InteractionService } from "../../services/interaction.service";
 import { NgIf, NgStyle } from "@angular/common";
 import { LocalStorageService } from "../../services/local-storage.service";
+import { CardSide } from "../../models/card-side.type";
 
 type MenuVisibilityMode = 'collapsed' | 'expanded';
 
@@ -16,6 +17,7 @@ export class MenuComponent {
     public selectedMenuItem: number = 3;
     public menuVisibility: MenuVisibilityMode;
     public disabledArtVisibility: 'hidden' | 'visible' = 'hidden';
+    public cardSide: CardSide = 'front';
 
     constructor(
         private _interactionService: InteractionService,
@@ -65,5 +67,10 @@ export class MenuComponent {
     public resetAllCardsAndArts() {
         this._localStorageService.clearArtsAndCards();
         window.location.reload();
+    }
+
+    public showCardsSide(inSide: CardSide) {
+        this.cardSide = inSide;
+        this._interactionService.setCardsSide(inSide);
     }
 }

@@ -9,9 +9,9 @@
     background-size:50px 47px;
 
     .number-wrapper{
-        padding-right:1px;
+        padding-right:0px;
         font-size:25px;
-        padding-top:8px;
+        padding-top:7px;
     }
 }
 .coin-medium{
@@ -20,9 +20,9 @@
     background-size:60px 56px;
 
     .number-wrapper{
-        padding-right:1px;
+        padding-right:0px;
         font-size:27.5px;
-        padding-top:11px;
+        padding-top:10px;
     }
 }
 .coin-big{
@@ -31,7 +31,7 @@
     background-size:70px 65px;
 
     .number-wrapper{
-        padding-right:1px;
+        padding-right:0px;
         font-size:30px;
         padding-top:14px;
     }

@@ -7,6 +7,7 @@ import { BoundingClientRect } from "../../models/bounding-client-rect.interface"
 import { FormsModule } from "@angular/forms";
 import { TextareaAutoresizeDirective } from "../../directives/textarea-autoresize.directive";
 import { ImageService } from "../../services/image.service";
+import { CardSide } from "../../models/card-side.type";
 
 @Component({
     selector: 'app-card',
@@ -27,6 +28,8 @@ export class CardComponent implements OnInit {
     @ViewChild('renameTextarea') renameTextarea: ElementRef | undefined;
 
     public borderColor: string | undefined = 'grey';
+    public cardSide: CardSide = 'front';
+    public cardSideAnimation: boolean = false;
     private _boundingClientRect: BoundingClientRect = {
         top: 0,
         left: 0
@@ -66,6 +69,17 @@ export class CardComponent implements OnInit {
             if (inCard?.orderNumber !== this.card.orderNumber && this.card.isSelected) {
                 this._removeCardSelection();
             }
+        })
+
+        this._interactionService.cardsSide$.subscribe((inCardSide: CardSide) => {
+            if (inCardSide === 'back') {
+                this.cardSideAnimation = true;
+            } else {
+                this.cardSideAnimation = false;
+            }
+            setTimeout(() => {
+                this.cardSide = inCardSide;
+            }, 150);
         })
 
         if (this.card.color === 'mix') {

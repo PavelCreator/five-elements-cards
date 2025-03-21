@@ -48,43 +48,43 @@ export class HexagonComponent implements OnInit {
         if (this.type === 'pay') {
             switch (this.color) {
                 case 'green':
-                    this.hexUrl = './assets/hex/Hex-green4.png';
+                    this.hexUrl = './assets/hex/Hex-green-mj10.png';
                     break;
                 case 'white':
-                    this.hexUrl = './assets/hex/Hex-white2.png';
+                    this.hexUrl = './assets/hex/Hex-white-mj3.png';
                     break;
                 case 'blue':
-                    this.hexUrl = './assets/hex/Hex-blue2.png';
+                    this.hexUrl = './assets/hex/Hex-blue-mj6.png';
                     break;
                 case 'red':
-                    this.hexUrl = './assets/hex/Hex-red2.png';
+                    this.hexUrl = './assets/hex/Hex-red-mj4.png';
                     break;
                 case 'purple':
-                    this.hexUrl = './assets/hex/Hex-purple2.png';
+                    this.hexUrl = './assets/hex/Hex-purple-mj.png';
                     break;
                 case 'black':
-                    this.hexUrl = './assets/hex/Hex-black2.png';
+                    this.hexUrl = './assets/hex/Hex-black-mj4.png';
                     break;
             }
         } else {
             switch (this.color) {
                 case 'green':
-                    this.hexUrl = './assets/hex/Hex-green-big-7.png';
+                    this.hexUrl = './assets/hex/Hex-green-mj10.png';
                     break;
                 case 'white':
-                    this.hexUrl = './assets/hex/Hex-white-big-6.png';
+                    this.hexUrl = './assets/hex/Hex-white-mj3.png';
                     break;
                 case 'blue':
-                    this.hexUrl = './assets/hex/Hex-blue-big-3.png';
+                    this.hexUrl = './assets/hex/Hex-blue-mj6.png';
                     break;
                 case 'red':
-                    this.hexUrl = './assets/hex/Hex-red-big-3.png';
+                    this.hexUrl = './assets/hex/Hex-red-mj4.png';
                     break;
                 case 'purple':
-                    this.hexUrl = './assets/hex/Hex-purple-big-3.png';
+                    this.hexUrl = './assets/hex/Hex-purple-mj.png';
                     break;
                 case 'black':
-                    this.hexUrl = './assets/hex/Hex-black-big-4.png';
+                    this.hexUrl = './assets/hex/Hex-black-mj4.png';
                     break;
             }
         }

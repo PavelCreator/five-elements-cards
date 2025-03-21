@@ -1,0 +1,1 @@
+export type CardSide = 'back' | 'front';

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from "rxjs";
 import { Card } from "../models/card.interface";
 import { Art } from "../models/art.interface";
+import { CardSide } from "../models/card-side.type";
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +57,9 @@ export class InteractionService {
   private _showDisabledArtsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public showDisabledArts$: Observable<boolean> = this._showDisabledArtsSubject$.asObservable();
 
+  private _cardsSideSubject$: BehaviorSubject<CardSide> = new BehaviorSubject<CardSide>('front');
+  public cardsSide$: Observable<CardSide> = this._cardsSideSubject$.asObservable();
+
   private _selectedViewModeSubject$: BehaviorSubject<number | undefined> = new BehaviorSubject<number | undefined>(undefined);
   public selectedViewMode$: Observable<number | undefined> = this._selectedViewModeSubject$.asObservable();
 
@@ -93,6 +97,10 @@ export class InteractionService {
 
   public setDisabledArtVisibility(inShowHidden: boolean) {
     this._showDisabledArtsSubject$.next(inShowHidden);
+  }
+
+  public setCardsSide(inSide: CardSide) {
+    this._cardsSideSubject$.next(inSide);
   }
 
   public toggleArtSelection(inArt: Art) {
