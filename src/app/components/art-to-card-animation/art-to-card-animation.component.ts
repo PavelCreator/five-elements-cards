@@ -34,7 +34,6 @@ export class ArtToCardAnimationComponent implements OnInit{
                     if (this.tempArt && this.tempArt.boundingClientRectStart && this.tempArt.boundingClientRectEnd) {
                         this.tempArtTopPosition = (Math.round(inArt.boundingClientRectEnd?.top || 0)).toString() + 'px';
                         this.tempArtLeftPosition = (Math.round(inArt.boundingClientRectEnd?.left || 0)).toString() + 'px';
-                        console.log('(Math.round(inArt.boundingClientRectStart?.top || 0)).toString() + \'px\' =', (Math.round(inArt.boundingClientRectEnd?.top || 0)).toString() + 'px');
                     }
                 }, 1);
                 setTimeout(() => {

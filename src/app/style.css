@@ -1,163 +1,219 @@
-:host {
-  --content-padding: 10px;
+:host{
+    --content-padding:10px;
 }
-.card {
-  border: 3px solid grey;
-  border-radius: 15px;
-  width: 239px;
-  height: 334px;
-  margin: 5px;
-  box-sizing: border-box;
-  position: relative;
-  background-size: 239px 334px;
-  backdrop-filter: sepia(90%);
-  cursor: auto;
+.card{
+    border:3px solid grey;
+    border-radius:15px;
+    width:239px;
+    height:334px;
+    margin:5px;
+    box-sizing:border-box;
+    position:relative;
+    background-size:239px 334px;
+    backdrop-filter:sepia(90%);
+    cursor:auto;
 }
-.card-hidden-overlay {
-  position: absolute;
-  width: 237px;
-  height: 332px;
-  top: 0;
-  left: 0;
-  background: black;
-  opacity: 0.7;
-  border-radius: 15px;
-  z-index:5;
+.chaos-card{
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
-.card-overlay {
-  position: absolute;
-  width: 235px;
-  height: 330px;
-  top: 0;
-  left: 0;
-  border-radius: 13px;
-  background-size: 239px 334px;
-  z-index:3;
-  transition: transform .3s ease-out;
+.card-hidden-overlay{
+    position:absolute;
+    width:237px;
+    height:332px;
+    top:0;
+    left:0;
+    background:black;
+    opacity:0.7;
+    border-radius:15px;
+    z-index:5;
+}
+.card-overlay{
+    position:absolute;
+    width:235px;
+    height:330px;
+    top:0;
+    left:0;
+    border-radius:13px;
+    background-size:239px 334px;
+    z-index:3;
+    transition:transform .3s ease-out;
 }
 
 .collection-header-wrapper{
-  width: 239px;
-  background:#1f1f1f;
-  & .art-name {
-    font-size: 22px;
-  }
+    width:239px;
+    background:#1f1f1f;
+
+    & .art-name{
+        font-size:22px;
+    }
 }
 
-.order-num {
-  position: absolute;
-  color: white;
-  right: 5px;
-  bottom: 5px;
+.order-num{
+    position:absolute;
+    color:white;
+    right:5px;
+    bottom:5px;
 }
 
-.hover-buttons-wrapper {
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  z-index: 5;
-  transition: opacity .3s ease-out;
+.hover-buttons-wrapper{
+    position:absolute;
+    left:10px;
+    top:10px;
+    z-index:5;
+    transition:opacity .3s ease-out;
 }
 
-.hover-button {
-  background: rgba(0, 0, 0, 0.5);
-  font-family: "Macondo", cursive;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 20px;
-  line-height: 20px;
-  padding: 6px;
-  margin: 4px;
-  border-radius: 4px;
-  color: #fff;
-  cursor: pointer;
-  width: fit-content;
+.hover-button{
+    background:rgba(0, 0, 0, 0.5);
+    font-family:"Macondo", cursive;
+    font-weight:400;
+    font-style:normal;
+    font-size:20px;
+    line-height:20px;
+    padding:6px;
+    margin:4px;
+    border-radius:4px;
+    color:#fff;
+    cursor:pointer;
+    width:fit-content;
 }
 
-.hover-button-confirm {
-  background:rgba(12, 124, 0, 0.5);
+.hover-button-confirm{
+    background:rgba(12, 124, 0, 0.5);
 }
 
-.hover-button-cancel {
-  background:rgba(136, 0, 0, 0.5);
+.hover-button-cancel{
+    background:rgba(136, 0, 0, 0.5);
 }
 
-.text-container {
-  font-family: "Macondo", cursive;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 32px;
-  line-height: 28px;
-  position: absolute;
-  color: #fff;
-/*  filter: invert(1);
-  mix-blend-mode: difference;*/
-  width: 155px;
-  right: 15px;
-  text-align: right;
-  left: auto;
-  bottom: 15px;
-  z-index:7;
+.text-container{
+    font-family:"Macondo", cursive;
+    font-weight:400;
+    font-style:normal;
+    font-size:32px;
+    line-height:28px;
+    position:absolute;
+    color:#fff;
+    width:155px;
+    right:15px;
+    text-align:right;
+    left:auto;
+    bottom:15px;
+    z-index:7;
 }
 
-.collection-header-text {
-  font-family: "Macondo", cursive;
-  font-weight: 400;
-  font-style: normal;
+.text-container-chaos{
+    font-family:"Macondo", cursive;
+    font-weight:400;
+    font-style:normal;
+    font-size:26px;
+    position:relative;
+    color:black;
+    width:130px;
+    right:0;
+    text-align:center;
+    left:auto;
+    bottom:0;
+    z-index:7;
 
-  position: absolute;
-  color: #fff;
-  width: 180px;
-  text-align: center;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.art-name {
-  -webkit-text-stroke: 0.5px #000;
-}
-.art-name-textarea {
-    background: transparent;
-    resize: none;
-    border: none;
-    outline: none;
-    box-shadow: none;
-    overflow: hidden;
-    -webkit-text-stroke: 0.5px #000;
-    font-family: "Macondo", cursive;
+    /*font-family: "Macondo", cursive;
     font-weight: 400;
     font-style: normal;
-    font-size: 32px;
-    line-height: 28px;
-    position: absolute;
-    color: #fff;
-    width: 155px;
-    right: 15px;
-    text-align: right;
+    font-size: 23px;
+    position: relative;
+    color: black;
+    width: 194px;
+    right: 0;
+    text-align: center;
     left: auto;
-    z-index: 7;
-    bottom: 10px;
-    height: 56px;
+    bottom: -81px;
+    z-index: 7;*/
 }
 
-.pay-wrapper {
-  position: absolute;
-  left: 10px;
-  bottom: 15px;
-  z-index: 10;
+.hexagon-inline{
+    margin-right:-22px;
+}
+.hexagon-inline:last-child{
+    margin-right:0;
 }
 
-.get-wrapper {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  z-index: 10;
+.collection-header-text{
+    font-family:"Macondo", cursive;
+    font-weight:400;
+    font-style:normal;
+
+    position:absolute;
+    color:#fff;
+    width:180px;
+    text-align:center;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
 }
-.temp-flying-art {
-    position: absolute;
-    transition: left 0.4s ease, top 0.4s ease;
-    left: 0;
-    top: 0;
-    z-index: 10000;
+
+.art-name{
+    -webkit-text-stroke:0.5px #000;
+}
+
+.art-name-chaos{
+    text-align:center;
+}
+
+.hexagons-chaos-wrapper{
+    display:inline-flex;
+    position: relative;
+    top: 4px;
+}
+
+.hexagon-chaos-wrapper{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    width:40%;
+}
+.art-name-textarea{
+    background:transparent;
+    resize:none;
+    border:none;
+    outline:none;
+    box-shadow:none;
+    overflow:hidden;
+    -webkit-text-stroke:0.5px #000;
+    font-family:"Macondo", cursive;
+    font-weight:400;
+    font-style:normal;
+    font-size:32px;
+    line-height:28px;
+    position:absolute;
+    color:#fff;
+    width:155px;
+    right:15px;
+    text-align:right;
+    left:auto;
+    z-index:7;
+    bottom:10px;
+    height:56px;
+}
+
+.pay-wrapper{
+    position:absolute;
+    left:10px;
+    bottom:15px;
+    z-index:10;
+}
+
+.get-wrapper{
+    position:absolute;
+    right:10px;
+    top:10px;
+    z-index:10;
+}
+.temp-flying-art{
+    position:absolute;
+    transition:left 0.4s ease, top 0.4s ease;
+    left:0;
+    top:0;
+    z-index:10000;
 }

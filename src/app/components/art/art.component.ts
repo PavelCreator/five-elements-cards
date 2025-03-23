@@ -37,7 +37,6 @@ export class ArtComponent implements OnInit {
     ngOnInit() {
         this._setBorderColorFromArtColor();
 
-        console.log('Art Component');
         this._interactionService.selectedArt$.subscribe((inArt: Art | undefined) => {
             if (inArt === undefined && this.art.isSelected) {
                 this._removeArtSelection();
@@ -53,7 +52,6 @@ export class ArtComponent implements OnInit {
         this._interactionService.showDisabledArts$.subscribe((inShowHidden: boolean | undefined) => {
             if (inShowHidden !== undefined) {
                 this.showDisabledArt = inShowHidden;
-                console.log('this.showDisabledArt =', this.showDisabledArt);
             }
         })
     }

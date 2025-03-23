@@ -3,21 +3,25 @@ import { NgFor, NgIf } from "@angular/common";
 import { CollectionHeaderComponent } from "../collection-header/collection-header.component";
 import { InteractionService } from "../../services/interaction.service";
 import { Card } from "../../models/card.interface";
+import { ChaosCard } from "../../models/chaos-card.interface";
 import { cards } from "../../data/cards";
+import { chaosCards } from "../../data/chaos-cards";
 import { CardComponent } from "../card/card.component";
 import { Color } from "../../models/color.type";
 import { HelperService } from "../../services/helper.service";
 import { LocalStorageService } from "../../services/local-storage.service";
+import { ChaosCardComponent } from "../chaos-card/chaos-card.component";
 
 @Component({
     selector: 'app-cards',
     standalone: true,
-    imports: [CardComponent, NgFor, CollectionHeaderComponent, NgIf],
+    imports: [CardComponent, ChaosCardComponent, NgFor, CollectionHeaderComponent, NgIf],
     templateUrl: 'cards.component.html',
     styleUrls: ['./cards.component.css'],
 })
 export class CardsComponent implements OnInit {
     public cards: Card[] = cards;
+    public chaosCards: ChaosCard[] = chaosCards;
 
     public red1: Card[] = [];
     public red2: Card[] = [];
@@ -94,6 +98,9 @@ export class CardsComponent implements OnInit {
         const cardsFromLocalStorage = this._localStorageService.loadArray('cards');
         if (cardsFromLocalStorage) this.cards = cardsFromLocalStorage;
 
+/*        const chaosCardsFromLocalStorage = this._localStorageService.loadArray('chaosCards');
+        if (chaosCardsFromLocalStorage) this.chaosCards = chaosCardsFromLocalStorage;*/
+
         const colors: Color[] = ['red', 'purple', 'blue', 'white', 'black', 'green'];
         this.cards.forEach((card: Card) => {
             let mixColorDetector: number = 0;
@@ -114,6 +121,17 @@ export class CardsComponent implements OnInit {
         this._interactionService.saveCards$.subscribe(() => {
             this._localStorageService.saveArray(this.cards, 'cards');
         });
+
+        this._interactionService.recalculateChaosCards$.subscribe(() => {
+            this._recalculateLevels();
+        });
+
+/*        this._interactionService.saveChaosCards$.subscribe(() => {
+            this._localStorageService.saveArray(this.cards, 'chaosCards');
+        });*/
+
+        console.log('chaosCards =', chaosCards);
+        console.log('this.chaosCards =', this.chaosCards);
     }
 
     private _recalculateLevels() {

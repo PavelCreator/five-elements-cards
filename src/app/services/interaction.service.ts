@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { Card } from "../models/card.interface";
 import { Art } from "../models/art.interface";
 import { CardSide } from "../models/card-side.type";
+import { ChaosCard } from "../models/chaos-card.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ export class InteractionService {
 
   constructor() { }
 
-  private _selectedCardSubject$: BehaviorSubject<Card | undefined> = new BehaviorSubject<Card | undefined>(undefined);
-  public selectedCard$: Observable<Card | undefined> = this._selectedCardSubject$.asObservable();
+  private _selectedCardSubject$: BehaviorSubject<Card | ChaosCard | undefined> = new BehaviorSubject<Card | ChaosCard | undefined>(undefined);
+  public selectedCard$: Observable<Card | ChaosCard | undefined> = this._selectedCardSubject$.asObservable();
 
   private _tempFlyingArtSubject$: BehaviorSubject<Art | undefined> = new BehaviorSubject<Art | undefined>(undefined);
   public tempFlyingArt$: Observable<Art | undefined> = this._tempFlyingArtSubject$.asObservable();
@@ -51,6 +52,25 @@ export class InteractionService {
     }
   }
 
+  public toggleChaosCardSelection(inCard: ChaosCard) {
+    if (inCard?.artData && inCard?.artData?.picturePath === this._selectedCardSubject$.value?.artData?.picturePath) {
+      this._selectedCardSubject$.next(undefined);
+      this._addArtSubject$.next(this._selectedCardSubject$.value?.artData);
+      this.saveChaosCards();
+      this.saveArts();
+    } else {
+      if (inCard?.artData && this._selectedArtSubject$.value?.picturePath !== inCard?.artData?.picturePath) {
+
+        this._addArtSubject$.next(inCard?.artData);
+        inCard.artData = this._selectedArtSubject$.value;
+        inCard.isSelected = false;
+        return;
+      }
+      this._selectedCardSubject$.next(inCard);
+      this._addArtToCard();
+    }
+  }
+
   private _selectedArtSubject$: BehaviorSubject<Art | undefined> = new BehaviorSubject<Art | undefined>(undefined);
   public selectedArt$: Observable<Art | undefined> = this._selectedArtSubject$.asObservable();
 
@@ -72,6 +92,12 @@ export class InteractionService {
   private _saveArtsSubject$: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
   public saveArts$: Observable<void> = this._saveArtsSubject$.asObservable();
 
+  private _recalculateChaosCardsSubject$: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
+  public recalculateChaosCards$: Observable<void> = this._recalculateCardsSubject$.asObservable();
+
+  private _saveChaosCardsSubject$: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
+  public saveChaosCards$: Observable<void> = this._saveChaosCardsSubject$.asObservable();
+
   private _saveCardsSubject$: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
   public saveCards$: Observable<void> = this._saveCardsSubject$.asObservable();
 
@@ -83,12 +109,20 @@ export class InteractionService {
     this._recalculateCardsSubject$.next();
   }
 
+  public recalculateChaosCards() {
+    this._recalculateChaosCardsSubject$.next();
+  }
+
   public saveArts() {
     this._saveArtsSubject$.next();
   }
 
   public saveCards() {
     this._saveCardsSubject$.next();
+  }
+
+  public saveChaosCards() {
+    this._saveChaosCardsSubject$.next();
   }
 
   public selectViewMode(inViewModeIndex: number) {

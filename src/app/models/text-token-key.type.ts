@@ -1,0 +1,1 @@
+export type TextTokenKey = 'FIRE' | 'AIR' | 'EARTH' | 'WATER' | 'DARK' | 'ETHER' | '4 ELEMENTS';

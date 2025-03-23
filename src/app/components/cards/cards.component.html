@@ -1,3 +1,5 @@
+<div class="level-wrapper"><app-collection-header [art]="{name: 'Chaos cards'}"></app-collection-header><app-chaos-card *ngFor='let chaosCard of chaosCards' [card]="chaosCard"></app-chaos-card></div>
+
 <div class="level-wrapper" *ngIf="haveWhite1"><app-collection-header [art]="{name: 'Air   Level 1\r\nNeed: '+needWhite1+'\r\nHave: '+haveWhite1+'\r\nHidden: '+ (white1.length - haveWhite1)}"></app-collection-header><app-card *ngFor='let card of white1' [card]="card"></app-card></div>
 <div class="level-wrapper" *ngIf="haveWhite2"><app-collection-header [art]="{name: 'Air   Level 2\r\nNeed: '+needWhite2+'\r\nHave: '+haveWhite2+'\r\nHidden: '+ (white2.length - haveWhite2)}"></app-collection-header><app-card *ngFor='let card of white2' [card]="card"></app-card></div>
 <div class="level-wrapper" *ngIf="haveWhite3"><app-collection-header [art]="{name: 'Air   Level 3\r\nNeed: '+needWhite3+'\r\nHave: '+haveWhite3+'\r\nHidden: '+ (white3.length - haveWhite3)}"></app-collection-header><app-card *ngFor='let card of white3' [card]="card"></app-card></div>

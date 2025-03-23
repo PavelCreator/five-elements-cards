@@ -4,5 +4,6 @@ export interface Elements {
     white?: number,
     blue?: number,
     purple?: number,
-    black?: number
+    black?: number,
+    chaos?: number
 }

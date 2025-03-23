@@ -1,0 +1,49 @@
+<div class="card chaos-card"
+		 [ngStyle]="{'border': '3px solid '+ borderColor}"
+		 (click)="toggleCardSelection()"
+		 (mouseenter) ="hovered = true"
+		 (mouseleave) ="hovered = false"
+>
+	<ng-container *ngIf="cardSide === 'front'">
+		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + chaosCardBackground + ')', transform: (card.artData?.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')}"></div>
+    <div class="text-container text-container-chaos" (click)="toggleRename($event, true)">
+        <div *ngIf="!renameModeOn" class="art-name art-name-chaos">
+					{{ textBeforeTokens }}
+					<app-hexagon *ngIf='textToken === "FIRE"' class="hexagon-chaos-wrapper" [color]="'red'" [type]="'pay'"></app-hexagon>
+					<app-hexagon *ngIf='textToken === "WATER"' class="hexagon-chaos-wrapper" [color]="'blue'" [type]="'pay'"></app-hexagon>
+					<app-hexagon *ngIf='textToken === "AIR"' class="hexagon-chaos-wrapper" [color]="'white'" [type]="'pay'"></app-hexagon>
+					<app-hexagon *ngIf='textToken === "EARTH"' class="hexagon-chaos-wrapper" [color]="'green'" [type]="'pay'"></app-hexagon>
+					<app-hexagon *ngIf='textToken === "DARK"' class="hexagon-chaos-wrapper" [color]="'black'" [type]="'pay'"></app-hexagon>
+					<app-hexagon *ngIf='textToken === "ETHER"' class="hexagon-chaos-wrapper" [color]="'purple'" [type]="'pay'"></app-hexagon>
+					<div *ngIf="textToken === '4 ELEMENTS'" class="hexagons-chaos-wrapper">
+						<app-hexagon class="hexagon-inline" [color]="'red'" [type]="'pay'"></app-hexagon>
+						<app-hexagon class="hexagon-inline" [color]="'blue'" [type]="'pay'"></app-hexagon>
+						<app-hexagon class="hexagon-inline" [color]="'white'" [type]="'pay'"></app-hexagon>
+						<app-hexagon class="hexagon-inline" [color]="'green'" [type]="'pay'"></app-hexagon>
+					</div>
+					{{ textAfterTokens }}
+				</div>
+    </div>
+		<textarea
+			#renameTextarea
+			appTextareaAutoresize
+			*ngIf="renameModeOn && card.artData"
+			(click)="$event.stopPropagation()"
+			(focusout)="endRenameOnFocusOut()"
+			class="art-name-textarea"
+			[(ngModel)]="card.text">
+		</textarea>
+
+		<div class="hover-buttons-wrapper" *ngIf="card.artData" [ngStyle]="{'opacity': hovered ? '1' : '0'}">
+			<div class="hover-button hover-button-cancel" (click)="removeArt($event)">Remove Art</div>
+			<div class="hover-button" *ngIf="!card.artData?.horizontalReverse" (click)="flip($event)">Flip Horizontal</div>
+			<div class="hover-button" *ngIf="card.artData?.horizontalReverse" (click)="flip($event)">Unflip Horizontal</div>
+			<div class="hover-button" *ngIf="!renameModeOn" (click)="toggleRename($event, true)">Rename</div>
+			<div class="hover-button hover-button-confirm" *ngIf="renameModeOn" (click)="toggleRename($event, false)">Confirm Rename</div>
+			<div class="hover-button hover-button-cancel" *ngIf="renameModeOn" (click)="cancelRename($event)">Cancel Rename</div>
+		</div>
+	</ng-container>
+	<ng-container *ngIf="cardSide === 'back'">
+		<div class="card-overlay" [ngStyle]="{'background-image': 'url(\'./assets/back_cards/chaos.jpg\')'}"></div>
+	</ng-container>
+</div>

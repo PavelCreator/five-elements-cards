@@ -12,6 +12,11 @@ export class ImageService {
 
   public generateCardBackUrl(card: Card): string {
     switch (card.color) {
+
+      case 'chaos':
+        if (card.level === 1) return './assets/back_cards/chaos.jpg';
+        break;
+
       case 'red':
       case 'green':
       case 'blue':

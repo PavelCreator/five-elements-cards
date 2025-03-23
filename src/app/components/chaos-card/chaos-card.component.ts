@@ -1,6 +1,5 @@
 import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NgIf, NgStyle } from "@angular/common";
-import { HexagonComponent } from "../hexagon/hexagon.component";
 import { InteractionService } from "../../services/interaction.service";
 import { Card } from "../../models/card.interface";
 import { BoundingClientRect } from "../../models/bounding-client-rect.interface";
@@ -9,39 +8,49 @@ import { TextareaAutoresizeDirective } from "../../directives/textarea-autoresiz
 import { ImageService } from "../../services/image.service";
 import { CardSide } from "../../models/card-side.type";
 import { ChaosCard } from "../../models/chaos-card.interface";
+import { SettingsService } from "../../services/settings.service";
+import { Lang } from "../../models/lang.type";
+import { HexagonComponent } from "../hexagon/hexagon.component";
+import { TextTokenKey } from "../../models/text-token-key.type";
 
 @Component({
-    selector: 'app-card',
-    templateUrl: './card.component.html',
+    selector: 'app-chaos-card',
+    templateUrl: './chaos-card.component.html',
     standalone: true,
     imports: [
         NgStyle,
-        HexagonComponent,
         NgIf,
+        HexagonComponent,
         FormsModule,
         TextareaAutoresizeDirective
     ],
     styleUrls: ['../../style.css']
 })
-export class CardComponent implements OnInit {
+export class ChaosCardComponent implements OnInit {
     // @ts-ignore
-    @Input() card: Card = {} as Card;
+    @Input() card: ChaosCard = {} as ChaosCard;
     @ViewChild('renameTextarea') renameTextarea: ElementRef | undefined;
 
+    public lang: Lang = this._settingsService.lang;
+
+    public textBeforeTokens: string = '';
+    public textToken: TextTokenKey | undefined;
+    public textAfterTokens: string = '';
+
     public borderColor: string | undefined = 'grey';
+    public chaosCardBackground: string = 'https://cdn.midjourney.com/78e3d8e0-b1be-4429-bc5d-199ebdf6e763/0_1.png';//, 'https://cdn.midjourney.com/f0d7865d-925f-4095-acf7-030ee9c5be0b/0_2.png';
     public cardSide: CardSide = 'front';
-    public cardSideAnimation: boolean = false;
     private _boundingClientRect: BoundingClientRect = {
         top: 0,
         left: 0
     }
-    public typeOfGetHexagon: 'get' | 'getMix' = 'get';
     public hovered: boolean = false;
     public renameModeOn: boolean = false;
-    public cardBackUrl: string = '';
+    public cardBackUrl: string =  '';
 
     constructor(
         private _interactionService: InteractionService,
+        private _settingsService: SettingsService,
         private _imageService: ImageService,
         private el: ElementRef,
         private render: Renderer2
@@ -49,7 +58,7 @@ export class CardComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.cardBackUrl = this._imageService.generateCardBackUrl(this.card);
+        this.cardBackUrl = this._imageService.generateCardBackUrl({color: 'chaos'} as Card);
         this.render.listen('window', 'load', () => {
 
             const viewportOffset = this.el.nativeElement.getBoundingClientRect();
@@ -72,19 +81,20 @@ export class CardComponent implements OnInit {
         })
 
         this._interactionService.cardsSide$.subscribe((inCardSide: CardSide) => {
-            if (inCardSide === 'back') {
-                this.cardSideAnimation = true;
-            } else {
-                this.cardSideAnimation = false;
-            }
             setTimeout(() => {
                 this.cardSide = inCardSide;
             }, 150);
         })
 
-        if (this.card.color === 'mix') {
-            this.typeOfGetHexagon = 'getMix';
-        }
+        this.lang = this._settingsService.lang;
+        console.log('this.lang =', this.lang);
+        // @ts-ignore
+        const text = this.card.text[this.lang];
+
+        const arrayOfStrings = text.split('**');
+        this.textBeforeTokens = arrayOfStrings[0];
+        this.textToken = arrayOfStrings[1];
+        this.textAfterTokens = arrayOfStrings[2];
     }
 
     public toggleCardSelection() {
@@ -108,7 +118,7 @@ export class CardComponent implements OnInit {
 
     private _selectCard() {
         this.card.boundingClientRect = {...this._boundingClientRect};
-        this._interactionService.toggleCardSelection(this.card);
+        this._interactionService.toggleChaosCardSelection(this.card);
     }
 
     public removeArt(event: MouseEvent) {
