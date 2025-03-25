@@ -35,10 +35,11 @@ export class ChaosCardComponent implements OnInit {
 
     public textBeforeTokens: string = '';
     public textToken: TextTokenKey | undefined;
+    public hexNumber: number = 0;
     public textAfterTokens: string = '';
 
     public borderColor: string | undefined = 'grey';
-    public chaosCardBackground: string = 'https://cdn.midjourney.com/78e3d8e0-b1be-4429-bc5d-199ebdf6e763/0_1.png';//, 'https://cdn.midjourney.com/f0d7865d-925f-4095-acf7-030ee9c5be0b/0_2.png';
+    public chaosCardBackground: string = './assets/back_cards/chaos_front4.png'; //'https://cdn.midjourney.com/78e3d8e0-b1be-4429-bc5d-199ebdf6e763/0_1.png';//, 'https://cdn.midjourney.com/f0d7865d-925f-4095-acf7-030ee9c5be0b/0_2.png';
     public cardSide: CardSide = 'front';
     private _boundingClientRect: BoundingClientRect = {
         top: 0,
@@ -93,17 +94,15 @@ export class ChaosCardComponent implements OnInit {
 
         const arrayOfStrings = text.split('**');
         this.textBeforeTokens = arrayOfStrings[0];
-        this.textToken = arrayOfStrings[1];
+        const arrayOfHex = arrayOfStrings[1].split('--')
+        this.textToken = arrayOfHex[0];
+        this.hexNumber = this.formatHexNumber(arrayOfHex[1]);
         this.textAfterTokens = arrayOfStrings[2];
     }
 
-    public toggleCardSelection() {
-        if (this.card.artData) return;
-        if (this.card.isSelected) {
-            this._removeCardSelection();
-        } else {
-            this._selectCard();
-        }
+    public formatHexNumber(hexNumber: string): number {
+        if (typeof +hexNumber === 'number') return +hexNumber;
+        else return 0;
     }
 
     private _removeCardSelection() {
@@ -116,37 +115,25 @@ export class ChaosCardComponent implements OnInit {
         this.borderColor = '#ff00f2';
     }
 
-    private _selectCard() {
-        this.card.boundingClientRect = {...this._boundingClientRect};
-        this._interactionService.toggleChaosCardSelection(this.card);
-    }
-
-    public removeArt(event: MouseEvent) {
-        event.stopPropagation();
-        if (this.card?.artData) this._interactionService.removeArtFromCard(this.card?.artData);
-        this.card.artData = undefined;
-    }
-
     public flip(event: MouseEvent) {
         event.stopPropagation();
-        if (this.card.artData) {
-            this.card.artData.horizontalReverse = !this.card.artData.horizontalReverse;
-            this._interactionService.saveCards();
-        }
+        this.card.horizontalReverse = !this.card.horizontalReverse;
+        this._interactionService.saveCards();
     }
 
-    public cachedName: string = '';
+    public cachedName: any;
     public toggleRename(event: MouseEvent | FocusEvent, renameModeOn: boolean) {
         event.stopPropagation();
         this.renameModeOn = renameModeOn;
-        if (this.card?.artData?.name) this.cachedName = this.card?.artData?.name;
+        if (this.card?.text) this.cachedName = this.card?.text;
         setTimeout(() => {
             if (renameModeOn) {
                 this.renameTextarea?.nativeElement.focus();
-                this.renameTextarea?.nativeElement.setSelectionRange(0, this.card?.artData?.name.length)
+                //@ts-ignore
+                this.renameTextarea?.nativeElement.setSelectionRange(0, this.card?.text[this._settingsService.lang].length)
             } else {
                 this.renameModeOn = false;
-                if (this.card.artData) this.cachedName = this.card.artData.name;
+                if (this.card) this.cachedName = this.card.text;
                 this._interactionService.saveCards();
             }
         });
@@ -154,7 +141,7 @@ export class ChaosCardComponent implements OnInit {
 
     public cancelRename(event: MouseEvent) {
         event.stopPropagation();
-        if (this.card.artData) this.card.artData.name = this.cachedName;
+        if (this.card.text) this.card.text = this.cachedName;
         this.renameModeOn = false;
     }
 
@@ -162,7 +149,7 @@ export class ChaosCardComponent implements OnInit {
         setTimeout(() => {
             if (this.renameModeOn) {
                 this.renameModeOn = false;
-                if (this.card.artData) this.cachedName = this.card.artData.name;
+                if (this.card) this.cachedName = this.card.text;
                 this._interactionService.saveCards();
             }
         }, 300);

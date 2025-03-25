@@ -12,8 +12,8 @@ export class InteractionService {
 
   constructor() { }
 
-  private _selectedCardSubject$: BehaviorSubject<Card | ChaosCard | undefined> = new BehaviorSubject<Card | ChaosCard | undefined>(undefined);
-  public selectedCard$: Observable<Card | ChaosCard | undefined> = this._selectedCardSubject$.asObservable();
+  private _selectedCardSubject$: BehaviorSubject<Card | undefined> = new BehaviorSubject<Card | undefined>(undefined);
+  public selectedCard$: Observable<Card | undefined> = this._selectedCardSubject$.asObservable();
 
   private _tempFlyingArtSubject$: BehaviorSubject<Art | undefined> = new BehaviorSubject<Art | undefined>(undefined);
   public tempFlyingArt$: Observable<Art | undefined> = this._tempFlyingArtSubject$.asObservable();
@@ -38,25 +38,6 @@ export class InteractionService {
       this._selectedCardSubject$.next(undefined);
       this._addArtSubject$.next(this._selectedCardSubject$.value?.artData);
       this.saveCards();
-      this.saveArts();
-    } else {
-      if (inCard?.artData && this._selectedArtSubject$.value?.picturePath !== inCard?.artData?.picturePath) {
-
-        this._addArtSubject$.next(inCard?.artData);
-        inCard.artData = this._selectedArtSubject$.value;
-        inCard.isSelected = false;
-        return;
-      }
-      this._selectedCardSubject$.next(inCard);
-      this._addArtToCard();
-    }
-  }
-
-  public toggleChaosCardSelection(inCard: ChaosCard) {
-    if (inCard?.artData && inCard?.artData?.picturePath === this._selectedCardSubject$.value?.artData?.picturePath) {
-      this._selectedCardSubject$.next(undefined);
-      this._addArtSubject$.next(this._selectedCardSubject$.value?.artData);
-      this.saveChaosCards();
       this.saveArts();
     } else {
       if (inCard?.artData && this._selectedArtSubject$.value?.picturePath !== inCard?.artData?.picturePath) {

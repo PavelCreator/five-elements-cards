@@ -8,7 +8,8 @@ export interface ChaosCard {
     },
     orderNumber: number;
     isSelected?: boolean;
-    artData?: Art;
+    image?: string;
+    horizontalReverse?: boolean;
     boundingClientRect?: BoundingClientRect
 }
 

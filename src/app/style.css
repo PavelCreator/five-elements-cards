@@ -14,9 +14,9 @@
     cursor:auto;
 }
 .chaos-card{
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
 }
 .card-hidden-overlay{
     position:absolute;
@@ -39,6 +39,15 @@
     background-size:239px 334px;
     z-index:3;
     transition:transform .3s ease-out;
+}
+.card-overlay-image{
+    z-index: 2;
+    width: 208px;
+    height: 169px;
+    background-size:208px 169px;
+    position: absolute;
+    top: 23px;
+    left: 16px;
 }
 
 .collection-header-wrapper{
@@ -105,18 +114,17 @@
 }
 
 .text-container-chaos{
-    font-family:"Macondo", cursive;
-    font-weight:400;
-    font-style:normal;
-    font-size:26px;
-    position:relative;
-    color:black;
-    width:130px;
-    right:0;
-    text-align:center;
-    left:auto;
-    bottom:0;
-    z-index:7;
+    font-size: 22px;
+    line-height: 32px;
+    position: relative;
+    color: black;
+    width: 162px;
+    height: 104px;
+    right: 0;
+    text-align: center;
+    left: auto;
+    bottom: 31px;
+    z-index: 7;
 
     /*font-family: "Macondo", cursive;
     font-weight: 400;
@@ -162,16 +170,19 @@
 }
 
 .hexagons-chaos-wrapper{
-    display:inline-flex;
+    display: inline-flex;
     position: relative;
-    top: 4px;
+    top: 16px;
+    margin-top: -20px;
+    padding-bottom: 14px;
 }
 
 .hexagon-chaos-wrapper{
-    display:block;
-    margin-left:auto;
-    margin-right:auto;
-    width:40%;
+    display: inline-flex;
+    position: relative;
+    top: 16px;
+    margin-top: -20px;
+    padding-bottom: 14px;
 }
 .art-name-textarea{
     background:transparent;

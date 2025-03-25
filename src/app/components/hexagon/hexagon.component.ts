@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgClass, NgStyle } from "@angular/common";
+import { NgClass, NgIf, NgStyle } from "@angular/common";
 import { Color } from "../../models/color.type";
 
 @Component({
     selector: 'app-hexagon',
-    imports: [NgStyle, NgClass],
+    imports: [NgStyle, NgClass, NgIf],
     standalone: true,
     template: `
 			<div class="coin" [ngClass]="coinClass" [ngStyle]="{'background-image': 'url(\\'' + hexUrl + '\\')'}">
-				<div class="number-wrapper">{{ number }}</div>
+				<div class="number-wrapper" *ngIf="number">{{ number }}</div>
 			</div>
     `,
     styleUrl: `hexagon.component.css`
@@ -17,79 +17,41 @@ import { Color } from "../../models/color.type";
 export class HexagonComponent implements OnInit {
     @Input() number: number | undefined;
     @Input() color: Color | undefined;
-    @Input() type: 'get' | 'pay' | 'getMix' | undefined;
+    @Input() type: 'get' | 'pay' | 'getMix' | 'chaos' | undefined;
 
     public gradient: string | undefined;
     public hexUrl: string | undefined;
-    public coinClass: 'coin-small' | 'coin-medium' | 'coin-big'  = 'coin-small';
+    public coinClass: 'coin-chaos' | 'coin-small' | 'coin-medium' | 'coin-big'  = 'coin-small';
 
     ngOnInit() {
         switch (this.color) {
             case 'green':
-                this.gradient = 'linear-gradient(180deg, rgba(10,88,0,1) 0%, rgba(0,183,13,1) 50%, rgba(10,88,0,1) 100%)';
+                this.hexUrl = './assets/hex/Hex-green-mj10.png';
                 break;
             case 'white':
-                this.gradient = 'linear-gradient(180deg, rgba(184,184,184,1) 0%, rgba(255,255,255,1) 50%, rgba(184,184,184,1) 100%)';
+                this.hexUrl = './assets/hex/Hex-white-mj3.png';
                 break;
             case 'blue':
-                this.gradient = 'linear-gradient(180deg, rgba(0,4,167,1) 0%, rgba(39,70,255,1) 50%, rgba(0,4,167,1) 100%)';
+                this.hexUrl = './assets/hex/Hex-blue-mj6.png';
                 break;
             case 'red':
-                this.gradient = 'linear-gradient(180deg, rgba(255,0,0,1) 0%, rgba(255,198,0,1) 50%, rgba(255,0,0,1) 100%)';
+                this.hexUrl = './assets/hex/Hex-red-mj4.png';
                 break;
             case 'purple':
-                this.gradient = 'linear-gradient(180deg, rgba(94,0,143,1) 0%, rgba(156,0,255,1) 50%, rgba(94,0,143,1) 100%)';
+                this.hexUrl = './assets/hex/Hex-purple-mj.png';
                 break;
             case 'black':
-                this.gradient = 'linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(92,92,92,1) 50%, rgba(0,0,0,1) 100%)';
+                this.hexUrl = './assets/hex/Hex-black-mj4.png';
                 break;
-        }
-
-        if (this.type === 'pay') {
-            switch (this.color) {
-                case 'green':
-                    this.hexUrl = './assets/hex/Hex-green-mj10.png';
-                    break;
-                case 'white':
-                    this.hexUrl = './assets/hex/Hex-white-mj3.png';
-                    break;
-                case 'blue':
-                    this.hexUrl = './assets/hex/Hex-blue-mj6.png';
-                    break;
-                case 'red':
-                    this.hexUrl = './assets/hex/Hex-red-mj4.png';
-                    break;
-                case 'purple':
-                    this.hexUrl = './assets/hex/Hex-purple-mj.png';
-                    break;
-                case 'black':
-                    this.hexUrl = './assets/hex/Hex-black-mj4.png';
-                    break;
-            }
-        } else {
-            switch (this.color) {
-                case 'green':
-                    this.hexUrl = './assets/hex/Hex-green-mj10.png';
-                    break;
-                case 'white':
-                    this.hexUrl = './assets/hex/Hex-white-mj3.png';
-                    break;
-                case 'blue':
-                    this.hexUrl = './assets/hex/Hex-blue-mj6.png';
-                    break;
-                case 'red':
-                    this.hexUrl = './assets/hex/Hex-red-mj4.png';
-                    break;
-                case 'purple':
-                    this.hexUrl = './assets/hex/Hex-purple-mj.png';
-                    break;
-                case 'black':
-                    this.hexUrl = './assets/hex/Hex-black-mj4.png';
-                    break;
-            }
+            case 'mix':
+                this.hexUrl = './assets/hex/Hex-mix.png';
+                break;
         }
 
         switch (this.type) {
+            case 'chaos':
+                this.coinClass = 'coin-chaos';
+                break;
             case 'pay':
                 this.coinClass = 'coin-small';
                 break;
