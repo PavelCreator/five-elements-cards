@@ -97,9 +97,43 @@ export class CardsComponent implements OnInit {
     ngOnInit() {
         const cardsFromLocalStorage = this._localStorageService.loadArray('cards');
         if (cardsFromLocalStorage) this.cards = cardsFromLocalStorage;
+        /*this.cards = this.cards.filter((card) => {
+            return card.orderNumber !== 106.4 && card.orderNumber !== 106.3
+        })
+        this.cards.push({
+            orderNumber: 106.3,
+            level: 4,
+            levelSpecial: true,
+            pay: {
+                red: 6,
+                green: 6,
+                white: 6,
+                blue: 6,
+                purple: 0,
+                black: 6
+            },
+            get: {
+                purple: 3,
+            }
+        })
+        this.cards.push({
+            orderNumber: 106.4,
+            level: 4,
+            levelSpecial: true,
+            pay: {
+                red: 6,
+                green: 6,
+                white: 6,
+                blue: 6,
+                purple: 0,
+                black: 6
+            },
+            get: {
+                purple: 3,
+            }
+        })
 
-/*        const chaosCardsFromLocalStorage = this._localStorageService.loadArray('chaosCards');
-        if (chaosCardsFromLocalStorage) this.chaosCards = chaosCardsFromLocalStorage;*/
+        this._localStorageService.saveArray(this.cards, 'cards');*/
 
         const colors: Color[] = ['red', 'purple', 'blue', 'white', 'black', 'green'];
         this.cards.forEach((card: Card) => {
@@ -135,7 +169,7 @@ export class CardsComponent implements OnInit {
     }
 
     private _recalculateLevels() {
-        const colors: Color[] = ['red', 'purple', 'blue', 'green', 'white', 'black', 'mix'];
+        const colors: Color[] = ['red', 'purple', 'blue', 'green', 'white', 'black', 'mix', 'dice'];
         let levels: number[] = [];
 
         colors.forEach((color: Color) => {

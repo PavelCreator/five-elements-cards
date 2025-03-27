@@ -46,6 +46,9 @@ export class HexagonComponent implements OnInit {
             case 'mix':
                 this.hexUrl = './assets/hex/Hex-mix.png';
                 break;
+            case 'dice':
+                this.hexUrl = './assets/hex/dice2.png';
+                break;
         }
 
         switch (this.type) {

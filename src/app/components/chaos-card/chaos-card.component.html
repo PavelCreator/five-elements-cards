@@ -6,8 +6,8 @@
 	<ng-container *ngIf="cardSide === 'front'">
 		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + chaosCardBackground + ')', transform: (card.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')}"></div>
 		<div class="card-overlay card-overlay-image" [ngStyle]="{'background-image': 'url(' + card.image + ')', transform: (card.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')}"></div>
-    <div class="text-container text-container-chaos" (click)="toggleRename($event, true)">
-        <div *ngIf="!renameModeOn" class="art-name art-name-chaos">
+    <div class="text-container text-container-chaos">
+        <div class="art-name art-name-chaos">
 					<span class="text-block-before">{{ textBeforeTokens }}</span>
 					<app-hexagon *ngIf='textToken === "FIRE"' class="hexagon-chaos-wrapper" [color]="'red'" [type]="'chaos'" [number]="hexNumber"></app-hexagon>
 					<app-hexagon *ngIf='textToken === "WATER"' class="hexagon-chaos-wrapper" [color]="'blue'" [type]="'chaos'" [number]="hexNumber"></app-hexagon>
@@ -16,6 +16,7 @@
 					<app-hexagon *ngIf='textToken === "DARK"' class="hexagon-chaos-wrapper" [color]="'black'" [type]="'chaos'" [number]="hexNumber"></app-hexagon>
 					<app-hexagon *ngIf='textToken === "ETHER"' class="hexagon-chaos-wrapper" [color]="'purple'" [type]="'chaos'" [number]="hexNumber"></app-hexagon>
 					<app-hexagon *ngIf='textToken === "MIX"' class="hexagon-chaos-wrapper" [color]="'mix'" [type]="'chaos'" [number]="hexNumber"></app-hexagon>
+					<app-hexagon *ngIf='textToken === "DICE"' class="hexagon-chaos-wrapper" [color]="'dice'" [type]="'chaos'" [number]="hexNumber"></app-hexagon>
 					<div *ngIf="textToken === '4 ELEMENTS'" class="hexagons-chaos-wrapper">
 						<app-hexagon class="hexagon-inline" [color]="'red'" [type]="'chaos'"></app-hexagon>
 						<app-hexagon class="hexagon-inline" [color]="'blue'" [type]="'chaos'"></app-hexagon>
@@ -23,27 +24,34 @@
 						<app-hexagon class="hexagon-inline" [color]="'green'" [type]="'chaos'"></app-hexagon>
 					</div>
 					<span class="text-block-after">{{ textAfterTokens }}</span>
+					<ng-container *ngIf="textToken2">
+						<app-hexagon *ngIf='textToken2 === "FIRE"' class="hexagon-chaos-wrapper" [color]="'red'" [type]="'chaos'" [number]="hexNumber2"></app-hexagon>
+						<app-hexagon *ngIf='textToken2 === "WATER"' class="hexagon-chaos-wrapper" [color]="'blue'" [type]="'chaos'" [number]="hexNumber2"></app-hexagon>
+						<app-hexagon *ngIf='textToken2 === "AIR"' class="hexagon-chaos-wrapper" [color]="'white'" [type]="'chaos'" [number]="hexNumber2"></app-hexagon>
+						<app-hexagon *ngIf='textToken2 === "EARTH"' class="hexagon-chaos-wrapper" [color]="'green'" [type]="'chaos'" [number]="hexNumber2"></app-hexagon>
+						<app-hexagon *ngIf='textToken2 === "DARK"' class="hexagon-chaos-wrapper" [color]="'black'" [type]="'chaos'" [number]="hexNumber2"></app-hexagon>
+						<app-hexagon *ngIf='textToken2 === "ETHER"' class="hexagon-chaos-wrapper" [color]="'purple'" [type]="'chaos'" [number]="hexNumber2"></app-hexagon>
+						<app-hexagon *ngIf='textToken2 === "MIX"' class="hexagon-chaos-wrapper" [color]="'mix'" [type]="'chaos'" [number]="hexNumber2"></app-hexagon>
+						<app-hexagon *ngIf='textToken2 === "DICE"' class="hexagon-chaos-wrapper" [color]="'dice'" [type]="'chaos'" [number]="hexNumber2"></app-hexagon>
+						<div *ngIf="textToken2 === '4 ELEMENTS'" class="hexagons-chaos-wrapper">
+							<app-hexagon class="hexagon-inline" [color]="'red'" [type]="'chaos'"></app-hexagon>
+							<app-hexagon class="hexagon-inline" [color]="'blue'" [type]="'chaos'"></app-hexagon>
+							<app-hexagon class="hexagon-inline" [color]="'white'" [type]="'chaos'"></app-hexagon>
+							<app-hexagon class="hexagon-inline" [color]="'green'" [type]="'chaos'"></app-hexagon>
+						</div>
+					</ng-container>
+
+					<span class="text-block-after">{{ textAfter2Tokens }}</span>
 				</div>
+				<div class="chaos-order-number">{{card.orderNumber}}</div>
     </div>
-		<textarea
-			#renameTextarea
-			appTextareaAutoresize
-			*ngIf="renameModeOn"
-			(click)="$event.stopPropagation()"
-			(focusout)="endRenameOnFocusOut()"
-			class="art-name-textarea"
-			[(ngModel)]="card.text">
-		</textarea>
 
 		<div class="hover-buttons-wrapper" [ngStyle]="{'opacity': hovered ? '1' : '0'}">
 			<div class="hover-button" *ngIf="!card.horizontalReverse" (click)="flip($event)">Flip Horizontal</div>
 			<div class="hover-button" *ngIf="card.horizontalReverse" (click)="flip($event)">Unflip Horizontal</div>
-			<div class="hover-button" *ngIf="!renameModeOn" (click)="toggleRename($event, true)">Rename</div>
-			<div class="hover-button hover-button-confirm" *ngIf="renameModeOn" (click)="toggleRename($event, false)">Confirm Rename</div>
-			<div class="hover-button hover-button-cancel" *ngIf="renameModeOn" (click)="cancelRename($event)">Cancel Rename</div>
 		</div>
 	</ng-container>
 	<ng-container *ngIf="cardSide === 'back'">
-		<div class="card-overlay" [ngStyle]="{'background-image': 'url(\'./assets/back_cards/chaos.jpg\')'}"></div>
+		<div class="card-overlay" [ngStyle]="{'background-image': 'url(\'./assets/back_cards/chaos3.png\')'}"></div>
 	</ng-container>
 </div>

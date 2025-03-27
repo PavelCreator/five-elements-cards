@@ -21,8 +21,7 @@ import { TextTokenKey } from "../../models/text-token-key.type";
         NgStyle,
         NgIf,
         HexagonComponent,
-        FormsModule,
-        TextareaAutoresizeDirective
+        FormsModule
     ],
     styleUrls: ['../../style.css']
 })
@@ -35,8 +34,11 @@ export class ChaosCardComponent implements OnInit {
 
     public textBeforeTokens: string = '';
     public textToken: TextTokenKey | undefined;
+    public textToken2: TextTokenKey | undefined;
     public hexNumber: number = 0;
+    public hexNumber2: number = 0;
     public textAfterTokens: string = '';
+    public textAfter2Tokens: string = '';
 
     public borderColor: string | undefined = 'grey';
     public chaosCardBackground: string = './assets/back_cards/chaos_front4.png'; //'https://cdn.midjourney.com/78e3d8e0-b1be-4429-bc5d-199ebdf6e763/0_1.png';//, 'https://cdn.midjourney.com/f0d7865d-925f-4095-acf7-030ee9c5be0b/0_2.png';
@@ -46,7 +48,6 @@ export class ChaosCardComponent implements OnInit {
         left: 0
     }
     public hovered: boolean = false;
-    public renameModeOn: boolean = false;
     public cardBackUrl: string =  '';
 
     constructor(
@@ -93,11 +94,23 @@ export class ChaosCardComponent implements OnInit {
         const text = this.card.text[this.lang];
 
         const arrayOfStrings = text.split('**');
-        this.textBeforeTokens = arrayOfStrings[0];
-        const arrayOfHex = arrayOfStrings[1].split('--')
-        this.textToken = arrayOfHex[0];
-        this.hexNumber = this.formatHexNumber(arrayOfHex[1]);
-        this.textAfterTokens = arrayOfStrings[2];
+
+        if (arrayOfStrings[0]) this.textBeforeTokens = arrayOfStrings[0];
+        if (arrayOfStrings[2]) this.textAfterTokens = arrayOfStrings[2];
+        if (arrayOfStrings[4]) this.textAfter2Tokens = arrayOfStrings[4];
+
+        if (arrayOfStrings[1]) {
+            const arrayOfHex = arrayOfStrings[1].split('--')
+            this.textToken = arrayOfHex[0];
+            this.hexNumber = this.formatHexNumber(arrayOfHex[1]);
+        }
+        if (arrayOfStrings[3]) {
+            const arrayOfHex2 = arrayOfStrings[3].split('--')
+            this.textToken2 = arrayOfHex2[0];
+            this.hexNumber2 = this.formatHexNumber(arrayOfHex2[1]);
+        }
+
+
     }
 
     public formatHexNumber(hexNumber: string): number {
@@ -119,39 +132,5 @@ export class ChaosCardComponent implements OnInit {
         event.stopPropagation();
         this.card.horizontalReverse = !this.card.horizontalReverse;
         this._interactionService.saveCards();
-    }
-
-    public cachedName: any;
-    public toggleRename(event: MouseEvent | FocusEvent, renameModeOn: boolean) {
-        event.stopPropagation();
-        this.renameModeOn = renameModeOn;
-        if (this.card?.text) this.cachedName = this.card?.text;
-        setTimeout(() => {
-            if (renameModeOn) {
-                this.renameTextarea?.nativeElement.focus();
-                //@ts-ignore
-                this.renameTextarea?.nativeElement.setSelectionRange(0, this.card?.text[this._settingsService.lang].length)
-            } else {
-                this.renameModeOn = false;
-                if (this.card) this.cachedName = this.card.text;
-                this._interactionService.saveCards();
-            }
-        });
-    }
-
-    public cancelRename(event: MouseEvent) {
-        event.stopPropagation();
-        if (this.card.text) this.card.text = this.cachedName;
-        this.renameModeOn = false;
-    }
-
-    public endRenameOnFocusOut() {
-        setTimeout(() => {
-            if (this.renameModeOn) {
-                this.renameModeOn = false;
-                if (this.card) this.cachedName = this.card.text;
-                this._interactionService.saveCards();
-            }
-        }, 300);
     }
 }

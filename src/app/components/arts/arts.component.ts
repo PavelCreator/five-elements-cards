@@ -15,7 +15,7 @@ import { LocalStorageService } from "../../services/local-storage.service";
 @Component({
     selector: 'app-arts',
     standalone: true,
-    imports: [ArtComponent, NgFor, CollectionHeaderComponent, NgIf],
+    imports: [ArtComponent, NgFor, CollectionHeaderComponent],
     templateUrl: 'arts.component.html',
     styleUrls: ['./arts.component.css'],
 })
@@ -96,6 +96,7 @@ export class ArtsComponent implements OnInit {
 
     ngOnInit() {
         const artsFromLocalStorage = this._localStorageService.loadArray('arts');
+        console.log('artsFromLocalStorage =', artsFromLocalStorage);
         if (artsFromLocalStorage) this.arts = artsFromLocalStorage;
 
         this._interactionService.removedArt$.subscribe(artToRemove => {
@@ -129,7 +130,7 @@ export class ArtsComponent implements OnInit {
     private _recalculateLevels() {
         arts.sort((a, b) => String(a.color).localeCompare(String(b.color))).reverse();
 
-        const colors: Color[] = ['red', 'purple', 'blue', 'green', 'white', 'black', 'mix'];
+        const colors: Color[] = ['red', 'purple', 'blue', 'green', 'white', 'black', 'mix', 'dice'];
         let levels: number[] = [];
 
         colors.forEach((color: Color) => {
@@ -150,9 +151,19 @@ export class ArtsComponent implements OnInit {
             }
             levels.forEach((level: number) => {
                 (this as {[key: string]: any})[color + level.toString()] = this.arts.filter(art => art.color === color && art.level === level).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
+                console.log('(this as {[key: string]: any})[color + level.toString()] =', (this as {[key: string]: any})[color + level.toString()]);
                 (this as {[key: string]: any})['need'+HelperService.ToPascalCase(color)+level.toString()] = this.cards.filter(card => card.level === level && (color !== 'mix' ? card.get[color] : !card.levelSpecial)).length;
                 (this as {[key: string]: any})['have'+HelperService.ToPascalCase(color)+level.toString()] = this.arts.filter(art => art.color === 'red' && art.level === 1 && !art.hidden).length;
             });
+            console.log('this.needRed1 =', this.needRed1);
+            console.log('this.haveRed1 =', this.haveRed1);
+            console.log('this.red1.length =', this.red1.length);
+            console.log('this.needRed2 =', this.needRed2);
+            console.log('this.haveRed2 =', this.haveRed2);
+            console.log('this.red2.length =', this.red2.length);
+            console.log('this.needRed3 =', this.needRed3);
+            console.log('this.haveRed3 =', this.haveRed3);
+            console.log('this.red3.length =', this.red3.length);
         });
         this._localStorageService.saveArray(this.arts, 'arts');
     }

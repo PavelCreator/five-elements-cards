@@ -122,9 +122,12 @@
     height: 104px;
     right: 0;
     text-align: center;
-    left: auto;
+    left: 3px;
     bottom: 31px;
     z-index: 7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     /*font-family: "Macondo", cursive;
     font-weight: 400;
@@ -138,6 +141,11 @@
     left: auto;
     bottom: -81px;
     z-index: 7;*/
+}
+
+.chaos-order-number {
+    position: absolute;
+    bottom: -18px;
 }
 
 .hexagon-inline{
@@ -167,6 +175,7 @@
 
 .art-name-chaos{
     text-align:center;
+    white-space: pre-wrap;
 }
 
 .hexagons-chaos-wrapper{

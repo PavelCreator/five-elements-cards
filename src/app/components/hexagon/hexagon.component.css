@@ -18,11 +18,11 @@
     }
 }
 .coin-chaos{
-    height:47px;
+    height: 44px;
     margin-bottom: -3px;
-    overflow:visible;
-    width:50px;
-    background-size:50px 47px;
+    overflow: visible;
+    width: 47px;
+    background-size: 47px 44px;
 
     .number-wrapper{
         font-size: 25px;

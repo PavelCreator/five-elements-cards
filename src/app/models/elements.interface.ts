@@ -5,5 +5,6 @@ export interface Elements {
     blue?: number,
     purple?: number,
     black?: number,
-    chaos?: number
+    chaos?: number,
+    dice?: number
 }

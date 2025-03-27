@@ -2035,6 +2035,38 @@ export const cards: Card[] = [
         }
     },
     {
+        orderNumber: 106.3,
+        level: 4,
+        levelSpecial: true,
+        pay: {
+            red: 6,
+            green: 6,
+            white: 6,
+            blue: 6,
+            purple: 0,
+            black: 6
+        },
+        get: {
+            purple: 3,
+        }
+    },
+    {
+        orderNumber: 106.4,
+        level: 4,
+        levelSpecial: true,
+        pay: {
+            red: 6,
+            green: 6,
+            white: 6,
+            blue: 6,
+            purple: 0,
+            black: 6
+        },
+        get: {
+            purple: 3,
+        }
+    },
+    {
         orderNumber: 107,
         level: 3,
         levelSpecial: true,
