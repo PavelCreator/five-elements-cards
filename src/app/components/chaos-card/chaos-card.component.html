@@ -7,7 +7,7 @@
 		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + chaosCardBackground + ')', transform: (card.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')}"></div>
 		<div class="card-overlay card-overlay-image" [ngStyle]="{'background-image': 'url(' + card.image + ')', transform: (card.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')}"></div>
     <div class="text-container text-container-chaos">
-        <div class="art-name art-name-chaos">
+        <div class="art-name-chaos">
 					<span class="text-block-before">{{ textBeforeTokens }}</span>
 					<app-hexagon *ngIf='textToken === "FIRE"' class="hexagon-chaos-wrapper" [color]="'red'" [type]="'chaos'" [number]="hexNumber"></app-hexagon>
 					<app-hexagon *ngIf='textToken === "WATER"' class="hexagon-chaos-wrapper" [color]="'blue'" [type]="'chaos'" [number]="hexNumber"></app-hexagon>
@@ -43,7 +43,7 @@
 
 					<span class="text-block-after">{{ textAfter2Tokens }}</span>
 				</div>
-				<div class="chaos-order-number">{{card.orderNumber}}</div>
+				<!--<div class="chaos-order-number">{{card.orderNumber}}</div>-->
     </div>
 
 		<div class="hover-buttons-wrapper" [ngStyle]="{'opacity': hovered ? '1' : '0'}">
