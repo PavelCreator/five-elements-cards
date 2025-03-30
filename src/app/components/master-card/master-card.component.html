@@ -4,6 +4,10 @@
 		 (mouseleave) ="hovered = false"
 >
 	<ng-container *ngIf="cardSide === 'front'">
+<!--		<div class="get-wrapper">
+			<app-hexagon [color]="'black'" [number]="5" [type]="'pay'"></app-hexagon>
+		</div>-->
+
 		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + card.image + ')'}"></div>
 
     <div class="text-container text-container-chaos text-container-master">
