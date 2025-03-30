@@ -11,17 +11,21 @@ import { Color } from "../../models/color.type";
 import { HelperService } from "../../services/helper.service";
 import { LocalStorageService } from "../../services/local-storage.service";
 import { ChaosCardComponent } from "../chaos-card/chaos-card.component";
+import { MasterCard } from "../../models/master-card.interface";
+import { masterCards } from "../../data/master-cards";
+import { MasterCardComponent } from "../master-card/master-card.component";
 
 @Component({
     selector: 'app-cards',
     standalone: true,
-    imports: [CardComponent, ChaosCardComponent, NgFor, CollectionHeaderComponent, NgIf],
+    imports: [CardComponent, ChaosCardComponent, MasterCardComponent, NgFor, CollectionHeaderComponent, NgIf],
     templateUrl: 'cards.component.html',
     styleUrls: ['./cards.component.css'],
 })
 export class CardsComponent implements OnInit {
     public cards: Card[] = cards;
     public chaosCards: ChaosCard[] = chaosCards;
+    public masterCards: MasterCard[] = masterCards;
 
     public red1: Card[] = [];
     public red2: Card[] = [];
@@ -169,7 +173,7 @@ export class CardsComponent implements OnInit {
     }
 
     private _recalculateLevels() {
-        const colors: Color[] = ['red', 'purple', 'blue', 'green', 'white', 'black', 'mix', 'dice'];
+        const colors: Color[] = ['red', 'purple', 'blue', 'green', 'white', 'black', 'mix', 'dice', 'master'];
         let levels: number[] = [];
 
         colors.forEach((color: Color) => {

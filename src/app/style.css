@@ -30,15 +30,15 @@
     z-index:5;
 }
 .card-overlay{
-    position:absolute;
+    position: absolute;
     width: 236px;
-    height: 332px;
-    top:0;
-    left:0;
-    border-radius:12px;
-    background-size: 239px 334px;
-    z-index:3;
-    transition:transform .3s ease-out;
+    height: 331.5px;
+    top: 0;
+    left: 0;
+    border-radius: 12px;
+    background-size: 236px 331.5px;
+    z-index: 3;
+    transition: transform .3s ease-out;
 }
 .card-overlay-image{
     z-index: 2;
@@ -143,6 +143,16 @@
     z-index: 7;*/
 }
 
+.text-container-master {
+    width: 220px;
+    left: 0px;
+    bottom: 2px;
+}
+
+.description-master-line {
+    font-size: 20px;
+}
+
 .chaos-order-number {
     position: absolute;
     bottom: -18px;
@@ -182,6 +192,23 @@
     -webkit-text-stroke-width: 0px;
 }
 
+.description-master-line-text {
+    position:relative;
+    top: 2px;
+}
+
+.header-master-line {
+    font-family: "Macondo", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 26px;
+    line-height: 28px;
+    position: absolute;
+    color: #000;
+    z-index: 7;
+    top: -8px;
+}
+
 .hexagons-chaos-wrapper{
     display: inline-flex;
     position: relative;
@@ -197,6 +224,15 @@
     margin-top: -20px;
     padding-bottom: 14px;
 }
+
+.hexagons-master-wrapper {
+    top: 22px;
+}
+
+.hexagon-master-wrapper {
+    top: 10px;
+}
+
 .art-name-textarea{
     background:transparent;
     resize:none;

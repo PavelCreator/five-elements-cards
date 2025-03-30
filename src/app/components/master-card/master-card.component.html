@@ -1,0 +1,31 @@
+<div class="card chaos-card"
+		 [ngStyle]="{'border': '3px solid '+ borderColor}"
+		 (mouseenter) ="hovered = true"
+		 (mouseleave) ="hovered = false"
+>
+	<ng-container *ngIf="cardSide === 'front'">
+		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + card.image + ')'}"></div>
+
+    <div class="text-container text-container-chaos text-container-master">
+      					<div class="header-master-line">{{ card.text.en }}</div>
+			<div class="art-name-chaos">
+					<div class="description-master-line">
+						<div class="hexagons-chaos-wrapper hexagons-master-wrapper">
+							<app-hexagon class="hexagon-inline" *ngIf="card.color !== 'red'" [color]="'red'" [type]="'chaos'"></app-hexagon>
+							<app-hexagon class="hexagon-inline" *ngIf="card.color !== 'blue'" [color]="'blue'" [type]="'chaos'"></app-hexagon>
+							<app-hexagon class="hexagon-inline" *ngIf="card.color !== 'white'" [color]="'white'" [type]="'chaos'"></app-hexagon>
+							<app-hexagon class="hexagon-inline" *ngIf="card.color !== 'green'" [color]="'green'" [type]="'chaos'"></app-hexagon>
+						</div>
+						<span class="description-master-line-text">{{ canBeUsedAs.en }}</span>
+						<app-hexagon class="hexagon-chaos-wrapper hexagon-master-wrapper" *ngIf="card.color === 'red'" [color]="'red'" [type]="'chaos'"></app-hexagon>
+						<app-hexagon class="hexagon-chaos-wrapper hexagon-master-wrapper" *ngIf="card.color === 'blue'" [color]="'blue'" [type]="'chaos'"></app-hexagon>
+						<app-hexagon class="hexagon-chaos-wrapper hexagon-master-wrapper" *ngIf="card.color === 'white'" [color]="'white'" [type]="'chaos'"></app-hexagon>
+						<app-hexagon class="hexagon-chaos-wrapper hexagon-master-wrapper" *ngIf="card.color === 'green'" [color]="'green'" [type]="'chaos'"></app-hexagon>
+					</div>
+				</div>
+    </div>
+	</ng-container>
+	<ng-container *ngIf="cardSide === 'back'">
+		<div class="card-overlay" [ngStyle]="{'background-image': 'url(\'./assets/back_cards/master9.jpg\')'}"></div>
+	</ng-container>
+</div>

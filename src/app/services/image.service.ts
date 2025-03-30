@@ -17,6 +17,10 @@ export class ImageService {
         if (card.level === 1) return './assets/back_cards/chaos.jpg';
         break;
 
+      case 'master':
+        if (card.level === 1) return './assets/back_cards/master3.png';
+        break;
+
       case 'red':
       case 'green':
       case 'blue':
