@@ -2,16 +2,17 @@
     --content-padding:10px;
 }
 .card{
-    border:3px solid grey;
-    border-radius:15px;
-    width: 241px;
-    height: 337px;
-    margin:5px;
-    box-sizing:border-box;
-    position:relative;
-    background-size: 241px 337px;
-    backdrop-filter:sepia(90%);
-    cursor:auto;
+    border: 3px solid grey;
+    border-radius: 15px;
+    width: 240px;
+    height: 332.6px;
+    margin: 5px;
+    box-sizing: border-box;
+    position: relative;
+    background-size: 240px 332.6px;
+    -webkit-backdrop-filter: sepia(90%);
+    backdrop-filter: sepia(90%);
+    cursor: auto;
 }
 .chaos-card{
     display: flex;
@@ -20,8 +21,8 @@
 }
 .card-hidden-overlay{
     position:absolute;
-    width:237px;
-    height:332px;
+    width:236px;
+    height:327.6px;
     top:0;
     left:0;
     background:black;
@@ -31,8 +32,8 @@
 }
 .card-overlay{
     position: absolute;
-    width: 236px;
-    height: 331.5px;
+    width: 235px;
+    height: 327.1px;
     top: 0;
     left: 0;
     border-radius: 12px;
@@ -128,19 +129,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    /*font-family: "Macondo", cursive;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 23px;
-    position: relative;
-    color: black;
-    width: 194px;
-    right: 0;
-    text-align: center;
-    left: auto;
-    bottom: -81px;
-    z-index: 7;*/
 }
 
 .text-container-master {

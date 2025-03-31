@@ -4,6 +4,7 @@ import { Card } from "../models/card.interface";
 import { Art } from "../models/art.interface";
 import { CardSide } from "../models/card-side.type";
 import { ChaosCard } from "../models/chaos-card.interface";
+import { Visibility } from "../models/visibility.type";
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +62,9 @@ export class InteractionService {
   private _cardsSideSubject$: BehaviorSubject<CardSide> = new BehaviorSubject<CardSide>('front');
   public cardsSide$: Observable<CardSide> = this._cardsSideSubject$.asObservable();
 
+  private _collectionHeaderStateSubject$: BehaviorSubject<Visibility> = new BehaviorSubject<Visibility>('visible');
+  public collectionHeaderState$: Observable<Visibility> = this._collectionHeaderStateSubject$.asObservable();
+
   private _selectedViewModeSubject$: BehaviorSubject<number | undefined> = new BehaviorSubject<number | undefined>(undefined);
   public selectedViewMode$: Observable<number | undefined> = this._selectedViewModeSubject$.asObservable();
 
@@ -116,6 +120,10 @@ export class InteractionService {
 
   public setCardsSide(inSide: CardSide) {
     this._cardsSideSubject$.next(inSide);
+  }
+
+  public changeCollectionHeaderState(collectionHeaderState: Visibility) {
+    this._collectionHeaderStateSubject$.next(collectionHeaderState);
   }
 
   public toggleArtSelection(inArt: Art) {

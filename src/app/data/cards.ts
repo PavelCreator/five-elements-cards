@@ -2464,6 +2464,102 @@ export const cards: Card[] = [
             green: 1
         }
     },
+    {
+        orderNumber: 127,
+        level: 4,
+        levelSpecial: true,
+        pay: {
+            red: 0,
+            green: 0,
+            white: 0,
+            blue: 1,
+            purple: 9,
+            black: 0
+        },
+        get: {
+            black: 3
+        }
+    },
+    {
+        orderNumber: 127.2,
+        level: 4,
+        levelSpecial: true,
+        pay: {
+            red: 0,
+            green: 0,
+            white: 0,
+            blue: 1,
+            purple: 9,
+            black: 0
+        },
+        get: {
+            black: 3
+        }
+    },
+    {
+        orderNumber: 127.3,
+        level: 4,
+        levelSpecial: true,
+        pay: {
+            red: 0,
+            green: 0,
+            white: 0,
+            blue: 1,
+            purple: 9,
+            black: 0
+        },
+        get: {
+            black: 3
+        }
+    },
+    {
+        orderNumber: 127.4,
+        level: 4,
+        levelSpecial: true,
+        pay: {
+            red: 0,
+            green: 0,
+            white: 0,
+            blue: 1,
+            purple: 9,
+            black: 0
+        },
+        get: {
+            black: 3
+        }
+    },
+    {
+        orderNumber: 127.5,
+        level: 4,
+        levelSpecial: true,
+        pay: {
+            red: 0,
+            green: 0,
+            white: 0,
+            blue: 1,
+            purple: 9,
+            black: 0
+        },
+        get: {
+            black: 3
+        }
+    },
+    {
+        orderNumber: 127.6,
+        level: 4,
+        levelSpecial: true,
+        pay: {
+            red: 0,
+            green: 0,
+            white: 0,
+            blue: 1,
+            purple: 9,
+            black: 0
+        },
+        get: {
+            black: 3
+        }
+    }
 ];
 console.log('Cards count =', cards.length);
 console.log('Cards 1 level =', cards.filter(card => card.level === 1 && card.levelSpecial === false).length);

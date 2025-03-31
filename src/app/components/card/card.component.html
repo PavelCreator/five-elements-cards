@@ -6,12 +6,9 @@
 >
 	<ng-container *ngIf="cardSide === 'front'">
     <div class="pay-wrapper">
-        <app-hexagon *ngIf="card.pay.green" [color]="'green'" [number]="card.pay.green" [type]="'pay'"></app-hexagon>
-        <app-hexagon *ngIf="card.pay.white" [color]="'white'" [number]="card.pay.white" [type]="'pay'"></app-hexagon>
-        <app-hexagon *ngIf="card.pay.blue" [color]="'blue'" [number]="card.pay.blue" [type]="'pay'"></app-hexagon>
-        <app-hexagon *ngIf="card.pay.red" [color]="'red'" [number]="card.pay.red" [type]="'pay'"></app-hexagon>
-        <app-hexagon *ngIf="card.pay.purple" [color]="'purple'" [number]="card.pay.purple" [type]="'pay'"></app-hexagon>
-        <app-hexagon *ngIf="card.pay.black" [color]="'black'" [number]="card.pay.black" [type]="'pay'"></app-hexagon>
+				<ng-container *ngFor="let item of card.pay | keys">
+					<app-hexagon *ngIf="item.value"  [color]="item.key" [number]="item.value" [type]="'pay'"></app-hexagon>
+				</ng-container>
     </div>
     <div class="get-wrapper">
         <app-hexagon *ngIf="card.get.green" [color]="'green'" [number]="card.get.green" [type]="typeOfGetHexagon"></app-hexagon>

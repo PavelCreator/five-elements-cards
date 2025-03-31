@@ -14,6 +14,7 @@ import { ChaosCardComponent } from "../chaos-card/chaos-card.component";
 import { MasterCard } from "../../models/master-card.interface";
 import { masterCards } from "../../data/master-cards";
 import { MasterCardComponent } from "../master-card/master-card.component";
+import { Visibility } from "../../models/visibility.type";
 
 @Component({
     selector: 'app-cards',
@@ -26,6 +27,7 @@ export class CardsComponent implements OnInit {
     public cards: Card[] = cards;
     public chaosCards: ChaosCard[] = chaosCards;
     public masterCards: MasterCard[] = masterCards;
+    public showCollectionHeader: boolean = true;
 
     public red1: Card[] = [];
     public red2: Card[] = [];
@@ -101,43 +103,6 @@ export class CardsComponent implements OnInit {
     ngOnInit() {
         const cardsFromLocalStorage = this._localStorageService.loadArray('cards');
         if (cardsFromLocalStorage) this.cards = cardsFromLocalStorage;
-        /*this.cards = this.cards.filter((card) => {
-            return card.orderNumber !== 106.4 && card.orderNumber !== 106.3
-        })
-        this.cards.push({
-            orderNumber: 106.3,
-            level: 4,
-            levelSpecial: true,
-            pay: {
-                red: 6,
-                green: 6,
-                white: 6,
-                blue: 6,
-                purple: 0,
-                black: 6
-            },
-            get: {
-                purple: 3,
-            }
-        })
-        this.cards.push({
-            orderNumber: 106.4,
-            level: 4,
-            levelSpecial: true,
-            pay: {
-                red: 6,
-                green: 6,
-                white: 6,
-                blue: 6,
-                purple: 0,
-                black: 6
-            },
-            get: {
-                purple: 3,
-            }
-        })
-
-        this._localStorageService.saveArray(this.cards, 'cards');*/
 
         const colors: Color[] = ['red', 'purple', 'blue', 'white', 'black', 'green'];
         this.cards.forEach((card: Card) => {
@@ -154,6 +119,10 @@ export class CardsComponent implements OnInit {
 
         this._interactionService.recalculateCards$.subscribe(() => {
             this._recalculateLevels();
+        });
+
+        this._interactionService.collectionHeaderState$.subscribe((state: Visibility) => {
+            this.showCollectionHeader = state === 'visible';
         });
 
         this._interactionService.saveCards$.subscribe(() => {

@@ -1,4 +1,3 @@
-import { Art } from "./art.interface";
 import { BoundingClientRect } from "./bounding-client-rect.interface";
 
 export interface ChaosCard {

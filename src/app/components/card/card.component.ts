@@ -1,5 +1,5 @@
-import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { NgIf, NgStyle } from "@angular/common";
+import { Component, ElementRef, Input, OnInit, Pipe, PipeTransform, Renderer2, ViewChild } from '@angular/core';
+import { KeyValue, KeyValuePipe, NgForOf, NgIf, NgStyle } from "@angular/common";
 import { HexagonComponent } from "../hexagon/hexagon.component";
 import { InteractionService } from "../../services/interaction.service";
 import { Card } from "../../models/card.interface";
@@ -10,6 +10,20 @@ import { ImageService } from "../../services/image.service";
 import { CardSide } from "../../models/card-side.type";
 import { ChaosCard } from "../../models/chaos-card.interface";
 
+@Pipe({
+    name: 'keys',
+    standalone: true
+})
+export class KeysPipe implements PipeTransform {
+  transform(value: any) : any {
+    let keys = [];
+    for (let key in value) {
+      keys.push({key: key, value: value[key]});
+    }
+    return keys;
+  }
+}
+
 @Component({
     selector: 'app-card',
     templateUrl: './card.component.html',
@@ -18,8 +32,10 @@ import { ChaosCard } from "../../models/chaos-card.interface";
         NgStyle,
         HexagonComponent,
         NgIf,
+        NgForOf,
         FormsModule,
-        TextareaAutoresizeDirective
+        TextareaAutoresizeDirective,
+        KeysPipe
     ],
     styleUrls: ['../../style.css']
 })
@@ -27,6 +43,10 @@ export class CardComponent implements OnInit {
     // @ts-ignore
     @Input() card: Card = {} as Card;
     @ViewChild('renameTextarea') renameTextarea: ElementRef | undefined;
+
+    private onCompare(_left: KeyValue<any, any>, _right: KeyValue<any, any>): number {
+        return -1;
+    }
 
     public borderColor: string | undefined = 'grey';
     public cardSide: CardSide = 'front';
@@ -58,6 +78,10 @@ export class CardComponent implements OnInit {
                 left: viewportOffset.left
             }
         })
+
+        this.card.pay = Object.fromEntries(
+            Object.entries(this.card.pay).sort(([, a], [, b]) => a - b)
+        );
 
         this._interactionService.selectedCard$.subscribe((inCard: Card | ChaosCard | undefined) => {
             if (inCard === undefined && this.card.isSelected) {
