@@ -1,3 +1,9 @@
+.root-wrapper {
+    background-image: url("https://t4.ftcdn.net/jpg/00/91/52/97/240_F_91529780_65ZXIqvXTc2g9LHbkWsNpyt5AP37egSb.jpg");
+    background-repeat: repeat;
+    background-attachment: scroll;
+    scrollbar-color: #ff7300 cornsilk;
+}
 :host{
     --content-padding:10px;
 }
@@ -11,6 +17,7 @@
     -webkit-backdrop-filter: sepia(90%);
     backdrop-filter: sepia(90%);
     cursor: auto;
+    border-radius:12px;
 }
 .chaos-card{
     display: flex;
@@ -18,7 +25,8 @@
     justify-content: center;
 }
 .card-hidden-overlay{
-    /*position:absolute;*/
+    position:absolute;
+    border-radius:12px;
     width: 240px;
     height: 332.1px;
     top:0;
@@ -28,6 +36,7 @@
     z-index:5;
 }
 .card-overlay{
+    border-radius:12px;
     transform: rotate(180deg);
     position: absolute;
     width: 240px;

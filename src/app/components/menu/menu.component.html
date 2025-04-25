@@ -1,10 +1,7 @@
 <div class="menu-wrapper" *ngIf="showMenu">
-	<div class="menu-item menu-visibility" *ngIf="menuVisibility === 'expanded'" (click)="changeVisibilityMode('collapsed')">>>> HIDE MENU >>></div>
-	<div class="menu-item menu-visibility" *ngIf="menuVisibility === 'collapsed'" (click)="changeVisibilityMode('expanded')">S<br/>H<br/>O<br/>W<br/><br/>M<br/>E<br/>N<br/>U</div>
-	<div class="menu-collapse-area"[ngStyle]="{
-	'height': menuVisibility === 'expanded' ? 'fit-content' : '0px',
-	'width': menuVisibility === 'expanded' ? 'fit-content' : '30px'
-	}">
+	<div class="menu-item menu-visibility" *ngIf="menuVisibility === 'expanded'" (click)="changeVisibilityMode('collapsed')">⮞⮞⮞  HIDE MENU ⮞⮞⮞</div>
+	<div class="menu-item menu-visibility" *ngIf="menuVisibility === 'collapsed'" (click)="changeVisibilityMode('expanded')">⮜<br/>S<br/>H<br/>O<br/>W<br/><br/>M<br/>E<br/>N<br/>U<br/>⮜</div>
+	<div class="menu-collapse-area" *ngIf="menuVisibility === 'expanded'">
 		<br>
 		<div class="menu-item" [ngStyle]="{'color': selectedMenuItem === 1 ? 'blue' : 'black' }" (click)="selectViewMode(1)">
 			* Cards only

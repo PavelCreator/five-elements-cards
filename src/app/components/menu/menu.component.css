@@ -10,6 +10,10 @@
     z-index:10000;
     background-color:cornsilk;
     padding:21px;
+    width:fit-content;
+    height:fit-content;
+    transition:height 0.5s ease;
+    transition:width 0.5s ease;
 
     border-radius:15px;
     border:1px solid #000;
@@ -19,11 +23,4 @@
 }
 .menu-item{
     cursor:pointer;
-}
-.menu-collapse-area{
-    overflow:hidden;
-    transition:height 0.1s ease;
-    transition:width 0.1s ease;
-    height:fit-content;
-    width:240px;
 }
