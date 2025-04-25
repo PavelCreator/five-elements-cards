@@ -2,14 +2,12 @@
     --content-padding:10px;
 }
 .card{
-    border: 3px solid grey;
-    border-radius: 15px;
-    width: 240px;
-    height: 332.6px;
+    width: 239px;
+    height: 331.6px;
     margin: 5px;
     box-sizing: border-box;
     position: relative;
-    background-size: 240px 332.6px;
+    background-size: 239px 331.6px;
     -webkit-backdrop-filter: sepia(90%);
     backdrop-filter: sepia(90%);
     cursor: auto;
@@ -20,26 +18,31 @@
     justify-content: center;
 }
 .card-hidden-overlay{
-    position:absolute;
-    width:236px;
-    height:327.6px;
+    /*position:absolute;*/
+    width: 240px;
+    height: 332.1px;
     top:0;
     left:0;
     background:black;
     opacity:0.7;
-    border-radius:15px;
     z-index:5;
 }
 .card-overlay{
+    transform: rotate(180deg);
     position: absolute;
-    width: 235px;
-    height: 327.1px;
+    width: 240px;
+    height: 332.1px;
     top: 0;
     left: 0;
-    border-radius: 12px;
-    background-size: 236px 331.5px;
+    background-size: 240px 337.5px;
     z-index: 3;
     transition: transform .3s ease-out;
+}
+.card-overlay-back {
+    background-size: 241px 333.5px;
+}
+.card-overlay-masters {
+
 }
 .card-overlay-image{
     z-index: 2;

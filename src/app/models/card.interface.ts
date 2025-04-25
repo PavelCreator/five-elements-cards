@@ -14,4 +14,5 @@ export interface Card {
     disabled?: boolean;
     isSelected?: boolean;
     boundingClientRect?: BoundingClientRect;
+    hidden?: boolean;
 }

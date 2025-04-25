@@ -6,6 +6,7 @@ export interface ChaosCard {
         en: string;
     },
     orderNumber: number;
+    hidden?: boolean;
     isSelected?: boolean;
     image?: string;
     horizontalReverse?: boolean;

@@ -59,6 +59,7 @@ export class CardComponent implements OnInit {
     public hovered: boolean = false;
     public renameModeOn: boolean = false;
     public cardBackUrl: string = '';
+    public showDisabledCard: boolean = false;
 
     constructor(
         private _interactionService: InteractionService,
@@ -109,6 +110,12 @@ export class CardComponent implements OnInit {
         if (this.card.color === 'mix') {
             this.typeOfGetHexagon = 'getMix';
         }
+
+        this._interactionService.showDisabledCards$.subscribe((inShowHidden: boolean | undefined) => {
+            if (inShowHidden !== undefined) {
+                this.showDisabledCard = inShowHidden;
+            }
+        })
     }
 
     public toggleCardSelection() {
@@ -147,6 +154,13 @@ export class CardComponent implements OnInit {
             this.card.artData.horizontalReverse = !this.card.artData.horizontalReverse;
             this._interactionService.saveCards();
         }
+    }
+
+    public changeDisableState(event: MouseEvent, state: boolean) {
+        event.stopPropagation();
+        this.card.hidden = state;
+        this._interactionService.recalculateCards();
+        this._interactionService.saveCards();
     }
 
     public cachedName: string = '';

@@ -240,7 +240,7 @@ export const chaosCards: ChaosCard[] = [
             ru: '**ETHER--2**\nработает как\n**ETHER--1**',
             en: '**ETHER--2**\nworks as\n**ETHER--1**'
         },
-        image: 'https://cdn.midjourney.com/c261f725-8be5-484f-9483-aa12f7d8cc0d/0_2.png',
+        image: 'https://cdn.midjourney.com/9ab0017a-5ba7-46c5-843e-e27c65b343cd/0_3.png',
         orderNumber: 1030,
     },
     {

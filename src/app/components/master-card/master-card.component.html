@@ -1,5 +1,4 @@
 <div class="card chaos-card"
-		 [ngStyle]="{'border': '3px solid '+ borderColor}"
 		 (mouseenter) ="hovered = true"
 		 (mouseleave) ="hovered = false"
 >
@@ -30,6 +29,6 @@
     </div>
 	</ng-container>
 	<ng-container *ngIf="cardSide === 'back'">
-		<div class="card-overlay" [ngStyle]="{'background-image': 'url(\'./assets/back_cards/master9.jpg\')'}"></div>
+		<div class="card-overlay card-overlay-back" [ngStyle]="{'background-image': 'url(\'./assets/back_cards/master9.jpg\')'}"></div>
 	</ng-container>
 </div>

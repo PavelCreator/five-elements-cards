@@ -1,9 +1,10 @@
 <div class="card chaos-card"
-		 [ngStyle]="{'border': '3px solid '+ borderColor}"
+		 *ngIf="!card.hidden || (card.hidden && showDisabledCard)"
 		 (mouseenter) ="hovered = true"
 		 (mouseleave) ="hovered = false"
 >
 	<ng-container *ngIf="cardSide === 'front'">
+		<div class="card-hidden-overlay" *ngIf="card.hidden"></div>
 		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + chaosCardBackground + ')', transform: (card.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')}"></div>
 		<div class="card-overlay card-overlay-image" [ngStyle]="{'background-image': 'url(' + card.image + ')', transform: (card.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')}"></div>
     <div class="text-container text-container-chaos">
@@ -49,9 +50,11 @@
 		<div class="hover-buttons-wrapper" [ngStyle]="{'opacity': hovered ? '1' : '0'}">
 			<div class="hover-button" *ngIf="!card.horizontalReverse" (click)="flip($event)">Flip Horizontal</div>
 			<div class="hover-button" *ngIf="card.horizontalReverse" (click)="flip($event)">Unflip Horizontal</div>
+			<div class="hover-button hover-button-cancel" *ngIf="!card.hidden" (click)="changeDisableState($event, true)">Disable Card</div>
+			<div class="hover-button hover-button-confirm" *ngIf="card.hidden" (click)="changeDisableState($event, false)">Enable Card</div>
 		</div>
 	</ng-container>
 	<ng-container *ngIf="cardSide === 'back'">
-		<div class="card-overlay" [ngStyle]="{'background-image': 'url(\'./assets/back_cards/chaos3.png\')'}"></div>
+		<div class="card-overlay" [ngStyle]="{'background-image': 'url(\'./assets/back_cards/chaos3.jpg\')'}"></div>
 	</ng-container>
 </div>

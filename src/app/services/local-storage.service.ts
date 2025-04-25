@@ -24,6 +24,7 @@ export class LocalStorageService {
 
     public setItem(key: string, value: string): void {
         localStorage.setItem(key, value);
+        3
     }
 
     public getItem(key: string): string | null {

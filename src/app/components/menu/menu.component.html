@@ -26,6 +26,8 @@
 		<div class="menu-item">* Generate Array</div>
 		<div class="menu-item" *ngIf="disabledArtVisibility === 'hidden'" (click)="showDisabledArtVisibility()">* Show Disabled Arts</div>
 		<div class="menu-item" *ngIf="disabledArtVisibility === 'visible'" (click)="hideDisabledArtVisibility()">* Hide Disabled Arts</div>
+		<div class="menu-item" *ngIf="disabledCardVisibility === 'hidden'" (click)="showDisabledCardVisibility()">* Show Disabled Cards</div>
+		<div class="menu-item" *ngIf="disabledCardVisibility === 'visible'" (click)="hideDisabledCardVisibility()">* Hide Disabled Cards</div>
 		<div class="menu-item" *ngIf="cardSide === 'front'" (click)="showCardsSide('back')">* Show Back Of Cards</div>
 		<div class="menu-item" *ngIf="cardSide === 'back'" (click)="showCardsSide('front')">* Show Front Of Cards</div>
 		<div class="menu-item" *ngIf="collectionHeaderState === 'hidden'" (click)="changeCollectionHeaderState('visible')">* Show Collection Header</div>

@@ -18,6 +18,7 @@ export class MenuComponent {
     public selectedMenuItem: number = 3;
     public menuVisibility: MenuVisibilityMode;
     public disabledArtVisibility: Visibility = 'hidden';
+    public disabledCardVisibility: Visibility = 'hidden';
     public collectionHeaderState: Visibility = 'visible';
     public cardSide: CardSide = 'front';
     public showMenu: boolean = true;
@@ -42,6 +43,26 @@ export class MenuComponent {
                 this.showDisabledArtVisibility();
             }
         }
+
+        const disabledCardVisibilityFromLocalStorage: string | null = this._localStorageService.getItem('disabledCardVisibility');
+        if (disabledCardVisibilityFromLocalStorage) {
+            if (disabledCardVisibilityFromLocalStorage === 'hidden') {
+                this.hideDisabledCardVisibility();
+            }
+            if (disabledCardVisibilityFromLocalStorage === 'visible') {
+                this.showDisabledCardVisibility();
+            }
+        }
+
+        const collectionHeaderVisibilityFromLocalStorage: string | null = this._localStorageService.getItem('collectionHeaderVisibility');
+        if (collectionHeaderVisibilityFromLocalStorage) {
+            if (collectionHeaderVisibilityFromLocalStorage === 'hidden') {
+                this.changeCollectionHeaderState('hidden');
+            }
+            if (collectionHeaderVisibilityFromLocalStorage === 'visible') {
+                this.changeCollectionHeaderState('visible');
+            }
+        }
     }
 
     public selectViewMode(inSelectedMenuIndex: number) {
@@ -62,6 +83,18 @@ export class MenuComponent {
         this._interactionService.setDisabledArtVisibility(false);
     }
 
+    public showDisabledCardVisibility() {
+        this.disabledCardVisibility = 'visible';
+        this._localStorageService.setItem('disabledCardVisibility', 'visible');
+        this._interactionService.setDisabledCardVisibility(true);
+    }
+
+    public hideDisabledCardVisibility() {
+        this.disabledCardVisibility = 'hidden';
+        this._localStorageService.setItem('disabledCardVisibility', 'hidden');
+        this._interactionService.setDisabledCardVisibility(false);
+    }
+
     public changeVisibilityMode(visibilityMode: MenuVisibilityMode) {
         this.menuVisibility = visibilityMode;
         this._localStorageService.setItem('menuVisibilityMode', visibilityMode);
@@ -79,6 +112,7 @@ export class MenuComponent {
 
     public changeCollectionHeaderState(collectionHeaderState: Visibility) {
         this.collectionHeaderState = collectionHeaderState;
+        this._localStorageService.setItem('collectionHeaderVisibility', collectionHeaderState);
         this._interactionService.changeCollectionHeaderState(collectionHeaderState);
     }
 }

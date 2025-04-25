@@ -101,8 +101,12 @@ export class CardsComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log('All cards length =', this.cards.length + this.masterCards.length + this.chaosCards.length);
         const cardsFromLocalStorage = this._localStorageService.loadArray('cards');
         if (cardsFromLocalStorage) this.cards = cardsFromLocalStorage;
+
+        const chaosCardsFromLocalStorage = this._localStorageService.loadArray('chaosCards');
+        if (chaosCardsFromLocalStorage) this.chaosCards = chaosCardsFromLocalStorage;
 
         const colors: Color[] = ['red', 'purple', 'blue', 'white', 'black', 'green'];
         this.cards.forEach((card: Card) => {
@@ -127,6 +131,7 @@ export class CardsComponent implements OnInit {
 
         this._interactionService.saveCards$.subscribe(() => {
             this._localStorageService.saveArray(this.cards, 'cards');
+            this._localStorageService.saveArray(this.chaosCards, 'chaosCards');
         });
 
         this._interactionService.recalculateChaosCards$.subscribe(() => {

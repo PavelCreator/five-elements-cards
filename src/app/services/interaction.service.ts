@@ -59,6 +59,9 @@ export class InteractionService {
   private _showDisabledArtsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public showDisabledArts$: Observable<boolean> = this._showDisabledArtsSubject$.asObservable();
 
+  private _showDisabledCardsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public showDisabledCards$: Observable<boolean> = this._showDisabledCardsSubject$.asObservable();
+
   private _cardsSideSubject$: BehaviorSubject<CardSide> = new BehaviorSubject<CardSide>('front');
   public cardsSide$: Observable<CardSide> = this._cardsSideSubject$.asObservable();
 
@@ -116,6 +119,10 @@ export class InteractionService {
 
   public setDisabledArtVisibility(inShowHidden: boolean) {
     this._showDisabledArtsSubject$.next(inShowHidden);
+  }
+
+  public setDisabledCardVisibility(inShowHidden: boolean) {
+    this._showDisabledCardsSubject$.next(inShowHidden);
   }
 
   public setCardsSide(inSide: CardSide) {

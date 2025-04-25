@@ -1,9 +1,10 @@
 <div class="card"
-		 [ngStyle]="{'border': '3px solid '+ borderColor}"
+		 *ngIf="!card.hidden || (card.hidden && showDisabledCard)"
 		 (click)="toggleCardSelection()"
 		 (mouseenter) ="hovered = true"
 		 (mouseleave) ="hovered = false"
 >
+	<div class="card-hidden-overlay" *ngIf="card.hidden"></div>
 	<ng-container *ngIf="cardSide === 'front'">
     <div class="pay-wrapper">
 				<ng-container *ngFor="let item of card.pay | keys">
@@ -37,6 +38,8 @@
 
 		<div class="hover-buttons-wrapper" *ngIf="card.artData" [ngStyle]="{'opacity': hovered ? '1' : '0'}">
 			<div class="hover-button hover-button-cancel" (click)="removeArt($event)">Remove Art</div>
+			<div class="hover-button hover-button-cancel" *ngIf="!card.hidden" (click)="changeDisableState($event, true)">Disable Card</div>
+			<div class="hover-button hover-button-confirm" *ngIf="card.hidden" (click)="changeDisableState($event, false)">Enable Card</div>
 			<div class="hover-button" *ngIf="!card.artData?.horizontalReverse" (click)="flip($event)">Flip Horizontal</div>
 			<div class="hover-button" *ngIf="card.artData?.horizontalReverse" (click)="flip($event)">Unflip Horizontal</div>
 			<div class="hover-button" *ngIf="!renameModeOn" (click)="toggleRename($event, true)">Rename</div>
@@ -45,6 +48,6 @@
 		</div>
 	</ng-container>
 	<ng-container *ngIf="cardSide === 'back'">
-		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + cardBackUrl + ')', transform: (cardSideAnimation === true ? 'scaleX(1)' : 'scaleX(-1)')}"></div>
+		<div class="card-overlay card-overlay-back" [ngStyle]="{'background-image': 'url(' + cardBackUrl + ')'}"></div>
 	</ng-container>
 </div>
