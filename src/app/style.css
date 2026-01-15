@@ -125,6 +125,22 @@
     bottom:15px;
     z-index:7;
 }
+.text-container-warning{
+    font-family:"Macondo", cursive;
+    font-weight:400;
+    font-style:normal;
+    font-size:15px;
+    line-height:16px;
+    position:absolute;
+    color:#fff;
+    width:120px;
+    right:auto;
+    bottom:auto;
+    text-align:left;
+    left:15px;
+    top:15px;
+    z-index:7;
+}
 
 .text-container-chaos{
     font-size: 22px;

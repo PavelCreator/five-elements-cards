@@ -23,6 +23,9 @@
     <div class="order-num">{{ card.orderNumber }}</div>
 		<div class="card-overlay" *ngIf="card.artData" [ngStyle]="{'background-image': 'url(' + card.artData.picturePath + ')', transform: (card.artData.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')}"></div>
 		<!--<div class="card-overlay" *ngIf="!card.artData" [ngStyle]="{'background-image': 'url(' + cardBackUrl + ')'}"></div>-->
+    <div class="text-container text-container-warning" *ngIf="card.levelSpecial">
+        <div class="art-name">Limit: 1 card from deck per <p>player</p></div>
+    </div>
     <div class="text-container" (click)="toggleRename($event, true)">
         <div *ngIf="!renameModeOn" class="art-name">{{ card.artData?.name }}</div>
     </div>

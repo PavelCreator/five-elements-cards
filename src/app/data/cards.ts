@@ -542,7 +542,7 @@ export const cards: Card[] = [
             black: 0
         },
         get: {
-            white: 4
+            white: 1
         }
     },
     {
