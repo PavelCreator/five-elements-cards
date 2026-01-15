@@ -2282,7 +2282,7 @@
     "isSelected": false,
     "artData": {
         "picturePath": "https://cdn.midjourney.com/37c6bda8-9259-4d13-ad83-9579c294cfda/0_3.png",
-        "name": "Elder Air Elemental",
+        "name": "Lord of Air",
         "collection": "",
         "color": "purple",
         "level": 4,
@@ -2300,7 +2300,7 @@
     "isSelected": false,
     "artData": {
         "picturePath": "https://cdn.midjourney.com/14b6a50c-84c4-4282-9038-c02e72ac09bf/0_3.png",
-        "name": "Elder Earth Elemental",
+        "name": "Lord of Earth",
         "collection": "",
         "color": "purple",
         "level": 4,
@@ -2318,7 +2318,7 @@
     "isSelected": false,
     "artData": {
         "picturePath": "https://cdn.midjourney.com/68ecba9e-066d-4782-b4d0-3501dd55b51c/0_2.png",
-        "name": "Elder Fire Elemental",
+        "name": "Lord of Fire",
         "collection": "",
         "color": "purple",
         "level": 4,
@@ -2337,7 +2337,7 @@
     "isSelected": false,
     "artData": {
         "picturePath": "https://cdn.midjourney.com/0dd6f804-7e91-4261-a3b2-3eeab3b63302/0_0.png",
-        "name": "Elder Water Elemental",
+        "name": "Lord of Water",
         "collection": "",
         "color": "purple",
         "level": 4,
@@ -2798,7 +2798,7 @@
     "isSelected": false,
     "artData": {
         "picturePath": "https://cdn.midjourney.com/ffbcd527-c67a-4e3b-92e9-d28eea60d300/0_3.png",
-        "name": "Elder Magic Elemental",
+        "name": "Lord of Magic",
         "collection": "",
         "color": "purple",
         "level": 4,
@@ -2816,7 +2816,7 @@
     "isSelected": false,
     "artData": {
         "picturePath": "https://cdn.midjourney.com/521c2829-f424-495a-972c-80fb30b9f28f/0_3.png",
-        "name": "Elder Dark Elemental",
+        "name": "Lord of Dark",
         "horizontalReverse": true,
         "collection": "",
         "color": "purple",
