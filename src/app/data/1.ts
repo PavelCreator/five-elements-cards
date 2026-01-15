@@ -1642,7 +1642,7 @@
     "isSelected": false,
     "artData": {
         "picturePath": "https://cdn.midjourney.com/40a554f3-7de5-4bb4-867c-eb12d07e8e25/0_2.png",
-        "name": "Hellhounds",
+        "name": "Cerberus",
         "collection": "",
         "color": "red",
         "level": 2,
