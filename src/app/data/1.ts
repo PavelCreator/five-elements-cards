@@ -1068,7 +1068,7 @@
     "isSelected": false,
     "artData": {
         "picturePath": "https://cdn.midjourney.com/b36e04e2-5313-43e4-ae86-d30e9892d981/0_2.png",
-        "name": "Knig23ht",
+        "name": "Knight",
         "collection": "",
         "color": "white",
         "level": 2,
