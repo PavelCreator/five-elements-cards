@@ -26,22 +26,22 @@ export class HexagonComponent implements OnInit {
     ngOnInit() {
         switch (this.color) {
             case 'green':
-                this.hexUrl = './assets/hex/Hex-green-mj10.png';
+                this.hexUrl = './assets/hex/Hex-green-mj10' + (this.type === 'get' || this.type === 'getMix' ? '-card' : '') + '.png';
                 break;
             case 'white':
-                this.hexUrl = './assets/hex/Hex-white-mj3.png';
+                this.hexUrl = './assets/hex/Hex-white-mj3' + (this.type === 'get' || this.type === 'getMix' ? '-card' : '') + '.png';
                 break;
             case 'blue':
-                this.hexUrl = './assets/hex/Hex-blue-mj6.png';
+                this.hexUrl = './assets/hex/Hex-blue-mj6' + (this.type === 'get' || this.type === 'getMix' ? '-card' : '') + '.png';
                 break;
             case 'red':
-                this.hexUrl = './assets/hex/Hex-red-mj4.png';
+                this.hexUrl = './assets/hex/Hex-redd' + (this.type === 'get' || this.type === 'getMix' ? '-card' : '') + '.png';
                 break;
             case 'purple':
-                this.hexUrl = './assets/hex/Hex-purple-mj.png';
+                this.hexUrl = './assets/hex/Hex-purple-mj' + (this.type === 'get' || this.type === 'getMix' ? '-card' : '') + '.png';
                 break;
             case 'black':
-                this.hexUrl = './assets/hex/Hex-black-mj4.png';
+                this.hexUrl = './assets/hex/Hex-black-mj4' + (this.type === 'get' || this.type === 'getMix' ? '-card' : '') + '.png';
                 break;
             case 'mix':
                 this.hexUrl = './assets/hex/Hex-mix.png';
