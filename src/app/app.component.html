@@ -1,6 +1,17 @@
-<div class="root-wrapper">
-<app-cards class="cards-wrapper" [ngStyle]="{'height': cardsWrapperHeight }"></app-cards>
-<app-arts class="arts-wrapper" [ngStyle]="{'height': artsWrapperHeight }"></app-arts>
-<app-menu></app-menu>
-<app-art-to-card-animation></app-art-to-card-animation>
+<div class="tab-nav">
+	<button class="tab-nav__button" [class.tab-nav__button--active]="activeTab === 'collection'" (click)="setActiveTab('collection')">
+		Collection
+	</button>
+	<button class="tab-nav__button" [class.tab-nav__button--active]="activeTab === 'game'" (click)="setActiveTab('game')">
+		Game
+	</button>
 </div>
+
+<div class="root-wrapper" *ngIf="activeTab === 'collection'">
+	<app-cards class="cards-wrapper" [ngStyle]="{'height': cardsWrapperHeight }"></app-cards>
+	<app-arts class="arts-wrapper" [ngStyle]="{'height': artsWrapperHeight }"></app-arts>
+	<app-menu></app-menu>
+	<app-art-to-card-animation></app-art-to-card-animation>
+</div>
+
+<app-game-wrapper *ngIf="activeTab === 'game'"></app-game-wrapper>

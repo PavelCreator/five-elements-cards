@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/styles.css"],
-  "sourcesContent": ["/* You can add global styles to this file, and also import other style files */\r\n* {\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\nbody {\r\n  /*font-family: 'Be Vietnam Pro', sans-serif;*/\r\n  font-family: \"Skranji\", serif;\r\n  font-weight: 700;\r\n  font-style: normal;\r\n  /*text-shadow: 2px 2px #000;*/\r\n\r\n\r\n/*  font-family: \"MedievalSharp\", serif;\r\n  font-weight: 400;\r\n  font-style: normal;*/\r\n\r\n\r\n}\r\n:root {\r\n  --primary-color: #605DC8;\r\n  --secondary-color: #8B89E6;\r\n  --accent-color: #e8e7fa;\r\n  --shadow-color: #E8E8E8;\r\n}\r\n\r\nbutton.primary {\r\n  padding: 10px;\r\n  border: solid 1px var(--primary-color);\r\n  background: var(--primary-color);\r\n  color: white;\r\n  border-radius: 8px;\r\n}\r\n\r\n\r\n.cards-wrapper{\r\n    height:0vh;\r\n    overflow:scroll;\r\n    display:flex;\r\n    flex-wrap:wrap;\r\n    transition:height 1s ease;\r\n}\r\n.arts-wrapper{\r\n    height:0vh;\r\n    overflow:scroll;\r\n    display:flex;\r\n    flex-wrap:wrap;\r\n    transition:height 1s ease;\r\n}"],
-  "mappings": ";AACA;AACE,UAAQ;AACR,WAAS;AACX;AAEA;AAEE,eAAa,SAAS,EAAE;AACxB,eAAa;AACb,cAAY;AASd;AACA;AACE,mBAAiB;AACjB,qBAAmB;AACnB,kBAAgB;AAChB,kBAAgB;AAClB;AAEA,MAAM,CAAC;AACL,WAAS;AACT,UAAQ,MAAM,IAAI,IAAI;AACtB,cAAY,IAAI;AAChB,SAAO;AACP,iBAAe;AACjB;AAGA,CAAC;AACG,UAAO;AACP,YAAS;AACT,WAAQ;AACR,aAAU;AACV,cAAW,OAAO,GAAG;AACzB;AACA,CAAC;AACG,UAAO;AACP,YAAS;AACT,WAAQ;AACR,aAAU;AACV,cAAW,OAAO,GAAG;AACzB;",
-  "names": []
-}

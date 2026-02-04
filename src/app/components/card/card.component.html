@@ -6,6 +6,15 @@
 >
 	<div class="card-hidden-overlay" *ngIf="card.hidden"></div>
 	<ng-container *ngIf="cardSide === 'front'">
+		<div
+				class="card-overlay-wrap"
+				[ngStyle]="{
+      '--card-bg': 'url(' + card.artData?.picturePath + ')',
+      transform: (card.artData?.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')
+    }"
+		>
+			<div class="card-overlay"></div>
+		</div>
     <div class="pay-wrapper">
 				<ng-container *ngFor="let item of card.pay | keys">
 					<app-hexagon *ngIf="item.value"  [color]="item.key" [number]="item.value" [type]="'pay'"></app-hexagon>

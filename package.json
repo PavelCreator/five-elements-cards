@@ -40,5 +40,12 @@
     "protractor": "~7.0.0",
     "ts-node": "~10.9.0",
     "typescript": "~5.6.3"
+  },
+  "overrides": {
+    "vite": {
+      "esbuild": "0.24.0"
+    },
+    "esbuild": "0.24.0",
+    "@esbuild/*": "0.24.0"
   }
 }

@@ -5,6 +5,37 @@
     scrollbar-color: #ff7300 cornsilk;
 }
 
+.tab-nav{
+    position:fixed;
+    top:12px;
+    left:12px;
+    z-index:10001;
+    display:flex;
+    gap:8px;
+    padding:6px;
+    background:rgba(255, 248, 220, 0.85);
+    border-radius:12px;
+    border:1px solid rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(2px);
+}
+
+.tab-nav__button{
+    font-family:"Faculty Glyphic", sans-serif;
+    font-size:14px;
+    padding:6px 12px;
+    border-radius:10px;
+    border:1px solid transparent;
+    background:transparent;
+    cursor:pointer;
+    color:#333;
+}
+
+.tab-nav__button--active{
+    background:#ffffff;
+    border-color:#333;
+    box-shadow:0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
 :host{
     --content-padding:10px;
 }

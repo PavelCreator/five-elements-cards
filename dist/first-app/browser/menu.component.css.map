@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/components/menu/menu.component.css"],
-  "sourcesContent": [".menu-wrapper{\r\n    font-family:\"Faculty Glyphic\", sans-serif;\r\n    font-weight:400;\r\n    font-style:normal;\r\n\r\n    font-size:20px;\r\n    position:absolute;\r\n    top:0;\r\n    right:34px;\r\n    z-index:10000;\r\n    background-color:cornsilk;\r\n    padding:21px;\r\n    width:fit-content;\r\n    height:fit-content;\r\n    transition:height 0.5s ease;\r\n    transition:width 0.5s ease;\r\n\r\n    border-radius:15px;\r\n    border:1px solid #000;\r\n}\r\n.menu-visibility{\r\n    text-align:center;\r\n}\r\n.menu-item{\r\n    cursor:pointer;\r\n}"],
-  "mappings": ";AAAA,CAAC;AACG,eAAY,iBAAiB,EAAE;AAC/B,eAAY;AACZ,cAAW;AAEX,aAAU;AACV,YAAS;AACT,OAAI;AACJ,SAAM;AACN,WAAQ;AACR,oBAAiB;AACjB,WAAQ;AACR,SAAM;AACN,UAAO;AACP,cAAW,OAAO,KAAK;AACvB,cAAW,MAAM,KAAK;AAEtB,iBAAc;AACd,UAAO,IAAI,MAAM;AACrB;AACA,CAAC;AACG,cAAW;AACf;AACA,CAAC;AACG,UAAO;AACX;",
-  "names": []
-}

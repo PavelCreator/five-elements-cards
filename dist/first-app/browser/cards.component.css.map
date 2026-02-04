@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/components/cards/cards.component.css"],
-  "sourcesContent": [".level-wrapper {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n}\r\n:host {\r\n  overflow-x: hidden;\r\n}"],
-  "mappings": ";AAAA,CAAC;AACC,WAAS;AACT,aAAW;AACb;AACA;AACE,cAAY;AACd;",
-  "names": []
-}
