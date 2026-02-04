@@ -8,4 +8,9 @@ export interface Elements {
     chaos?: number,
     dice?: number,
     master?: number,
+    mix?: number,
+    mix2?: number,
+    mix6?: number,
+    oneOf4?: number
+    twoOf4?: number
 }

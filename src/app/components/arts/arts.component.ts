@@ -130,7 +130,7 @@ export class ArtsComponent implements OnInit {
     private _recalculateLevels() {
         arts.sort((a, b) => String(a.color).localeCompare(String(b.color))).reverse();
 
-        const colors: Color[] = ['red', 'purple', 'blue', 'green', 'white', 'black', 'mix', 'dice'];
+        const colors: Color[] = ['red', 'purple', 'blue', 'green', 'white', 'black', 'mix', 'mix2', 'mix6', 'dice'];
         let levels: number[] = [];
 
         colors.forEach((color: Color) => {
@@ -145,9 +145,12 @@ export class ArtsComponent implements OnInit {
                 case 'white':
                     levels = [1, 2, 3];
                     break;
-
                 case 'mix':
                     levels = [4];
+                    break;
+                case 'mix6':
+                case 'mix2':
+                    break;
             }
             levels.forEach((level: number) => {
                 (this as {[key: string]: any})[color + level.toString()] = this.arts.filter(art => art.color === color && art.level === level).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);

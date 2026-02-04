@@ -1,28 +1,31 @@
 .root-wrapper {
-    background-image: url("https://t4.ftcdn.net/jpg/00/91/52/97/240_F_91529780_65ZXIqvXTc2g9LHbkWsNpyt5AP37egSb.jpg");
+    /* background-image: url("https://t4.ftcdn.net/jpg/00/91/52/97/240_F_91529780_65ZXIqvXTc2g9LHbkWsNpyt5AP37egSb.jpg"); */
     background-repeat: repeat;
     background-attachment: scroll;
     scrollbar-color: #ff7300 cornsilk;
 }
+
 :host{
     --content-padding:10px;
 }
+/* ================= CARD ================= */
 .card{
     width: 239px;
     height: 331.6px;
     margin: 5px;
+    margin-bottom: calc(5px + 60px); /* компенсация vertical bleed */
     box-sizing: border-box;
     position: relative;
     background-size: 239px 331.6px;
-    -webkit-backdrop-filter: sepia(90%);
-    backdrop-filter: sepia(90%);
     cursor: auto;
 }
+
 .chaos-card{
     display: flex;
     align-items: flex-end;
     justify-content: center;
 }
+
 .card-hidden-overlay{
     position:absolute;
     width: 240px;
@@ -30,42 +33,132 @@
     top:0;
     left:0;
     background:black;
-    opacity:0.7;
+    opacity:0.2;
     z-index:5;
 }
+
+/* ================= MIRRORED VERTICAL BLEED (fixed) ================= */
+
+.card-overlay-wrap{
+    --bleed-y: 30px;          /* сколько сверху/снизу */
+    --card-w: 240px;
+    --card-h: 332.1px;        /* высота "чистой" области */
+    position: absolute;
+    left: 0;
+    top: calc(-1 * var(--bleed-y));
+    width: var(--card-w);
+    height: calc(var(--card-h) + (var(--bleed-y) * 2));
+    z-index: 3;
+    overflow: hidden;
+    transition: transform .3s ease-out;
+}
+
+/* ================= MIRRORED VERTICAL BLEED (fixed) ================= */
+/* основной арт (чистая область карты) */
 .card-overlay{
     position: absolute;
-    width: 240px;
-    height: 332.1px;
-    top: 0;
+    width: var(--card-w);
+    height: var(--card-h);
+    top: var(--bleed-y);
     left: 0;
-    background-size: 240px 337.5px;
+    background-image: var(--card-bg);
+    background-size: 240px 337.5px;   /* твои значения */
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 1;
+}
+
+
+.card-win {
+    width: 378px;
+    height: 332px;
+    background-size: 378px 332px;
+}
+
+.card-overlay-wrap-win{
+    position: absolute;
+    height: 332px;
+    width: 378px;
+    overflow: hidden;
     z-index: 3;
     transition: transform .3s ease-out;
 }
-.card-overlay-back {
-    background-size: 241px 333.5px;
-}
-.card-overlay-masters {
 
+.card-overlay-wrap-win .card-overlay{
+    background-size: 378px 332px; /* твои значения */
+    width: 378px;
+    height: 332px;
 }
+
 .card-overlay-image{
-    z-index: 2;
-    width: 208px;
-    height: 169px;
-    background-size:208px 169px;
-    position: absolute;
+    position: absolute !important;  /* важно: перебить случайный relative */
     top: 23px;
     left: 16px;
+
+    width: 208px;
+    height: 169px;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 208px 169px;
+
+    z-index: 2;
+    pointer-events: none;
 }
+
+/*
+  ВАЖНО: зеркальные слои делаем той же высоты, что и card-overlay,
+  чтобы background-position "center" вычислялся одинаково.
+*/
+.card-overlay-wrap::before,
+.card-overlay-wrap::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    width: var(--card-w);
+    height: var(--card-h);
+    background-image: var(--card-bg);
+    background-size: 240px 337.5px;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: scaleY(-1);
+    transform-origin: center;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Верхний mirror: его НИЗ должен совпасть с верхом основного арта (y = bleed) */
+.card-overlay-wrap::before{
+    top: calc(var(--bleed-y) - var(--card-h) + 1px);
+}
+
+/* Нижний mirror: его ВЕРХ должен совпасть с низом основного арта */
+.card-overlay-wrap::after{
+    top: calc(var(--bleed-y) + var(--card-h) - 1px);
+}
+
+/* ================= BACK SIDE (РУБАШКА) ================= */
+
+.card-overlay-back{
+    background-size: 241px 333.5px;
+}
+
+/* для рубашки нужно, чтобы mirror использовал тот же background-size */
+.card-overlay-wrap-back::before,
+.card-overlay-wrap-back::after{
+    background-size: 241px 333.5px;
+}
+
+
+/* ================= UI / TEXT ================= */
 
 .collection-header-wrapper{
     width:239px;
     background:#1f1f1f;
+}
 
-    & .art-name{
-        font-size:22px;
-    }
+.collection-header-wrapper .art-name{
+    font-size:22px;
 }
 
 .order-num{
@@ -121,6 +214,7 @@
     bottom:15px;
     z-index:7;
 }
+
 .text-container-warning{
     font-family:"Macondo", cursive;
     font-weight:400;
@@ -160,6 +254,87 @@
     left: 0px;
     bottom: 2px;
 }
+.text-container-win {
+    width: 228px;
+    top: 160px;
+    left: 75px;
+}
+.text-container-win-1 {
+    width: 228px;
+    top: 166px;
+    left: 75px;
+}
+.text-container-win-2 {
+    width: 228px;
+    top: 160px;
+    left: 75px;
+}
+.text-container-win-2-of-4 {
+    width: 228px;
+    top: 160px;
+    left: 77px;
+}
+.text-container-win-1-of-4 {
+    top: 60px;
+}
+.text-container-win-2-of-4 span {
+    position:relative;
+    top: 12px;
+    left: -5px;
+    font-size: 27px;
+}
+.text-container-win-3 {
+    width: 240px;
+    top: 166px;
+    left: 58px;
+}
+
+.text-container-win-3 .hexagon-chaos-wrapper{
+    margin-right: -20px;
+}
+.text-container-win-4 {
+    width: 175px;
+    top: 165px;
+    left: 102px;
+}
+.text-container-win-5 {
+    width: 180px;
+    top: 165px;
+    left: 98px;
+}
+.text-container-win-6 {
+    width: 180px;
+    top: 165px;
+    left: 98px;
+}
+.text-container-win-text {
+    width: 227px;
+    text-align: center;
+    top: 65px;
+}
+.text-container-win-text span{
+    position: relative;
+    top: 14px;
+    left: -5px;
+    font-size: 33px;
+}
+/*.text-container-win-1-of-4 {
+    width: 180px;
+    top: 60px;
+    left: 98px;
+}
+.text-container-win-1-of-4 span {
+    position:relative;
+    top: 12px;
+}
+.text-container-win-1-of-4 p {
+    position: relative;
+    left: 7px;
+}*/
+
+.text-container-win-5 .description-win-line > :nth-child(1) {
+    margin-left: 1px;
+}
 
 .description-master-line {
     font-size: 20px;
@@ -173,6 +348,7 @@
 .hexagon-inline{
     margin-right:-22px;
 }
+
 .hexagon-inline:last-child{
     margin-right:0;
 }
@@ -181,7 +357,6 @@
     font-family:"Macondo", cursive;
     font-weight:400;
     font-style:normal;
-
     position:absolute;
     color:#fff;
     width:180px;
@@ -198,6 +373,12 @@
 }
 
 .art-name-chaos{
+    text-align:center;
+    white-space: pre-wrap;
+    paint-order: fill;
+    -webkit-text-stroke-width: 0px;
+}
+.art-name-win{
     text-align:center;
     white-space: pre-wrap;
     paint-order: fill;

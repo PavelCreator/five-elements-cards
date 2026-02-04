@@ -13,13 +13,16 @@ import { LocalStorageService } from "../../services/local-storage.service";
 import { ChaosCardComponent } from "../chaos-card/chaos-card.component";
 import { MasterCard } from "../../models/master-card.interface";
 import { masterCards } from "../../data/master-cards";
+import { howToWinCards } from "../../data/how-to-win-cards";
 import { MasterCardComponent } from "../master-card/master-card.component";
 import { Visibility } from "../../models/visibility.type";
+import { HowToWinCard } from "../../models/how-to-win-card.interface";
+import {HowToWinComponent} from "../how-to-win/how-to-win.component";
 
 @Component({
     selector: 'app-cards',
     standalone: true,
-    imports: [CardComponent, ChaosCardComponent, MasterCardComponent, NgFor, CollectionHeaderComponent, NgIf],
+    imports: [CardComponent, ChaosCardComponent, MasterCardComponent, NgFor, CollectionHeaderComponent, NgIf, HowToWinComponent],
     templateUrl: 'cards.component.html',
     styleUrls: ['./cards.component.css'],
 })
@@ -27,6 +30,7 @@ export class CardsComponent implements OnInit {
     public cards: Card[] = cards;
     public chaosCards: ChaosCard[] = chaosCards;
     public masterCards: MasterCard[] = masterCards;
+    public howToWinCards: HowToWinCard[] = howToWinCards;
     public showCollectionHeader: boolean = true;
 
     public red1: Card[] = [];
@@ -166,11 +170,15 @@ export class CardsComponent implements OnInit {
                 case 'mix':
                     levels = [4];
             }
+
             levels.forEach((level: number) => {
+                console.log('level =', level);
+                console.log('color + level.toString() =', color + level.toString());
                 (this as {[key: string]: any})[color + level.toString()] = this.cards.filter(card => card.color === color && card.level === level);
                 (this as {[key: string]: any})['need'+HelperService.ToPascalCase(color)+level.toString()] = this.cards.filter(card => card.level === level && (color !== 'mix' ? card.get[color] : !card.levelSpecial)).length;
                 (this as {[key: string]: any})['have'+HelperService.ToPascalCase(color)+level.toString()] = this.cards.filter(card => card.color === color && card.level === level).length;
             });
+
         });
         this._localStorageService.saveArray(this.cards, 'cards');
     }

@@ -1660,14 +1660,14 @@
     "boundingClientRect": {"top": 784, "left": 0},
     "isSelected": false,
     "artData": {
-        "picturePath": "https://cdn.midjourney.com/4ac9808a-cd66-4600-bd8e-fe7cf1e9ad4b/0_0.png",
+        "picturePath": "https://cdn.midjourney.com/ce6f17ea-0241-464e-9f17-af4f96bc200e/0_3.png",
         "name": "Paladin",
         "collection": "",
         "color": "white",
         "level": 2,
         "boundingClientRectStart": {"top": 495.6000061035156, "left": 747},
         "isSelected": true,
-        "horizontalReverse": true
+        "horizontalReverse": false
     }
 }, {
     "orderNumber": 75,

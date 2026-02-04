@@ -1,1 +1,1 @@
-export type Color = 'red' | 'green' | 'white' | 'blue' | 'purple' | 'black' | 'mix' | 'chaos' | 'dice' | 'master';
+export type Color = 'red' | 'green' | 'white' | 'blue' | 'purple' | 'black' | 'mix' | 'mix2' | 'mix6' | 'chaos' | 'dice' | 'master';

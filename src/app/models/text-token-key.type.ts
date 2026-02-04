@@ -1,1 +1,1 @@
-export type TextTokenKey = 'FIRE' | 'AIR' | 'EARTH' | 'WATER' | 'DARK' | 'ETHER' | '4 ELEMENTS' | 'MIX' | 'DICE';
+export type TextTokenKey = 'FIRE' | 'AIR' | 'EARTH' | 'WATER' | 'FIRE-CARD' | 'AIR-CARD' | 'EARTH-CARD' | 'WATER-CARD' | 'DARK-CARD' | 'ETHER-CARD' | 'DARK' | 'ETHER' | '4 ELEMENTS' | 'MIX' | 'DICE';

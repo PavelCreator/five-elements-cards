@@ -2,32 +2,49 @@
 		 *ngIf="!art.hidden || (art.hidden && showDisabledArt)"
 		 [ngStyle]="{'border-color': borderColor}"
 		 (click)="toggleArtSelection()"
-		 (mouseenter) ="hovered = true"
-		 (mouseleave) ="hovered = false"
+		 (mouseenter)="hovered = true"
+		 (mouseleave)="hovered = false"
 >
-		<div class="card-hidden-overlay" *ngIf="art.hidden"></div>
-		<div class="card-overlay" [ngStyle]="{'background-image': 'url(' + art.picturePath + ')', transform: (art.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')}"></div>
-    <div class="text-container" (click)="toggleRename($event, true)">
-        <div *ngIf="!renameModeOn" class="art-name" [ngStyle]="{'color': art.hidden ? 'grey' : 'white'}">{{ art.name }}</div>
-    </div>
-		<textarea
-			#renameTextarea
-			appTextareaAutoresize
-			*ngIf="renameModeOn"
-			(click)="$event.stopPropagation()"
-			(focusout)="endRenameOnFocusOut()"
-			class="art-name-textarea"
-			[(ngModel)]="art.name">
-		</textarea>
-		<div class="hover-buttons-wrapper" [ngStyle]="{'opacity': hovered ? '1' : '0'}">
-			<div class="hover-button hover-button-cancel" *ngIf="!art.hidden" (click)="changeDisableState($event, true)">Disable Art</div>
-			<div class="hover-button hover-button-confirm" *ngIf="art.hidden" (click)="changeDisableState($event, false)">Enable Art</div>
-			<div class="hover-button" (click)="flip($event)">
-				<ng-container *ngIf="!art.horizontalReverse">Flip Horizontal</ng-container>
-				<ng-container *ngIf="art.horizontalReverse">Unflip Horizonta</ng-container>
-			</div>
-			<div class="hover-button" *ngIf="!renameModeOn" (click)="toggleRename($event, true)">Rename</div>
-			<div class="hover-button hover-button-confirm" *ngIf="renameModeOn" (click)="toggleRename($event, false)">Confirm Rename</div>
-			<div class="hover-button hover-button-cancel" *ngIf="renameModeOn" (click)="cancelRename($event)">Cancel Rename</div>
+	<div class="card-hidden-overlay" *ngIf="art.hidden"></div>
+
+	<div
+			class="card-overlay-wrap"
+			[ngStyle]="{
+      '--card-bg': 'url(' + art.picturePath + ')',
+      transform: (art.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')
+    }"
+	>
+		<div class="card-overlay"></div>
+	</div>
+
+	<div class="text-container" (click)="toggleRename($event, true)">
+		<div *ngIf="!renameModeOn" class="art-name"
+				 [ngStyle]="{'color': art.hidden ? 'grey' : 'white'}">
+			{{ art.name }}
 		</div>
+	</div>
+
+	<textarea
+    #renameTextarea
+		appTextareaAutoresize
+		*ngIf="renameModeOn"
+		(click)="$event.stopPropagation()"
+		(focusout)="endRenameOnFocusOut()"
+		class="art-name-textarea"
+		[(ngModel)]="art.name">
+  </textarea>
+
+	<div class="hover-buttons-wrapper" [ngStyle]="{'opacity': hovered ? '1' : '0'}">
+		<div class="hover-button hover-button-cancel" *ngIf="!art.hidden" (click)="changeDisableState($event, true)">Disable Art</div>
+		<div class="hover-button hover-button-confirm" *ngIf="art.hidden" (click)="changeDisableState($event, false)">Enable Art</div>
+
+		<div class="hover-button" (click)="flip($event)">
+			<ng-container *ngIf="!art.horizontalReverse">Flip Horizontal</ng-container>
+			<ng-container *ngIf="art.horizontalReverse">Unflip Horizonta</ng-container>
+		</div>
+
+		<div class="hover-button" *ngIf="!renameModeOn" (click)="toggleRename($event, true)">Rename</div>
+		<div class="hover-button hover-button-confirm" *ngIf="renameModeOn" (click)="toggleRename($event, false)">Confirm Rename</div>
+		<div class="hover-button hover-button-cancel" *ngIf="renameModeOn" (click)="cancelRename($event)">Cancel Rename</div>
+	</div>
 </div>

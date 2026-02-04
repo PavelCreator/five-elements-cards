@@ -1,0 +1,133 @@
+<div class="card card-win"
+     (mouseenter)="hovered = true"
+     (mouseleave)="hovered = false"
+>
+    <ng-container *ngIf="cardSide === 'front'">
+        <!-- вместо card-overlay напрямую -->
+			<div
+					class="card-overlay-wrap-win"
+					[ngStyle]="{
+        '--card-bg': 'url(' + chaosCardBackground + ')'
+      }"
+			>
+				<div class="card-overlay"></div>
+			</div>
+        <div class="text-container text-container-chaos text-container-win text-container-win-1" *ngIf="card.numberOfElements === 1">
+							<div class="description-win-line">
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.red" [color]="'red'" [type]="'getWin'" [number]="card?.pay?.red"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.blue" [color]="'blue'" [type]="'getWin'" [number]="card?.pay?.blue"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.white" [color]="'white'" [type]="'getWin'" [number]="card?.pay?.white"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.green" [color]="'green'" [type]="'getWin'" [number]="card?.pay?.green"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.purple" [color]="'purple'" [type]="'getWin'" [number]="card?.pay?.purple"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.black" [color]="'black'" [type]="'getWin'" [number]="card?.pay?.black"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.mix" [color]="'mix'" [type]="'getWin'" [number]="card?.pay?.mix"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.mix6" [color]="'mix6'" [type]="'getWin'" [number]="card?.pay?.mix6"></app-hexagon>
+							</div>
+        </div>
+<!--        <div class="text-container text-container-chaos text-container-win text-container-win-1-of-4" *ngIf="card.pay?.oneOf4">
+							<div class="description-win-line">
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="'red'" [type]="'getMix'" [number]="card?.pay?.oneOf4"></app-hexagon><span>or</span>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="'blue'" [type]="'getMix'" [number]="card?.pay?.oneOf4"></app-hexagon>
+								<p>
+								<span>or</span><app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="'white'" [type]="'getMix'" [number]="card?.pay?.oneOf4"></app-hexagon>
+								<span>or</span><app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="'green'" [type]="'getMix'" [number]="card?.pay?.oneOf4"></app-hexagon></p>
+							</div>
+        </div>-->
+				<div class="text-container text-container-chaos text-container-win text-container-win-2-of-4 text-container-win-1-of-4" *ngIf="card.pay?.oneOf4">
+							<div class="description-win-line">
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="'mix'" [type]="'getWin2'" [number]="card?.pay?.oneOf4"></app-hexagon><span>of 1 color</span>
+							</div>
+				</div>
+        <div class="text-container text-container-chaos text-container-win text-container-win-2-of-4" *ngIf="card.pay?.twoOf4">
+							<div class="description-win-line">
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="'mix'" [type]="'getWin2'" [number]="card?.pay?.twoOf4"></app-hexagon><span>of 2 colors</span>
+							</div>
+        </div>
+        <div class="text-container text-container-chaos text-container-win text-container-win-2" *ngIf="card.numberOfElements === 2">
+							<div class="description-win-line">
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.red" [color]="'red'" [type]="'getWin2'" [number]="card?.pay?.red"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.blue" [color]="'blue'" [type]="'getWin2'" [number]="card?.pay?.blue"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.white" [color]="'white'" [type]="'getWin2'" [number]="card?.pay?.white"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.green" [color]="'green'" [type]="'getWin2'" [number]="card?.pay?.green"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.purple" [color]="'purple'" [type]="'getWin2'" [number]="card?.pay?.purple"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.black" [color]="'black'" [type]="'getWin2'" [number]="card?.pay?.black"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.mix" [color]="'mix'" [type]="'getWin2'" [number]="card?.pay?.mix"></app-hexagon>
+							</div>
+        </div>
+        <div class="text-container text-container-chaos text-container-win text-container-win-3" *ngIf="card.numberOfElements === 3">
+							<div class="description-win-line">
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.red" [color]="'red'" [type]="'getWin2'" [number]="card?.pay?.red"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.blue" [color]="'blue'" [type]="'getWin2'" [number]="card?.pay?.blue"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.white" [color]="'white'" [type]="'getWin2'" [number]="card?.pay?.white"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.green" [color]="'green'" [type]="'getWin2'" [number]="card?.pay?.green"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.purple" [color]="'purple'" [type]="'getWin2'" [number]="card?.pay?.purple"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.black" [color]="'black'" [type]="'getWin2'" [number]="card?.pay?.black"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.mix" [color]="'mix'" [type]="'getWin2'" [number]="card?.pay?.mix"></app-hexagon>
+							</div>
+        </div>
+        <div class="text-container text-container-chaos text-container-win text-container-win-4" *ngIf="card.numberOfElements === 4">
+							<div class="description-win-line">
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.red" [color]="'red'" [type]="'getMix'" [number]="card?.pay?.red"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.blue" [color]="'blue'" [type]="'getMix'" [number]="card?.pay?.blue"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.white" [color]="'white'" [type]="'getMix'" [number]="card?.pay?.white"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.green" [color]="'green'" [type]="'getMix'" [number]="card?.pay?.green"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.purple" [color]="'purple'" [type]="'getMix'" [number]="card?.pay?.purple"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.black" [color]="'black'" [type]="'getMix'" [number]="card?.pay?.black"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.mix" [color]="'mix'" [type]="'getMix'" [number]="card?.pay?.mix"></app-hexagon>
+							</div>
+        </div>
+        <div class="text-container text-container-chaos text-container-win text-container-win-5" *ngIf="card.numberOfElements === 5">
+							<div class="description-win-line">
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.red" [color]="'red'" [type]="'getMix'" [number]="card?.pay?.red"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.blue" [color]="'blue'" [type]="'getMix'" [number]="card?.pay?.blue"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.white" [color]="'white'" [type]="'getMix'" [number]="card?.pay?.white"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.green" [color]="'green'" [type]="'getMix'" [number]="card?.pay?.green"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.purple" [color]="'purple'" [type]="'getMix'" [number]="card?.pay?.purple"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.black" [color]="'black'" [type]="'getMix'" [number]="card?.pay?.black"></app-hexagon>
+									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.mix" [color]="'mix'" [type]="'getMix'" [number]="card?.pay?.mix"></app-hexagon>
+							</div>
+        </div>
+        <div class="text-container text-container-chaos text-container-win text-container-win-6" *ngIf="card.numberOfElements === 6">
+							<div class="description-win-line">
+								<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.red" [color]="'red'" [type]="'getMix'" [number]="card?.pay?.red"></app-hexagon>
+								<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.blue" [color]="'blue'" [type]="'getMix'" [number]="card?.pay?.blue"></app-hexagon>
+								<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.white" [color]="'white'" [type]="'getMix'" [number]="card?.pay?.white"></app-hexagon>
+								<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.green" [color]="'green'" [type]="'getMix'" [number]="card?.pay?.green"></app-hexagon>
+								<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.purple" [color]="'purple'" [type]="'getMix'" [number]="card?.pay?.purple"></app-hexagon>
+								<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.black" [color]="'black'" [type]="'getMix'" [number]="card?.pay?.black"></app-hexagon>
+								<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.mix" [color]="'mix'" [type]="'getMix'" [number]="card?.pay?.mix"></app-hexagon>
+							</div>
+        </div>
+        <div class="text-container text-container-chaos text-container-win text-container-win-text" *ngIf="card.type === 'Collection Mode'">
+							<div class="description-win-line">
+								<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="card.numberOfElements === 2 ? 'mix2' : 'mix'" [type]="'getWin2'" [number]="card?.numberOfElements"></app-hexagon>
+								<span>{{card?.text}}</span>
+							</div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="cardSide === 'back'">
+        <!-- back: используем wrap-back, чтобы background-size для отражений был как у рубашки -->
+        <div
+                class="card-overlay-wrap-back card-overlay-wrap-win"
+                *ngIf="card.type === 'Classic Mode'"
+                [ngStyle]="{ '--card-bg': 'url(./assets/back_cards/how_to_win/classic.jpg)' }"
+        >
+            <div class="card-overlay card-overlay-back"></div>
+        </div>
+        <div
+                class="card-overlay-wrap-back card-overlay-wrap-win"
+								*ngIf="card.type === 'New Horizons'"
+                [ngStyle]="{ '--card-bg': 'url(./assets/back_cards/how_to_win/new.jpg)' }"
+        >
+            <div class="card-overlay card-overlay-back"></div>
+        </div>
+        <div
+                class="card-overlay-wrap-back card-overlay-wrap-win"
+								*ngIf="card.type === 'Collection Mode'"
+                [ngStyle]="{ '--card-bg': 'url(./assets/back_cards/how_to_win/collection.jpg)' }"
+        >
+            <div class="card-overlay card-overlay-back"></div>
+        </div>
+    </ng-container>
+</div>

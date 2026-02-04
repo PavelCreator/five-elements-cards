@@ -40,7 +40,7 @@
     .number-wrapper{
         padding-right:0px;
         font-size:27.5px;
-        padding-top:10px;
+        padding-top:14px;
     }
 }
 .coin-big{
@@ -50,7 +50,29 @@
 
     .number-wrapper{
         padding-right:0px;
-        font-size: 36px;
+        font-size: 34px;
         padding-top: 14px;
+    }
+}
+.coin-big-win2{
+    height: 74px;
+    width: 80px;
+    background-size: 80px 74px;
+
+    .number-wrapper{
+        padding-right:0px;
+        font-size: 34px;
+        padding-top: 23px
+    }
+}
+.coin-big-win{
+    height: 92px;
+    width: 100px;
+    background-size: 100px 92px;
+
+    .number-wrapper{
+        padding-right:0px;
+        font-size: 34px;
+        padding-top: 32px;
     }
 }

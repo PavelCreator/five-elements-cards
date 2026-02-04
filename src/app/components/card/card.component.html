@@ -21,8 +21,17 @@
     </div>
     <div class="get-wrapper"></div>
     <div class="order-num">{{ card.orderNumber }}</div>
-		<div class="card-overlay" *ngIf="card.artData" [ngStyle]="{'background-image': 'url(' + card.artData.picturePath + ')', transform: (card.artData.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')}"></div>
-		<!--<div class="card-overlay" *ngIf="!card.artData" [ngStyle]="{'background-image': 'url(' + cardBackUrl + ')'}"></div>-->
+        <div
+                class="card-overlay-wrap"
+                *ngIf="card.artData"
+                [ngStyle]="{
+                '--card-bg': 'url(' + card.artData.picturePath + ')',
+                transform: (card.artData.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')
+              }"
+        >
+            <div class="card-overlay"></div>
+        </div>
+        <!--<div class="card-overlay" *ngIf="!card.artData" [ngStyle]="{'background-image': 'url(' + cardBackUrl + ')'}"></div>-->
     <div class="text-container text-container-warning" *ngIf="card.levelSpecial">
         <div class="art-name">Limit: 1 card from deck per <p>player</p></div>
     </div>
@@ -51,6 +60,12 @@
 		</div>
 	</ng-container>
 	<ng-container *ngIf="cardSide === 'back'">
-		<div class="card-overlay card-overlay-back" [ngStyle]="{'background-image': 'url(' + cardBackUrl + ')'}"></div>
-	</ng-container>
+        <div
+            class="card-overlay-wrap"
+            [ngStyle]="{ '--card-bg': 'url(' + cardBackUrl + ')' }"
+    >
+        <div class="card-overlay card-overlay-back"></div>
+    </div>
+
+    </ng-container>
 </div>

@@ -439,7 +439,7 @@ export const arts: Art[] = [
         hidden: true
     },
     {
-        picturePath: 'https://cdn.midjourney.com/4ac9808a-cd66-4600-bd8e-fe7cf1e9ad4b/0_0.png', // 'https://cdn.midjourney.com/4ac9808a-cd66-4600-bd8e-fe7cf1e9ad4b/0_3.png', //'https://cdn.midjourney.com/f2ef8569-8e53-4c55-9320-49205fd5a4cf/0_2.png',
+        picturePath: 'https://cdn.midjourney.com/ce6f17ea-0241-464e-9f17-af4f96bc200e/0_3.png', //'https://cdn.midjourney.com/4ac9808a-cd66-4600-bd8e-fe7cf1e9ad4b/0_0.png', // 'https://cdn.midjourney.com/4ac9808a-cd66-4600-bd8e-fe7cf1e9ad4b/0_3.png', //'https://cdn.midjourney.com/f2ef8569-8e53-4c55-9320-49205fd5a4cf/0_2.png',
         name: 'Paladin',
         collection: '',
         color: 'white',
@@ -970,7 +970,7 @@ export const arts: Art[] = [
         hidden: true
     },
     {
-        picturePath: 'https://cdn.midjourney.com/ffe61a9d-38c3-452b-ac41-6f26c55711cb/0_2.png',
+        picturePath: 'a',
         name: 'Pandemonius',
         collection: '',
         color: 'red',
