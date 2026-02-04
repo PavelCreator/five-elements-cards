@@ -1,0 +1,15 @@
+.game-wrapper{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:"Faculty Glyphic", sans-serif;
+    color:#555;
+}
+
+.game-wrapper__placeholder{
+    padding:24px 32px;
+    border:1px dashed #999;
+    border-radius:12px;
+    background:rgba(255, 255, 255, 0.6);
+}
