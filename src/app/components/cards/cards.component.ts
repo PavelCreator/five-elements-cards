@@ -18,6 +18,7 @@ import { MasterCardComponent } from "../master-card/master-card.component";
 import { Visibility } from "../../models/visibility.type";
 import { HowToWinCard } from "../../models/how-to-win-card.interface";
 import {HowToWinComponent} from "../how-to-win/how-to-win.component";
+import { CardsStoreService } from "../../services/cards-store.service";
 
 @Component({
     selector: 'app-cards',
@@ -27,7 +28,7 @@ import {HowToWinComponent} from "../how-to-win/how-to-win.component";
     styleUrls: ['./cards.component.css'],
 })
 export class CardsComponent implements OnInit {
-    public cards: Card[] = cards;
+    public cards: Card[] = [];
     public chaosCards: ChaosCard[] = chaosCards;
     public masterCards: MasterCard[] = masterCards;
     public howToWinCards: HowToWinCard[] = howToWinCards;
@@ -100,14 +101,18 @@ export class CardsComponent implements OnInit {
 
     constructor(
         private _interactionService: InteractionService,
-        private _localStorageService: LocalStorageService
+        private _localStorageService: LocalStorageService,
+        private _cardsStoreService: CardsStoreService
     ) {
+        this.cards = this._cardsStoreService.cards;
+        if (!this.cards?.length) this.cards = cards;
     }
 
     ngOnInit() {
         console.log('All cards length =', this.cards.length + this.masterCards.length + this.chaosCards.length);
         const cardsFromLocalStorage = this._localStorageService.loadArray('cards');
         if (cardsFromLocalStorage) this.cards = cardsFromLocalStorage;
+        this._cardsStoreService.setCards(this.cards);
 
         const chaosCardsFromLocalStorage = this._localStorageService.loadArray('chaosCards');
         if (chaosCardsFromLocalStorage) this.chaosCards = chaosCardsFromLocalStorage;

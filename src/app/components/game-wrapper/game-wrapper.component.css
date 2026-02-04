@@ -7,9 +7,33 @@
     color:#555;
 }
 
-.game-wrapper__placeholder{
+.game-field{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+    align-items:flex-start;
     padding:24px 32px;
-    border:1px dashed #999;
-    border-radius:12px;
-    background:rgba(255, 255, 255, 0.6);
+    border-radius:18px;
+    background:rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(3px);
+}
+
+.game-row{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.game-stack{
+    display:flex;
+    align-items:center;
+}
+
+.card--back{
+    margin: 0 8px 0 0;
+}
+
+.game-row-cards{
+    display:flex;
+    align-items:center;
 }

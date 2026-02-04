@@ -1,3 +1,19 @@
 <div class="game-wrapper">
-    <div class="game-wrapper__placeholder">Game tab content will appear here.</div>
+    <div class="game-field" *ngIf="rows.length">
+        <div class="game-row" *ngFor="let row of rows">
+            <div class="game-stack" *ngIf="row.stack.length">
+                <div class="card card--back">
+                    <div
+                        class="card-overlay-wrap card-overlay-wrap-back"
+                        [ngStyle]="{ '--card-bg': 'url(' + row.backUrl + ')' }"
+                    >
+                        <div class="card-overlay card-overlay-back"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="game-row-cards">
+                <app-card *ngFor="let card of row.topCards" [card]="card"></app-card>
+            </div>
+        </div>
+    </div>
 </div>
