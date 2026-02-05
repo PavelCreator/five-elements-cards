@@ -110,8 +110,7 @@ export class CardsComponent implements OnInit {
 
     ngOnInit() {
         console.log('All cards length =', this.cards.length + this.masterCards.length + this.chaosCards.length);
-        const cardsFromLocalStorage = this._localStorageService.loadArray('cards');
-        if (cardsFromLocalStorage) this.cards = cardsFromLocalStorage;
+        this.cards = this._cardsStoreService.cards;
         this._cardsStoreService.setCards(this.cards);
 
         const chaosCardsFromLocalStorage = this._localStorageService.loadArray('chaosCards');

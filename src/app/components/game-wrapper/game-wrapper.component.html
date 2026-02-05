@@ -14,6 +14,11 @@
             </div>
             <div class="game-row-cards">
                 <app-card *ngFor="let card of row.topCards" [card]="card"></app-card>
+                <ng-container *ngFor="let specialStack of row.specialStacks">
+                    <div class="game-stack" *ngIf="specialStack.stack.length">
+                        <app-card [card]="specialStack.topCard"></app-card>
+                    </div>
+                </ng-container>
             </div>
         </div>
     </div>

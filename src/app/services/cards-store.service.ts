@@ -13,7 +13,11 @@ export class CardsStoreService {
 
     constructor(private _localStorageService: LocalStorageService) {
         const storedCards = this._localStorageService.loadArray('cards') as Card[] | undefined;
-        this._cardsSubject$ = new BehaviorSubject<Card[]>(storedCards?.length ? storedCards : initialCards);
+        const mergedCards = this._mergeSpecialCards(storedCards, initialCards);
+        if (storedCards?.length && mergedCards.length !== storedCards.length) {
+            this._localStorageService.saveArray(mergedCards, 'cards');
+        }
+        this._cardsSubject$ = new BehaviorSubject<Card[]>(mergedCards);
         this.cards$ = this._cardsSubject$.asObservable();
     }
 
@@ -23,5 +27,24 @@ export class CardsStoreService {
 
     public setCards(inCards: Card[]) {
         this._cardsSubject$.next(inCards);
+    }
+
+    private _mergeSpecialCards(storedCards: Card[] | undefined, baseCards: Card[]): Card[] {
+        if (!storedCards?.length) {
+            return baseCards;
+        }
+
+        const cardsMap = new Map<number, Card>();
+        storedCards.forEach((card) => cardsMap.set(card.orderNumber, card));
+
+        baseCards
+            .filter((card) => card.levelSpecial)
+            .forEach((card) => {
+                if (!cardsMap.has(card.orderNumber)) {
+                    cardsMap.set(card.orderNumber, card);
+                }
+            });
+
+        return Array.from(cardsMap.values());
     }
 }

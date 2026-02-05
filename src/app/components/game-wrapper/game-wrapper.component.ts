@@ -7,6 +7,15 @@ import { Color } from '../../models/color.type';
 import { CardComponent } from '../card/card.component';
 import { ImageService } from '../../services/image.service';
 import { InteractionService } from '../../services/interaction.service';
+import { cards as initialCards } from '../../data/cards';
+
+type SpecialStackColor = 'purple' | 'black';
+
+interface SpecialStack {
+    color: SpecialStackColor;
+    stack: Card[];
+    topCard?: Card;
+}
 
 @Component({
     selector: 'app-game-wrapper',
@@ -16,7 +25,13 @@ import { InteractionService } from '../../services/interaction.service';
     styleUrls: ['./game-wrapper.component.css', '../../style.css'],
 })
 export class GameWrapperComponent implements OnInit, OnDestroy {
-    public rows: Array<{ level: number; stack: Card[]; topCards: Card[]; backUrl: string }> = [];
+    public rows: Array<{
+        level: number;
+        stack: Card[];
+        topCards: Card[];
+        backUrl: string;
+        specialStacks: SpecialStack[];
+    }> = [];
     public printModeEnabled: boolean = true;
     private _cardsSubscription?: Subscription;
     private _printModeSubscription?: Subscription;
@@ -52,9 +67,50 @@ export class GameWrapperComponent implements OnInit, OnDestroy {
                 level,
                 stack: shuffled,
                 topCards: shuffled.slice(0, 3),
-                backUrl: shuffled.length ? this._imageService.generateCardBackUrl(shuffled[0]) : ''
+                backUrl: shuffled.length ? this._imageService.generateCardBackUrl(shuffled[0]) : '',
+                specialStacks: this._buildSpecialStacks(cards, level)
             };
         });
+    }
+
+    private _buildSpecialStacks(cards: Card[], level: number): SpecialStack[] {
+        const levelSpecialCards = this._mergeSpecialCards(cards, initialCards).filter(
+            (card) => card.level === level && card.levelSpecial
+        );
+        const purpleStack = this._shuffle(
+            levelSpecialCards.filter((card) => (card.get?.purple ?? 0) > 0)
+        );
+        const blackStack = this._shuffle(
+            levelSpecialCards.filter((card) => (card.get?.black ?? 0) > 0)
+        );
+
+        return [
+            this._createSpecialStack('purple', purpleStack),
+            this._createSpecialStack('black', blackStack)
+        ];
+    }
+
+    private _createSpecialStack(color: SpecialStackColor, stack: Card[]): SpecialStack {
+        return {
+            color,
+            stack,
+            topCard: stack[0]
+        };
+    }
+
+    private _mergeSpecialCards(cards: Card[], baseCards: Card[]): Card[] {
+        const cardsMap = new Map<number, Card>();
+        cards.forEach((card) => cardsMap.set(card.orderNumber, card));
+
+        baseCards
+            .filter((card) => card.levelSpecial)
+            .forEach((card) => {
+                if (!cardsMap.has(card.orderNumber)) {
+                    cardsMap.set(card.orderNumber, card);
+                }
+            });
+
+        return Array.from(cardsMap.values());
     }
 
     private _shuffle(cards: Card[]): Card[] {
