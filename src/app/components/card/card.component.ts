@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, Pipe, PipeTransform, Renderer2, ViewChild } from '@angular/core';
-import { KeyValue, KeyValuePipe, NgForOf, NgIf, NgStyle } from "@angular/common";
+import { KeyValue, KeyValuePipe, NgClass, NgForOf, NgIf, NgStyle } from "@angular/common";
 import { HexagonComponent } from "../hexagon/hexagon.component";
 import { InteractionService } from "../../services/interaction.service";
 import { Card } from "../../models/card.interface";
@@ -29,6 +29,7 @@ export class KeysPipe implements PipeTransform {
     templateUrl: './card.component.html',
     standalone: true,
     imports: [
+        NgClass,
         NgStyle,
         HexagonComponent,
         NgIf,
@@ -60,6 +61,7 @@ export class CardComponent implements OnInit {
     public renameModeOn: boolean = false;
     public cardBackUrl: string = '';
     public showDisabledCard: boolean = false;
+    public printModeEnabled: boolean = true;
 
     constructor(
         private _interactionService: InteractionService,
@@ -115,6 +117,10 @@ export class CardComponent implements OnInit {
             if (inShowHidden !== undefined) {
                 this.showDisabledCard = inShowHidden;
             }
+        })
+
+        this._interactionService.printMode$.subscribe((inPrintMode: boolean) => {
+            this.printModeEnabled = inPrintMode;
         })
     }
 

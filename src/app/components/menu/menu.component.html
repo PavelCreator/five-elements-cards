@@ -29,6 +29,8 @@
 		<div class="menu-item" *ngIf="cardSide === 'back'" (click)="showCardsSide('front')">* Show Front Of Cards</div>
 		<div class="menu-item" *ngIf="collectionHeaderState === 'hidden'" (click)="changeCollectionHeaderState('visible')">* Show Collection Header</div>
 		<div class="menu-item" *ngIf="collectionHeaderState === 'visible'" (click)="changeCollectionHeaderState('hidden')">* Hide Collection Header</div>
+		<div class="menu-item" *ngIf="printMode === 'print'" (click)="setPrintMode(false)">* View Mode</div>
+		<div class="menu-item" *ngIf="printMode === 'view'" (click)="setPrintMode(true)">* Print Mode</div>
 		<div class="menu-item" (click)="showMenu = false">* Hide Menu</div>
 	</div>
 </div>

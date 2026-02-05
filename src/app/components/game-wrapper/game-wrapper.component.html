@@ -5,6 +5,7 @@
                 <div class="card card--back">
                     <div
                         class="card-overlay-wrap card-overlay-wrap-back"
+                        [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
                         [ngStyle]="{ '--card-bg': 'url(' + row.backUrl + ')' }"
                     >
                         <div class="card-overlay card-overlay-back"></div>

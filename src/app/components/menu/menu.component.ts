@@ -22,6 +22,7 @@ export class MenuComponent {
     public collectionHeaderState: Visibility = 'visible';
     public cardSide: CardSide = 'front';
     public showMenu: boolean = true;
+    public printMode: 'print' | 'view' = 'print';
 
     constructor(
         private _interactionService: InteractionService,
@@ -62,6 +63,13 @@ export class MenuComponent {
             if (collectionHeaderVisibilityFromLocalStorage === 'visible') {
                 this.changeCollectionHeaderState('visible');
             }
+        }
+
+        const printModeFromLocalStorage: string | null = this._localStorageService.getItem('printMode');
+        if (printModeFromLocalStorage) {
+            this.setPrintMode(printModeFromLocalStorage === 'print');
+        } else {
+            this.setPrintMode(true);
         }
     }
 
@@ -114,5 +122,11 @@ export class MenuComponent {
         this.collectionHeaderState = collectionHeaderState;
         this._localStorageService.setItem('collectionHeaderVisibility', collectionHeaderState);
         this._interactionService.changeCollectionHeaderState(collectionHeaderState);
+    }
+
+    public setPrintMode(inPrintMode: boolean) {
+        this.printMode = inPrintMode ? 'print' : 'view';
+        this._localStorageService.setItem('printMode', this.printMode);
+        this._interactionService.setPrintMode(inPrintMode);
     }
 }

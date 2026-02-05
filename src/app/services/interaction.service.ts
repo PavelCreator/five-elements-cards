@@ -68,6 +68,9 @@ export class InteractionService {
   private _collectionHeaderStateSubject$: BehaviorSubject<Visibility> = new BehaviorSubject<Visibility>('visible');
   public collectionHeaderState$: Observable<Visibility> = this._collectionHeaderStateSubject$.asObservable();
 
+  private _printModeSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  public printMode$: Observable<boolean> = this._printModeSubject$.asObservable();
+
   private _selectedViewModeSubject$: BehaviorSubject<number | undefined> = new BehaviorSubject<number | undefined>(undefined);
   public selectedViewMode$: Observable<number | undefined> = this._selectedViewModeSubject$.asObservable();
 
@@ -131,6 +134,10 @@ export class InteractionService {
 
   public changeCollectionHeaderState(collectionHeaderState: Visibility) {
     this._collectionHeaderStateSubject$.next(collectionHeaderState);
+  }
+
+  public setPrintMode(inPrintMode: boolean) {
+    this._printModeSubject$.next(inPrintMode);
   }
 
   public toggleArtSelection(inArt: Art) {

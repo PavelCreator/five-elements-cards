@@ -168,6 +168,15 @@
     top: calc(var(--bleed-y) + var(--card-h) - 1px);
 }
 
+.card-overlay-wrap--no-reflection{
+    --bleed-y: 0px;
+}
+
+.card-overlay-wrap--no-reflection::before,
+.card-overlay-wrap--no-reflection::after{
+    display:none;
+}
+
 /* ================= BACK SIDE (РУБАШКА) ================= */
 
 .card-overlay-back{

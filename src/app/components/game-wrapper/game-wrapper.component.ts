@@ -1,26 +1,30 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgFor, NgIf, NgStyle } from '@angular/common';
+import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { CardsStoreService } from '../../services/cards-store.service';
 import { Card } from '../../models/card.interface';
 import { Color } from '../../models/color.type';
 import { CardComponent } from '../card/card.component';
 import { ImageService } from '../../services/image.service';
+import { InteractionService } from '../../services/interaction.service';
 
 @Component({
     selector: 'app-game-wrapper',
     standalone: true,
-    imports: [NgFor, NgIf, NgStyle, CardComponent],
+    imports: [NgClass, NgFor, NgIf, NgStyle, CardComponent],
     templateUrl: 'game-wrapper.component.html',
     styleUrls: ['./game-wrapper.component.css', '../../style.css'],
 })
 export class GameWrapperComponent implements OnInit, OnDestroy {
     public rows: Array<{ level: number; stack: Card[]; topCards: Card[]; backUrl: string }> = [];
+    public printModeEnabled: boolean = true;
     private _cardsSubscription?: Subscription;
+    private _printModeSubscription?: Subscription;
 
     constructor(
         private _cardsStoreService: CardsStoreService,
-        private _imageService: ImageService
+        private _imageService: ImageService,
+        private _interactionService: InteractionService
     ) {}
 
     ngOnInit() {
@@ -28,10 +32,15 @@ export class GameWrapperComponent implements OnInit, OnDestroy {
             const preparedCards = this._assignColors(cards);
             this.rows = this._buildRows(preparedCards);
         });
+
+        this._printModeSubscription = this._interactionService.printMode$.subscribe((printMode) => {
+            this.printModeEnabled = printMode;
+        });
     }
 
     ngOnDestroy() {
         this._cardsSubscription?.unsubscribe();
+        this._printModeSubscription?.unsubscribe();
     }
 
     private _buildRows(cards: Card[]) {
