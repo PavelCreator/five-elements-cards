@@ -51,6 +51,10 @@
     cursor: auto;
 }
 
+.card--view{
+    margin-bottom: 5px;
+}
+
 .chaos-card{
     display: flex;
     align-items: flex-end;
@@ -195,6 +199,7 @@
 .collection-header-wrapper{
     width:239px;
     background:#1f1f1f;
+    margin-bottom: 5px;
 }
 
 .collection-header-wrapper .art-name{
@@ -210,7 +215,7 @@
 
 .hover-buttons-wrapper{
     position:absolute;
-    left:10px;
+    right:10px;
     top:10px;
     z-index:5;
     transition:opacity .3s ease-out;
@@ -240,36 +245,30 @@
 }
 
 .text-container{
-    font-family:"Macondo", cursive;
-    font-weight:400;
-    font-style:normal;
-    font-size:30px;
-    line-height:28px;
-    position:absolute;
-    color:#fff;
-    width:155px;
-    right:15px;
-    text-align:right;
-    left:auto;
-    bottom:15px;
-    z-index:7;
+    font-family: "Macondo", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 30px;
+    line-height: 28px;
+    position: absolute;
+    color: #fff;
+    width: 150px;
+    left: 19px;
+    text-align: left;
+    right: auto;
+    bottom: 17px;
+    z-index: 7;
 }
 
 .text-container-warning{
-    font-family:"Macondo", cursive;
-    font-weight:400;
-    font-style:normal;
-    font-size:15px;
-    line-height:16px;
-    position:absolute;
-    color:#fff;
-    width:120px;
-    right:auto;
-    bottom:auto;
-    text-align:left;
-    left:15px;
-    top:15px;
-    z-index:7;
+    font-size: 15px;
+    line-height: 16px;
+    width: 120px;
+    left: auto;
+    bottom: auto;
+    text-align: right;
+    right: 15px;
+    top: 15px;
 }
 
 .text-container-chaos{
@@ -409,7 +408,7 @@
 .art-name{
     paint-order: stroke fill;
     -webkit-text-stroke-color: black;
-    -webkit-text-stroke-width: 3px;
+    -webkit-text-stroke-width: 6px;
 }
 
 .art-name-chaos{
@@ -492,14 +491,14 @@
 
 .pay-wrapper{
     position:absolute;
-    left:10px;
+    right:10px;
     bottom:15px;
     z-index:10;
 }
 
 .get-wrapper{
     position:absolute;
-    right:1px;
+    left:1px;
     top:10px;
     z-index:10;
 }
