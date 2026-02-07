@@ -181,11 +181,6 @@ export const howToWinCards: HowToWinCard[] = [
     },
     {
         type: 'Collection Mode',
-        numberOfElements: 3,
-        text: 'of Level 4'
-    },
-    {
-        type: 'Collection Mode',
         numberOfElements: 2,
         text: 'Dragons'
     },

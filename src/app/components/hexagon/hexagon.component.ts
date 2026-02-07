@@ -17,11 +17,11 @@ import { Color } from "../../models/color.type";
 export class HexagonComponent implements OnInit {
     @Input() number: number | undefined;
     @Input() color: Color | undefined;
-    @Input() type: 'get' | 'getWin' | 'getWin2' | 'pay' | 'getMix' | 'chaos' | 'chaos-card' | undefined;
+    @Input() type: 'get' | 'getWin' | 'getWin2' | 'pay' | 'getMix' | 'getMedWin' | 'chaos' | 'chaos-card' | undefined;
 
     public gradient: string | undefined;
     public hexUrl: string | undefined;
-    public coinClass: 'coin-chaos' | 'coin-small' | 'coin-medium' | 'coin-big' | 'coin-big-win' | 'coin-big-win2'  = 'coin-small';
+    public coinClass: 'coin-chaos' | 'coin-small' | 'coin-medium' | 'coin-big' | 'coin-big-win' | 'coin-big-win2' | 'coin-medium-win'  = 'coin-small';
 
     ngOnInit() {
             switch (this.color) {
@@ -44,7 +44,8 @@ export class HexagonComponent implements OnInit {
                     this.hexUrl = './assets/hex/Hex-black-mj4' + (this.type?.includes('get') ? '-card' : '') + '.png';
                     break;
                 case 'mix':
-                    this.hexUrl = './assets/hex/Hex-mix' + (this.type?.includes('get') ? '-card' : '') + '.png';
+                    this.hexUrl = './assets/hex/Hex-mix-card.png';
+                    // this.hexUrl = './assets/hex/Hex-mix' + (this.type?.includes('get') ? '-card' : '') + '.png';
                     break;
                 case 'mix2':
                     this.hexUrl = './assets/hex/Hex-mix2-card.png';
@@ -75,6 +76,9 @@ export class HexagonComponent implements OnInit {
                 break;
             case 'getWin2':
                 this.coinClass = 'coin-big-win2';
+                break;
+            case 'getMedWin':
+                this.coinClass = 'coin-medium-win';
                 break;
         }
     }

@@ -41,6 +41,17 @@
     .number-wrapper{
         padding-right:0px;
         font-size:27.5px;
+        padding-top:10px;
+    }
+}
+.coin-medium-win{
+    height:56px;
+    width:60px;
+    background-size:60px 56px;
+
+    .number-wrapper{
+        padding-right:0px;
+        font-size:27.5px;
         padding-top:14px;
     }
 }

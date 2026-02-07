@@ -31,7 +31,7 @@
                 "left": 249
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -64,8 +64,7 @@
                 "top": 495.6000061035156,
                 "left": 1245
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -100,7 +99,7 @@
                 "left": 747
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -135,7 +134,7 @@
                 "left": 1494
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -204,8 +203,7 @@
                 "top": 495.6000061035156,
                 "left": 498
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -412,7 +410,7 @@
                 "left": 996
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -447,7 +445,7 @@
                 "left": 1494
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -515,7 +513,7 @@
                 "left": 996
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -686,7 +684,7 @@
                 "left": 498
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -927,8 +925,7 @@
                 "top": 539.6000366210938,
                 "left": 1494
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -963,7 +960,7 @@
                 "left": 1245
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -1067,8 +1064,7 @@
                 "top": 539.6000366210938,
                 "left": 249
             },
-            "isSelected": true,
-            "horizontalReverse": false
+            "isSelected": true
         }
     },
     {
@@ -1240,8 +1236,7 @@
                 "top": 639.6000366210938,
                 "left": 996
             },
-            "isSelected": true,
-            "horizontalReverse": false
+            "isSelected": true
         }
     },
     {
@@ -1415,7 +1410,7 @@
                 "left": 1494
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -1450,7 +1445,7 @@
                 "left": 1245
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -1764,8 +1759,7 @@
                 "top": 639.6000366210938,
                 "left": 249
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -1835,7 +1829,7 @@
                 "left": 996
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -1938,8 +1932,7 @@
                 "top": 639.6000366210938,
                 "left": 498
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -1974,7 +1967,7 @@
                 "left": 747
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -2009,7 +2002,7 @@
                 "left": 996
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -2044,7 +2037,7 @@
                 "left": 747
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -2114,7 +2107,7 @@
                 "left": 996
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -2149,7 +2142,7 @@
                 "left": 996
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -2218,7 +2211,7 @@
                 "left": 249
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -2253,7 +2246,7 @@
                 "left": 747
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -2288,7 +2281,7 @@
                 "left": 1743
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -2323,7 +2316,7 @@
                 "left": 249
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -2357,8 +2350,7 @@
                 "top": 639.6000366210938,
                 "left": 996
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -2393,7 +2385,7 @@
                 "left": 747
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -2462,8 +2454,7 @@
                 "top": 639.6000366210938,
                 "left": 1245
             },
-            "isSelected": true,
-            "horizontalReverse": false
+            "isSelected": true
         }
     },
     {
@@ -2498,7 +2489,7 @@
                 "left": 498
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -2532,8 +2523,7 @@
                 "top": 807.5,
                 "left": 996
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -2770,8 +2760,7 @@
                 "top": 807.5,
                 "left": 1494
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -2840,7 +2829,7 @@
                 "left": 1245
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -2848,12 +2837,12 @@
         "level": 2,
         "levelSpecial": true,
         "pay": {
+            "black": 4,
             "red": 0,
             "green": 0,
             "white": 0,
             "blue": 0,
-            "purple": 2,
-            "black": 4
+            "purple": 2
         },
         "get": {
             "black": 1
@@ -2883,12 +2872,12 @@
         "level": 2,
         "levelSpecial": true,
         "pay": {
+            "black": 4,
             "red": 0,
             "green": 0,
             "white": 0,
             "blue": 0,
-            "purple": 2,
-            "black": 4
+            "purple": 2
         },
         "get": {
             "black": 1
@@ -2944,8 +2933,7 @@
                 "top": 682.5,
                 "left": 1494
             },
-            "isSelected": true,
-            "horizontalReverse": false
+            "isSelected": true
         }
     },
     {
@@ -2980,7 +2968,7 @@
                 "left": 1494
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -3015,7 +3003,7 @@
                 "left": 747
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -3049,8 +3037,7 @@
                 "top": 495.6000061035156,
                 "left": 1245
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -3155,7 +3142,7 @@
                 "left": 498
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -3190,7 +3177,7 @@
                 "left": 1494
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -3224,8 +3211,7 @@
                 "top": 713.5,
                 "left": 996
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -3260,7 +3246,7 @@
                 "left": 747
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -3295,7 +3281,7 @@
                 "left": 1494
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -3330,7 +3316,7 @@
                 "left": 249
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -3399,7 +3385,7 @@
                 "left": 747
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -3468,7 +3454,7 @@
                 "left": 747
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -3502,8 +3488,7 @@
                 "top": 838.5,
                 "left": 1743
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -3511,7 +3496,7 @@
         "level": 4,
         "levelSpecial": true,
         "pay": {
-            "black": 4,
+            "black": 5,
             "red": 0,
             "green": 0,
             "white": 0,
@@ -3573,7 +3558,7 @@
                 "left": 1245
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -3608,7 +3593,7 @@
                 "left": 1494
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -3643,7 +3628,7 @@
                 "left": 1245
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -3678,7 +3663,7 @@
                 "left": 498
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -3713,7 +3698,7 @@
                 "left": 1245
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -3748,7 +3733,7 @@
                 "left": 498
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -3818,7 +3803,7 @@
                 "left": 498
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -3831,7 +3816,7 @@
             "purple": 1,
             "green": 0,
             "red": 0,
-            "blue": 7
+            "blue": 5
         },
         "get": {
             "red": 3
@@ -3866,7 +3851,7 @@
             "purple": 1,
             "red": 0,
             "white": 0,
-            "green": 7
+            "green": 5
         },
         "get": {
             "green": 3
@@ -3887,7 +3872,7 @@
                 "left": 996
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -3900,7 +3885,7 @@
             "purple": 1,
             "blue": 0,
             "green": 0,
-            "white": 7
+            "white": 5
         },
         "get": {
             "white": 3
@@ -3921,7 +3906,7 @@
                 "left": 747
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -3934,7 +3919,7 @@
             "purple": 1,
             "white": 0,
             "blue": 0,
-            "red": 7
+            "red": 5
         },
         "get": {
             "blue": 3
@@ -3956,7 +3941,7 @@
                 "left": 498
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -4056,7 +4041,7 @@
         "artData": {
             "picturePath": "https://cdn.midjourney.com/c394833f-fdc0-4efb-acdb-af69cda2dc46/0_1.png",
             "name": "Yeti",
-            "horizontalReverse": false,
+            "horizontalReverse": true,
             "collection": "",
             "color": "mix",
             "level": 4,
@@ -4285,8 +4270,7 @@
                 "top": 807.5,
                 "left": 249
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -4319,8 +4303,7 @@
                 "top": 807.5,
                 "left": 249
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -4354,7 +4337,7 @@
                 "left": 249
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -4388,7 +4371,7 @@
                 "left": 249
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -4399,10 +4382,10 @@
             "red": 0,
             "green": 0,
             "white": 0,
-            "purple": 0,
-            "mix": 0,
-            "black": 3,
-            "blue": 7
+            "blue": 0,
+            "black": 2,
+            "purple": 2,
+            "mix": 10
         },
         "get": {
             "black": 1
@@ -4423,8 +4406,7 @@
                 "top": 776.5,
                 "left": 249
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -4436,9 +4418,9 @@
             "green": 0,
             "white": 0,
             "blue": 0,
-            "mix": 0,
-            "purple": 3,
-            "black": 3
+            "black": 2,
+            "purple": 2,
+            "mix": 10
         },
         "get": {
             "black": 1
@@ -4469,11 +4451,11 @@
         "pay": {
             "red": 0,
             "green": 0,
+            "white": 0,
             "blue": 0,
-            "purple": 0,
-            "mix": 0,
-            "black": 3,
-            "white": 7
+            "black": 2,
+            "purple": 2,
+            "mix": 10
         },
         "get": {
             "black": 1
@@ -4494,8 +4476,7 @@
                 "top": 682.5,
                 "left": 747
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -4504,12 +4485,12 @@
         "levelSpecial": true,
         "pay": {
             "red": 0,
+            "green": 0,
             "white": 0,
             "blue": 0,
-            "purple": 0,
-            "mix": 0,
-            "black": 3,
-            "green": 7
+            "black": 2,
+            "purple": 2,
+            "mix": 10
         },
         "get": {
             "black": 1
@@ -4530,8 +4511,7 @@
                 "top": 682.5,
                 "left": 747
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -4539,13 +4519,13 @@
         "level": 3,
         "levelSpecial": true,
         "pay": {
+            "red": 0,
             "green": 0,
             "white": 0,
             "blue": 0,
-            "purple": 0,
-            "mix": 0,
-            "black": 3,
-            "red": 7
+            "black": 2,
+            "purple": 2,
+            "mix": 10
         },
         "get": {
             "black": 1
@@ -4566,8 +4546,7 @@
                 "top": 682.5,
                 "left": 747
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -4579,9 +4558,9 @@
             "green": 0,
             "white": 0,
             "blue": 0,
-            "mix": 0,
-            "purple": 3,
-            "black": 3
+            "black": 2,
+            "purple": 2,
+            "mix": 10
         },
         "get": {
             "black": 1
@@ -4705,8 +4684,7 @@
                 "top": 713.5,
                 "left": 1743
             },
-            "isSelected": true,
-            "horizontalReverse": false
+            "isSelected": true
         }
     },
     {
@@ -4741,7 +4719,7 @@
                 "left": 747
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -4776,7 +4754,7 @@
                 "left": 249
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -4810,8 +4788,7 @@
                 "top": 639.6000366210938,
                 "left": 996
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -4846,7 +4823,7 @@
                 "left": 996
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {
@@ -4881,7 +4858,7 @@
                 "left": 1494
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -5271,8 +5248,7 @@
                 "top": 807.5,
                 "left": 498
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -5317,10 +5293,10 @@
             "red": 0,
             "green": 0,
             "white": 0,
+            "black": 2,
             "blue": 0,
-            "mix": 0,
-            "purple": 4,
-            "black": 4
+            "purple": 3,
+            "mix": 15
         },
         "get": {
             "black": 1
@@ -5351,11 +5327,11 @@
         "pay": {
             "red": 0,
             "green": 0,
+            "white": 0,
+            "black": 2,
             "blue": 0,
-            "purple": 0,
-            "mix": 0,
-            "black": 4,
-            "white": 10
+            "purple": 3,
+            "mix": 15
         },
         "get": {
             "black": 1
@@ -5384,13 +5360,13 @@
         "level": 4,
         "levelSpecial": true,
         "pay": {
+            "red": 0,
             "green": 0,
             "white": 0,
+            "black": 2,
             "blue": 0,
-            "purple": 0,
-            "mix": 0,
-            "black": 4,
-            "red": 10
+            "purple": 3,
+            "mix": 15
         },
         "get": {
             "black": 1
@@ -5422,10 +5398,10 @@
             "red": 0,
             "green": 0,
             "white": 0,
-            "purple": 0,
-            "mix": 0,
-            "black": 4,
-            "blue": 10
+            "black": 2,
+            "blue": 0,
+            "purple": 3,
+            "mix": 15
         },
         "get": {
             "black": 1
@@ -5455,12 +5431,12 @@
         "levelSpecial": true,
         "pay": {
             "red": 0,
+            "green": 0,
             "white": 0,
+            "black": 2,
             "blue": 0,
-            "purple": 0,
-            "mix": 0,
-            "black": 4,
-            "green": 10
+            "purple": 3,
+            "mix": 15
         },
         "get": {
             "black": 1
@@ -5492,10 +5468,10 @@
             "red": 0,
             "green": 0,
             "white": 0,
+            "black": 2,
             "blue": 0,
-            "mix": 0,
-            "purple": 4,
-            "black": 4
+            "purple": 3,
+            "mix": 15
         },
         "get": {
             "black": 1
