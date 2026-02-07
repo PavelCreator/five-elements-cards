@@ -4109,7 +4109,7 @@
         "levelSpecial": false,
         "pay": {
             "purple": 0,
-            "black": 4,
+            "black": 3,
             "red": 5,
             "green": 5,
             "white": 5,
@@ -4147,7 +4147,7 @@
         "levelSpecial": false,
         "pay": {
             "purple": 0,
-            "black": 4,
+            "black": 3,
             "red": 5,
             "green": 5,
             "white": 5,
@@ -4185,7 +4185,7 @@
         "levelSpecial": false,
         "pay": {
             "purple": 0,
-            "black": 4,
+            "black": 3,
             "red": 5,
             "green": 5,
             "white": 5,
@@ -4223,7 +4223,7 @@
         "levelSpecial": false,
         "pay": {
             "purple": 0,
-            "black": 4,
+            "black": 3,
             "red": 5,
             "green": 5,
             "white": 5,
