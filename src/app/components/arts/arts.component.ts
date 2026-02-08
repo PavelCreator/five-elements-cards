@@ -99,10 +99,22 @@ export class ArtsComponent implements OnInit {
     }
 
     public newArtUrl: string = '';
-    public newArtName: string = '';
+    private _newArtName: string = '';
     public newArtColor: Color = 'bonus';
     public newArtLevel: number = 1;
     public newArtHidden: boolean = false;
+
+    public get newArtName(): string {
+        return this._newArtName;
+    }
+
+    public set newArtName(value: string) {
+        this._newArtName = this.capitalizeWords(value);
+    }
+
+    private capitalizeWords(str: string): string {
+        return str.replace(/\b\w/g, l => l.toUpperCase());
+    }
 
     public addNewArt() {
         const newArt: Art = {
