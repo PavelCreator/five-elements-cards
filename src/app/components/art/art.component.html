@@ -46,5 +46,7 @@
 		<div class="hover-button" *ngIf="!renameModeOn" (click)="toggleRename($event, true)">Rename</div>
 		<div class="hover-button hover-button-confirm" *ngIf="renameModeOn" (click)="toggleRename($event, false)">Confirm Rename</div>
 		<div class="hover-button hover-button-cancel" *ngIf="renameModeOn" (click)="cancelRename($event)">Cancel Rename</div>
+
+		<div class="hover-button" (click)="changeUrl($event)">Change URL</div>
 	</div>
 </div>

@@ -154,4 +154,13 @@ export class ArtComponent implements OnInit {
             }
         }, 300);
     }
+
+    public changeUrl(event: MouseEvent) {
+        event.stopPropagation();
+        const newUrl = prompt('Enter new URL:', this.art.picturePath);
+        if (newUrl && newUrl.trim() !== '') {
+            this.art.picturePath = newUrl.trim();
+            this._interactionService.saveArts();
+        }
+    }
 }

@@ -119,7 +119,7 @@ export class ArtsComponent implements OnInit {
         this.newArtName = '';
         this.newArtColor = 'bonus';
         this.newArtLevel = 1;
-        this.newArtHidden = true;
+        this.newArtHidden = false;
     }
 
     ngOnInit() {
