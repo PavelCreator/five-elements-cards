@@ -11,11 +11,12 @@ import { cards } from "../../data/cards";
 import { Color } from "../../models/color.type";
 import { HelperService } from "../../services/helper.service";
 import { LocalStorageService } from "../../services/local-storage.service";
+import { FormsModule } from "@angular/forms";
 
 @Component({
     selector: 'app-arts',
     standalone: true,
-    imports: [ArtComponent, NgFor, CollectionHeaderComponent],
+    imports: [ArtComponent, NgFor, CollectionHeaderComponent, FormsModule],
     templateUrl: 'arts.component.html',
     styleUrls: ['./arts.component.css'],
 })
@@ -44,6 +45,7 @@ export class ArtsComponent implements OnInit {
     public black3: Art[] = [];
     public black4: Art[] = [];
     public mix4: Art[] = [];
+    public bonus1: Art[] = [];
 
     public needRed1: number = 0;
     public needRed2: number = 0;
@@ -87,11 +89,37 @@ export class ArtsComponent implements OnInit {
     public haveBlack3: number = 0;
     public haveBlack4: number = 0;
     public haveMix4: number = 0;
+    public needBonus1: number = 0;
+    public haveBonus1: number = 0;
 
     constructor(
         private _interactionService: InteractionService,
         private _localStorageService: LocalStorageService
     ) {
+    }
+
+    public newArtUrl: string = '';
+    public newArtName: string = '';
+    public newArtColor: Color = 'bonus';
+    public newArtLevel: number = 1;
+    public newArtHidden: boolean = false;
+
+    public addNewArt() {
+        const newArt: Art = {
+            picturePath: this.newArtUrl,
+            name: this.newArtName,
+            color: this.newArtColor,
+            hidden: this.newArtHidden,
+            level: this.newArtLevel
+        };
+        this.arts.push(newArt);
+        this._interactionService.saveArts();
+        this._recalculateLevels();
+        this.newArtUrl = '';
+        this.newArtName = '';
+        this.newArtColor = 'bonus';
+        this.newArtLevel = 1;
+        this.newArtHidden = true;
     }
 
     ngOnInit() {
@@ -130,7 +158,7 @@ export class ArtsComponent implements OnInit {
     private _recalculateLevels() {
         arts.sort((a, b) => String(a.color).localeCompare(String(b.color))).reverse();
 
-        const colors: Color[] = ['red', 'purple', 'blue', 'green', 'white', 'black', 'mix', 'mix2', 'mix6', 'dice'];
+        const colors: Color[] = ['red', 'purple', 'blue', 'green', 'white', 'black', 'mix', 'mix2', 'mix6', 'dice', 'bonus'];
         let levels: number[] = [];
 
         colors.forEach((color: Color) => {
@@ -147,6 +175,9 @@ export class ArtsComponent implements OnInit {
                     break;
                 case 'mix':
                     levels = [4];
+                    break;
+                case 'bonus':
+                    levels = [1];
                     break;
                 case 'mix6':
                 case 'mix2':

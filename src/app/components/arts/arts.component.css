@@ -5,3 +5,17 @@
 :host {
   overflow-x: hidden;
 }
+.add-art-form {
+    padding: 40px 5px;
+    width: 100%;
+    position: relative;
+
+    input {
+        font-size:24px;
+        margin-right: 20px;
+    }
+
+    button {
+        font-size:24px;
+    }
+}

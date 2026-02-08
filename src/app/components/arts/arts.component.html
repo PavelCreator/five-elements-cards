@@ -1,4 +1,15 @@
 
+<div class="add-art-form">
+		<input type="text" [(ngModel)]="newArtUrl" placeholder="URL">
+		<input type="text" [(ngModel)]="newArtName" placeholder="Name">
+		<input type="text" [(ngModel)]="newArtColor" placeholder="Color">
+		<input type="number" [(ngModel)]="newArtLevel" placeholder="Level">
+		<label><input type="checkbox" [(ngModel)]="newArtHidden">Hidden</label>
+		<button (click)="addNewArt()">Add</button>
+</div>
+
+<div class="level-wrapper"><app-collection-header [art]="{name: 'Bonus   Level 1\rNeed: '+needBonus1+'\rHave: '+haveBonus1+'\rHidden: '+ (bonus1.length - haveBonus1)}"></app-collection-header><app-art *ngFor='let art of bonus1' [art]="art"></app-art></div>
+
 <div class="level-wrapper"><app-collection-header [art]="{name: 'Air   Level 1\rNeed: '+needWhite1+'\rHave: '+haveWhite1+'\rHidden: '+ (white1.length - haveWhite1)}"></app-collection-header><app-art *ngFor='let art of white1' [art]="art"></app-art></div>
 <div class="level-wrapper"><app-collection-header [art]="{name: 'Air   Level 2\rNeed: '+needWhite2+'\rHave: '+haveWhite2+'\rHidden: '+ (white2.length - haveWhite2)}"></app-collection-header><app-art *ngFor='let art of white2' [art]="art"></app-art></div>
 <div class="level-wrapper"><app-collection-header [art]="{name: 'Air   Level 3\rNeed: '+needWhite3+'\rHave: '+haveWhite3+'\rHidden: '+ (white3.length - haveWhite3)}"></app-collection-header><app-art *ngFor='let art of white3' [art]="art"></app-art></div>
@@ -26,3 +37,5 @@
 <div class="level-wrapper"><app-collection-header [art]="{name: 'Dark Level 4\rNeed: '+needBlack3+'\rHave: '+haveBlack4+'\rHidden: '+ (black4.length - haveBlack4)}"></app-collection-header><app-art *ngFor='let art of black4' [art]="art"></app-art></div>
 
 <div class="level-wrapper"><app-collection-header [art]="{name: 'Mix   Level 4\rNeed: '+needMix4+'\rHave: '+haveMix4+'\rHidden: '+ (mix4.length - haveMix4)}"></app-collection-header><app-art *ngFor='let art of mix4' [art]="art"></app-art></div>
+
+<div class="level-wrapper"><app-collection-header [art]="{name: 'Bonus Level 1\rNeed: '+needBonus1+'\rHave: '+haveBonus1+'\rHidden: '+ (bonus1.length - haveBonus1)}"></app-collection-header><app-art *ngFor='let art of bonus1' [art]="art"></app-art></div>
