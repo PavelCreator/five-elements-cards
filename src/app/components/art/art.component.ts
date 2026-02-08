@@ -164,6 +164,15 @@ export class ArtComponent implements OnInit {
         }
     }
 
+    public copyUrl(event: MouseEvent) {
+        event.stopPropagation();
+        navigator.clipboard.writeText(this.art.picturePath as string).then(() => {
+            // URL copied successfully
+        }).catch(err => {
+            console.error('Failed to copy URL: ', err);
+        });
+    }
+
     public deleteArt(event: MouseEvent) {
         event.stopPropagation();
         if (confirm('Are you sure you want to delete this art?')) {

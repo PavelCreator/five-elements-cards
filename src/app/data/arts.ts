@@ -1629,7 +1629,7 @@ export const arts: Art[] = [
     },
     {
         "picturePath": "https://cdn.midjourney.com/a7574137-d656-4718-8eaf-f8c0f18a5969/0_1.png",
-        "name": "House Spirit",
+        "name": "Domovoi",
         "color": "bonus",
         "hidden": false,
         "level": 1
@@ -1643,56 +1643,66 @@ export const arts: Art[] = [
     },
     {
         "picturePath": "https://cdn.midjourney.com/a4a023b4-a5f7-4d50-85a2-6c5fdac151f1/0_1.png",
-        "name": "Barn Spirit",
+        "name": "Grainborn",
         "color": "bonus",
         "hidden": false,
-        "level": 1
+        "level": 1,
+        "boundingClientRectStart": {
+            "top": 591.543701171875,
+            "left": 1742.7374267578125
+        },
+        "isSelected": true
     },
     {
         "picturePath": "https://cdn.midjourney.com/6c75b565-c811-4654-8743-ff65c71aadf8/0_0.png",
-        "name": "Field Spirit",
+        "name": "Fieldling",
         "color": "bonus",
         "hidden": false,
         "level": 1
     },
     {
         "picturePath": "https://cdn.midjourney.com/3c42fcf7-eecd-4b37-a92e-c10fcc3ce423/0_3.png",
-        "name": "Forest Sprite",
+        "name": "Verdelume",
         "color": "bonus",
         "hidden": false,
         "level": 1
     },
     {
         "picturePath": "https://cdn.midjourney.com/3b2b2ede-5b45-4398-8892-4a2ce05a4493/0_3.png",
-        "name": "Mushroom Creature",
+        "name": "Mycoling",
         "color": "bonus",
         "hidden": false,
         "level": 1
     },
     {
         "picturePath": "https://cdn.midjourney.com/4986b634-6231-4984-bf65-22402ce9de69/0_1.png",
-        "name": "Berry Spirit",
+        "name": "Berry Fae",
         "color": "bonus",
         "hidden": false,
-        "level": 1
+        "level": 1,
+        "boundingClientRectStart": {
+            "top": 591.543701171875,
+            "left": 746.887451171875
+        },
+        "isSelected": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/e4ce0e7d-35bc-4b99-9728-5650f856d2d6/0_2.png",
-        "name": "Forest Child",
+        "name": "Greenchild",
         "color": "bonus",
         "hidden": false,
         "level": 1
     },
     {
         "picturePath": "https://cdn.midjourney.com/f0c6ed26-8ff9-4851-ab3f-066e55fd879e/0_1.png",
-        "name": "Moss Spirit",
+        "name": "Mossling",
         "color": "bonus",
         "hidden": false,
         "level": 1
     },
     {
         "picturePath": "https://cdn.midjourney.com/596c5897-359b-4d3b-a8bc-189a4c24f7f5/0_2.png",
-        "name": "Forest Imp",
+        "name": "Moonkin",
         "color": "bonus",
         "hidden": false,
         "level": 1
@@ -1713,7 +1723,7 @@ export const arts: Art[] = [
     },
     {
         "picturePath": "https://cdn.midjourney.com/4c2b4d06-b6e5-4ea9-ba7b-b64d1a29b2f4/0_2.png",
-        "name": "Swamp Devil",
+        "name": "Fenlurker",
         "color": "bonus",
         "hidden": false,
         "level": 1
@@ -1741,21 +1751,21 @@ export const arts: Art[] = [
     },
     {
         "picturePath": "https://cdn.midjourney.com/be657e04-1cfa-438c-8f5d-9d094aa1d295/0_0.png",
-        "name": "Mine Spirit",
+        "name": "Thranox",
         "color": "bonus",
         "hidden": false,
         "level": 1
     },
     {
         "picturePath": "https://cdn.midjourney.com/7f0a2679-f0ef-4a03-afff-ff025b7e4e28/0_0.png",
-        "name": "Fly Agaric",
+        "name": "Sporekin",
         "color": "bonus",
         "hidden": false,
         "level": 1
     },
     {
         "picturePath": "https://cdn.midjourney.com/dcf06eb4-5bd6-44a4-9ac4-b916b542c254/0_0.png",
-        "name": "Snail Spirit",
+        "name": "Snailfolk",
         "color": "bonus",
         "hidden": false,
         "level": 1
@@ -1770,6 +1780,13 @@ export const arts: Art[] = [
     {
         "picturePath": "https://cdn.midjourney.com/8bb16515-87d6-483f-89b5-68dfb43bcf78/0_2.png",
         "name": "Nyxling",
+        "color": "bonus",
+        "hidden": false,
+        "level": 1
+    },
+    {
+        "picturePath": "https://cdn.midjourney.com/f97d7353-ea2e-41f4-a49b-84b517930517/0_2.png",
+        "name": "Deepwood Imp",
         "color": "bonus",
         "hidden": false,
         "level": 1
