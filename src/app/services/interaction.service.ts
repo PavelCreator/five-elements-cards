@@ -156,6 +156,10 @@ export class InteractionService {
     }
   }
 
+  public removeArt(art: Art) {
+    this._removedArtSubject$.next(art);
+  }
+
   public animationFlyingArtTime = 400;
 
   private _addArtToCard() {

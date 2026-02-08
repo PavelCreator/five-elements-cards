@@ -163,4 +163,11 @@ export class ArtComponent implements OnInit {
             this._interactionService.saveArts();
         }
     }
+
+    public deleteArt(event: MouseEvent) {
+        event.stopPropagation();
+        if (confirm('Are you sure you want to delete this art?')) {
+            this._interactionService.removeArt(this.art);
+        }
+    }
 }
