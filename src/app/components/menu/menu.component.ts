@@ -23,6 +23,7 @@ export class MenuComponent {
     public cardSide: CardSide = 'front';
     public showMenu: boolean = true;
     public printMode: 'print' | 'view' = 'print';
+    public editTokensMode: boolean = false;
 
     constructor(
         private _interactionService: InteractionService,
@@ -70,6 +71,11 @@ export class MenuComponent {
             this.setPrintMode(printModeFromLocalStorage === 'print');
         } else {
             this.setPrintMode(true);
+        }
+
+        const editTokensModeFromLocalStorage: string | null = this._localStorageService.getItem('editTokensMode');
+        if (editTokensModeFromLocalStorage) {
+            this.setEditTokensMode(editTokensModeFromLocalStorage === 'true');
         }
     }
 
@@ -128,5 +134,11 @@ export class MenuComponent {
         this.printMode = inPrintMode ? 'print' : 'view';
         this._localStorageService.setItem('printMode', this.printMode);
         this._interactionService.setPrintMode(inPrintMode);
+    }
+
+    public setEditTokensMode(inEditTokensMode: boolean) {
+        this.editTokensMode = inEditTokensMode;
+        this._localStorageService.setItem('editTokensMode', inEditTokensMode.toString());
+        this._interactionService.setEditTokensMode(inEditTokensMode);
     }
 }

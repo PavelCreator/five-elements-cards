@@ -62,6 +62,12 @@ export class CardComponent implements OnInit {
     public cardBackUrl: string = '';
     public showDisabledCard: boolean = false;
     public printModeEnabled: boolean = true;
+    public editTokensMode: boolean = false;
+    public allColors: string[] = ['green', 'white', 'blue', 'red', 'purple', 'black'];
+
+    public trackByColor(index: number, color: string): string {
+        return index.toString();
+    }
 
     constructor(
         private _interactionService: InteractionService,
@@ -83,7 +89,7 @@ export class CardComponent implements OnInit {
         })
 
         this.card.pay = Object.fromEntries(
-            Object.entries(this.card.pay).sort(([, a], [, b]) => a - b)
+            Object.entries(this.card.pay).sort(([, a], [, b]) => (a ?? 0) - (b ?? 0))
         );
 
         this._interactionService.selectedCard$.subscribe((inCard: Card | ChaosCard | undefined) => {
@@ -121,6 +127,10 @@ export class CardComponent implements OnInit {
 
         this._interactionService.printMode$.subscribe((inPrintMode: boolean) => {
             this.printModeEnabled = inPrintMode;
+        })
+
+        this._interactionService.editTokensMode$.subscribe((inEditTokensMode: boolean) => {
+            this.editTokensMode = inEditTokensMode;
         })
     }
 
@@ -200,5 +210,22 @@ export class CardComponent implements OnInit {
                 this._interactionService.saveCards();
             }
         }, 300);
+    }
+
+    public increaseToken(color: string) {
+        console.log('increaseToken called with color:', color);
+        if (!this.editTokensMode) return;
+        if (!this.card.pay[color]) this.card.pay[color] = 0;
+        this.card.pay[color]++;
+        this._interactionService.saveCards();
+    }
+
+    public decreaseToken(color: string) {
+        console.log('decreaseToken called with color:', color);
+        if (!this.editTokensMode) return;
+        if (this.card.pay[color] && this.card.pay[color] > 0) {
+            this.card.pay[color]--;
+            this._interactionService.saveCards();
+        }
     }
 }

@@ -6,6 +6,7 @@
     font-family: "Skranji", serif;
     font-weight: 700;
     font-style: normal;
+    position:relative;
 }
 .coin-small{
     height:47px;
@@ -87,4 +88,20 @@
         font-size: 34px;
         padding-top: 32px;
     }
+}
+
+.left-half, .right-half {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    cursor: pointer;
+}
+
+.left-half {
+    left: 0;
+}
+
+.right-half {
+    right: 0;
 }

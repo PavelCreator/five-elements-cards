@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgClass, NgIf, NgStyle } from "@angular/common";
 import { Color } from "../../models/color.type";
 
@@ -8,6 +8,8 @@ import { Color } from "../../models/color.type";
     standalone: true,
     template: `
 			<div class="coin" [ngClass]="coinClass" [ngStyle]="{'background-image': 'url(\\'' + hexUrl + '\\')'}">
+				<div class="left-half" (click)="$event.stopPropagation(); onLeftClick()"></div>
+				<div class="right-half" (click)="$event.stopPropagation(); onRightClick()"></div>
 				<div class="number-wrapper" *ngIf="number">{{ number }}</div>
 			</div>
     `,
@@ -18,6 +20,9 @@ export class HexagonComponent implements OnInit {
     @Input() number: number | undefined;
     @Input() color: Color | undefined;
     @Input() type: 'get' | 'getWin' | 'getWin2' | 'pay' | 'getMix' | 'getMedWin' | 'chaos' | 'chaos-card' | undefined;
+
+    @Output() leftClick = new EventEmitter<string>();
+    @Output() rightClick = new EventEmitter<string>();
 
     public gradient: string | undefined;
     public hexUrl: string | undefined;
@@ -81,5 +86,15 @@ export class HexagonComponent implements OnInit {
                 this.coinClass = 'coin-medium-win';
                 break;
         }
+    }
+
+    onLeftClick() {
+        console.log('onLeftClick, color:', this.color);
+        this.leftClick.emit(this.color);
+    }
+
+    onRightClick() {
+        console.log('onRightClick, color:', this.color);
+        this.rightClick.emit(this.color);
     }
 }

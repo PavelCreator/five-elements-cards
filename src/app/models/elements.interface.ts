@@ -13,4 +13,5 @@ export interface Elements {
     mix6?: number,
     oneOf4?: number
     twoOf4?: number
+    [key: string]: number | undefined;
 }

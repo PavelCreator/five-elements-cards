@@ -18,8 +18,15 @@
 			<div class="card-overlay"></div>
 		</div>
     <div class="pay-wrapper">
-				<ng-container *ngFor="let item of card.pay | keys">
-					<app-hexagon *ngIf="item.value"  [color]="item.key" [number]="item.value" [type]="'pay'"></app-hexagon>
+				<ng-container *ngIf="!editTokensMode">
+					<ng-container *ngFor="let item of card.pay | keys">
+						<app-hexagon *ngIf="item.value"  [color]="item.key" [number]="item.value" [type]="'pay'"></app-hexagon>
+					</ng-container>
+				</ng-container>
+				<ng-container *ngIf="editTokensMode">
+					<ng-container *ngFor="let color of allColors; trackBy: trackByColor">
+						<app-hexagon [color]="color" [number]="card.pay[color] || 0" [type]="'pay'" (leftClick)="decreaseToken(color)" (rightClick)="increaseToken(color)"></app-hexagon>
+					</ng-container>
 				</ng-container>
     </div>
     <div class="get-wrapper">

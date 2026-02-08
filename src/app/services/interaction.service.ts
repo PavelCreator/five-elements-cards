@@ -71,6 +71,9 @@ export class InteractionService {
   private _printModeSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public printMode$: Observable<boolean> = this._printModeSubject$.asObservable();
 
+  private _editTokensModeSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public editTokensMode$: Observable<boolean> = this._editTokensModeSubject$.asObservable();
+
   private _selectedViewModeSubject$: BehaviorSubject<number | undefined> = new BehaviorSubject<number | undefined>(undefined);
   public selectedViewMode$: Observable<number | undefined> = this._selectedViewModeSubject$.asObservable();
 
@@ -138,6 +141,10 @@ export class InteractionService {
 
   public setPrintMode(inPrintMode: boolean) {
     this._printModeSubject$.next(inPrintMode);
+  }
+
+  public setEditTokensMode(inEditTokensMode: boolean) {
+    this._editTokensModeSubject$.next(inEditTokensMode);
   }
 
   public toggleArtSelection(inArt: Art) {

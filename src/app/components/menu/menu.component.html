@@ -31,6 +31,8 @@
 		<div class="menu-item" *ngIf="collectionHeaderState === 'visible'" (click)="changeCollectionHeaderState('hidden')">* Hide Collection Header</div>
 		<div class="menu-item" *ngIf="printMode === 'print'" (click)="setPrintMode(false)">* View Mode</div>
 		<div class="menu-item" *ngIf="printMode === 'view'" (click)="setPrintMode(true)">* Print Mode</div>
+		<div class="menu-item" *ngIf="!editTokensMode" (click)="setEditTokensMode(true)">* Edit Tokens On</div>
+		<div class="menu-item" *ngIf="editTokensMode" (click)="setEditTokensMode(false)">* Edit Tokens Off</div>
 		<div class="menu-item" (click)="showMenu = false">* Hide Menu</div>
 	</div>
 </div>
