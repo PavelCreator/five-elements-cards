@@ -229,9 +229,9 @@ export const arts: Art[] = [
         "picturePath": "https://cdn.midjourney.com/389aab14-43ce-4442-a0ab-303af84009e3/0_1.png",
         "name": "Dwarf",
         "collection": "",
-        "color": "white",
+        "color": "bonus",
         "level": 1,
-        "hidden": true
+        "hidden": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/635333c8-4a66-4728-a442-54b0f38a88d8/0_3.png",
@@ -442,9 +442,9 @@ export const arts: Art[] = [
         "picturePath": "https://cdn.midjourney.com/6f56eb5a-20f1-41d8-b034-8b694de03099/0_2.png",
         "name": "Troglodyte",
         "collection": "",
-        "color": "red",
+        "color": "bonus",
         "level": 1,
-        "hidden": true
+        "hidden": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/037279ef-5564-4d34-a229-1a9625291ea5/0_1.png",
@@ -500,9 +500,9 @@ export const arts: Art[] = [
         "picturePath": "https://cdn.midjourney.com/6a8844de-ffdc-4a0a-ab2a-3f759d566882/0_2.png",
         "name": "Gnoll Marauder",
         "collection": "",
-        "color": "red",
+        "color": "bonus",
         "level": 1,
-        "hidden": true
+        "hidden": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/a866edc1-c21c-43eb-a9c4-c6a6a5dc623c/0_3.png",
@@ -949,17 +949,17 @@ export const arts: Art[] = [
     },
     {
         "picturePath": "https://cdn.midjourney.com/1f3aea18-d852-4767-a972-a72376ee7278/0_0.png",
-        "name": "Lost in the Woods",
-        "color": "green",
+        "name": "Vasilisa",
+        "color": "bonus",
         "level": 1,
-        "hidden": true
+        "hidden": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/f4615b9c-8396-422c-9a22-3d0c341d9ab3/0_1.png",
         "name": "Heart of the Tree",
-        "color": "green",
-        "hidden": true,
-        "level": 2
+        "color": "bonus",
+        "hidden": false,
+        "level": 1
     },
     {
         "picturePath": "https://cdn.midjourney.com/da0e4e17-07df-4425-a0c4-749dec84e628/0_2.png",
@@ -994,9 +994,9 @@ export const arts: Art[] = [
         "picturePath": "https://cdn.midjourney.com/b945be9c-61cd-437c-a436-ad3c9961589b/0_1.png",
         "name": "Dryad",
         "collection": "",
-        "color": "green",
+        "color": "bonus",
         "level": 1,
-        "hidden": true
+        "hidden": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/79201dc5-8913-4b7f-bf78-431686fe3eeb/0_2.png",
@@ -1143,11 +1143,11 @@ export const arts: Art[] = [
     },
     {
         "picturePath": "https://cdn.midjourney.com/49d972ea-3300-4a92-b398-e1ab5a96d57e/0_2.png",
-        "name": "Knight of Earth",
+        "name": "Verdant Sentinel",
         "collection": "Element Knights",
-        "color": "green",
-        "level": 3,
-        "hidden": true
+        "color": "bonus",
+        "level": 1,
+        "hidden": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/28f33b2a-1f72-491e-bb4c-ca8fd8db811f/0_0.png",
@@ -1429,9 +1429,9 @@ export const arts: Art[] = [
         "picturePath": "https://cdn.midjourney.com/f3ab25c9-aa74-4dc7-8353-7143287fef42/0_1.png",
         "name": "Dark Elf",
         "collection": "",
-        "color": "black",
+        "color": "bonus",
         "level": 1,
-        "hidden": true
+        "hidden": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/474b6e4d-e533-4780-a749-77a9b947f8a0/0_1.png",
@@ -1489,9 +1489,9 @@ export const arts: Art[] = [
         "picturePath": "https://cdn.midjourney.com/4dd792ea-2574-463e-8d2a-48771927f94c/0_2.png",
         "name": "Deadly Harpy",
         "collection": "",
-        "color": "black",
+        "color": "bonus",
         "level": 1,
-        "hidden": true
+        "hidden": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/e5f70b16-2ef3-4e15-a5c6-7112d7e5875f/0_3.png",
@@ -1575,9 +1575,9 @@ export const arts: Art[] = [
         "picturePath": "https://cdn.midjourney.com/108f03b2-7598-4d3b-a54c-37f263b7e3f8/0_3.png",
         "name": "Gremlin",
         "collection": "",
-        "color": "black",
+        "color": "bonus",
         "level": 1,
-        "hidden": true
+        "hidden": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/c18a8c5a-7f3f-4df8-aeb2-fec2e63e4e15/0_3.png",
@@ -1628,7 +1628,7 @@ export const arts: Art[] = [
         "level": 1
     },
     {
-        "picturePath": "https://cdn.midjourney.com/a7574137-d656-4718-8eaf-f8c0f18a5969/0_1.png",
+        "picturePath": "https://cdn.midjourney.com/0b8d745b-feb6-4598-95c9-a7dc4e83b2be/0_2.png",
         "name": "Domovoi",
         "color": "bonus",
         "hidden": false,
@@ -1651,7 +1651,7 @@ export const arts: Art[] = [
             "top": 591.543701171875,
             "left": 1742.7374267578125
         },
-        "isSelected": true
+        "isSelected": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/6c75b565-c811-4654-8743-ff65c71aadf8/0_0.png",
@@ -1787,6 +1787,20 @@ export const arts: Art[] = [
     {
         "picturePath": "https://cdn.midjourney.com/f97d7353-ea2e-41f4-a49b-84b517930517/0_2.png",
         "name": "Deepwood Imp",
+        "color": "bonus",
+        "hidden": false,
+        "level": 1
+    },
+    {
+        "picturePath": "https://cdn.midjourney.com/f7897f2e-0cff-4294-8173-3666dd9f5a58/0_1.png",
+        "name": "Hut On Chicken Legs",
+        "color": "bonus",
+        "hidden": false,
+        "level": 1
+    },
+    {
+        "picturePath": "https://cdn.midjourney.com/8710e206-6a12-4279-888d-3e19e360cba0/0_0.png",
+        "name": "Baba Yaga",
         "color": "bonus",
         "hidden": false,
         "level": 1

@@ -173,6 +173,14 @@ export class ArtComponent implements OnInit {
         });
     }
 
+    public moveTop(event: MouseEvent) {
+        event.stopPropagation();
+        this.art.color = 'bonus';
+        this.art.hidden = false;
+        this.art.level = 1;
+        this._interactionService.saveArts();
+    }
+
     public deleteArt(event: MouseEvent) {
         event.stopPropagation();
         if (confirm('Are you sure you want to delete this art?')) {
