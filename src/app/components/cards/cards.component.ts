@@ -106,7 +106,7 @@ export class CardsComponent implements OnInit {
     public newCardPayBlue: number = 0;
     public newCardPayPurple: number = 0;
     public newCardPayBlack: number = 0;
-    public newCardGetKey: string = '';
+    public newCardGetKey: string = 'green';
     public newCardGetValue: number = 0;
     public newCardLevel: number = 1;
     public newCardLevelSpecial: boolean = false;
@@ -122,7 +122,10 @@ export class CardsComponent implements OnInit {
 
     ngOnInit() {
         console.log('All cards length =', this.cards.length + this.masterCards.length + this.chaosCards.length);
-        this.cards = this._cardsStoreService.cards;
+        this._cardsStoreService.cards$.subscribe(cards => {
+            this.cards = [...cards];
+            this._recalculateLevels();
+        });
         this._cardsStoreService.setCards(this.cards);
 
         const chaosCardsFromLocalStorage = this._localStorageService.loadArray('chaosCards');
@@ -185,6 +188,17 @@ export class CardsComponent implements OnInit {
             }
         };
         this.cards.push(newCard);
+        // Set color for new card
+        let mixColorDetector = 0;
+        const colors: Color[] = ['red', 'purple', 'blue', 'white', 'black', 'green'];
+        colors.forEach((color: Color) => {
+            if (color in newCard.get) {
+                newCard.color = color;
+                mixColorDetector++;
+            }
+        });
+        if (mixColorDetector > 1) newCard.color = 'mix';
+        this._cardsStoreService.setCards(this.cards);
         this._interactionService.saveCards();
         this._recalculateLevels();
         this.newCardPayRed = 0;
@@ -193,7 +207,7 @@ export class CardsComponent implements OnInit {
         this.newCardPayBlue = 0;
         this.newCardPayPurple = 0;
         this.newCardPayBlack = 0;
-        this.newCardGetKey = '';
+        this.newCardGetKey = 'green';
         this.newCardGetValue = 0;
         this.newCardLevel = 1;
         this.newCardLevelSpecial = false;
