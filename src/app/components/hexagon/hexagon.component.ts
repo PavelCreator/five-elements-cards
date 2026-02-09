@@ -49,7 +49,7 @@ export class HexagonComponent implements OnInit {
                     this.hexUrl = './assets/hex/Hex-black-mj4' + (this.type?.includes('get') ? '-card' : '') + '.png';
                     break;
                 case 'mix':
-                    this.hexUrl = './assets/hex/Hex-mix-card.png';
+                    this.hexUrl = './assets/hex/Hex-mix.png';
                     // this.hexUrl = './assets/hex/Hex-mix' + (this.type?.includes('get') ? '-card' : '') + '.png';
                     break;
                 case 'mix2':
@@ -59,7 +59,28 @@ export class HexagonComponent implements OnInit {
                     this.hexUrl = './assets/hex/Hex-mix6-card.png';
                     break;
                 case 'dice':
-                    this.hexUrl = './assets/hex/dice2.png';
+                    this.hexUrl = './assets/hex/dice3.png';
+                    break;
+                case 'card_1_lvl':
+                    this.hexUrl = './assets/hex/card_1_lvl.png';
+                    break;
+                case 'card_2_lvl':
+                    this.hexUrl = './assets/hex/card_2_lvl.png';
+                    break;
+                case 'card_3_lvl':
+                    this.hexUrl = './assets/hex/card_3_lvl.png';
+                    break;
+                case 'card_4_lvl':
+                    this.hexUrl = './assets/hex/card_4_lvl.png';
+                    break;
+                case 'card_master':
+                    this.hexUrl = './assets/hex/card_master.png';
+                    break;
+                case 'extra_turn':
+                    this.hexUrl = './assets/hex/extra_turn_4.png';
+                    break;
+                case 'drop_card':
+                    this.hexUrl = './assets/hex/drop_card.png';
                     break;
             }
         switch (this.type) {

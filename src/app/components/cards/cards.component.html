@@ -19,6 +19,8 @@
     <button (click)="addNewCard()">Add Card</button>
 </div>
 
+<div class="level-wrapper"><app-collection-header *ngIf="showCollectionHeader" [art]="{name: 'Bonus'}"></app-collection-header><app-card *ngFor='let card of bonus' [card]="card"></app-card></div>
+
 <div class="level-wrapper"><app-collection-header *ngIf="showCollectionHeader" [art]="{name: 'Earth Level 1\r\nNeed: '+needGreen1+'\r\nHave: '+haveGreen1+'\r\nHidden: '+ (green1.length - haveGreen1)}"></app-collection-header><app-card *ngFor='let card of green1' [card]="card"></app-card></div>
 <div class="level-wrapper"><app-collection-header *ngIf="showCollectionHeader" [art]="{name: 'Earth Level 2\r\nNeed: '+needGreen2+'\r\nHave: '+haveGreen2+'\r\nHidden: '+ (green2.length - haveGreen2)}"></app-collection-header><app-card *ngFor='let card of green2' [card]="card"></app-card></div>
 <div class="level-wrapper"><app-collection-header *ngIf="showCollectionHeader" [art]="{name: 'Earth Level 3\r\nNeed: '+needGreen3+'\r\nHave: '+haveGreen3+'\r\nHidden: '+ (green3.length - haveGreen3)}"></app-collection-header><app-card *ngFor='let card of green3' [card]="card"></app-card></div>

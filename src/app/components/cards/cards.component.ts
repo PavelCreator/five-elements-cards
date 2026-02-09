@@ -56,6 +56,7 @@ export class CardsComponent implements OnInit {
     public black3: Card[] = [];
     public black4: Card[] = [];
     public mix4: Card[] = [];
+    public bonus: Card[] = [];
 
     public needRed1: number = 0;
     public needRed2: number = 0;
@@ -127,6 +128,15 @@ export class CardsComponent implements OnInit {
             this._recalculateLevels();
         });
         this._cardsStoreService.setCards(this.cards);
+
+
+        const bonusNames = ['dice', 'card_1_lvl', 'card_2_lvl', 'card_3_lvl', 'card_4_lvl', 'card_master', 'extra_turn', 'drop_card'];
+        bonusNames.forEach((bonusName: string) => {
+            this.bonus = [
+                ...this.bonus,
+                ...this.cards.filter(card => Object.prototype.hasOwnProperty.call(card.get, bonusName))
+            ];
+        });
 
         this._interactionService.removedCard$.subscribe(cardToRemove => {
             if (!cardToRemove) return;
@@ -225,7 +235,7 @@ export class CardsComponent implements OnInit {
     }
 
     private _recalculateLevels() {
-        const colors: Color[] = ['red', 'purple', 'blue', 'green', 'white', 'black', 'mix', 'dice', 'master'];
+        const colors: Color[] = ['red', 'purple', 'blue', 'green', 'white', 'black', 'mix', 'dice', 'master', 'card_1_lvl', 'card_2_lvl', 'card_3_lvl', 'card_4_lvl', 'card_master', 'extra_turn'];
         let levels: number[] = [];
 
         colors.forEach((color: Color) => {
@@ -243,6 +253,19 @@ export class CardsComponent implements OnInit {
 
                 case 'mix':
                     levels = [4];
+                    break;
+
+                case 'bonus':
+                case 'dice':
+                case 'master':
+                case 'card_1_lvl':
+                case 'card_2_lvl':
+                case 'card_3_lvl':
+                case 'card_4_lvl':
+                case 'card_master':
+                case 'extra_turn':
+                    levels = [0];
+                    break;
             }
 
             levels.forEach((level: number) => {

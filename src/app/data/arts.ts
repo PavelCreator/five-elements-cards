@@ -1614,13 +1614,6 @@ export const arts: Art[] = [
         "level": 2
     },
     {
-        "picturePath": "https://cdn.midjourney.com/3451d961-de0e-4c59-bf02-1740534941ed/0_2.png",
-        "name": "Leprechaun",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/036a7b7f-f603-427f-92d0-c9ff7ec02d56/0_0.png",
         "name": "Gnome",
         "color": "bonus",
@@ -1640,18 +1633,6 @@ export const arts: Art[] = [
         "color": "bonus",
         "hidden": false,
         "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/a4a023b4-a5f7-4d50-85a2-6c5fdac151f1/0_1.png",
-        "name": "Grainborn",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1,
-        "boundingClientRectStart": {
-            "top": 591.543701171875,
-            "left": 1742.7374267578125
-        },
-        "isSelected": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/6c75b565-c811-4654-8743-ff65c71aadf8/0_0.png",
@@ -1687,20 +1668,6 @@ export const arts: Art[] = [
         "isSelected": false
     },
     {
-        "picturePath": "https://cdn.midjourney.com/e4ce0e7d-35bc-4b99-9728-5650f856d2d6/0_2.png",
-        "name": "Greenchild",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/f0c6ed26-8ff9-4851-ab3f-066e55fd879e/0_1.png",
-        "name": "Mossling",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/596c5897-359b-4d3b-a8bc-189a4c24f7f5/0_2.png",
         "name": "Moonkin",
         "color": "bonus",
@@ -1710,13 +1677,6 @@ export const arts: Art[] = [
     {
         "picturePath": "https://cdn.midjourney.com/0741c13b-518e-459a-8f8e-b52777894146/0_1.png",
         "name": "Boliboshka",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/e8b10f59-1374-4d49-abe7-e5be9fef13f1/0_3.png",
-        "name": "Kikimora",
         "color": "bonus",
         "hidden": false,
         "level": 1
@@ -1764,45 +1724,15 @@ export const arts: Art[] = [
         "level": 1
     },
     {
-        "picturePath": "https://cdn.midjourney.com/dcf06eb4-5bd6-44a4-9ac4-b916b542c254/0_0.png",
-        "name": "Snailfolk",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/49e2fa09-3c8a-47cf-a0a9-30c8fa3dc9af/0_0.png",
-        "name": "Pixie",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/8bb16515-87d6-483f-89b5-68dfb43bcf78/0_2.png",
-        "name": "Nyxling",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/f97d7353-ea2e-41f4-a49b-84b517930517/0_2.png",
         "name": "Deepwood Imp",
         "color": "bonus",
         "hidden": false,
-        "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/f7897f2e-0cff-4294-8173-3666dd9f5a58/0_1.png",
-        "name": "Hut On Chicken Legs",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/8710e206-6a12-4279-888d-3e19e360cba0/0_0.png",
-        "name": "Baba Yaga",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
+        "level": 1,
+        "boundingClientRectStart": {
+            "top": 671.6364135742188,
+            "left": 249
+        },
+        "isSelected": false
     }
 ];

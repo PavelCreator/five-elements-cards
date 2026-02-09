@@ -36,6 +36,14 @@
         <app-hexagon *ngIf="card.get.red" [color]="'red'" [number]="card.get.red" [type]="typeOfGetHexagon"></app-hexagon>
         <app-hexagon *ngIf="card.get.purple" [color]="'purple'" [number]="card.get.purple" [type]="typeOfGetHexagon"></app-hexagon>
         <app-hexagon *ngIf="card.get.black" [color]="'black'" [number]="card.get.black" [type]="typeOfGetHexagon"></app-hexagon>
+        <app-hexagon *ngIf="card.get.dice" [color]="'dice'" [number]="card.get.dice" [type]="typeOfGetHexagon"></app-hexagon>
+        <app-hexagon *ngIf="card.get.card_1_lvl === 0" [color]="'card_1_lvl'" [number]="card.get.card_1_lvl" [type]="typeOfGetHexagon"></app-hexagon>
+        <app-hexagon *ngIf="card.get.card_2_lvl === 0" [color]="'card_2_lvl'" [number]="card.get.card_2_lvl" [type]="typeOfGetHexagon"></app-hexagon>
+        <app-hexagon *ngIf="card.get.card_3_lvl === 0" [color]="'card_3_lvl'" [number]="card.get.card_3_lvl" [type]="typeOfGetHexagon"></app-hexagon>
+        <app-hexagon *ngIf="card.get.card_4_lvl === 0" [color]="'card_4_lvl'" [number]="card.get.card_4_lvl" [type]="typeOfGetHexagon"></app-hexagon>
+        <app-hexagon *ngIf="card.get.card_master === 0" [color]="'card_master'" [number]="card.get.card_master" [type]="typeOfGetHexagon"></app-hexagon>
+        <app-hexagon *ngIf="card.get.extra_turn === 0" [color]="'extra_turn'" [number]="card.get.extra_turn" [type]="typeOfGetHexagon"></app-hexagon>
+        <app-hexagon *ngIf="card.get.drop_card === 0" [color]="'drop_card'" [number]="card.get.drop_card" [type]="typeOfGetHexagon"></app-hexagon>
     </div>
     <div class="get-wrapper"></div>
     <div class="order-num">{{ card.orderNumber }}</div>
