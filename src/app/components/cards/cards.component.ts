@@ -137,6 +137,9 @@ export class CardsComponent implements OnInit {
                 ...this.cards.filter(card => Object.prototype.hasOwnProperty.call(card.get, bonusName))
             ];
         });
+        this.bonus.forEach((item: any) => {
+           item.levelBonus = true;
+        });
 
         this._interactionService.removedCard$.subscribe(cardToRemove => {
             if (!cardToRemove) return;

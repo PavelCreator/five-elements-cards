@@ -15,4 +15,5 @@ export interface Card {
     isSelected?: boolean;
     boundingClientRect?: BoundingClientRect;
     hidden?: boolean;
+    levelBonus?: boolean;
 }
