@@ -17,13 +17,14 @@ import { howToWinCards } from "../../data/how-to-win-cards";
 import { MasterCardComponent } from "../master-card/master-card.component";
 import { Visibility } from "../../models/visibility.type";
 import { HowToWinCard } from "../../models/how-to-win-card.interface";
+import { FormsModule } from "@angular/forms";
 import {HowToWinComponent} from "../how-to-win/how-to-win.component";
-import { CardsStoreService } from "../../services/cards-store.service";
+import {CardsStoreService} from "../../services/cards-store.service";
 
 @Component({
     selector: 'app-cards',
     standalone: true,
-    imports: [CardComponent, ChaosCardComponent, MasterCardComponent, NgFor, CollectionHeaderComponent, NgIf, HowToWinComponent],
+    imports: [CardComponent, ChaosCardComponent, MasterCardComponent, NgFor, CollectionHeaderComponent, NgIf, HowToWinComponent, FormsModule],
     templateUrl: 'cards.component.html',
     styleUrls: ['./cards.component.css'],
 })
@@ -99,6 +100,17 @@ export class CardsComponent implements OnInit {
     public haveBlack4: number = 0;
     public haveMix4: number = 0;
 
+    public newCardPayRed: number = 0;
+    public newCardPayGreen: number = 0;
+    public newCardPayWhite: number = 0;
+    public newCardPayBlue: number = 0;
+    public newCardPayPurple: number = 0;
+    public newCardPayBlack: number = 0;
+    public newCardGetKey: string = '';
+    public newCardGetValue: number = 0;
+    public newCardLevel: number = 1;
+    public newCardLevelSpecial: boolean = false;
+
     constructor(
         private _interactionService: InteractionService,
         private _localStorageService: LocalStorageService,
@@ -152,6 +164,39 @@ export class CardsComponent implements OnInit {
 
         console.log('chaosCards =', chaosCards);
         console.log('this.chaosCards =', this.chaosCards);
+    }
+
+    public addNewCard() {
+        const maxOrder = this.cards.length > 0 ? Math.max(...this.cards.map(c => c.orderNumber)) : 0;
+        const newCard: Card = {
+            orderNumber: +maxOrder + 1,
+            level: this.newCardLevel,
+            levelSpecial: this.newCardLevelSpecial,
+            pay: {
+                red: this.newCardPayRed,
+                green: this.newCardPayGreen,
+                white: this.newCardPayWhite,
+                blue: this.newCardPayBlue,
+                purple: this.newCardPayPurple,
+                black: this.newCardPayBlack
+            },
+            get: {
+                [this.newCardGetKey]: this.newCardGetValue
+            }
+        };
+        this.cards.push(newCard);
+        this._interactionService.saveCards();
+        this._recalculateLevels();
+        this.newCardPayRed = 0;
+        this.newCardPayGreen = 0;
+        this.newCardPayWhite = 0;
+        this.newCardPayBlue = 0;
+        this.newCardPayPurple = 0;
+        this.newCardPayBlack = 0;
+        this.newCardGetKey = '';
+        this.newCardGetValue = 0;
+        this.newCardLevel = 1;
+        this.newCardLevelSpecial = false;
     }
 
     private _recalculateLevels() {

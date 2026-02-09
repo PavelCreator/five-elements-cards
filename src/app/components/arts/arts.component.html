@@ -8,6 +8,7 @@
 		<button (click)="addNewArt()">Add</button>
 </div>
 
+
 <div class="level-wrapper"><app-collection-header [art]="{name: 'Bonus   Level 1\rNeed: '+needBonus1+'\rHave: '+haveBonus1+'\rHidden: '+ (bonus1.length - haveBonus1)}"></app-collection-header><app-art *ngFor='let art of bonus1.slice().reverse()' [art]="art"></app-art></div>
 
 <div class="level-wrapper"><app-collection-header [art]="{name: 'Air   Level 1\rNeed: '+needWhite1+'\rHave: '+haveWhite1+'\rHidden: '+ (white1.length - haveWhite1)}"></app-collection-header><app-art *ngFor='let art of white1.slice().reverse()' [art]="art"></app-art></div>

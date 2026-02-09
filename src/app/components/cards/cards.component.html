@@ -1,3 +1,24 @@
+<div class="add-card-form">
+    <h3>Add New Card</h3>
+    <div>
+        <label>Pay Red: <input type="number" [(ngModel)]="newCardPayRed" min="0"></label>
+        <label>Pay Green: <input type="number" [(ngModel)]="newCardPayGreen" min="0"></label>
+        <label>Pay White: <input type="number" [(ngModel)]="newCardPayWhite" min="0"></label>
+        <label>Pay Blue: <input type="number" [(ngModel)]="newCardPayBlue" min="0"></label>
+        <label>Pay Purple: <input type="number" [(ngModel)]="newCardPayPurple" min="0"></label>
+        <label>Pay Black: <input type="number" [(ngModel)]="newCardPayBlack" min="0"></label>
+    </div>
+    <div>
+        <label>Get Key: <input type="text" [(ngModel)]="newCardGetKey" placeholder="e.g. red"></label>
+        <label>Get Value: <input type="number" [(ngModel)]="newCardGetValue" min="0"></label>
+    </div>
+    <div>
+        <label>Level: <input type="number" [(ngModel)]="newCardLevel" min="1"></label>
+        <label><input type="checkbox" [(ngModel)]="newCardLevelSpecial"> Level Special</label>
+    </div>
+    <button (click)="addNewCard()">Add Card</button>
+</div>
+
 <div class="level-wrapper"><app-collection-header *ngIf="showCollectionHeader" [art]="{name: 'Earth Level 1\r\nNeed: '+needGreen1+'\r\nHave: '+haveGreen1+'\r\nHidden: '+ (green1.length - haveGreen1)}"></app-collection-header><app-card *ngFor='let card of green1' [card]="card"></app-card></div>
 <div class="level-wrapper"><app-collection-header *ngIf="showCollectionHeader" [art]="{name: 'Earth Level 2\r\nNeed: '+needGreen2+'\r\nHave: '+haveGreen2+'\r\nHidden: '+ (green2.length - haveGreen2)}"></app-collection-header><app-card *ngFor='let card of green2' [card]="card"></app-card></div>
 <div class="level-wrapper"><app-collection-header *ngIf="showCollectionHeader" [art]="{name: 'Earth Level 3\r\nNeed: '+needGreen3+'\r\nHave: '+haveGreen3+'\r\nHidden: '+ (green3.length - haveGreen3)}"></app-collection-header><app-card *ngFor='let card of green3' [card]="card"></app-card></div>

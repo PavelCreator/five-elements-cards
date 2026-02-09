@@ -1,15 +1,13 @@
-import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgIf, NgStyle } from "@angular/common";
 import { InteractionService } from "../../services/interaction.service";
-import { Card } from "../../models/card.interface";
 import { FormsModule } from "@angular/forms";
 import { ImageService } from "../../services/image.service";
 import { CardSide } from "../../models/card-side.type";
 import { SettingsService } from "../../services/settings.service";
 import { Lang } from "../../models/lang.type";
 import { HexagonComponent } from "../hexagon/hexagon.component";
-import { MasterCard } from "../../models/master-card.interface";
-import {HowToWinCard} from "../../models/how-to-win-card.interface";
+import { HowToWinCard } from "../../models/how-to-win-card.interface";
 
 @Component({
     selector: 'app-how-to-win',
@@ -27,7 +25,7 @@ export class HowToWinComponent implements OnInit {
     // @ts-ignore
     @Input() card: HowToWinCard = {} as HowToWinCard;
 
-    public lang: Lang = this._settingsService.lang;
+    public lang: Lang;
 
     public cardSide: CardSide = 'front';
     public hovered: boolean = false;
