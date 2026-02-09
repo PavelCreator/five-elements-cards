@@ -22,6 +22,9 @@ export class InteractionService {
   private _removedArtSubject$: BehaviorSubject<Art | undefined> = new BehaviorSubject<Art | undefined>(undefined);
   public removedArt$: Observable<Art | undefined> = this._removedArtSubject$.asObservable();
 
+  private _removedCardSubject$: BehaviorSubject<Card | undefined> = new BehaviorSubject<Card | undefined>(undefined);
+  public removedCard$: Observable<Card | undefined> = this._removedCardSubject$.asObservable();
+
   private _addArtSubject$: BehaviorSubject<Art | undefined> = new BehaviorSubject<Art | undefined>(undefined);
   public addArt$: Observable<Art | undefined> = this._addArtSubject$.asObservable();
 
@@ -158,6 +161,10 @@ export class InteractionService {
 
   public removeArt(art: Art) {
     this._removedArtSubject$.next(art);
+  }
+
+  public removeCard(card: Card) {
+    this._removedCardSubject$.next(card);
   }
 
   public animationFlyingArtTime = 400;

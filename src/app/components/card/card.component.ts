@@ -228,4 +228,11 @@ export class CardComponent implements OnInit {
             this._interactionService.saveCards();
         }
     }
+
+    public deleteCard(event: MouseEvent) {
+        event.stopPropagation();
+        if (confirm('Are you sure you want to delete this card?')) {
+            this._interactionService.removeCard(this.card);
+        }
+    }
 }

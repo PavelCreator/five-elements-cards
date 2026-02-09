@@ -128,6 +128,17 @@ export class CardsComponent implements OnInit {
         });
         this._cardsStoreService.setCards(this.cards);
 
+        this._interactionService.removedCard$.subscribe(cardToRemove => {
+            if (!cardToRemove) return;
+            this.cards.forEach((card: Card, i: number) => {
+                if (card.orderNumber === cardToRemove.orderNumber) {
+                    this.cards.splice(i, 1);
+                    this._cardsStoreService.setCards(this.cards);
+                    this._recalculateLevels();
+                }
+            });
+        });
+
         const chaosCardsFromLocalStorage = this._localStorageService.loadArray('chaosCards');
         if (chaosCardsFromLocalStorage) this.chaosCards = chaosCardsFromLocalStorage;
 
