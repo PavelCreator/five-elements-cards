@@ -29,7 +29,7 @@
     .number-wrapper{
         font-size: 25px;
         position: absolute;
-        top: 43%;
+        top: 53%;
         left: 50%;
         transform: translateY(-50%) translateX(-50%);
     }
