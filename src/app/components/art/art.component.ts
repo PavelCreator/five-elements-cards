@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { NgIf, NgStyle } from "@angular/common";
+import { NgIf, NgStyle, NgClass } from "@angular/common";
 import { Art } from "../../models/art.interface";
 import { InteractionService } from "../../services/interaction.service";
 import { FormsModule } from "@angular/forms";
@@ -12,6 +12,7 @@ import { TextareaAutoresizeDirective } from "../../directives/textarea-autoresiz
     imports: [
         NgStyle,
         NgIf,
+        NgClass,
         FormsModule,
         TextareaAutoresizeDirective
     ],
@@ -27,6 +28,7 @@ export class ArtComponent implements OnInit {
     public hovered: boolean = false;
     public showDisabledArt: boolean = false;
     public renameModeOn: boolean = false;
+    public printModeEnabled: boolean = true;
 
     constructor(
         private _interactionService: InteractionService,
@@ -53,6 +55,10 @@ export class ArtComponent implements OnInit {
             if (inShowHidden !== undefined) {
                 this.showDisabledArt = inShowHidden;
             }
+        })
+
+        this._interactionService.printMode$.subscribe((inPrintMode: boolean) => {
+            this.printModeEnabled = inPrintMode;
         })
     }
 

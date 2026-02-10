@@ -1,5 +1,6 @@
 <div class="card"
 		 *ngIf="!art.hidden || (art.hidden && showDisabledArt)"
+		 [ngClass]="{ 'card--view': !printModeEnabled }"
 		 [ngStyle]="{'border-color': borderColor}"
 		 (click)="toggleArtSelection()"
 		 (mouseenter)="hovered = true"
@@ -9,6 +10,7 @@
 
 	<div
 			class="card-overlay-wrap"
+			[ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
 			[ngStyle]="{
       '--card-bg': 'url(' + art.picturePath + ')',
       transform: (art.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')
