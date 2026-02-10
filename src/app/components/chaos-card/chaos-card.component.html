@@ -1,5 +1,6 @@
 <div class="card chaos-card"
      *ngIf="!card.hidden || (card.hidden && showDisabledCard)"
+     [ngClass]="{ 'card--view': !printModeEnabled }"
      (mouseenter)="hovered = true"
      (mouseleave)="hovered = false"
 >
@@ -9,6 +10,7 @@
         <!-- 1) Фоновая подложка (на всю карту) + mirrored bleed -->
         <div
                 class="card-overlay-wrap"
+                [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
                 [ngStyle]="{
         '--card-bg': 'url(' + chaosCardBackground + ')',
         transform: (card.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')
@@ -83,6 +85,7 @@
         <!-- Рубашка + mirrored bleed -->
         <div
                 class="card-overlay-wrap card-overlay-wrap-back"
+                [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
                 [ngStyle]="{ '--card-bg': 'url(./assets/back_cards/chaos3.jpg)' }"
         >
             <div class="card-overlay card-overlay-back"></div>

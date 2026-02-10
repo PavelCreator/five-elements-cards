@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { NgIf, NgStyle } from "@angular/common";
+import { NgIf, NgStyle, NgClass } from "@angular/common";
 import { InteractionService } from "../../services/interaction.service";
 import { Card } from "../../models/card.interface";
 import { BoundingClientRect } from "../../models/bounding-client-rect.interface";
@@ -20,6 +20,7 @@ import { TextTokenKey } from "../../models/text-token-key.type";
     imports: [
         NgStyle,
         NgIf,
+        NgClass,
         HexagonComponent,
         FormsModule
     ],
@@ -50,6 +51,7 @@ export class ChaosCardComponent implements OnInit {
     }
     public hovered: boolean = false;
     public cardBackUrl: string =  '';
+    public printModeEnabled: boolean = true;
 
     constructor(
         private _interactionService: InteractionService,
@@ -118,6 +120,9 @@ export class ChaosCardComponent implements OnInit {
             }
         })
 
+        this._interactionService.printMode$.subscribe((inPrintMode: boolean) => {
+            this.printModeEnabled = inPrintMode;
+        })
     }
 
     public formatHexNumber(hexNumber: string): number {
