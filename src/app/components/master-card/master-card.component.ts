@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { NgIf, NgStyle } from "@angular/common";
+import { NgIf, NgStyle, NgClass } from "@angular/common";
 import { InteractionService } from "../../services/interaction.service";
 import { Card } from "../../models/card.interface";
 import { FormsModule } from "@angular/forms";
@@ -17,6 +17,7 @@ import { MasterCard } from "../../models/master-card.interface";
     imports: [
         NgStyle,
         NgIf,
+        NgClass,
         HexagonComponent,
         FormsModule
     ],
@@ -39,6 +40,7 @@ export class MasterCardComponent implements OnInit {
     public cardSide: CardSide = 'front';
     public hovered: boolean = false;
     public cardBackUrl: string =  '';
+    public printModeEnabled: boolean = true;
 
     constructor(
         private _interactionService: InteractionService,
@@ -61,6 +63,9 @@ export class MasterCardComponent implements OnInit {
         this.lang = this._settingsService.lang;
         console.log('this.lang =', this.lang);
 
+        this._interactionService.printMode$.subscribe((inPrintMode: boolean) => {
+            this.printModeEnabled = inPrintMode;
+        })
     }
 
     public formatHexNumber(hexNumber: string): number {

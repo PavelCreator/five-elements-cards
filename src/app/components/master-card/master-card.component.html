@@ -1,4 +1,5 @@
 <div class="card chaos-card"
+     [ngClass]="{ 'card--view': !printModeEnabled }"
      (mouseenter)="hovered = true"
      (mouseleave)="hovered = false"
 >
@@ -6,6 +7,7 @@
         <!-- вместо card-overlay напрямую -->
         <div
                 class="card-overlay-wrap"
+                [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
                 [ngStyle]="{ '--card-bg': 'url(' + card.image + ')' }"
         >
             <div class="card-overlay"></div>
@@ -38,6 +40,7 @@
         <!-- back: используем wrap-back, чтобы background-size для отражений был как у рубашки -->
         <div
                 class="card-overlay-wrap card-overlay-wrap-back"
+                [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
                 [ngStyle]="{ '--card-bg': 'url(./assets/back_cards/master9.jpg)' }"
         >
             <div class="card-overlay card-overlay-back"></div>
