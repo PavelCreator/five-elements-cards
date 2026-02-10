@@ -19,7 +19,7 @@ import { Color } from "../../models/color.type";
 export class HexagonComponent implements OnInit {
     @Input() number: number | undefined;
     @Input() color: Color | undefined;
-    @Input() type: 'get' | 'getWin' | 'getWin2' | 'pay' | 'getMix' | 'getMedWin' | 'chaos' | 'chaos-card' | undefined;
+    @Input() type: 'get' | 'getWin' | 'getWin2' | 'pay' | 'getMix' | 'getMedWin' | 'chaos' | 'chaos-card' | 'payBonus' | undefined;
 
     @Output() leftClick = new EventEmitter<string>();
     @Output() rightClick = new EventEmitter<string>();

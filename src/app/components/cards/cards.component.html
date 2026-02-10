@@ -14,7 +14,8 @@
     </div>
     <div>
         <label>Level: <input type="number" [(ngModel)]="newCardLevel" min="1"></label>
-        <label><input type="checkbox" [(ngModel)]="newCardLevelSpecial"> Level Special</label>
+        <label><input type="checkbox" [(ngModel)]="newCardLevelSpecial">Level Special</label>
+        <label><input type="checkbox" [(ngModel)]="newCardLevelBonus">Level Special</label>
     </div>
     <button (click)="addNewCard()">Add Card</button>
 </div>

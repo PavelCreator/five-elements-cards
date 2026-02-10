@@ -56,7 +56,7 @@ export class CardComponent implements OnInit {
         top: 0,
         left: 0
     }
-    public typeOfGetHexagon: 'get' | 'getMix' = 'get';
+    public typeOfGetHexagon: 'get' | 'getMix' | 'payBonus' = 'get';
     public hovered: boolean = false;
     public renameModeOn: boolean = false;
     public cardBackUrl: string = '';
@@ -117,6 +117,10 @@ export class CardComponent implements OnInit {
 
         if (this.card.color === 'mix') {
             this.typeOfGetHexagon = 'getMix';
+        }
+
+        if (this.card.levelBonus) {
+            this.typeOfGetHexagon = 'payBonus';
         }
 
         this._interactionService.showDisabledCards$.subscribe((inShowHidden: boolean | undefined) => {

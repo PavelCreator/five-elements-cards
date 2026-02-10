@@ -111,6 +111,7 @@ export class CardsComponent implements OnInit {
     public newCardGetValue: number = 0;
     public newCardLevel: number = 1;
     public newCardLevelSpecial: boolean = false;
+    public newCardLevelBonus: boolean = true;
 
     constructor(
         private _interactionService: InteractionService,
@@ -129,6 +130,15 @@ export class CardsComponent implements OnInit {
         });
         this._cardsStoreService.setCards(this.cards);
 
+        this.bonus = [
+            ...this.bonus,
+            ...this.cards.filter(card => card.color === 'purple' && card.levelBonus),
+            ...this.cards.filter(card => card.color === 'black' && card.levelBonus),
+            ...this.cards.filter(card => card.color === 'green' && card.levelBonus),
+            ...this.cards.filter(card => card.color === 'white' && card.levelBonus),
+            ...this.cards.filter(card => card.color === 'red' && card.levelBonus),
+            ...this.cards.filter(card => card.color === 'blue' && card.levelBonus)
+        ];
 
         const bonusNames = ['dice', 'card_1_lvl', 'card_2_lvl', 'card_3_lvl', 'card_4_lvl', 'card_master', 'extra_turn', 'drop_card'];
         bonusNames.forEach((bonusName: string) => {
@@ -137,6 +147,7 @@ export class CardsComponent implements OnInit {
                 ...this.cards.filter(card => Object.prototype.hasOwnProperty.call(card.get, bonusName))
             ];
         });
+
         this.bonus.forEach((item: any) => {
            item.levelBonus = true;
         });
@@ -199,6 +210,7 @@ export class CardsComponent implements OnInit {
             orderNumber: +maxOrder + 1,
             level: this.newCardLevel,
             levelSpecial: this.newCardLevelSpecial,
+            levelBonus: this.newCardLevelBonus,
             pay: {
                 red: this.newCardPayRed,
                 green: this.newCardPayGreen,
@@ -235,6 +247,7 @@ export class CardsComponent implements OnInit {
         this.newCardGetValue = 0;
         this.newCardLevel = 1;
         this.newCardLevelSpecial = false;
+        this.newCardLevelBonus = true;
     }
 
     private _recalculateLevels() {
