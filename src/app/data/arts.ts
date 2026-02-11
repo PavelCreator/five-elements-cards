@@ -949,7 +949,7 @@ export const arts: Art[] = [
     },
     {
         "picturePath": "https://cdn.midjourney.com/1f3aea18-d852-4767-a972-a72376ee7278/0_0.png",
-        "name": "Vasilisa",
+        "name": "Vasilisa the Beautiful",
         "color": "bonus",
         "level": 1,
         "hidden": false
