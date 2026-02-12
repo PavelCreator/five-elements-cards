@@ -95,6 +95,7 @@ export class HexagonComponent implements OnInit {
                 this.coinClass = 'coin-medium';
                 break;
             case 'get':
+            case 'payBonus':
                 this.coinClass = 'coin-big';
                 break;
             case 'getWin':

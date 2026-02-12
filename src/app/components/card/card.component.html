@@ -63,7 +63,7 @@
         <div class="art-name">Limit: 1 card from deck per <p>player</p></div>
     </div>
 		<div class="text-container text-container-warning text-container-warning2" *ngIf="card.levelBonus">
-        <div class="art-name">No black token bonus. Optional action to buy and use</div>
+        <div class="art-name">No black token bonus Optional action</div>
     </div>
     <div class="text-container" (click)="toggleRename($event, true)">
         <div *ngIf="!renameModeOn" class="art-name">{{ card.artData?.name }}</div>

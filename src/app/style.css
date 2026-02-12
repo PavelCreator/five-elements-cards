@@ -273,6 +273,7 @@
 
 .text-container-warning2{
     width: 143px;
+    z-index: 3;
 }
 
 .text-container-chaos{

@@ -226,14 +226,6 @@ export const arts: Art[] = [
         "level": 2
     },
     {
-        "picturePath": "https://cdn.midjourney.com/389aab14-43ce-4442-a0ab-303af84009e3/0_1.png",
-        "name": "Dwarf",
-        "collection": "",
-        "color": "bonus",
-        "level": 1,
-        "hidden": false
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/635333c8-4a66-4728-a442-54b0f38a88d8/0_3.png",
         "name": "Griffin",
         "collection": "",
@@ -577,30 +569,6 @@ export const arts: Art[] = [
         "hidden": true
     },
     {
-        "picturePath": "https://cdn.midjourney.com/0f860c81-83dd-4e28-ac74-bc552e2c81ce/0_0.png",
-        "name": "Goddess of Light",
-        "collection": "",
-        "color": "purple",
-        "level": 4,
-        "hidden": true
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/fe968ac3-fe14-4b13-85be-33834953773b/0_0.png",
-        "name": "Ice Elemental",
-        "collection": "",
-        "color": "purple",
-        "level": 2,
-        "hidden": true
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/342c485b-d2c5-4ad6-8f5b-11a836946b43/0_0.png",
-        "name": "Golden Dragon",
-        "collection": "",
-        "color": "purple",
-        "level": 4,
-        "hidden": true
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/37c6bda8-9259-4d13-ad83-9579c294cfda/0_3.png",
         "name": "God of Air",
         "collection": "",
@@ -642,46 +610,6 @@ export const arts: Art[] = [
         "collection": "",
         "color": "purple",
         "level": 4
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/969e7f21-6f5a-42e9-8c28-80e61924a7be/0_2.png",
-        "name": "Crystal Dragon",
-        "collection": "",
-        "color": "purple",
-        "level": 4,
-        "hidden": true
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/16bd3172-ded2-48fc-996e-13e64c995671/0_0.png",
-        "name": "Energy Golem",
-        "collection": "",
-        "color": "purple",
-        "level": 2,
-        "hidden": true
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/45d38492-5e14-46a6-b488-3c47ccb358ce/0_0.png",
-        "name": "Energy Elemental",
-        "collection": "",
-        "color": "purple",
-        "level": 2,
-        "hidden": true
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/fb5e6783-fbc2-48c0-a844-2e0734561520/0_0.png",
-        "name": "Magma Elemental",
-        "collection": "",
-        "color": "purple",
-        "level": 2,
-        "hidden": true
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/2b120f53-c511-4a6e-8c3a-b858d1c47aca/0_2.png",
-        "name": "Storm Elemental",
-        "collection": "",
-        "color": "purple",
-        "level": 2,
-        "hidden": true
     },
     {
         "picturePath": "https://cdn.midjourney.com/68716612-040a-47a8-acb9-63f190da5661/0_1.png",
@@ -855,14 +783,6 @@ export const arts: Art[] = [
         "level": 4
     },
     {
-        "picturePath": "https://cdn.midjourney.com/f8e1af80-39bf-49fb-864a-61bdf2f2ed94/0_2.png",
-        "name": "Prehistoric Giant",
-        "collection": "",
-        "color": "mix",
-        "level": 4,
-        "hidden": true
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/95669a1a-a91d-491d-8973-51bc7ea1bf1d/0_0.png",
         "name": "Minotaur",
         "collection": "",
@@ -882,14 +802,6 @@ export const arts: Art[] = [
         "collection": "",
         "color": "mix",
         "level": 4
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/27ef3806-0dd6-4aa8-b9cd-100072cf432a/0_2.png",
-        "name": "Iron Golem",
-        "collection": "",
-        "color": "mix",
-        "level": 4,
-        "hidden": true
     },
     {
         "picturePath": "https://cdn.midjourney.com/12ed7a5b-fe69-4e65-8fa5-c63ccca1dd83/0_3.png",
@@ -948,20 +860,6 @@ export const arts: Art[] = [
         "level": 4
     },
     {
-        "picturePath": "https://cdn.midjourney.com/1f3aea18-d852-4767-a972-a72376ee7278/0_0.png",
-        "name": "Vasilisa the Beautiful",
-        "color": "bonus",
-        "level": 1,
-        "hidden": false
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/f4615b9c-8396-422c-9a22-3d0c341d9ab3/0_1.png",
-        "name": "Heart of the Tree",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/da0e4e17-07df-4425-a0c4-749dec84e628/0_2.png",
         "name": "Elven Harpy",
         "collection": "",
@@ -989,14 +887,6 @@ export const arts: Art[] = [
         "color": "green",
         "level": 2,
         "hidden": true
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/b945be9c-61cd-437c-a436-ad3c9961589b/0_1.png",
-        "name": "Dryad",
-        "collection": "",
-        "color": "bonus",
-        "level": 1,
-        "hidden": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/79201dc5-8913-4b7f-bf78-431686fe3eeb/0_2.png",
@@ -1142,14 +1032,6 @@ export const arts: Art[] = [
         "horizontalReverse": true
     },
     {
-        "picturePath": "https://cdn.midjourney.com/49d972ea-3300-4a92-b398-e1ab5a96d57e/0_2.png",
-        "name": "Verdant Sentinel",
-        "collection": "Element Knights",
-        "color": "bonus",
-        "level": 1,
-        "hidden": false
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/28f33b2a-1f72-491e-bb4c-ca8fd8db811f/0_0.png",
         "name": "Elven King",
         "color": "green",
@@ -1215,9 +1097,9 @@ export const arts: Art[] = [
         "picturePath": "https://cdn.midjourney.com/5daf9f83-7214-4727-b386-b33333360c32/0_2.png",
         "name": "Baby Lake Dragon",
         "collection": "",
-        "color": "blue",
+        "color": "bonus",
         "level": 1,
-        "hidden": true
+        "hidden": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/aee912c7-f8bc-40ce-8d66-808ebe2bd878/0_1.png",
@@ -1404,14 +1286,6 @@ export const arts: Art[] = [
         "hidden": true
     },
     {
-        "picturePath": "https://cdn.midjourney.com/e9d12ba4-1731-4677-897d-91bc1f041744/0_0.png",
-        "name": "Vampiress",
-        "collection": "",
-        "color": "black",
-        "level": 2,
-        "hidden": true
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/d191e656-9907-43e6-9193-75ec7c0d7b3e/0_2.png",
         "name": "Dark Paladin",
         "collection": "",
@@ -1449,14 +1323,6 @@ export const arts: Art[] = [
         "hidden": true
     },
     {
-        "picturePath": "https://cdn.midjourney.com/02c6795d-ed83-4d25-9fee-e691a3b09818/0_1.png",
-        "name": "Mummy",
-        "collection": "",
-        "color": "black",
-        "level": 2,
-        "hidden": true
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/7685b00b-3900-4f91-b99d-879e46df1e88/0_1.png",
         "name": "Silent Assasin",
         "collection": "",
@@ -1484,14 +1350,6 @@ export const arts: Art[] = [
         "collection": "",
         "color": "black",
         "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/4dd792ea-2574-463e-8d2a-48771927f94c/0_2.png",
-        "name": "Deadly Harpy",
-        "collection": "",
-        "color": "bonus",
-        "level": 1,
-        "hidden": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/e5f70b16-2ef3-4e15-a5c6-7112d7e5875f/0_3.png",
@@ -1572,14 +1430,6 @@ export const arts: Art[] = [
         "level": 1
     },
     {
-        "picturePath": "https://cdn.midjourney.com/108f03b2-7598-4d3b-a54c-37f263b7e3f8/0_3.png",
-        "name": "Gremlin",
-        "collection": "",
-        "color": "bonus",
-        "level": 1,
-        "hidden": false
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/c18a8c5a-7f3f-4df8-aeb2-fec2e63e4e15/0_3.png",
         "name": "Knight of Darkness",
         "collection": "Element Knights",
@@ -1614,34 +1464,6 @@ export const arts: Art[] = [
         "level": 2
     },
     {
-        "picturePath": "https://cdn.midjourney.com/036a7b7f-f603-427f-92d0-c9ff7ec02d56/0_0.png",
-        "name": "Gnome",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/0b8d745b-feb6-4598-95c9-a7dc4e83b2be/0_2.png",
-        "name": "Domovoi",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/d7ffbda2-5cc3-4ffb-9501-e3170f7ea43d/0_0.png",
-        "name": "Khukhi",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/6c75b565-c811-4654-8743-ff65c71aadf8/0_0.png",
-        "name": "Fieldling",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/3c42fcf7-eecd-4b37-a92e-c10fcc3ce423/0_3.png",
         "name": "Verdelume",
         "color": "bonus",
@@ -1649,88 +1471,113 @@ export const arts: Art[] = [
         "level": 1
     },
     {
-        "picturePath": "https://cdn.midjourney.com/3b2b2ede-5b45-4398-8892-4a2ce05a4493/0_3.png",
-        "name": "Mycoling",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/4986b634-6231-4984-bf65-22402ce9de69/0_1.png",
-        "name": "Berry Fae",
+        "picturePath": "https://cdn.midjourney.com/a4a023b4-a5f7-4d50-85a2-6c5fdac151f1/0_1.png",
+        "name": "Grainborn",
         "color": "bonus",
         "hidden": false,
         "level": 1,
         "boundingClientRectStart": {
-            "top": 591.543701171875,
-            "left": 746.887451171875
+            "top": 421.8636474609375,
+            "left": 747
         },
         "isSelected": false
     },
     {
-        "picturePath": "https://cdn.midjourney.com/596c5897-359b-4d3b-a8bc-189a4c24f7f5/0_2.png",
-        "name": "Moonkin",
+        "picturePath": "https://cdn.midjourney.com/b945be9c-61cd-437c-a436-ad3c9961589b/0_1.png",
+        "name": "Dryad",
+        "collection": "",
         "color": "bonus",
+        "level": 1,
         "hidden": false,
-        "level": 1
+        "boundingClientRectStart": {
+            "top": 741.7777709960938,
+            "left": 747
+        },
+        "isSelected": false,
+        "horizontalReverse": false
     },
     {
-        "picturePath": "https://cdn.midjourney.com/0741c13b-518e-459a-8f8e-b52777894146/0_1.png",
-        "name": "Boliboshka",
+        "picturePath": "https://cdn.midjourney.com/6c75b565-c811-4654-8743-ff65c71aadf8/0_0.png",
+        "name": "Fieldling",
         "color": "bonus",
         "hidden": false,
-        "level": 1
+        "level": 1,
+        "boundingClientRectStart": {
+            "top": 741.7777709960938,
+            "left": 498
+        },
+        "isSelected": false
     },
     {
-        "picturePath": "https://cdn.midjourney.com/4c2b4d06-b6e5-4ea9-ba7b-b64d1a29b2f4/0_2.png",
-        "name": "Fenlurker",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
+        "picturePath": "https://cdn.midjourney.com/45d38492-5e14-46a6-b488-3c47ccb358ce/0_0.png",
+        "name": "Energy Elemental",
+        "collection": "",
+        "color": "purple",
+        "level": 2,
+        "hidden": true,
+        "boundingClientRectStart": {
+            "top": 680.0972290039062,
+            "left": 498
+        },
+        "isSelected": false
     },
     {
-        "picturePath": "https://cdn.midjourney.com/9f5e1672-fc64-412a-a09f-d845b5d4feac/0_2.png",
-        "name": "Boggart",
+        "picturePath": "https://cdn.midjourney.com/f4615b9c-8396-422c-9a22-3d0c341d9ab3/0_1.png",
+        "name": "Heart of a Tree",
         "color": "bonus",
         "hidden": false,
-        "level": 1
+        "level": 1,
+        "boundingClientRectStart": {
+            "top": 741.7777709960938,
+            "left": 1245
+        },
+        "isSelected": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/08c718d7-8716-44ef-a366-05374c9bf1c6/0_1.png",
         "name": "Redcap Goblin",
         "color": "bonus",
         "hidden": false,
-        "level": 1
+        "level": 1,
+        "boundingClientRectStart": {
+            "top": 519.5555419921875,
+            "left": 1494
+        },
+        "isSelected": false
     },
     {
-        "picturePath": "https://cdn.midjourney.com/3c9f26ea-5a74-4475-aa3d-6a8daef36b77/0_2.png",
-        "name": "Hobgoblin",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/be657e04-1cfa-438c-8f5d-9d094aa1d295/0_0.png",
-        "name": "Thranox",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/7f0a2679-f0ef-4a03-afff-ff025b7e4e28/0_0.png",
-        "name": "Sporekin",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/f97d7353-ea2e-41f4-a49b-84b517930517/0_2.png",
-        "name": "Deepwood Imp",
+        "picturePath": "https://cdn.midjourney.com/f0c6ed26-8ff9-4851-ab3f-066e55fd879e/0_1.png",
+        "name": "Mossling",
         "color": "bonus",
         "hidden": false,
         "level": 1,
         "boundingClientRectStart": {
-            "top": 671.6364135742188,
+            "top": 630.6666870117188,
+            "left": 498
+        },
+        "isSelected": false
+    },
+    {
+        "picturePath": "https://cdn.midjourney.com/02c6795d-ed83-4d25-9fee-e691a3b09818/0_1.png",
+        "name": "Mummy",
+        "collection": "",
+        "color": "black",
+        "level": 2,
+        "hidden": false,
+        "boundingClientRectStart": {
+            "top": 722.4722290039062,
+            "left": 249
+        },
+        "isSelected": false
+    },
+    {
+        "picturePath": "https://cdn.midjourney.com/6715f005-dda1-4453-abe2-cb18da3b4013/0_0.png",
+        "name": "Magma Golem",
+        "color": "bonus",
+        "hidden": false,
+        "level": 1,
+        "boundingClientRectStart": {
+            "top": 741.7777709960938,
             "left": 249
         },
         "isSelected": false

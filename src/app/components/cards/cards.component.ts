@@ -34,6 +34,8 @@ export class CardsComponent implements OnInit {
     public masterCards: MasterCard[] = masterCards;
     public howToWinCards: HowToWinCard[] = howToWinCards;
     public showCollectionHeader: boolean = true;
+    private _newCardGetKey = 'purple';
+    private _newCardGetValue = 2;
 
     public red1: Card[] = [];
     public red2: Card[] = [];
@@ -107,8 +109,8 @@ export class CardsComponent implements OnInit {
     public newCardPayBlue: number = 0;
     public newCardPayPurple: number = 0;
     public newCardPayBlack: number = 0;
-    public newCardGetKey: string = 'green';
-    public newCardGetValue: number = 0;
+    public newCardGetKey: string = this._newCardGetKey;
+    public newCardGetValue: number = this._newCardGetValue;
     public newCardLevel: number = 1;
     public newCardLevelSpecial: boolean = false;
     public newCardLevelBonus: boolean = true;
@@ -150,6 +152,17 @@ export class CardsComponent implements OnInit {
 
         this.bonus.forEach((item: any) => {
            item.levelBonus = true;
+        });
+
+        this.bonus.sort((a: Card, b: Card) => {
+            const keyA = Object.keys(a.get)[0];
+            const keyB = Object.keys(b.get)[0];
+            const valueA = a.get[keyA];
+            const valueB = b.get[keyB];
+            if (keyA < keyB) return -1;
+            if (keyA > keyB) return 1;
+            // @ts-ignore
+            return valueA - valueB;
         });
 
         this._interactionService.removedCard$.subscribe(cardToRemove => {
@@ -243,8 +256,6 @@ export class CardsComponent implements OnInit {
         this.newCardPayBlue = 0;
         this.newCardPayPurple = 0;
         this.newCardPayBlack = 0;
-        this.newCardGetKey = 'green';
-        this.newCardGetValue = 0;
         this.newCardLevel = 1;
         this.newCardLevelSpecial = false;
         this.newCardLevelBonus = true;
