@@ -5574,12 +5574,12 @@
         "level": 1,
         "levelSpecial": false,
         "pay": {
-            "red": 0,
-            "white": 0,
-            "blue": 0,
-            "green": 0,
-            "purple": 2,
-            "black": 2
+            "purple": 0,
+            "black": 1,
+            "red": 1,
+            "white": 1,
+            "blue": 1,
+            "green": 1
         },
         "get": {
             "card_1_lvl": 0
@@ -5609,12 +5609,12 @@
         "level": 1,
         "levelSpecial": false,
         "pay": {
-            "red": 0,
-            "blue": 0,
-            "green": 0,
-            "white": 0,
-            "purple": 3,
-            "black": 3
+            "purple": 0,
+            "black": 2,
+            "red": 2,
+            "blue": 2,
+            "green": 2,
+            "white": 2
         },
         "get": {
             "card_2_lvl": 0
@@ -5635,7 +5635,8 @@
                 "top": 519.5555419921875,
                 "left": 249
             },
-            "isSelected": true
+            "isSelected": true,
+            "horizontalReverse": true
         }
     },
     {
@@ -5643,12 +5644,12 @@
         "level": 1,
         "levelSpecial": false,
         "pay": {
-            "red": 0,
-            "blue": 0,
             "purple": 0,
-            "black": 2,
-            "white": 4,
-            "green": 7
+            "black": 3,
+            "red": 3,
+            "blue": 3,
+            "white": 3,
+            "green": 3
         },
         "get": {
             "card_3_lvl": 0
@@ -5679,12 +5680,12 @@
         "level": 1,
         "levelSpecial": false,
         "pay": {
-            "red": 0,
-            "white": 0,
-            "blue": 0,
-            "green": 0,
-            "purple": 4,
-            "black": 4
+            "purple": 0,
+            "black": 4,
+            "red": 4,
+            "white": 4,
+            "blue": 4,
+            "green": 4
         },
         "get": {
             "card_4_lvl": 0
@@ -5714,12 +5715,12 @@
         "level": 1,
         "levelSpecial": false,
         "pay": {
-            "red": 0,
-            "green": 0,
-            "white": 0,
             "black": 0,
-            "blue": 0,
-            "purple": 6
+            "red": 2,
+            "green": 2,
+            "white": 2,
+            "blue": 2,
+            "purple": 2
         },
         "get": {
             "card_master": 0
@@ -5741,7 +5742,8 @@
                 "top": 570.0416870117188,
                 "left": 249
             },
-            "isSelected": true
+            "isSelected": true,
+            "horizontalReverse": true
         }
     },
     {
@@ -5823,7 +5825,7 @@
             "green": 0,
             "white": 0,
             "blue": 0,
-            "black": 0,
+            "black": 3,
             "purple": 3
         },
         "get": {
@@ -5858,7 +5860,7 @@
             "white": 0,
             "blue": 0,
             "black": 2,
-            "purple": 3
+            "purple": 2
         },
         "get": {
             "drop_card": 0
@@ -5935,22 +5937,23 @@
         },
         "color": "purple",
         "boundingClientRect": {
-            "top": 66.61111450195312,
-            "left": 498
+            "top": 1852.65283203125,
+            "left": 1494
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/fe968ac3-fe14-4b13-85be-33834953773b/0_1.png",
+            "picturePath": "https://cdn.midjourney.com/702bf26b-0a43-4bb6-8b37-ee99cd8e5e79/0_1.png",
             "name": "Ice Elemental",
             "collection": "",
             "color": "purple",
             "level": 2,
             "hidden": true,
             "boundingClientRectStart": {
-                "top": 680.0972290039062,
+                "top": 515.8472290039062,
                 "left": 249
             },
-            "isSelected": true
+            "isSelected": true,
+            "horizontalReverse": true
         }
     },
     {
@@ -6220,22 +6223,21 @@
         },
         "color": "black",
         "boundingClientRect": {
-            "top": -180.4027862548828,
-            "left": 747
+            "top": -633.1111450195312,
+            "left": 0
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/0741c13b-518e-459a-8f8e-b52777894146/0_1.png",
-            "name": "Boliboshka",
+            "picturePath": "https://cdn.midjourney.com/bf0fc737-37ab-4774-a9e7-a6e03c3dc82b/0_1.png",
+            "name": "Velmora",
             "color": "bonus",
             "hidden": false,
             "level": 1,
             "boundingClientRectStart": {
-                "top": 638.9305419921875,
-                "left": 0
+                "top": 630.6666870117188,
+                "left": 1245
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
@@ -6576,20 +6578,19 @@
         },
         "color": "black",
         "boundingClientRect": {
-            "top": 486.2638854980469,
-            "left": 0
+            "top": -633.1111450195312,
+            "left": 1494
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/108f03b2-7598-4d3b-a54c-37f263b7e3f8/0_3.png",
-            "name": "Gremlin",
-            "collection": "",
+            "picturePath": "https://cdn.midjourney.com/08c718d7-8716-44ef-a366-05374c9bf1c6/0_1.png",
+            "name": "Redcap Goblin",
             "color": "bonus",
-            "level": 1,
             "hidden": false,
+            "level": 1,
             "boundingClientRectStart": {
-                "top": 741.7777709960938,
-                "left": 498
+                "top": 630.6666870117188,
+                "left": 1743
             },
             "isSelected": true
         }
@@ -6684,18 +6685,18 @@
         "color": "black",
         "boundingClientRect": {
             "top": 486.2638854980469,
-            "left": 747
+            "left": 0
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/e8b10f59-1374-4d49-abe7-e5be9fef13f1/0_3.png",
-            "name": "Kikimora",
+            "picturePath": "https://cdn.midjourney.com/f9848c08-01b6-4790-893f-f87d670081d7/0_1.png",
+            "name": "Root Revenant",
             "color": "bonus",
             "hidden": false,
             "level": 1,
             "boundingClientRectStart": {
                 "top": 741.7777709960938,
-                "left": 498
+                "left": 1245
             },
             "isSelected": true
         }
@@ -6706,12 +6707,12 @@
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
-            "green": 5,
-            "white": 5,
             "blue": 0,
             "purple": 0,
             "black": 0,
-            "red": 0
+            "red": 0,
+            "green": 5,
+            "white": 5
         },
         "get": {
             "black": 3
@@ -6742,12 +6743,12 @@
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
-            "red": 5,
             "white": 0,
-            "blue": 5,
             "purple": 0,
             "black": 0,
-            "green": 0
+            "green": 0,
+            "red": 5,
+            "blue": 5
         },
         "get": {
             "black": 3
@@ -6779,11 +6780,11 @@
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
+            "black": 0,
+            "purple": 2,
             "red": 3,
             "green": 3,
             "blue": 3,
-            "purple": 2,
-            "black": 0,
             "white": 3
         },
         "get": {
@@ -6844,5 +6845,728 @@
             "horizontalReverse": true
         },
         "hidden": false
+    },
+    {
+        "orderNumber": 170.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "white": 0,
+            "blue": 0,
+            "purple": 0,
+            "black": 0,
+            "red": 2,
+            "green": 2
+        },
+        "get": {
+            "dice": 1
+        },
+        "boundingClientRect": {
+            "top": 161.19444274902344,
+            "left": 249
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/f0c6ed26-8ff9-4851-ab3f-066e55fd879e/0_1.png",
+            "name": "Mossling",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 638.9305419921875,
+                "left": 1494
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 171.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "red": 0,
+            "green": 0,
+            "purple": 0,
+            "black": 0,
+            "white": 2,
+            "blue": 2
+        },
+        "get": {
+            "dice": 1
+        },
+        "boundingClientRect": {
+            "top": 161.19444274902344,
+            "left": 498
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/5daf9f83-7214-4727-b386-b33333360c32/0_2.png",
+            "name": "Baby Lake Dragon",
+            "collection": "",
+            "color": "bonus",
+            "level": 1,
+            "hidden": false,
+            "boundingClientRectStart": {
+                "top": 758.3055419921875,
+                "left": 1245
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 174.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "white": 0,
+            "blue": 0,
+            "purple": 0,
+            "black": 0,
+            "red": 3,
+            "green": 3
+        },
+        "get": {
+            "dice": 2
+        },
+        "boundingClientRect": {
+            "top": 827.8611450195312,
+            "left": 996
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/c1fd883b-57dc-4c59-8671-e248f07a68f3/0_3.png",
+            "name": "Night Watcher",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 741.7777709960938,
+                "left": 1245
+            },
+            "isSelected": true,
+            "horizontalReverse": false
+        }
+    },
+    {
+        "orderNumber": 176.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "red": 0,
+            "green": 0,
+            "purple": 0,
+            "black": 0,
+            "white": 3,
+            "blue": 3
+        },
+        "get": {
+            "dice": 2
+        },
+        "boundingClientRect": {
+            "top": 827.8611450195312,
+            "left": 1245
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/ca4e1240-99cc-49dd-8f6a-f2939ff9b4f4/0_2.png",
+            "name": "Lumiel",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "horizontalReverse": true,
+            "boundingClientRectStart": {
+                "top": 741.7777709960938,
+                "left": 1245
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 177.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "red": 0,
+            "white": 0,
+            "purple": 0,
+            "black": 0,
+            "green": 5,
+            "blue": 5
+        },
+        "get": {
+            "extra_turn": 0
+        },
+        "boundingClientRect": {
+            "top": 1169.4583740234375,
+            "left": 249
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/b3b9f27e-0d2e-439d-8460-141f00d7a63d/0_0.png",
+            "name": "Flamehart",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 741.7777709960938,
+                "left": 1494
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 178.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "green": 0,
+            "blue": 0,
+            "purple": 0,
+            "black": 0,
+            "red": 5,
+            "white": 5
+        },
+        "get": {
+            "extra_turn": 0
+        },
+        "boundingClientRect": {
+            "top": 1169.4583740234375,
+            "left": 498
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/1bce875c-c983-4506-a19b-54d25af63d19/0_3.png",
+            "name": "Elder Elf",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 741.7777709960938,
+                "left": 1743
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 179.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "red": 0,
+            "green": 0,
+            "white": 0,
+            "blue": 0,
+            "purple": 2,
+            "black": 2
+        },
+        "get": {
+            "dice": 3
+        },
+        "boundingClientRect": {
+            "top": 161.19444274902344,
+            "left": 1743
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/db4a7113-2939-4ce9-a3b6-4859b06f10a3/0_2.png",
+            "name": "Golden Fleece",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 750.0416870117188,
+                "left": 1743
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 180.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "white": 0,
+            "purple": 0,
+            "green": 0,
+            "red": 2,
+            "blue": 2,
+            "black": 2
+        },
+        "get": {
+            "drop_card": 0
+        },
+        "boundingClientRect": {
+            "top": 502.7916564941406,
+            "left": 249
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/0741c13b-518e-459a-8f8e-b52777894146/0_1.png",
+            "name": "Boliboshka",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 741.7777709960938,
+                "left": 498
+            },
+            "isSelected": true,
+            "horizontalReverse": true
+        }
+    },
+    {
+        "orderNumber": 181.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "red": 0,
+            "blue": 0,
+            "purple": 0,
+            "green": 2,
+            "black": 2,
+            "white": 2
+        },
+        "get": {
+            "drop_card": 0
+        },
+        "boundingClientRect": {
+            "top": 502.7916564941406,
+            "left": 498
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/e8b10f59-1374-4d49-abe7-e5be9fef13f1/0_3.png",
+            "name": "Kikimora",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 741.7777709960938,
+                "left": 249
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 182.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "green": 0,
+            "purple": 0,
+            "black": 0,
+            "red": 0,
+            "white": 5,
+            "blue": 5
+        },
+        "get": {
+            "extra_turn": 0
+        },
+        "boundingClientRect": {
+            "top": 502.7916564941406,
+            "left": 1494
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/ade720c0-8b36-4ec0-a1b6-65dfa362b655/0_2.png",
+            "name": "Moon\n Wolf",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 630.6666870117188,
+                "left": 1494
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 183.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "white": 0,
+            "blue": 0,
+            "purple": 0,
+            "black": 0,
+            "red": 5,
+            "green": 5
+        },
+        "get": {
+            "extra_turn": 0
+        },
+        "boundingClientRect": {
+            "top": 1169.4583740234375,
+            "left": 1743
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/f4615b9c-8396-422c-9a22-3d0c341d9ab3/0_1.png",
+            "name": "Heart of a Tree",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 750.0416870117188,
+                "left": 0
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 184.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "white": 0,
+            "blue": 0,
+            "purple": 0,
+            "black": 1,
+            "red": 2,
+            "green": 2
+        },
+        "get": {
+            "card_1_lvl": 0
+        },
+        "boundingClientRect": {
+            "top": 486.2638854980469,
+            "left": 1245
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/a4a023b4-a5f7-4d50-85a2-6c5fdac151f1/0_1.png",
+            "name": "Grainborn",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 861.1527709960938,
+                "left": 249
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 185.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "red": 0,
+            "green": 0,
+            "purple": 0,
+            "black": 1,
+            "white": 2,
+            "blue": 2
+        },
+        "get": {
+            "card_1_lvl": 0
+        },
+        "boundingClientRect": {
+            "top": 486.2638854980469,
+            "left": 1494
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/3c42fcf7-eecd-4b37-a92e-c10fcc3ce423/0_3.png",
+            "name": "Verdelume",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 638.9305419921875,
+                "left": 249
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 186.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "red": 0,
+            "white": 0,
+            "purple": 0,
+            "black": 2,
+            "green": 4,
+            "blue": 4
+        },
+        "get": {
+            "card_2_lvl": 0
+        },
+        "boundingClientRect": {
+            "top": 486.2638854980469,
+            "left": 1992
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/6c75b565-c811-4654-8743-ff65c71aadf8/0_0.png",
+            "name": "Fieldling",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 630.6666870117188,
+                "left": 1992
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 187.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "green": 0,
+            "blue": 0,
+            "purple": 0,
+            "black": 2,
+            "red": 4,
+            "white": 4
+        },
+        "get": {
+            "card_2_lvl": 0
+        },
+        "boundingClientRect": {
+            "top": 827.8611450195312,
+            "left": 0
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/b945be9c-61cd-437c-a436-ad3c9961589b/0_1.png",
+            "name": "Dryad",
+            "collection": "",
+            "color": "bonus",
+            "level": 1,
+            "hidden": false,
+            "boundingClientRectStart": {
+                "top": 741.7777709960938,
+                "left": 1992
+            },
+            "isSelected": true,
+            "horizontalReverse": false
+        }
+    },
+    {
+        "orderNumber": 189.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "red": 0,
+            "green": 0,
+            "white": 0,
+            "blue": 0,
+            "purple": 4,
+            "black": 4
+        },
+        "get": {
+            "card_4_lvl": 0
+        },
+        "boundingClientRect": {
+            "top": 50.08333206176758,
+            "left": 996
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/6715f005-dda1-4453-abe2-cb18da3b4013/0_0.png",
+            "name": "Magma Golem",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 630.6666870117188,
+                "left": 1494
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 190.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "red": 0,
+            "green": 0,
+            "white": 0,
+            "blue": 0,
+            "purple": 3,
+            "black": 3
+        },
+        "get": {
+            "card_3_lvl": 0
+        },
+        "boundingClientRect": {
+            "top": 50.08333206176758,
+            "left": 498
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/f3ab25c9-aa74-4dc7-8353-7143287fef42/0_1.png",
+            "name": "Dark Elf",
+            "collection": "",
+            "color": "bonus",
+            "level": 1,
+            "hidden": false,
+            "boundingClientRectStart": {
+                "top": 630.6666870117188,
+                "left": 1743
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 191.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "green": 0,
+            "blue": 0,
+            "purple": 0,
+            "black": 0,
+            "red": 2,
+            "white": 2
+        },
+        "get": {
+            "dice": 1
+        },
+        "boundingClientRect": {
+            "top": 1169.4583740234375,
+            "left": 0
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/c9aa428c-327b-4d69-8752-1f6f66b99118/0_3.png",
+            "name": "Sylph",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 741.7777709960938,
+                "left": 996
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 192.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "red": 0,
+            "white": 0,
+            "purple": 0,
+            "black": 0,
+            "green": 2,
+            "blue": 2
+        },
+        "get": {
+            "dice": 1
+        },
+        "boundingClientRect": {
+            "top": 1169.4583740234375,
+            "left": 249
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/f1179f68-19ef-4dfc-896d-64948e0f621f/0_1.png",
+            "name": "Mossviper",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 741.7777709960938,
+                "left": 249
+            },
+            "isSelected": true,
+            "horizontalReverse": false
+        }
+    },
+    {
+        "orderNumber": 193.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "green": 0,
+            "blue": 0,
+            "purple": 0,
+            "black": 0,
+            "red": 3,
+            "white": 3
+        },
+        "get": {
+            "dice": 2
+        },
+        "boundingClientRect": {
+            "top": 1169.4583740234375,
+            "left": 1245
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/89e75ddb-53f3-4f02-b3b4-2c1307c5b278/0_1.png",
+            "name": "Sylvaris",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 741.7777709960938,
+                "left": 1245
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 194.6,
+        "level": 1,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "red": 0,
+            "white": 0,
+            "purple": 0,
+            "black": 0,
+            "green": 3,
+            "blue": 3
+        },
+        "get": {
+            "dice": 2
+        },
+        "boundingClientRect": {
+            "top": 1169.4583740234375,
+            "left": 1494
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/50b9309c-aa16-4649-8c2f-d7ecfe92bc0c/0_0.png",
+            "name": "Ravenlord",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 741.7777709960938,
+                "left": 498
+            },
+            "isSelected": true,
+            "horizontalReverse": false
+        }
     }
 ]

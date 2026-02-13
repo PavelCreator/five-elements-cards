@@ -884,9 +884,9 @@ export const arts: Art[] = [
         "picturePath": "https://cdn.midjourney.com/f688347f-92d8-4cd3-b2f4-04f8be428d31/0_3.png",
         "name": "Elf Ranger",
         "collection": "",
-        "color": "green",
-        "level": 2,
-        "hidden": true
+        "color": "bonus",
+        "level": 1,
+        "hidden": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/79201dc5-8913-4b7f-bf78-431686fe3eeb/0_2.png",
@@ -920,9 +920,9 @@ export const arts: Art[] = [
         "picturePath": "https://cdn.midjourney.com/c733a66a-9d33-4164-acfb-9e096de633a4/0_2.png",
         "name": "Sorceress",
         "collection": "",
-        "color": "green",
+        "color": "bonus",
         "level": 1,
-        "hidden": true
+        "hidden": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/f92d3dc2-73fb-44cb-9b9f-f59f14837cd9/0_1.png",
@@ -942,9 +942,9 @@ export const arts: Art[] = [
         "picturePath": "https://cdn.midjourney.com/abe556c9-0660-4943-856d-0a8b7eabb07f/0_0.png",
         "name": "Beastmaster",
         "collection": "",
-        "color": "green",
+        "color": "bonus",
         "level": 1,
-        "hidden": true
+        "hidden": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/fd6c6d1b-3986-4aa1-8118-baee53436a1e/0_0.png",
@@ -1092,14 +1092,6 @@ export const arts: Art[] = [
         "collection": "",
         "color": "blue",
         "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/5daf9f83-7214-4727-b386-b33333360c32/0_2.png",
-        "name": "Baby Lake Dragon",
-        "collection": "",
-        "color": "bonus",
-        "level": 1,
-        "hidden": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/aee912c7-f8bc-40ce-8d66-808ebe2bd878/0_1.png",
@@ -1300,14 +1292,6 @@ export const arts: Art[] = [
         "level": 2
     },
     {
-        "picturePath": "https://cdn.midjourney.com/f3ab25c9-aa74-4dc7-8353-7143287fef42/0_1.png",
-        "name": "Dark Elf",
-        "collection": "",
-        "color": "bonus",
-        "level": 1,
-        "hidden": false
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/474b6e4d-e533-4780-a749-77a9b947f8a0/0_1.png",
         "name": "Dead King",
         "collection": "",
@@ -1457,58 +1441,6 @@ export const arts: Art[] = [
         "level": 3
     },
     {
-        "picturePath": "https://cdn.midjourney.com/db4a7113-2939-4ce9-a3b6-4859b06f10a3/0_2.png",
-        "name": "Golden Fleece",
-        "color": "green",
-        "hidden": true,
-        "level": 2
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/3c42fcf7-eecd-4b37-a92e-c10fcc3ce423/0_3.png",
-        "name": "Verdelume",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/a4a023b4-a5f7-4d50-85a2-6c5fdac151f1/0_1.png",
-        "name": "Grainborn",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1,
-        "boundingClientRectStart": {
-            "top": 421.8636474609375,
-            "left": 747
-        },
-        "isSelected": false
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/b945be9c-61cd-437c-a436-ad3c9961589b/0_1.png",
-        "name": "Dryad",
-        "collection": "",
-        "color": "bonus",
-        "level": 1,
-        "hidden": false,
-        "boundingClientRectStart": {
-            "top": 741.7777709960938,
-            "left": 747
-        },
-        "isSelected": false,
-        "horizontalReverse": false
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/6c75b565-c811-4654-8743-ff65c71aadf8/0_0.png",
-        "name": "Fieldling",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1,
-        "boundingClientRectStart": {
-            "top": 741.7777709960938,
-            "left": 498
-        },
-        "isSelected": false
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/45d38492-5e14-46a6-b488-3c47ccb358ce/0_0.png",
         "name": "Energy Elemental",
         "collection": "",
@@ -1516,44 +1448,8 @@ export const arts: Art[] = [
         "level": 2,
         "hidden": true,
         "boundingClientRectStart": {
-            "top": 680.0972290039062,
-            "left": 498
-        },
-        "isSelected": false
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/f4615b9c-8396-422c-9a22-3d0c341d9ab3/0_1.png",
-        "name": "Heart of a Tree",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1,
-        "boundingClientRectStart": {
-            "top": 741.7777709960938,
-            "left": 1245
-        },
-        "isSelected": false
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/08c718d7-8716-44ef-a366-05374c9bf1c6/0_1.png",
-        "name": "Redcap Goblin",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1,
-        "boundingClientRectStart": {
-            "top": 519.5555419921875,
-            "left": 1494
-        },
-        "isSelected": false
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/f0c6ed26-8ff9-4851-ab3f-066e55fd879e/0_1.png",
-        "name": "Mossling",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1,
-        "boundingClientRectStart": {
-            "top": 630.6666870117188,
-            "left": 498
+            "top": 626.9583129882812,
+            "left": 249
         },
         "isSelected": false
     },
@@ -1571,14 +1467,22 @@ export const arts: Art[] = [
         "isSelected": false
     },
     {
-        "picturePath": "https://cdn.midjourney.com/6715f005-dda1-4453-abe2-cb18da3b4013/0_0.png",
-        "name": "Magma Golem",
+        "picturePath": "https://cdn.midjourney.com/2578330e-00ce-4abf-ab1d-2e819a9664b4/0_0.png",
+        "name": "Evergreen",
         "color": "bonus",
         "hidden": false,
+        "level": 1
+    },
+    {
+        "picturePath": "https://cdn.midjourney.com/108f03b2-7598-4d3b-a54c-37f263b7e3f8/0_3.png",
+        "name": "Gremlin",
+        "collection": "",
+        "color": "bonus",
         "level": 1,
+        "hidden": false,
         "boundingClientRectStart": {
             "top": 741.7777709960938,
-            "left": 249
+            "left": 498
         },
         "isSelected": false
     }

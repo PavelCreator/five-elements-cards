@@ -25,7 +25,7 @@ export class HowToWinComponent implements OnInit {
     // @ts-ignore
     @Input() card: HowToWinCard = {} as HowToWinCard;
 
-    public lang: Lang;
+    public lang: Lang | undefined;
 
     public cardSide: CardSide = 'front';
     public hovered: boolean = false;
