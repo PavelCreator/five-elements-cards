@@ -1,4 +1,4 @@
-<div class="add-card-form">
+<div class="add-card-form" *ngIf="!printModeEnabled">
     <h3>Add New Card</h3>
     <div>
         <label>Pay Red: <input type="number" [(ngModel)]="newCardPayRed" min="0"></label>

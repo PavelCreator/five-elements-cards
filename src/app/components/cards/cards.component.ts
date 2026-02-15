@@ -34,6 +34,7 @@ export class CardsComponent implements OnInit {
     public masterCards: MasterCard[] = masterCards;
     public howToWinCards: HowToWinCard[] = howToWinCards;
     public showCollectionHeader: boolean = true;
+    public printModeEnabled: boolean = true;
     private _newCardGetKey = 'purple';
     private _newCardGetValue = 2;
 
@@ -207,6 +208,10 @@ export class CardsComponent implements OnInit {
 
         this._interactionService.collectionHeaderState$.subscribe((state: Visibility) => {
             this.showCollectionHeader = state === 'visible';
+        });
+
+        this._interactionService.printMode$.subscribe((inPrintMode: boolean) => {
+            this.printModeEnabled = inPrintMode;
         });
 
         this._interactionService.saveCards$.subscribe(() => {

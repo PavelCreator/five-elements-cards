@@ -1,5 +1,5 @@
 
-<div class="add-art-form">
+<div class="add-art-form" *ngIf="!printModeEnabled">
 		<input type="text" [(ngModel)]="newArtUrl" placeholder="URL">
 		<input type="text" [(ngModel)]="newArtName" placeholder="Name">
 		<input type="text" [(ngModel)]="newArtColor" placeholder="Color">

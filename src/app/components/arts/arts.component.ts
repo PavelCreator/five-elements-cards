@@ -23,6 +23,7 @@ import { FormsModule } from "@angular/forms";
 export class ArtsComponent implements OnInit {
     public arts: Art[] = arts;
     public cards: Card[] = cards;
+    public printModeEnabled: boolean = true;
 
     public red1: Art[] = [];
     public red2: Art[] = [];
@@ -164,6 +165,10 @@ export class ArtsComponent implements OnInit {
 
         this._interactionService.saveArts$.subscribe(() => {
             this._localStorageService.saveArray(this.arts, 'arts');
+        });
+
+        this._interactionService.printMode$.subscribe((inPrintMode: boolean) => {
+            this.printModeEnabled = inPrintMode;
         });
     }
 
