@@ -1,5 +1,5 @@
 <div class="card chaos-card"
-     [ngClass]="{ 'card--view': !printModeEnabled }"
+     [ngClass]="{ 'card--view': !printModeEnabled, 'card--print': printModeEnabled }"
      (mouseenter)="hovered = true"
      (mouseleave)="hovered = false"
 >

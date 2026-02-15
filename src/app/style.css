@@ -60,6 +60,14 @@
     transform: rotate(180deg);
 }
 
+.card--print .card-overlay-wrap{
+    --bleed-y: 10px;
+}
+
+.card--print{
+    margin-bottom: calc(5px + 20px); /* компенсация vertical bleed для print mode */
+}
+
 .chaos-card{
     display: flex;
     align-items: flex-end;

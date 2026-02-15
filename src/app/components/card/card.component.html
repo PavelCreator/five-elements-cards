@@ -1,5 +1,5 @@
 <div class="card"
-         [ngClass]="{ 'card--view': !printModeEnabled, 'card--rotated': printModeEnabled && cardSide === 'back' }"
+         [ngClass]="{ 'card--view': !printModeEnabled, 'card--rotated': printModeEnabled && cardSide === 'back', 'card--print': printModeEnabled }"
 		 *ngIf="!card.hidden || (card.hidden && showDisabledCard)"
 		 (click)="toggleCardSelection()"
 		 (mouseenter) ="hovered = true"

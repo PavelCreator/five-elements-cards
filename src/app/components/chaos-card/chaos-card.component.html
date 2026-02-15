@@ -1,6 +1,6 @@
 <div class="card chaos-card"
      *ngIf="!card.hidden || (card.hidden && showDisabledCard)"
-     [ngClass]="{ 'card--view': !printModeEnabled }"
+     [ngClass]="{ 'card--view': !printModeEnabled, 'card--print': printModeEnabled }"
      (mouseenter)="hovered = true"
      (mouseleave)="hovered = false"
 >
