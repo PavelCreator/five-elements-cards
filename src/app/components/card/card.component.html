@@ -7,16 +7,18 @@
 >
 	<div class="card-hidden-overlay" *ngIf="card.hidden"></div>
 	<ng-container *ngIf="cardSide === 'front'">
-		<div
-                class="card-overlay-wrap"
-                [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
-				[ngStyle]="{
-      '--card-bg': 'url(' + card.artData?.picturePath + ')',
-      transform: (card.artData?.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')
-    }"
-		>
-			<div class="card-overlay"></div>
-		</div>
+        <div
+            class="card-overlay-wrap"
+            [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
+            [ngStyle]="{
+                '--card-bg': 'url(' + card.artData?.picturePath + ')',
+                transform: (card.artData?.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')
+            }"
+        >
+            <div class="card-overlay-mirror-left"></div>
+            <div class="card-overlay"></div>
+            <div class="card-overlay-mirror-right"></div>
+        </div>
     <div class="pay-wrapper">
 				<ng-container *ngIf="!editTokensMode">
 					<ng-container *ngFor="let item of card.pay | keys">

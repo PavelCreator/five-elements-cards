@@ -1,3 +1,32 @@
+/* Horizontal bleed mirrors (left/right) */
+.card-overlay-mirror-left,
+.card-overlay-mirror-right {
+    position: absolute;
+    top: var(--bleed-y);
+    width: var(--card-w);
+    height: var(--card-h);
+    background-image: var(--card-bg);
+    background-size: 240px 337.5px;
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 1;
+}
+.card-overlay-mirror-left {
+    left: calc(var(--bleed-x) - var(--card-w) + 1px);
+    transform: scaleX(-1);
+    transform-origin: center;
+}
+.card-overlay-mirror-right {
+    left: calc(var(--bleed-x) + var(--card-w) - 1px);
+    transform: scaleX(-1);
+    transform-origin: center;
+}
+.card-overlay-wrap--no-reflection .card-overlay-mirror-left,
+.card-overlay-wrap--no-reflection .card-overlay-mirror-right {
+    display: none;
+}
 .root-wrapper {
     /* background-image: url("https://t4.ftcdn.net/jpg/00/91/52/97/240_F_91529780_65ZXIqvXTc2g9LHbkWsNpyt5AP37egSb.jpg"); */
     background-repeat: repeat;
@@ -60,8 +89,14 @@
     transform: rotate(180deg);
 }
 
+
 .card--print .card-overlay-wrap{
     --bleed-y: 10px;
+    --bleed-x: 10px;
+}
+
+.card--print {
+    margin: 5px 15px;
 }
 
 .card--print{
@@ -87,14 +122,16 @@
 
 /* ================= MIRRORED VERTICAL BLEED (fixed) ================= */
 
+
 .card-overlay-wrap{
     --bleed-y: 10px;          /* сколько сверху/снизу */
+    --bleed-x: 10px;          /* сколько слева/справа (horizontal bleed) */
     --card-w: 240px;
     --card-h: 332.1px;        /* высота "чистой" области */
     position: absolute;
-    left: 0;
+    left: calc(-1 * var(--bleed-x));
     top: calc(-1 * var(--bleed-y));
-    width: var(--card-w);
+    width: calc(var(--card-w) + (var(--bleed-x) * 2));
     height: calc(var(--card-h) + (var(--bleed-y) * 2));
     z-index: 3;
     overflow: hidden;
@@ -108,7 +145,7 @@
     width: var(--card-w);
     height: var(--card-h);
     top: var(--bleed-y);
-    left: 0;
+    left: var(--bleed-x);
     background-image: var(--card-bg);
     background-size: 240px 337.5px;   /* твои значения */
     background-repeat: no-repeat;
@@ -158,11 +195,13 @@
   ВАЖНО: зеркальные слои делаем той же высоты, что и card-overlay,
   чтобы background-position "center" вычислялся одинаково.
 */
+
+/* Vertical bleed mirrors (top/bottom) */
 .card-overlay-wrap::before,
 .card-overlay-wrap::after{
     content: "";
     position: absolute;
-    left: 0;
+    left: var(--bleed-x);
     width: var(--card-w);
     height: var(--card-h);
     background-image: var(--card-bg);
@@ -175,22 +214,66 @@
     z-index: 0;
 }
 
+/* Horizontal bleed mirrors (left/right) */
+.card-overlay-wrap::after,
+.card-overlay-wrap::before,
+.card-overlay-wrap::before-horizontal,
+.card-overlay-wrap::after-horizontal {
+    /* placeholder for specificity */
+}
+
+.card-overlay-wrap::before-horizontal,
+.card-overlay-wrap::after-horizontal {
+    content: "";
+    position: absolute;
+    top: var(--bleed-y);
+    width: var(--card-w);
+    height: var(--card-h);
+    background-image: var(--card-bg);
+    background-size: 240px 337.5px;
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none;
+    z-index: 0;
+}
+.card-overlay-wrap::before-horizontal {
+    left: calc(var(--bleed-x) - var(--card-w) + 1px);
+    transform: scaleX(-1);
+    transform-origin: center;
+}
+.card-overlay-wrap::after-horizontal {
+    left: calc(var(--bleed-x) + var(--card-w) - 1px);
+    transform: scaleX(-1);
+    transform-origin: center;
+}
+
+
 /* Верхний mirror: его НИЗ должен совпасть с верхом основного арта (y = bleed) */
 .card-overlay-wrap::before{
     top: calc(var(--bleed-y) - var(--card-h) + 1px);
 }
-
 /* Нижний mirror: его ВЕРХ должен совпасть с низом основного арта */
 .card-overlay-wrap::after{
     top: calc(var(--bleed-y) + var(--card-h) - 1px);
 }
 
-.card-overlay-wrap--no-reflection{
-    --bleed-y: 0px;
+/* Левый mirror: его ПРАВО должен совпасть с левым краем основного арта (x = bleed) */
+.card-overlay-wrap::before-horizontal {
+    /* left set above */
+}
+/* Правый mirror: его ЛЕВО должен совпасть с правым краем основного арта */
+.card-overlay-wrap::after-horizontal {
+    /* left set above */
 }
 
+.card-overlay-wrap--no-reflection{
+    --bleed-y: 0px;
+    --bleed-x: 0px;
+}
 .card-overlay-wrap--no-reflection::before,
-.card-overlay-wrap--no-reflection::after{
+.card-overlay-wrap--no-reflection::after,
+.card-overlay-wrap--no-reflection::before-horizontal,
+.card-overlay-wrap--no-reflection::after-horizontal{
     display:none;
 }
 
