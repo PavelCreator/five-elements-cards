@@ -49,10 +49,15 @@
     position: relative;
     background-size: 239px 331.6px;
     cursor: auto;
+    filter: saturate(150%);
 }
 
 .card--view{
     margin-bottom: 5px;
+}
+
+.card--rotated{
+    transform: rotate(180deg);
 }
 
 .chaos-card{
@@ -217,7 +222,7 @@
     position:absolute;
     right:10px;
     top:10px;
-    z-index:5;
+    z-index:50;
     transition:opacity .3s ease-out;
 }
 
@@ -242,6 +247,31 @@
 
 .hover-button-cancel{
     background:rgba(136, 0, 0, 0.5);
+}
+
+.set-level-wrapper {
+    background: rgba(0, 0, 0, 0.5);
+    font-family: "Macondo", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 20px;
+    padding: 6px;
+    margin: 4px;
+    border-radius: 4px;
+    color: #fff;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+}
+
+.level-option {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.level-option:hover {
+    color: yellow;
 }
 
 .text-container{

@@ -605,19 +605,19 @@ export const cards: Card[] = [
         },
         "color": "white",
         "boundingClientRect": {
-            "top": -248,
-            "left": 1245
+            "top": 2149.25,
+            "left": 996
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/59881e16-73c6-4c8b-8bf0-476048c71bf2/0_1.png",
-            "name": "Thief",
-            "collection": "",
+            "picturePath": "https://cdn.midjourney.com/86ad7122-0358-447e-896e-e542939e61c7/0_1.png",
+            "name": "Shepherd",
             "color": "white",
             "level": 1,
+            "hidden": false,
             "boundingClientRectStart": {
-                "top": 495.6000061035156,
-                "left": 747
+                "top": 671.9861450195312,
+                "left": 498
             },
             "isSelected": true
         }
@@ -5608,7 +5608,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 134.6,
-        "level": 1,
+        "level": 2,
         "levelSpecial": false,
         "pay": {
             "purple": 0,
@@ -5622,28 +5622,27 @@ export const cards: Card[] = [
             "card_2_lvl": 0
         },
         "boundingClientRect": {
-            "top": 272.3055725097656,
-            "left": 249
+            "top": 264.0416564941406,
+            "left": 1743
         },
         "isSelected": false,
         "levelBonus": true,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/1f3aea18-d852-4767-a972-a72376ee7278/0_0.png",
-            "name": "Vasilisa the Beautiful",
+            "picturePath": "https://cdn.midjourney.com/04dc9632-2519-4efb-b276-124327e5ae87/0_2.png",
+            "name": "Vasilisa The Beautiful",
             "color": "bonus",
-            "level": 1,
             "hidden": false,
+            "level": 1,
             "boundingClientRectStart": {
-                "top": 519.5555419921875,
-                "left": 249
+                "top": 741.7777709960938,
+                "left": 498
             },
-            "isSelected": true,
-            "horizontalReverse": true
+            "isSelected": true
         }
     },
     {
         "orderNumber": 135.6,
-        "level": 1,
+        "level": 3,
         "levelSpecial": false,
         "pay": {
             "purple": 0,
@@ -5679,7 +5678,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 136.6,
-        "level": 1,
+        "level": 4,
         "levelSpecial": false,
         "pay": {
             "purple": 0,
@@ -5714,7 +5713,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 137.6,
-        "level": 1,
+        "level": 3,
         "levelSpecial": false,
         "pay": {
             "black": 0,
@@ -5750,7 +5749,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 138.6,
-        "level": 1,
+        "level": 4,
         "levelSpecial": false,
         "pay": {
             "purple": 0,
@@ -5786,7 +5785,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 139.6,
-        "level": 1,
+        "level": 2,
         "levelSpecial": false,
         "pay": {
             "purple": 0,
@@ -5815,12 +5814,13 @@ export const cards: Card[] = [
                 "top": 519.5555419921875,
                 "left": 747
             },
-            "isSelected": true
+            "isSelected": true,
+            "horizontalReverse": false
         }
     },
     {
         "orderNumber": 140.6,
-        "level": 1,
+        "level": 4,
         "levelSpecial": false,
         "pay": {
             "red": 0,
@@ -5854,7 +5854,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 141.6,
-        "level": 1,
+        "level": 3,
         "levelSpecial": false,
         "pay": {
             "red": 0,
@@ -5923,7 +5923,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 143.6,
-        "level": 1,
+        "level": 2,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -5996,7 +5996,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 145.6,
-        "level": 1,
+        "level": 3,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -6033,7 +6033,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 146.6,
-        "level": 1,
+        "level": 4,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -6049,22 +6049,22 @@ export const cards: Card[] = [
         },
         "color": "purple",
         "boundingClientRect": {
-            "top": 1511.0555419921875,
+            "top": 508.9166564941406,
             "left": 1245
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/342c485b-d2c5-4ad6-8f5b-11a836946b43/0_0.png",
-            "name": "Golden Dragon",
-            "collection": "",
-            "color": "purple",
-            "level": 4,
-            "hidden": true,
+            "picturePath": "https://cdn.midjourney.com/adfb741a-5ef6-4761-97df-871fc135083a/0_3.png",
+            "name": "Elven Dragon",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
             "boundingClientRectStart": {
-                "top": 681.1527709960938,
-                "left": 498
+                "top": 741.7777709960938,
+                "left": 249
             },
-            "isSelected": true
+            "isSelected": true,
+            "horizontalReverse": true
         }
     },
     {
@@ -6239,7 +6239,8 @@ export const cards: Card[] = [
                 "top": 630.6666870117188,
                 "left": 1245
             },
-            "isSelected": true
+            "isSelected": true,
+            "horizontalReverse": false
         }
     },
     {
@@ -6295,22 +6296,21 @@ export const cards: Card[] = [
         },
         "color": "black",
         "boundingClientRect": {
-            "top": -180.4027862548828,
-            "left": 1245
+            "top": 144.6666717529297,
+            "left": 498
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/f97d7353-ea2e-41f4-a49b-84b517930517/0_2.png",
-            "name": "Deepwood Imp",
+            "picturePath": "https://cdn.midjourney.com/e8b10f59-1374-4d49-abe7-e5be9fef13f1/0_3.png",
+            "name": "Kikimora",
             "color": "bonus",
             "hidden": false,
             "level": 1,
             "boundingClientRectStart": {
                 "top": 741.7777709960938,
-                "left": 996
+                "left": 498
             },
-            "isSelected": true,
-            "horizontalReverse": false
+            "isSelected": true
         }
     },
     {
@@ -6331,8 +6331,8 @@ export const cards: Card[] = [
         },
         "color": "black",
         "boundingClientRect": {
-            "top": -180.4027862548828,
-            "left": 1494
+            "top": 144.6666717529297,
+            "left": 747
         },
         "isSelected": false,
         "artData": {
@@ -6342,8 +6342,8 @@ export const cards: Card[] = [
             "hidden": false,
             "level": 1,
             "boundingClientRectStart": {
-                "top": 519.5555419921875,
-                "left": 1245
+                "top": 741.7777709960938,
+                "left": 249
             },
             "isSelected": true
         }
@@ -6420,7 +6420,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 158.6,
-        "level": 1,
+        "level": 2,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -6456,7 +6456,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 159.6,
-        "level": 1,
+        "level": 2,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -6492,7 +6492,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 160.6,
-        "level": 1,
+        "level": 2,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -6528,7 +6528,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 161.6,
-        "level": 1,
+        "level": 3,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -6564,7 +6564,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 162.6,
-        "level": 1,
+        "level": 2,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -6599,7 +6599,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 163.6,
-        "level": 1,
+        "level": 2,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -6635,7 +6635,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 164.6,
-        "level": 1,
+        "level": 2,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -6651,18 +6651,19 @@ export const cards: Card[] = [
         },
         "color": "black",
         "boundingClientRect": {
-            "top": 486.2638854980469,
-            "left": 498
+            "top": 144.6666717529297,
+            "left": 1992
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/be657e04-1cfa-438c-8f5d-9d094aa1d295/0_0.png",
-            "name": "Thranox",
+            "picturePath": "https://cdn.midjourney.com/108f03b2-7598-4d3b-a54c-37f263b7e3f8/0_3.png",
+            "name": "Gloomgrin",
+            "collection": "",
             "color": "bonus",
-            "hidden": false,
             "level": 1,
+            "hidden": false,
             "boundingClientRectStart": {
-                "top": 638.9305419921875,
+                "top": 741.7777709960938,
                 "left": 498
             },
             "isSelected": true
@@ -6670,7 +6671,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 165.6,
-        "level": 1,
+        "level": 2,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -6705,7 +6706,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 166.6,
-        "level": 1,
+        "level": 3,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -6741,7 +6742,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 167.6,
-        "level": 1,
+        "level": 3,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -6778,7 +6779,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 168.6,
-        "level": 1,
+        "level": 4,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -6814,7 +6815,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 169.6,
-        "level": 1,
+        "level": 3,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -6919,7 +6920,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 174.6,
-        "level": 1,
+        "level": 2,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -6934,19 +6935,19 @@ export const cards: Card[] = [
             "dice": 2
         },
         "boundingClientRect": {
-            "top": 827.8611450195312,
-            "left": 996
+            "top": -515.875,
+            "left": 747
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/c1fd883b-57dc-4c59-8671-e248f07a68f3/0_3.png",
+            "picturePath": "https://cdn.midjourney.com/b37d7ae6-c1d1-42e9-8bf5-d6f98b8502a0/0_2.png",
             "name": "Night Watcher",
             "color": "bonus",
             "hidden": false,
             "level": 1,
             "boundingClientRectStart": {
                 "top": 741.7777709960938,
-                "left": 1245
+                "left": 249
             },
             "isSelected": true,
             "horizontalReverse": false
@@ -6954,7 +6955,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 176.6,
-        "level": 1,
+        "level": 2,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -6969,27 +6970,27 @@ export const cards: Card[] = [
             "dice": 2
         },
         "boundingClientRect": {
-            "top": 827.8611450195312,
-            "left": 1245
+            "top": 1150.7916259765625,
+            "left": 996
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/ca4e1240-99cc-49dd-8f6a-f2939ff9b4f4/0_2.png",
+            "picturePath": "https://cdn.midjourney.com/21b02e6b-0af1-4ccc-b7b1-a0018fda0fef/0_2.png",
             "name": "Lumiel",
             "color": "bonus",
             "hidden": false,
             "level": 1,
-            "horizontalReverse": true,
+            "horizontalReverse": false,
             "boundingClientRectStart": {
                 "top": 741.7777709960938,
-                "left": 1245
+                "left": 249
             },
             "isSelected": true
         }
     },
     {
         "orderNumber": 177.6,
-        "level": 1,
+        "level": 4,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -7023,7 +7024,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 178.6,
-        "level": 1,
+        "level": 4,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -7057,7 +7058,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 179.6,
-        "level": 1,
+        "level": 3,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -7091,7 +7092,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 180.6,
-        "level": 1,
+        "level": 3,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -7126,7 +7127,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 181.6,
-        "level": 1,
+        "level": 3,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -7141,13 +7142,13 @@ export const cards: Card[] = [
             "drop_card": 0
         },
         "boundingClientRect": {
-            "top": 502.7916564941406,
-            "left": 498
+            "top": 1511.0555419921875,
+            "left": 747
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/e8b10f59-1374-4d49-abe7-e5be9fef13f1/0_3.png",
-            "name": "Kikimora",
+            "picturePath": "https://cdn.midjourney.com/f97d7353-ea2e-41f4-a49b-84b517930517/0_2.png",
+            "name": "Deepwood Imp",
             "color": "bonus",
             "hidden": false,
             "level": 1,
@@ -7155,12 +7156,13 @@ export const cards: Card[] = [
                 "top": 741.7777709960938,
                 "left": 249
             },
-            "isSelected": true
+            "isSelected": true,
+            "horizontalReverse": false
         }
     },
     {
         "orderNumber": 182.6,
-        "level": 1,
+        "level": 4,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -7194,7 +7196,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 183.6,
-        "level": 1,
+        "level": 4,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -7257,7 +7259,8 @@ export const cards: Card[] = [
                 "top": 861.1527709960938,
                 "left": 249
             },
-            "isSelected": true
+            "isSelected": true,
+            "horizontalReverse": true
         }
     },
     {
@@ -7277,26 +7280,27 @@ export const cards: Card[] = [
             "card_1_lvl": 0
         },
         "boundingClientRect": {
-            "top": 486.2638854980469,
+            "top": -1199.0694580078125,
             "left": 1494
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/3c42fcf7-eecd-4b37-a92e-c10fcc3ce423/0_3.png",
-            "name": "Verdelume",
+            "picturePath": "https://cdn.midjourney.com/abe556c9-0660-4943-856d-0a8b7eabb07f/0_0.png",
+            "name": "Beastmaster",
+            "collection": "",
             "color": "bonus",
-            "hidden": false,
             "level": 1,
+            "hidden": false,
             "boundingClientRectStart": {
-                "top": 638.9305419921875,
-                "left": 249
+                "top": 741.7777709960938,
+                "left": 1245
             },
             "isSelected": true
         }
     },
     {
         "orderNumber": 186.6,
-        "level": 1,
+        "level": 2,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -7330,7 +7334,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 187.6,
-        "level": 1,
+        "level": 2,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -7366,7 +7370,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 189.6,
-        "level": 1,
+        "level": 4,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -7400,7 +7404,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 190.6,
-        "level": 1,
+        "level": 3,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -7415,23 +7419,25 @@ export const cards: Card[] = [
             "card_3_lvl": 0
         },
         "boundingClientRect": {
-            "top": 50.08333206176758,
+            "top": 605.638916015625,
             "left": 498
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/f3ab25c9-aa74-4dc7-8353-7143287fef42/0_1.png",
+            "picturePath": "https://cdn.midjourney.com/0441038a-2595-4e8b-8e22-8ecd2bc0efef/0_1.png",
             "name": "Dark Elf",
             "collection": "",
             "color": "bonus",
             "level": 1,
             "hidden": false,
             "boundingClientRectStart": {
-                "top": 630.6666870117188,
-                "left": 1743
+                "top": 741.7777709960938,
+                "left": 249
             },
-            "isSelected": true
-        }
+            "isSelected": true,
+            "horizontalReverse": false
+        },
+        "hidden": false
     },
     {
         "orderNumber": 191.6,
@@ -7504,7 +7510,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 193.6,
-        "level": 1,
+        "level": 2,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -7538,7 +7544,7 @@ export const cards: Card[] = [
     },
     {
         "orderNumber": 194.6,
-        "level": 1,
+        "level": 2,
         "levelSpecial": false,
         "levelBonus": true,
         "pay": {
@@ -7553,22 +7559,228 @@ export const cards: Card[] = [
             "dice": 2
         },
         "boundingClientRect": {
-            "top": 1169.4583740234375,
+            "top": 1150.7916259765625,
             "left": 1494
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/50b9309c-aa16-4649-8c2f-d7ecfe92bc0c/0_0.png",
+            "picturePath": "https://cdn.midjourney.com/1a9d9dd8-a49a-4bb1-be49-980a8cde862e/0_3.png",
             "name": "Ravenlord",
             "color": "bonus",
             "hidden": false,
             "level": 1,
             "boundingClientRectStart": {
                 "top": 741.7777709960938,
-                "left": 498
+                "left": 249
             },
             "isSelected": true,
             "horizontalReverse": false
+        }
+    },
+    {
+        "orderNumber": 195.6,
+        "level": 3,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "white": 0,
+            "blue": 0,
+            "purple": 0,
+            "red": 2,
+            "green": 2,
+            "black": 2
+        },
+        "get": {
+            "drop_card": 0
+        },
+        "boundingClientRect": {
+            "top": 0,
+            "left": 0
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/be657e04-1cfa-438c-8f5d-9d094aa1d295/0_0.png",
+            "name": "Thranox",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 741.7777709960938,
+                "left": 249
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 196.6,
+        "level": 3,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "red": 0,
+            "green": 0,
+            "purple": 0,
+            "white": 2,
+            "blue": 2,
+            "black": 2
+        },
+        "get": {
+            "drop_card": 0
+        },
+        "boundingClientRect": {
+            "top": 185.98611450195312,
+            "left": 1494
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/6f56eb5a-20f1-41d8-b034-8b694de03099/0_2.png",
+            "name": "Troglodyte",
+            "collection": "",
+            "color": "bonus",
+            "level": 1,
+            "hidden": false,
+            "boundingClientRectStart": {
+                "top": 741.7777709960938,
+                "left": 1494
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 197.6,
+        "level": 4,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "red": 0,
+            "green": 0,
+            "white": 0,
+            "blue": 3,
+            "purple": 3,
+            "black": 3
+        },
+        "get": {
+            "steal_card": 0
+        },
+        "boundingClientRect": {
+            "top": 0,
+            "left": 0
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/7685b00b-3900-4f91-b99d-879e46df1e88/0_1.png",
+            "name": "Assasin",
+            "collection": "",
+            "color": "bonus",
+            "level": 1,
+            "hidden": false,
+            "boundingClientRectStart": {
+                "top": 681.3333129882812,
+                "left": 498
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 198.6,
+        "level": 4,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "red": 0,
+            "green": 0,
+            "blue": 0,
+            "white": 3,
+            "purple": 3,
+            "black": 3
+        },
+        "get": {
+            "steal_card": 0
+        },
+        "boundingClientRect": {
+            "top": 133.80555725097656,
+            "left": 1743
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/59881e16-73c6-4c8b-8bf0-476048c71bf2/0_1.png",
+            "name": "Thief",
+            "collection": "",
+            "color": "white",
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 697.8611450195312,
+                "left": 0
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 199.6,
+        "level": 4,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "red": 0,
+            "white": 0,
+            "blue": 0,
+            "green": 3,
+            "purple": 3,
+            "black": 3
+        },
+        "get": {
+            "steal_card": 0
+        },
+        "boundingClientRect": {
+            "top": 133.80555725097656,
+            "left": 1992
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/f1e6ca24-138f-4001-9a78-1144e1361c5f/0_0.png",
+            "name": "Bandit",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 741.7777709960938,
+                "left": 249
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 200.6,
+        "level": 4,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "green": 0,
+            "white": 0,
+            "blue": 0,
+            "red": 3,
+            "purple": 3,
+            "black": 3
+        },
+        "get": {
+            "steal_card": 0
+        },
+        "boundingClientRect": {
+            "top": 475.40277099609375,
+            "left": 0
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/1119e461-84e1-463e-b579-3f30fd1e0f9c/0_1.png",
+            "name": "Slayer",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 741.7777709960938,
+                "left": 249
+            },
+            "isSelected": true
         }
     }
 ];

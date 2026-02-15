@@ -33,6 +33,6 @@
 		<div class="menu-item" *ngIf="printMode === 'view'" (click)="setPrintMode(true)">* Print Mode</div>
 		<div class="menu-item" *ngIf="!editTokensMode" (click)="setEditTokensMode(true)">* Edit Tokens On</div>
 		<div class="menu-item" *ngIf="editTokensMode" (click)="setEditTokensMode(false)">* Edit Tokens Off</div>
-		<div class="menu-item" (click)="showMenu = false">* Hide Menu</div>
+		<div class="menu-item" (click)="hideMenu()">* Hide Menu</div>
 	</div>
 </div>

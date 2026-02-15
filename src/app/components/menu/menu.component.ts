@@ -141,4 +141,9 @@ export class MenuComponent {
         this._localStorageService.setItem('editTokensMode', inEditTokensMode.toString());
         this._interactionService.setEditTokensMode(inEditTokensMode);
     }
+
+    public hideMenu() {
+        this.showMenu = false;
+        this._interactionService.setShowTabNav(false);
+    }
 }

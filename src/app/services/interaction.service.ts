@@ -98,6 +98,9 @@ export class InteractionService {
   private _saveCardsSubject$: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
   public saveCards$: Observable<void> = this._saveCardsSubject$.asObservable();
 
+  private _showTabNavSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  public showTabNav$: Observable<boolean> = this._showTabNavSubject$.asObservable();
+
   public recalculateArts() {
     this._recalculateArtsSubject$.next();
   }
@@ -148,6 +151,10 @@ export class InteractionService {
 
   public setEditTokensMode(inEditTokensMode: boolean) {
     this._editTokensModeSubject$.next(inEditTokensMode);
+  }
+
+  public setShowTabNav(show: boolean) {
+    this._showTabNavSubject$.next(show);
   }
 
   public toggleArtSelection(inArt: Art) {

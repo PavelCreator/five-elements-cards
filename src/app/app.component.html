@@ -1,4 +1,4 @@
-<div class="tab-nav">
+<div class="tab-nav" *ngIf="showTabNav">
 	<button class="tab-nav__button" [class.tab-nav__button--active]="activeTab === 'collection'" (click)="setActiveTab('collection')">
 		Collection
 	</button>

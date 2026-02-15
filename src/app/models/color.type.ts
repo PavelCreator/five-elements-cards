@@ -1,1 +1,1 @@
-export type Color = 'red' | 'green' | 'white' | 'blue' | 'purple' | 'black' | 'mix' | 'mix2' | 'mix6' | 'chaos' | 'dice' | 'master' | 'bonus' | 'card_1_lvl' | 'card_2_lvl' | 'card_3_lvl' | 'card_4_lvl' | 'card_master' | 'extra_turn' | 'drop_card';
+export type Color = 'red' | 'green' | 'white' | 'blue' | 'purple' | 'black' | 'mix' | 'mix2' | 'mix6' | 'chaos' | 'dice' | 'master' | 'bonus' | 'card_1_lvl' | 'card_2_lvl' | 'card_3_lvl' | 'card_4_lvl' | 'card_master' | 'extra_turn' | 'drop_card' | 'steal_card';

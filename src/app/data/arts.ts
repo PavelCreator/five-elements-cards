@@ -146,13 +146,6 @@ export const arts: Art[] = [
         "level": 2
     },
     {
-        "picturePath": "https://cdn.midjourney.com/59881e16-73c6-4c8b-8bf0-476048c71bf2/0_1.png",
-        "name": "Thief",
-        "collection": "",
-        "color": "white",
-        "level": 1
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/8baf0469-bb51-4ac6-b3ea-e2f182b40d1a/0_3.png",
         "name": "Nomad",
         "collection": "",
@@ -296,13 +289,6 @@ export const arts: Art[] = [
         "hidden": true
     },
     {
-        "picturePath": "https://cdn.midjourney.com/86ad7122-0358-447e-896e-e542939e61c7/0_1.png",
-        "name": "Shepherd",
-        "color": "white",
-        "level": 1,
-        "hidden": true
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/3a1d59ad-7e1b-4931-b79c-29607b83ad70/0_1.png",
         "name": "Farmer",
         "color": "white",
@@ -429,14 +415,6 @@ export const arts: Art[] = [
         "collection": "",
         "color": "red",
         "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/6f56eb5a-20f1-41d8-b034-8b694de03099/0_2.png",
-        "name": "Troglodyte",
-        "collection": "",
-        "color": "bonus",
-        "level": 1,
-        "hidden": false
     },
     {
         "picturePath": "https://cdn.midjourney.com/037279ef-5564-4d34-a229-1a9625291ea5/0_1.png",
@@ -939,14 +917,6 @@ export const arts: Art[] = [
         "level": 2
     },
     {
-        "picturePath": "https://cdn.midjourney.com/abe556c9-0660-4943-856d-0a8b7eabb07f/0_0.png",
-        "name": "Beastmaster",
-        "collection": "",
-        "color": "bonus",
-        "level": 1,
-        "hidden": false
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/fd6c6d1b-3986-4aa1-8118-baee53436a1e/0_0.png",
         "name": "Elven Mage",
         "collection": "",
@@ -1307,14 +1277,6 @@ export const arts: Art[] = [
         "hidden": true
     },
     {
-        "picturePath": "https://cdn.midjourney.com/7685b00b-3900-4f91-b99d-879e46df1e88/0_1.png",
-        "name": "Silent Assasin",
-        "collection": "",
-        "color": "black",
-        "level": 2,
-        "hidden": true
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/500c2891-8443-40be-bccb-18042120979d/0_2.png",
         "name": "Wyvern",
         "collection": "",
@@ -1467,22 +1429,64 @@ export const arts: Art[] = [
         "isSelected": false
     },
     {
-        "picturePath": "https://cdn.midjourney.com/2578330e-00ce-4abf-ab1d-2e819a9664b4/0_0.png",
-        "name": "Evergreen",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1
-    },
-    {
-        "picturePath": "https://cdn.midjourney.com/108f03b2-7598-4d3b-a54c-37f263b7e3f8/0_3.png",
-        "name": "Gremlin",
-        "collection": "",
+        "picturePath": "https://cdn.midjourney.com/871acc3c-0c2a-4d41-86c6-110fd3377873/0_2.png",
+        "name": "Vasilisa the Beautiful",
         "color": "bonus",
         "level": 1,
         "hidden": false,
         "boundingClientRectStart": {
             "top": 741.7777709960938,
+            "left": 249
+        },
+        "isSelected": false,
+        "horizontalReverse": false
+    },
+    {
+        "picturePath": "https://cdn.midjourney.com/5daa7b1b-413c-41e2-8891-74e036994b93/0_2.png",
+        "name": "1",
+        "color": "bonus",
+        "hidden": false,
+        "level": 1,
+        "boundingClientRectStart": {
+            "top": 741.7777709960938,
             "left": 498
+        },
+        "isSelected": false
+    },
+    {
+        "picturePath": "https://cdn.midjourney.com/342c485b-d2c5-4ad6-8f5b-11a836946b43/0_0.png",
+        "name": "Golden Dragon",
+        "collection": "",
+        "color": "purple",
+        "level": 4,
+        "hidden": true,
+        "boundingClientRectStart": {
+            "top": 681.1527709960938,
+            "left": 498
+        },
+        "isSelected": false
+    },
+    {
+        "picturePath": "https://cdn.midjourney.com/3c42fcf7-eecd-4b37-a92e-c10fcc3ce423/0_3.png",
+        "name": "Verdelume",
+        "color": "bonus",
+        "hidden": false,
+        "level": 1,
+        "boundingClientRectStart": {
+            "top": 638.9305419921875,
+            "left": 249
+        },
+        "isSelected": false
+    },
+    {
+        "picturePath": "https://cdn.midjourney.com/2578330e-00ce-4abf-ab1d-2e819a9664b4/0_0.png",
+        "name": "Evergreen",
+        "color": "bonus",
+        "hidden": false,
+        "level": 1,
+        "boundingClientRectStart": {
+            "top": 741.7777709960938,
+            "left": 996
         },
         "isSelected": false
     }

@@ -21,6 +21,7 @@ export class AppComponent implements OnInit{
     public artsWrapperHeight: string = '50vh';
     public cardsWrapperHeight: string = '50vh';
     public activeTab: AppTab = 'collection';
+    public showTabNav: boolean = true;
     private readonly activeTabStorageKey: string = 'activeTab';
 
     constructor(
@@ -59,6 +60,10 @@ export class AppComponent implements OnInit{
                     this.cardsWrapperHeight = '0vh'
                     break;
             }
+        })
+
+        this._interactionService.showTabNav$.subscribe((show: boolean) => {
+            this.showTabNav = show;
         })
     }
 

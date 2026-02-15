@@ -14,6 +14,7 @@ export interface Elements {
     card_master?: number,
     extra_turn?: number,
     drop_card?: number,
+    steal_card?: number,
     master?: number,
     mix?: number,
     mix2?: number,

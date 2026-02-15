@@ -1,5 +1,5 @@
 <div class="card"
-         [ngClass]="{ 'card--view': !printModeEnabled }"
+         [ngClass]="{ 'card--view': !printModeEnabled, 'card--rotated': printModeEnabled && cardSide === 'back' }"
 		 *ngIf="!card.hidden || (card.hidden && showDisabledCard)"
 		 (click)="toggleCardSelection()"
 		 (mouseenter) ="hovered = true"
@@ -44,6 +44,7 @@
         <app-hexagon *ngIf="card.get.card_master === 0" [color]="'card_master'" [number]="card.get.card_master" [type]="typeOfGetHexagon"></app-hexagon>
         <app-hexagon *ngIf="card.get.extra_turn === 0" [color]="'extra_turn'" [number]="card.get.extra_turn" [type]="typeOfGetHexagon"></app-hexagon>
         <app-hexagon *ngIf="card.get.drop_card === 0" [color]="'drop_card'" [number]="card.get.drop_card" [type]="typeOfGetHexagon"></app-hexagon>
+        <app-hexagon *ngIf="card.get.steal_card === 0" [color]="'steal_card'" [number]="card.get.steal_card" [type]="typeOfGetHexagon"></app-hexagon>
     </div>
     <div class="get-wrapper"></div>
     <div class="order-num">{{ card.orderNumber }}</div>
@@ -63,7 +64,7 @@
         <div class="art-name">Limit: 1 card from deck per <p>player</p></div>
     </div>
 		<div class="text-container text-container-warning text-container-warning2" *ngIf="card.levelBonus">
-        <div class="art-name">No black token bonus Optional action</div>
+        <div class="art-name">Optional action <p>Single use</p> <p>No bonus</p></div>
     </div>
     <div class="text-container" (click)="toggleRename($event, true)">
         <div *ngIf="!renameModeOn" class="art-name">{{ card.artData?.name }}</div>
@@ -88,6 +89,10 @@
 			<div class="hover-button hover-button-confirm" *ngIf="card.artData && renameModeOn" (click)="toggleRename($event, false)">Confirm Rename</div>
 			<div class="hover-button hover-button-cancel" *ngIf="card.artData && renameModeOn" (click)="cancelRename($event)">Cancel Rename</div>
 			<div class="hover-button hover-button-cancel" (click)="deleteCard($event)">Delete Card</div>
+			<div class="set-level-wrapper">
+				<span>Set Level:</span>
+				<span *ngFor="let lvl of [0,1,2,3,4]" class="level-option" (click)="setLevel($event, lvl)" [ngStyle]="{'text-decoration': card.level === lvl ? 'underline' : 'none'}">{{lvl}}</span>
+			</div>
 		</div>
 	</ng-container>
 	<ng-container *ngIf="cardSide === 'back'">

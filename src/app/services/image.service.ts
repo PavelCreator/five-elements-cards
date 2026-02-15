@@ -11,6 +11,12 @@ export class ImageService {
   constructor() { }
 
   public generateCardBackUrl(card: Card): string {
+      if (card.levelBonus) {
+          if (card.level === 1) return './assets/back_cards/elderwood1.jpg';
+          if (card.level === 2) return './assets/back_cards/elderwood2.jpg'
+          if (card.level === 3) return './assets/back_cards/elderwood3.jpg'
+          if (card.level === 4) return './assets/back_cards/elderwood4.jpg'
+      }
     switch (card.color) {
 
       case 'chaos':

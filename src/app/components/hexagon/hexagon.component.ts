@@ -82,6 +82,9 @@ export class HexagonComponent implements OnInit {
                 case 'drop_card':
                     this.hexUrl = './assets/hex/drop_card.png';
                     break;
+                case 'steal_card':
+                    this.hexUrl = './assets/hex/steal_card.png';
+                    break;
             }
         switch (this.type) {
             case 'chaos':

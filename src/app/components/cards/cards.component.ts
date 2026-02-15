@@ -59,6 +59,10 @@ export class CardsComponent implements OnInit {
     public black4: Card[] = [];
     public mix4: Card[] = [];
     public bonus: Card[] = [];
+    public bonus1: Card[] = [];
+    public bonus2: Card[] = [];
+    public bonus3: Card[] = [];
+    public bonus4: Card[] = [];
 
     public needRed1: number = 0;
     public needRed2: number = 0;
@@ -142,7 +146,7 @@ export class CardsComponent implements OnInit {
             ...this.cards.filter(card => card.color === 'blue' && card.levelBonus)
         ];
 
-        const bonusNames = ['dice', 'card_1_lvl', 'card_2_lvl', 'card_3_lvl', 'card_4_lvl', 'card_master', 'extra_turn', 'drop_card'];
+        const bonusNames = ['dice', 'card_1_lvl', 'card_2_lvl', 'card_3_lvl', 'card_4_lvl', 'card_master', 'extra_turn', 'drop_card', 'steal_card'];
         bonusNames.forEach((bonusName: string) => {
             this.bonus = [
                 ...this.bonus,
@@ -164,6 +168,11 @@ export class CardsComponent implements OnInit {
             // @ts-ignore
             return valueA - valueB;
         });
+
+        this.bonus1 = [...this.bonus.filter(card => card.level === 1)];
+        this.bonus2 = [...this.bonus.filter(card => card.level === 2)];
+        this.bonus3 = [...this.bonus.filter(card => card.level === 3)];
+        this.bonus4 = [...this.bonus.filter(card => card.level === 4)];
 
         this._interactionService.removedCard$.subscribe(cardToRemove => {
             if (!cardToRemove) return;

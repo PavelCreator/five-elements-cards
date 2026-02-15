@@ -239,4 +239,10 @@ export class CardComponent implements OnInit {
             this._interactionService.removeCard(this.card);
         }
     }
+
+    public setLevel(event: MouseEvent, level: number) {
+        event.stopPropagation();
+        this.card.level = level;
+        this._interactionService.saveCards();
+    }
 }
