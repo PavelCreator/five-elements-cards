@@ -44,7 +44,7 @@
     width: 239px;
     height: 331.6px;
     margin: 5px;
-    margin-bottom: calc(5px + 60px); /* компенсация vertical bleed */
+    margin-bottom: calc(5px + 20px); /* компенсация vertical bleed */
     box-sizing: border-box;
     position: relative;
     background-size: 239px 331.6px;
@@ -88,7 +88,7 @@
 /* ================= MIRRORED VERTICAL BLEED (fixed) ================= */
 
 .card-overlay-wrap{
-    --bleed-y: 30px;          /* сколько сверху/снизу */
+    --bleed-y: 10px;          /* сколько сверху/снизу */
     --card-w: 240px;
     --card-h: 332.1px;        /* высота "чистой" области */
     position: absolute;
