@@ -1,3 +1,49 @@
+/* Diagonal bleed mirrors (corners) */
+.card-overlay-mirror-topleft,
+.card-overlay-mirror-topright,
+.card-overlay-mirror-bottomleft,
+.card-overlay-mirror-bottomright {
+    position: absolute;
+    width: var(--card-w);
+    height: var(--card-h);
+    background-image: var(--card-bg);
+    background-size: 240px 337.5px;
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 1;
+}
+.card-overlay-mirror-topleft {
+    top: calc(var(--bleed-y) - var(--card-h) + 1px);
+    left: calc(var(--bleed-x) - var(--card-w) + 1px);
+    transform: scaleX(-1) scaleY(-1);
+    transform-origin: center;
+}
+.card-overlay-mirror-topright {
+    top: calc(var(--bleed-y) - var(--card-h) + 1px);
+    left: calc(var(--bleed-x) + var(--card-w) - 1px);
+    transform: scaleX(-1) scaleY(-1);
+    transform-origin: center;
+}
+.card-overlay-mirror-bottomleft {
+    top: calc(var(--bleed-y) + var(--card-h) - 1px);
+    left: calc(var(--bleed-x) - var(--card-w) + 1px);
+    transform: scaleX(-1) scaleY(-1);
+    transform-origin: center;
+}
+.card-overlay-mirror-bottomright {
+    top: calc(var(--bleed-y) + var(--card-h) - 1px);
+    left: calc(var(--bleed-x) + var(--card-w) - 1px);
+    transform: scaleX(-1) scaleY(-1);
+    transform-origin: center;
+}
+.card-overlay-wrap--no-reflection .card-overlay-mirror-topleft,
+.card-overlay-wrap--no-reflection .card-overlay-mirror-topright,
+.card-overlay-wrap--no-reflection .card-overlay-mirror-bottomleft,
+.card-overlay-wrap--no-reflection .card-overlay-mirror-bottomright {
+    display: none;
+}
 /* Horizontal bleed mirrors (left/right) */
 .card-overlay-mirror-left,
 .card-overlay-mirror-right {

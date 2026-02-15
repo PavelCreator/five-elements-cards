@@ -15,9 +15,13 @@
                 transform: (card.artData?.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')
             }"
         >
+            <div class="card-overlay-mirror-topleft"></div>
+            <div class="card-overlay-mirror-topright"></div>
             <div class="card-overlay-mirror-left"></div>
             <div class="card-overlay"></div>
             <div class="card-overlay-mirror-right"></div>
+            <div class="card-overlay-mirror-bottomleft"></div>
+            <div class="card-overlay-mirror-bottomright"></div>
         </div>
     <div class="pay-wrapper">
 				<ng-container *ngIf="!editTokensMode">
