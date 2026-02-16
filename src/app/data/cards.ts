@@ -2646,11 +2646,11 @@ export const cards: Card[] = [
         "levelSpecial": true,
         "pay": {
             "red": 0,
-            "green": 0,
+            "green": 5,
             "white": 0,
-            "blue": 0,
+            "blue": 5,
             "black": 3,
-            "purple": 3
+            "purple": 0
         },
         "get": {
             "purple": 1
@@ -2679,12 +2679,12 @@ export const cards: Card[] = [
         "level": 2,
         "levelSpecial": true,
         "pay": {
-            "red": 0,
+            "red": 5,
             "green": 0,
-            "white": 0,
+            "white": 5,
             "blue": 0,
             "black": 3,
-            "purple": 3
+            "purple": 0
         },
         "get": {
             "purple": 1
@@ -2716,7 +2716,7 @@ export const cards: Card[] = [
             "red": 0,
             "white": 0,
             "blue": 0,
-            "black": 0,
+            "black": 2,
             "purple": 2,
             "green": 6
         },
@@ -2749,7 +2749,7 @@ export const cards: Card[] = [
             "red": 0,
             "green": 0,
             "white": 0,
-            "black": 0,
+            "black": 2,
             "purple": 2,
             "blue": 6
         },
@@ -2784,7 +2784,7 @@ export const cards: Card[] = [
             "green": 0,
             "white": 0,
             "blue": 0,
-            "black": 0,
+            "black": 2,
             "purple": 2,
             "red": 6
         },
@@ -2818,7 +2818,7 @@ export const cards: Card[] = [
             "red": 0,
             "green": 0,
             "blue": 0,
-            "black": 0,
+            "black": 2,
             "purple": 2,
             "white": 6
         },
@@ -2850,12 +2850,12 @@ export const cards: Card[] = [
         "level": 2,
         "levelSpecial": true,
         "pay": {
-            "red": 0,
+            "red": 4,
             "green": 0,
-            "white": 0,
+            "white": 4,
             "blue": 0,
             "purple": 2,
-            "black": 4
+            "black": 2
         },
         "get": {
             "black": 1
@@ -2886,11 +2886,11 @@ export const cards: Card[] = [
         "levelSpecial": true,
         "pay": {
             "red": 0,
-            "green": 0,
+            "green": 4,
             "white": 0,
-            "blue": 0,
+            "blue": 4,
             "purple": 2,
-            "black": 4
+            "black": 2
         },
         "get": {
             "black": 1
@@ -3344,7 +3344,7 @@ export const cards: Card[] = [
             "white": 0,
             "blue": 0,
             "purple": 0,
-            "black": 0,
+            "black": 2,
             "red": 12
         },
         "get": {
@@ -3378,7 +3378,7 @@ export const cards: Card[] = [
             "green": 0,
             "blue": 0,
             "purple": 0,
-            "black": 0,
+            "black": 2,
             "white": 12
         },
         "get": {
@@ -3413,7 +3413,7 @@ export const cards: Card[] = [
             "green": 0,
             "white": 0,
             "purple": 0,
-            "black": 0,
+            "black": 2,
             "blue": 12
         },
         "get": {
@@ -3447,7 +3447,7 @@ export const cards: Card[] = [
             "white": 0,
             "blue": 0,
             "purple": 0,
-            "black": 0,
+            "black": 2,
             "green": 12
         },
         "get": {
@@ -3479,11 +3479,11 @@ export const cards: Card[] = [
         "levelSpecial": true,
         "pay": {
             "red": 0,
-            "green": 0,
-            "white": 0,
+            "green": 8,
+            "white": 8,
             "blue": 0,
-            "purple": 3,
-            "black": 5
+            "purple": 0,
+            "black": 2
         },
         "get": {
             "purple": 2
@@ -3513,12 +3513,12 @@ export const cards: Card[] = [
         "level": 4,
         "levelSpecial": true,
         "pay": {
-            "red": 0,
+            "red": 8,
             "green": 0,
             "white": 0,
-            "blue": 0,
-            "purple": 3,
-            "black": 4
+            "blue": 8,
+            "purple": 0,
+            "black": 2
         },
         "get": {
             "purple": 2
@@ -4401,7 +4401,7 @@ export const cards: Card[] = [
             "red": 0,
             "green": 0,
             "white": 0,
-            "purple": 0,
+            "purple": 3,
             "mix": 0,
             "black": 3,
             "blue": 7
@@ -4434,8 +4434,8 @@ export const cards: Card[] = [
         "level": 3,
         "levelSpecial": true,
         "pay": {
-            "red": 0,
-            "green": 0,
+            "red": 5,
+            "green": 5,
             "white": 0,
             "blue": 0,
             "mix": 0,
@@ -4472,7 +4472,7 @@ export const cards: Card[] = [
             "red": 0,
             "green": 0,
             "blue": 0,
-            "purple": 0,
+            "purple": 3,
             "mix": 0,
             "black": 3,
             "white": 7
@@ -4508,7 +4508,7 @@ export const cards: Card[] = [
             "red": 0,
             "white": 0,
             "blue": 0,
-            "purple": 0,
+            "purple": 3,
             "mix": 0,
             "black": 3,
             "green": 7
@@ -4544,7 +4544,7 @@ export const cards: Card[] = [
             "green": 0,
             "white": 0,
             "blue": 0,
-            "purple": 0,
+            "purple": 3,
             "mix": 0,
             "black": 3,
             "red": 7
@@ -4579,8 +4579,8 @@ export const cards: Card[] = [
         "pay": {
             "red": 0,
             "green": 0,
-            "white": 0,
-            "blue": 0,
+            "white": 5,
+            "blue": 5,
             "mix": 0,
             "purple": 3,
             "black": 3
@@ -5316,12 +5316,12 @@ export const cards: Card[] = [
         "level": 4,
         "levelSpecial": true,
         "pay": {
-            "red": 0,
+            "red": 6,
             "green": 0,
             "white": 0,
-            "blue": 0,
+            "blue": 6,
             "mix": 0,
-            "purple": 4,
+            "purple": 3,
             "black": 4
         },
         "get": {
@@ -5354,7 +5354,7 @@ export const cards: Card[] = [
             "red": 0,
             "green": 0,
             "blue": 0,
-            "purple": 0,
+            "purple": 3,
             "mix": 0,
             "black": 4,
             "white": 10
@@ -5389,7 +5389,7 @@ export const cards: Card[] = [
             "green": 0,
             "white": 0,
             "blue": 0,
-            "purple": 0,
+            "purple": 3,
             "mix": 0,
             "black": 4,
             "red": 10
@@ -5424,7 +5424,7 @@ export const cards: Card[] = [
             "red": 0,
             "green": 0,
             "white": 0,
-            "purple": 0,
+            "purple": 3,
             "mix": 0,
             "black": 4,
             "blue": 10
@@ -5459,7 +5459,7 @@ export const cards: Card[] = [
             "red": 0,
             "white": 0,
             "blue": 0,
-            "purple": 0,
+            "purple": 3,
             "mix": 0,
             "black": 4,
             "green": 10
@@ -5492,11 +5492,11 @@ export const cards: Card[] = [
         "levelSpecial": true,
         "pay": {
             "red": 0,
-            "green": 0,
-            "white": 0,
+            "green": 6,
+            "white": 6,
             "blue": 0,
             "mix": 0,
-            "purple": 4,
+            "purple": 3,
             "black": 4
         },
         "get": {
@@ -6415,7 +6415,8 @@ export const cards: Card[] = [
                 "top": 750.0416870117188,
                 "left": 498
             },
-            "isSelected": true
+            "isSelected": true,
+            "horizontalReverse": false
         }
     },
     {

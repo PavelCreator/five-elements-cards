@@ -6,6 +6,7 @@ export interface HowToWinCard {
     type: HowToWinCardType,
     numberOfElements?: number,
     text?: string,
+    time?: 'quick' | 'normal' | 'long',
     pay?: Elements,
     image?: string;
 }

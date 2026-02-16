@@ -100,7 +100,7 @@
         </div>
         <div class="text-container text-container-chaos text-container-win text-container-win-text" *ngIf="card.type === 'Collection Mode'">
 							<div class="description-win-line">
-								<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="card.numberOfElements === 2 ? 'mix2' : 'mix'" [type]="'getWin2'" [number]="card?.numberOfElements"></app-hexagon>
+								<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="card.text === 'Dragons' ? 'mix2' : 'mix'" [type]="'getWin2'" [number]="card?.numberOfElements"></app-hexagon>
 								<span>{{card?.text}}</span>
 							</div>
         </div>

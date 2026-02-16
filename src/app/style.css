@@ -359,7 +359,7 @@
     position:absolute;
     right:10px;
     top:10px;
-    z-index:50;
+    z-index:5;
     transition:opacity .3s ease-out;
 }
 
