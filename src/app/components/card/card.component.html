@@ -102,13 +102,20 @@
 		</div>
 	</ng-container>
 	<ng-container *ngIf="cardSide === 'back'">
+
         <div
-        class="card-overlay-wrap"
-        [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
+            class="card-overlay-wrap"
+            [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
             [ngStyle]="{ '--card-bg': 'url(' + cardBackUrl + ')' }"
-    >
-        <div class="card-overlay card-overlay-back"></div>
-    </div>
+        >
+            <div class="card-overlay-mirror-topleft"></div>
+            <div class="card-overlay-mirror-topright"></div>
+            <div class="card-overlay-mirror-left"></div>
+            <div class="card-overlay card-overlay-back"></div>
+            <div class="card-overlay-mirror-right"></div>
+            <div class="card-overlay-mirror-bottomleft"></div>
+            <div class="card-overlay-mirror-bottomright"></div>
+        </div>
 
     </ng-container>
 </div>

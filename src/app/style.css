@@ -137,16 +137,16 @@
 
 
 .card--print .card-overlay-wrap{
-    --bleed-y: 10px;
-    --bleed-x: 10px;
+    --bleed-y: 5px;
+    --bleed-x: 5px;
 }
 
 .card--print {
-    margin: 5px 15px;
+    margin: 0px 7px;
 }
 
 .card--print{
-    margin-bottom: calc(5px + 20px); /* компенсация vertical bleed для print mode */
+    margin-bottom: 13px; /* компенсация vertical bleed для print mode */
 }
 
 .chaos-card{
@@ -170,8 +170,8 @@
 
 
 .card-overlay-wrap{
-    --bleed-y: 10px;          /* сколько сверху/снизу */
-    --bleed-x: 10px;          /* сколько слева/справа (horizontal bleed) */
+    --bleed-y: 5px;          /* сколько сверху/снизу */
+    --bleed-x: 5px;          /* сколько слева/справа (horizontal bleed) */
     --card-w: 240px;
     --card-h: 332.1px;        /* высота "чистой" области */
     position: absolute;
