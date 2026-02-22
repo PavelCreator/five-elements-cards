@@ -1088,8 +1088,8 @@
         },
         "color": "green",
         "boundingClientRect": {
-            "top": 1816,
-            "left": 0
+            "top": 2280.708251953125,
+            "left": 1771
         },
         "isSelected": false,
         "artData": {
@@ -1100,7 +1100,7 @@
             "level": 1,
             "horizontalReverse": true,
             "boundingClientRectStart": {
-                "top": 495.6000061035156,
+                "top": 669.138916015625,
                 "left": 996
             },
             "isSelected": true
@@ -1458,12 +1458,12 @@
         "level": 1,
         "levelSpecial": true,
         "pay": {
-            "red": 0,
             "green": 0,
             "white": 0,
             "blue": 0,
             "black": 1,
-            "purple": 2
+            "purple": 1,
+            "red": 2
         },
         "get": {
             "black": 1
@@ -1496,9 +1496,9 @@
             "red": 0,
             "green": 0,
             "white": 0,
-            "blue": 0,
             "black": 1,
-            "purple": 2
+            "purple": 1,
+            "blue": 2
         },
         "get": {
             "black": 1
@@ -1565,10 +1565,10 @@
         "pay": {
             "red": 0,
             "green": 0,
-            "white": 0,
             "blue": 0,
             "black": 1,
-            "purple": 2
+            "purple": 1,
+            "white": 2
         },
         "get": {
             "black": 1
@@ -1634,11 +1634,11 @@
         "levelSpecial": true,
         "pay": {
             "red": 0,
-            "green": 0,
             "white": 0,
             "blue": 0,
             "black": 1,
-            "purple": 2
+            "purple": 1,
+            "green": 2
         },
         "get": {
             "black": 1
@@ -1808,8 +1808,8 @@
         "level": 2,
         "levelSpecial": false,
         "pay": {
-            "purple": 0,
-            "black": 1,
+            "black": 0,
+            "purple": 1,
             "red": 1,
             "white": 1,
             "green": 3,
@@ -1949,10 +1949,10 @@
         "pay": {
             "purple": 0,
             "black": 0,
-            "red": 2,
+            "red": 1,
             "green": 2,
             "white": 3,
-            "blue": 3
+            "blue": 4
         },
         "get": {
             "red": 2
@@ -1984,10 +1984,10 @@
         "pay": {
             "purple": 0,
             "black": 0,
-            "white": 2,
+            "white": 1,
             "blue": 2,
             "red": 3,
-            "green": 3
+            "green": 4
         },
         "get": {
             "white": 2
@@ -2019,10 +2019,10 @@
         "pay": {
             "purple": 0,
             "black": 0,
-            "white": 2,
-            "blue": 2,
+            "blue": 1,
             "red": 3,
-            "green": 3
+            "green": 3,
+            "white": 4
         },
         "get": {
             "blue": 2
@@ -2054,10 +2054,10 @@
         "pay": {
             "purple": 0,
             "black": 0,
+            "green": 1,
             "red": 2,
-            "green": 2,
             "white": 3,
-            "blue": 3
+            "blue": 4
         },
         "get": {
             "green": 2
@@ -2227,11 +2227,11 @@
         "levelSpecial": false,
         "pay": {
             "black": 0,
-            "purple": 1,
-            "red": 2,
-            "green": 2,
-            "white": 2,
-            "blue": 2
+            "purple": 0,
+            "green": 0,
+            "white": 0,
+            "blue": 0,
+            "red": 7
         },
         "get": {
             "red": 2
@@ -2262,11 +2262,11 @@
         "levelSpecial": false,
         "pay": {
             "black": 0,
-            "purple": 1,
-            "red": 2,
-            "green": 2,
-            "white": 2,
-            "blue": 2
+            "purple": 0,
+            "red": 0,
+            "green": 0,
+            "blue": 0,
+            "white": 7
         },
         "get": {
             "white": 2
@@ -2332,11 +2332,11 @@
         "levelSpecial": false,
         "pay": {
             "black": 0,
-            "purple": 1,
-            "red": 2,
-            "green": 2,
-            "white": 2,
-            "blue": 2
+            "purple": 0,
+            "red": 0,
+            "white": 0,
+            "blue": 0,
+            "green": 7
         },
         "get": {
             "green": 2
@@ -2644,11 +2644,11 @@
         "levelSpecial": true,
         "pay": {
             "red": 0,
-            "green": 5,
             "white": 0,
-            "blue": 5,
+            "purple": 0,
             "black": 3,
-            "purple": 0
+            "green": 5,
+            "blue": 5
         },
         "get": {
             "purple": 1
@@ -2677,12 +2677,12 @@
         "level": 2,
         "levelSpecial": true,
         "pay": {
-            "red": 5,
             "green": 0,
-            "white": 5,
             "blue": 0,
+            "purple": 0,
             "black": 3,
-            "purple": 0
+            "red": 5,
+            "white": 5
         },
         "get": {
             "purple": 1
@@ -2716,7 +2716,7 @@
             "blue": 0,
             "black": 2,
             "purple": 2,
-            "green": 6
+            "green": 5
         },
         "get": {
             "black": 1
@@ -2749,7 +2749,7 @@
             "white": 0,
             "black": 2,
             "purple": 2,
-            "blue": 6
+            "blue": 5
         },
         "get": {
             "black": 1
@@ -2784,7 +2784,7 @@
             "blue": 0,
             "black": 2,
             "purple": 2,
-            "red": 6
+            "red": 5
         },
         "get": {
             "black": 1
@@ -2818,7 +2818,7 @@
             "blue": 0,
             "black": 2,
             "purple": 2,
-            "white": 6
+            "white": 5
         },
         "get": {
             "black": 1
@@ -2848,12 +2848,12 @@
         "level": 2,
         "levelSpecial": true,
         "pay": {
-            "red": 4,
             "green": 0,
-            "white": 4,
-            "blue": 0,
+            "red": 0,
             "purple": 2,
-            "black": 2
+            "black": 2,
+            "blue": 4,
+            "white": 4
         },
         "get": {
             "black": 1
@@ -2883,12 +2883,12 @@
         "level": 2,
         "levelSpecial": true,
         "pay": {
-            "red": 0,
-            "green": 4,
             "white": 0,
-            "blue": 4,
+            "blue": 0,
             "purple": 2,
-            "black": 2
+            "black": 2,
+            "red": 4,
+            "green": 4
         },
         "get": {
             "black": 1
@@ -3234,11 +3234,11 @@
         "levelSpecial": false,
         "pay": {
             "black": 0,
-            "purple": 1,
-            "blue": 2,
-            "white": 3,
-            "red": 4,
-            "green": 5
+            "purple": 0,
+            "blue": 0,
+            "red": 0,
+            "green": 0,
+            "white": 11
         },
         "get": {
             "white": 3
@@ -3477,11 +3477,11 @@
         "levelSpecial": true,
         "pay": {
             "red": 0,
-            "green": 8,
-            "white": 8,
             "blue": 0,
             "purple": 0,
-            "black": 2
+            "black": 2,
+            "green": 8,
+            "white": 8
         },
         "get": {
             "purple": 2
@@ -3511,12 +3511,12 @@
         "level": 4,
         "levelSpecial": true,
         "pay": {
-            "red": 8,
             "green": 0,
             "white": 0,
-            "blue": 8,
             "purple": 0,
-            "black": 2
+            "black": 2,
+            "red": 8,
+            "blue": 8
         },
         "get": {
             "purple": 2
@@ -3616,10 +3616,10 @@
         "level": 3,
         "levelSpecial": false,
         "pay": {
-            "white": 0,
             "black": 0,
+            "green": 0,
             "purple": 1,
-            "green": 3,
+            "white": 3,
             "red": 5,
             "blue": 7
         },
@@ -3651,12 +3651,12 @@
         "level": 3,
         "levelSpecial": false,
         "pay": {
-            "blue": 0,
             "black": 0,
-            "purple": 1,
-            "white": 3,
-            "green": 5,
-            "red": 7
+            "purple": 0,
+            "white": 0,
+            "green": 0,
+            "red": 0,
+            "blue": 11
         },
         "get": {
             "blue": 3
@@ -3826,12 +3826,12 @@
         "level": 3,
         "levelSpecial": false,
         "pay": {
-            "white": 0,
             "green": 0,
             "red": 0,
             "black": 0,
-            "purple": 2,
-            "blue": 7
+            "blue": 0,
+            "purple": 3,
+            "white": 5
         },
         "get": {
             "red": 3
@@ -3865,8 +3865,8 @@
             "red": 0,
             "white": 0,
             "black": 0,
-            "purple": 2,
-            "green": 7
+            "purple": 0,
+            "green": 11
         },
         "get": {
             "green": 3
@@ -3895,12 +3895,12 @@
         "level": 3,
         "levelSpecial": false,
         "pay": {
-            "red": 0,
-            "blue": 0,
-            "green": 0,
             "black": 0,
-            "purple": 2,
-            "white": 7
+            "purple": 1,
+            "blue": 2,
+            "white": 3,
+            "red": 4,
+            "green": 5
         },
         "get": {
             "white": 3
@@ -3929,11 +3929,11 @@
         "level": 3,
         "levelSpecial": false,
         "pay": {
-            "green": 0,
-            "white": 0,
             "blue": 0,
             "black": 0,
-            "purple": 2,
+            "purple": 1,
+            "white": 3,
+            "green": 5,
             "red": 7
         },
         "get": {
@@ -3964,12 +3964,12 @@
         "level": 4,
         "levelSpecial": false,
         "pay": {
-            "purple": 0,
-            "red": 0,
-            "blue": 0,
-            "black": 4,
-            "green": 7,
-            "white": 7
+            "green": 0,
+            "white": 0,
+            "purple": 2,
+            "black": 2,
+            "red": 8,
+            "blue": 8
         },
         "get": {
             "blue": 2,
@@ -4000,12 +4000,12 @@
         "level": 4,
         "levelSpecial": false,
         "pay": {
-            "purple": 0,
-            "red": 0,
-            "white": 0,
-            "black": 4,
-            "green": 7,
-            "blue": 7
+            "green": 0,
+            "blue": 0,
+            "purple": 2,
+            "black": 2,
+            "red": 8,
+            "white": 8
         },
         "get": {
             "white": 2,
@@ -4036,12 +4036,12 @@
         "level": 4,
         "levelSpecial": false,
         "pay": {
-            "purple": 0,
-            "green": 0,
-            "white": 0,
-            "black": 4,
-            "red": 7,
-            "blue": 7
+            "red": 0,
+            "blue": 0,
+            "purple": 2,
+            "black": 2,
+            "green": 8,
+            "white": 8
         },
         "get": {
             "white": 2,
@@ -4054,8 +4054,8 @@
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/c394833f-fdc0-4efb-acdb-af69cda2dc46/0_1.png",
-            "name": "Yeti",
+            "picturePath": "https://cdn.midjourney.com/f5f6cfcc-4540-43f8-bf07-39dac1845f82/0_0.png",
+            "name": "Centaur",
             "horizontalReverse": false,
             "collection": "",
             "color": "mix",
@@ -4072,12 +4072,12 @@
         "level": 4,
         "levelSpecial": false,
         "pay": {
-            "purple": 0,
-            "green": 0,
-            "blue": 0,
-            "black": 4,
-            "red": 7,
-            "white": 7
+            "red": 0,
+            "white": 0,
+            "purple": 2,
+            "black": 2,
+            "green": 8,
+            "blue": 8
         },
         "get": {
             "blue": 2,
@@ -4108,12 +4108,12 @@
         "level": 4,
         "levelSpecial": false,
         "pay": {
-            "purple": 0,
-            "black": 3,
-            "red": 5,
-            "green": 5,
-            "white": 5,
-            "blue": 5
+            "purple": 2,
+            "black": 2,
+            "red": 6,
+            "green": 6,
+            "white": 6,
+            "blue": 6
         },
         "get": {
             "red": 1,
@@ -4146,12 +4146,12 @@
         "level": 4,
         "levelSpecial": false,
         "pay": {
-            "purple": 0,
-            "black": 3,
-            "red": 5,
-            "green": 5,
-            "white": 5,
-            "blue": 5
+            "purple": 2,
+            "black": 2,
+            "red": 6,
+            "green": 6,
+            "white": 6,
+            "blue": 6
         },
         "get": {
             "red": 1,
@@ -4184,12 +4184,12 @@
         "level": 4,
         "levelSpecial": false,
         "pay": {
-            "purple": 0,
-            "black": 3,
-            "red": 5,
-            "green": 5,
-            "white": 5,
-            "blue": 5
+            "purple": 2,
+            "black": 2,
+            "red": 6,
+            "green": 6,
+            "white": 6,
+            "blue": 6
         },
         "get": {
             "red": 1,
@@ -4222,12 +4222,12 @@
         "level": 4,
         "levelSpecial": false,
         "pay": {
-            "purple": 0,
-            "black": 3,
-            "red": 5,
-            "green": 5,
-            "white": 5,
-            "blue": 5
+            "purple": 2,
+            "black": 2,
+            "red": 6,
+            "green": 6,
+            "white": 6,
+            "blue": 6
         },
         "get": {
             "red": 1,
@@ -4399,9 +4399,9 @@
             "red": 0,
             "green": 0,
             "white": 0,
-            "purple": 3,
             "mix": 0,
-            "black": 3,
+            "purple": 3,
+            "black": 4,
             "blue": 7
         },
         "get": {
@@ -4432,13 +4432,13 @@
         "level": 3,
         "levelSpecial": true,
         "pay": {
-            "red": 5,
-            "green": 5,
             "white": 0,
             "blue": 0,
             "mix": 0,
             "purple": 3,
-            "black": 3
+            "black": 4,
+            "red": 5,
+            "green": 5
         },
         "get": {
             "black": 1
@@ -4470,9 +4470,9 @@
             "red": 0,
             "green": 0,
             "blue": 0,
-            "purple": 3,
             "mix": 0,
-            "black": 3,
+            "purple": 3,
+            "black": 4,
             "white": 7
         },
         "get": {
@@ -4506,9 +4506,9 @@
             "red": 0,
             "white": 0,
             "blue": 0,
-            "purple": 3,
             "mix": 0,
-            "black": 3,
+            "purple": 3,
+            "black": 4,
             "green": 7
         },
         "get": {
@@ -4542,9 +4542,9 @@
             "green": 0,
             "white": 0,
             "blue": 0,
-            "purple": 3,
             "mix": 0,
-            "black": 3,
+            "purple": 3,
+            "black": 4,
             "red": 7
         },
         "get": {
@@ -4577,11 +4577,11 @@
         "pay": {
             "red": 0,
             "green": 0,
-            "white": 5,
-            "blue": 5,
             "mix": 0,
             "purple": 3,
-            "black": 3
+            "black": 4,
+            "white": 5,
+            "blue": 5
         },
         "get": {
             "black": 1
@@ -4609,10 +4609,12 @@
         "level": 4,
         "levelSpecial": false,
         "pay": {
-            "purple": 0,
-            "black": 4,
-            "red": 7,
-            "green": 7
+            "red": 0,
+            "green": 0,
+            "purple": 2,
+            "black": 2,
+            "white": 8,
+            "blue": 8
         },
         "get": {
             "white": 2,
@@ -4643,12 +4645,12 @@
         "level": 4,
         "levelSpecial": false,
         "pay": {
-            "purple": 0,
-            "red": 0,
-            "green": 0,
-            "black": 4,
-            "white": 7,
-            "blue": 7
+            "white": 0,
+            "blue": 0,
+            "purple": 2,
+            "black": 2,
+            "red": 8,
+            "green": 8
         },
         "get": {
             "red": 2,
@@ -4819,12 +4821,12 @@
         "level": 3,
         "levelSpecial": false,
         "pay": {
-            "red": 0,
             "green": 0,
             "blue": 0,
             "black": 0,
-            "purple": 3,
-            "white": 5
+            "purple": 0,
+            "white": 0,
+            "red": 11
         },
         "get": {
             "red": 3
@@ -4961,17 +4963,14 @@
             "green": 0,
             "white": 0,
             "blue": 0,
-            "black": 0,
-            "purple": 3,
-            "red": 6
+            "black": 2,
+            "purple": 2,
+            "red": 10
         },
         "get": {
-            "red": 1,
-            "green": 1,
-            "white": 1,
-            "blue": 1
+            "red": 4
         },
-        "color": "mix",
+        "color": "red",
         "boundingClientRect": {
             "top": 12384,
             "left": 747
@@ -4999,17 +4998,14 @@
             "red": 0,
             "green": 0,
             "blue": 0,
-            "black": 0,
-            "purple": 3,
-            "white": 6
+            "black": 2,
+            "purple": 2,
+            "white": 10
         },
         "get": {
-            "red": 1,
-            "green": 1,
-            "white": 1,
-            "blue": 1
+            "white": 4
         },
-        "color": "mix",
+        "color": "white",
         "boundingClientRect": {
             "top": 12384,
             "left": 996
@@ -5037,25 +5033,22 @@
             "red": 0,
             "green": 0,
             "white": 0,
-            "black": 0,
-            "purple": 3,
-            "blue": 6
+            "black": 2,
+            "purple": 2,
+            "blue": 10
         },
         "get": {
-            "red": 1,
-            "green": 1,
-            "white": 1,
-            "blue": 1
+            "blue": 4
         },
-        "color": "mix",
+        "color": "blue",
         "boundingClientRect": {
             "top": 12384,
             "left": 1245
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/f5f6cfcc-4540-43f8-bf07-39dac1845f82/0_0.png",
-            "name": "Centaur",
+            "picturePath": "https://cdn.midjourney.com/c394833f-fdc0-4efb-acdb-af69cda2dc46/0_1.png",
+            "name": "Yeti",
             "color": "mix",
             "level": 4,
             "boundingClientRectStart": {
@@ -5074,17 +5067,14 @@
             "red": 0,
             "white": 0,
             "blue": 0,
-            "black": 0,
-            "purple": 3,
-            "green": 6
+            "black": 2,
+            "purple": 2,
+            "green": 10
         },
         "get": {
-            "red": 1,
-            "green": 1,
-            "white": 1,
-            "blue": 1
+            "green": 4
         },
-        "color": "mix",
+        "color": "green",
         "boundingClientRect": {
             "top": 12384,
             "left": 1494
@@ -5314,13 +5304,13 @@
         "level": 4,
         "levelSpecial": true,
         "pay": {
-            "red": 6,
             "green": 0,
             "white": 0,
-            "blue": 6,
             "mix": 0,
             "purple": 3,
-            "black": 4
+            "black": 6,
+            "red": 6,
+            "blue": 6
         },
         "get": {
             "black": 1
@@ -5352,10 +5342,10 @@
             "red": 0,
             "green": 0,
             "blue": 0,
-            "purple": 3,
             "mix": 0,
-            "black": 4,
-            "white": 10
+            "purple": 3,
+            "black": 6,
+            "white": 9
         },
         "get": {
             "black": 1
@@ -5387,10 +5377,10 @@
             "green": 0,
             "white": 0,
             "blue": 0,
-            "purple": 3,
             "mix": 0,
-            "black": 4,
-            "red": 10
+            "purple": 3,
+            "black": 6,
+            "red": 9
         },
         "get": {
             "black": 1
@@ -5422,10 +5412,10 @@
             "red": 0,
             "green": 0,
             "white": 0,
-            "purple": 3,
             "mix": 0,
-            "black": 4,
-            "blue": 10
+            "purple": 3,
+            "black": 6,
+            "blue": 9
         },
         "get": {
             "black": 1
@@ -5457,10 +5447,10 @@
             "red": 0,
             "white": 0,
             "blue": 0,
-            "purple": 3,
             "mix": 0,
-            "black": 4,
-            "green": 10
+            "purple": 3,
+            "black": 6,
+            "green": 9
         },
         "get": {
             "black": 1
@@ -5481,7 +5471,8 @@
                 "top": 737.6666870117188,
                 "left": 249
             },
-            "isSelected": true
+            "isSelected": true,
+            "horizontalReverse": false
         }
     },
     {
@@ -5490,12 +5481,12 @@
         "levelSpecial": true,
         "pay": {
             "red": 0,
-            "green": 6,
-            "white": 6,
             "blue": 0,
             "mix": 0,
             "purple": 3,
-            "black": 4
+            "black": 6,
+            "green": 6,
+            "white": 6
         },
         "get": {
             "black": 1

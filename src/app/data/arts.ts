@@ -994,14 +994,6 @@ export const arts: Art[] = [
         "level": 1
     },
     {
-        "picturePath": "https://cdn.midjourney.com/6ad6fd36-0149-43fc-9a00-67b607137e82/0_2.png",
-        "name": "Fairy",
-        "collection": "",
-        "color": "green",
-        "level": 1,
-        "horizontalReverse": true
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/28f33b2a-1f72-491e-bb4c-ca8fd8db811f/0_0.png",
         "name": "Elven King",
         "color": "green",
@@ -1467,18 +1459,6 @@ export const arts: Art[] = [
         "isSelected": false
     },
     {
-        "picturePath": "https://cdn.midjourney.com/3c42fcf7-eecd-4b37-a92e-c10fcc3ce423/0_3.png",
-        "name": "Verdelume",
-        "color": "bonus",
-        "hidden": false,
-        "level": 1,
-        "boundingClientRectStart": {
-            "top": 638.9305419921875,
-            "left": 249
-        },
-        "isSelected": false
-    },
-    {
         "picturePath": "https://cdn.midjourney.com/2578330e-00ce-4abf-ab1d-2e819a9664b4/0_0.png",
         "name": "Evergreen",
         "color": "bonus",
@@ -1487,6 +1467,18 @@ export const arts: Art[] = [
         "boundingClientRectStart": {
             "top": 741.7777709960938,
             "left": 996
+        },
+        "isSelected": false
+    },
+    {
+        "picturePath": "https://cdn.midjourney.com/3c42fcf7-eecd-4b37-a92e-c10fcc3ce423/0_3.png",
+        "name": "Verdelume",
+        "color": "bonus",
+        "hidden": false,
+        "level": 1,
+        "boundingClientRectStart": {
+            "top": 510.54547119140625,
+            "left": 249
         },
         "isSelected": false
     }

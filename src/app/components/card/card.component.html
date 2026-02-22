@@ -51,6 +51,7 @@
         <app-hexagon *ngIf="card.get.extra_turn === 0" [color]="'extra_turn'" [number]="card.get.extra_turn" [type]="typeOfGetHexagon"></app-hexagon>
         <app-hexagon *ngIf="card.get.drop_card === 0" [color]="'drop_card'" [number]="card.get.drop_card" [type]="typeOfGetHexagon"></app-hexagon>
         <app-hexagon *ngIf="card.get.steal_card === 0" [color]="'steal_card'" [number]="card.get.steal_card" [type]="typeOfGetHexagon"></app-hexagon>
+				<div *ngIf="card.levelSpecial" class="card-special-level-text">Level {{card.level}}</div>
     </div>
     <div class="get-wrapper"></div>
     <div class="order-num">{{ card.orderNumber }}</div>
@@ -67,10 +68,10 @@
         </div>
         <!--<div class="card-overlay" *ngIf="!card.artData" [ngStyle]="{'background-image': 'url(' + cardBackUrl + ')'}"></div>-->
     <div class="text-container text-container-warning" *ngIf="card.levelSpecial">
-        <div class="art-name">Limit: 1 card from deck per <p>player</p></div>
+        <div class="art-name small-text">Limit: 1 card from deck per <p>player</p></div>
     </div>
 		<div class="text-container text-container-warning text-container-warning2" *ngIf="card.levelBonus">
-        <div class="art-name">Optional action <p>Single use</p> <p>No bonus</p></div>
+        <div class="art-name small-text">Optional action <p>Single use</p> <p>No bonus</p></div>
     </div>
     <div class="text-container" (click)="toggleRename($event, true)">
         <div *ngIf="!renameModeOn" class="art-name">{{ card.artData?.name }}</div>

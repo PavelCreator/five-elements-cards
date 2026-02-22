@@ -188,7 +188,7 @@ export class ArtsComponent implements OnInit {
                 case 'blue':
                 case 'green':
                 case 'white':
-                    levels = [1, 2, 3];
+                    levels = [1, 2, 3, 4];
                     break;
                 case 'mix':
                     levels = [4];
@@ -202,11 +202,11 @@ export class ArtsComponent implements OnInit {
             }
             levels.forEach((level: number) => {
                 (this as {[key: string]: any})[color + level.toString()] = this.arts.filter(art => art.color === color && art.level === level).sort((x, y) => (x.hidden === y.hidden) ? 0 : x.hidden ? 1 : -1);
-                console.log('(this as {[key: string]: any})[color + level.toString()] =', (this as {[key: string]: any})[color + level.toString()]);
-                (this as {[key: string]: any})['need'+HelperService.ToPascalCase(color)+level.toString()] = this.cards.filter(card => card.level === level && (color !== 'mix' ? card.get[color] : !card.levelSpecial)).length;
+                /*console.log('(this as {[key: string]: any})[color + level.toString()] =', (this as {[key: string]: any})[color + level.toString()]);
+                */(this as {[key: string]: any})['need'+HelperService.ToPascalCase(color)+level.toString()] = this.cards.filter(card => card.level === level && (color !== 'mix' ? card.get[color] : !card.levelSpecial)).length;
                 (this as {[key: string]: any})['have'+HelperService.ToPascalCase(color)+level.toString()] = this.arts.filter(art => art.color === 'red' && art.level === 1 && !art.hidden).length;
             });
-            console.log('this.needRed1 =', this.needRed1);
+/*            console.log('this.needRed1 =', this.needRed1);
             console.log('this.haveRed1 =', this.haveRed1);
             console.log('this.red1.length =', this.red1.length);
             console.log('this.needRed2 =', this.needRed2);
@@ -214,7 +214,7 @@ export class ArtsComponent implements OnInit {
             console.log('this.red2.length =', this.red2.length);
             console.log('this.needRed3 =', this.needRed3);
             console.log('this.haveRed3 =', this.haveRed3);
-            console.log('this.red3.length =', this.red3.length);
+            console.log('this.red3.length =', this.red3.length);*/
         });
         this._localStorageService.saveArray(this.arts, 'arts');
     }

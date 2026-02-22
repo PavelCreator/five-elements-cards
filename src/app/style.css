@@ -166,6 +166,20 @@
     z-index:5;
 }
 
+.card-special-level-text {
+    position: absolute;
+    top: 70px;
+    paint-order: stroke fill;
+    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-width: 3px;
+    color: white;
+    left: 21px;
+    font-size: 14px;
+    font-family: "Macondo", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
 /* ================= MIRRORED VERTICAL BLEED (fixed) ================= */
 
 
@@ -581,6 +595,9 @@
     paint-order: stroke fill;
     -webkit-text-stroke-color: black;
     -webkit-text-stroke-width: 6px;
+}
+.small-text {
+    -webkit-text-stroke-width: 3px;
 }
 
 .art-name-chaos{

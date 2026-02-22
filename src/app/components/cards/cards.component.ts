@@ -41,18 +41,23 @@ export class CardsComponent implements OnInit {
     public level1NonSpec: Card[] = [];
     public level2NonSpec: Card[] = [];
     public level3NonSpec: Card[] = [];
+    public level4NonSpec: Card[] = [];
     public red1: Card[] = [];
     public red2: Card[] = [];
     public red3: Card[] = [];
+    public red4: Card[] = [];
     public white1: Card[] = [];
     public white2: Card[] = [];
     public white3: Card[] = [];
+    public white4: Card[] = [];
     public blue1: Card[] = [];
     public blue2: Card[] = [];
     public blue3: Card[] = [];
+    public blue4: Card[] = [];
     public green1: Card[] = [];
     public green2: Card[] = [];
     public green3: Card[] = [];
+    public green4: Card[] = [];
     public purple1: Card[] = [];
     public purple2: Card[] = [];
     public purple3: Card[] = [];
@@ -230,8 +235,8 @@ export class CardsComponent implements OnInit {
             this._localStorageService.saveArray(this.cards, 'chaosCards');
         });*/
 
-        console.log('chaosCards =', chaosCards);
-        console.log('this.chaosCards =', this.chaosCards);
+/*        console.log('chaosCards =', chaosCards);
+        console.log('this.chaosCards =', this.chaosCards);*/
     }
 
     public addNewCard() {
@@ -264,6 +269,7 @@ export class CardsComponent implements OnInit {
             }
         });
         if (mixColorDetector > 1) newCard.color = 'mix';
+        // if (newCard.level === 4 && !newCard.levelBonus && !newCard.levelSpecial) newCard.color = 'mix';
         this._cardsStoreService.setCards(this.cards);
         this._interactionService.saveCards();
         this._recalculateLevels();
@@ -292,7 +298,7 @@ export class CardsComponent implements OnInit {
                 case 'blue':
                 case 'green':
                 case 'white':
-                    levels = [1, 2, 3];
+                    levels = [1, 2, 3, 4];
                     break;
 
                 case 'mix':
@@ -313,20 +319,26 @@ export class CardsComponent implements OnInit {
             }
 
             levels.forEach((level: number) => {
-                console.log('level =', level);
+                /*console.log('level =', level);
                 console.log('color + level.toString() =', color + level.toString());
-                (this as {[key: string]: any})[color + level.toString()] = this.cards.filter(card => card.color === color && card.level === level);
-                (this as {[key: string]: any})['need'+HelperService.ToPascalCase(color)+level.toString()] = this.cards.filter(card => card.level === level && (color !== 'mix' ? card.get[color] : !card.levelSpecial)).length;
+                */
+                (this as {[key: string]: any})
+                    [color + level.toString()] =
+                    this.cards.filter(card => card.color === color && card.level === level && !card.levelBonus);
+/*                (this as {[key: string]: any})['need'+HelperService.ToPascalCase(color)+level.toString()] = this.cards.filter(card => card.level === level && (color !== 'mix' ? card.get[color] : !card.levelSpecial)).length;
                 (this as {[key: string]: any})['have'+HelperService.ToPascalCase(color)+level.toString()] = this.cards.filter(card => card.color === color && card.level === level).length;
-            });
+ */           });
 
         });
 
         this.level1NonSpec = [...this.green1, ...this.white1, ...this.blue1, ...this.red1];
         this.level2NonSpec = [...this.green2, ...this.white2, ...this.blue2, ...this.red2];
         this.level3NonSpec = [...this.green3, ...this.white3, ...this.blue3, ...this.red3];
+        this.level4NonSpec = [...this.green4, ...this.white4, ...this.blue4, ...this.red4];
 
         this._localStorageService.saveArray(this.cards, 'cards');
+
+        console.log('this.level4 =', this.mix4);
     }
 
 
