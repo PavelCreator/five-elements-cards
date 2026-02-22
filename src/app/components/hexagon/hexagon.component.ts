@@ -31,35 +31,35 @@ export class HexagonComponent implements OnInit {
     ngOnInit() {
             switch (this.color) {
                 case 'green':
-                    this.hexUrl = './assets/hex/Hex-green-mj10' + (this.type?.includes('get') ? '-card' : '') + '.png';
+                    this.hexUrl = './assets/hex/hex-green' + (this.type?.includes('get') ? '-card' : '') + '.png';
                     break;
                 case 'white':
-                    this.hexUrl = './assets/hex/Hex-white-mj3' + (this.type?.includes('get') ? '-card' : '') + '.png';
+                    this.hexUrl = './assets/hex/hex-white' + (this.type?.includes('get') ? '-card' : '') + '.png';
                     break;
                 case 'blue':
-                    this.hexUrl = './assets/hex/Hex-blue-mj6' + (this.type?.includes('get') ? '-card' : '') + '.png';
+                    this.hexUrl = './assets/hex/hex-blue' + (this.type?.includes('get') ? '-card' : '') + '.png';
                     break;
                 case 'red':
-                    this.hexUrl = './assets/hex/Hex-redd' + (this.type?.includes('get') ? '-card' : '') + '.png';
+                    this.hexUrl = './assets/hex/hex-red' + (this.type?.includes('get') ? '-card' : '') + '.png';
                     break;
                 case 'purple':
-                    this.hexUrl = './assets/hex/Hex-purple-mj' + (this.type?.includes('get') ? '-card' : '') + '.png';
+                    this.hexUrl = './assets/hex/hex-purple' + (this.type?.includes('get') ? '-card' : '') + '.png';
                     break;
                 case 'black':
-                    this.hexUrl = './assets/hex/Hex-black-mj4' + (this.type?.includes('get') ? '-card' : '') + '.png';
+                    this.hexUrl = './assets/hex/hex-black' + (this.type?.includes('get') ? '-card' : '') + '.png';
                     break;
                 case 'mix':
-                    this.hexUrl = './assets/hex/Hex-mix.png';
-                    // this.hexUrl = './assets/hex/Hex-mix' + (this.type?.includes('get') ? '-card' : '') + '.png';
+                    // this.hexUrl = './assets/hex/hex-mix.png';
+                    this.hexUrl = './assets/hex/hex-mix4' + (this.type?.includes('get') ? '-card' : '') + '.png';
                     break;
                 case 'mix2':
-                    this.hexUrl = './assets/hex/Hex-mix2-card.png';
+                    this.hexUrl = './assets/hex/hex-mix2-card.png';
                     break;
                 case 'mix6':
-                    this.hexUrl = './assets/hex/Hex-mix6-card.png';
+                    this.hexUrl = './assets/hex/hex-mix6-card.png';
                     break;
                 case 'dice':
-                    this.hexUrl = './assets/hex/dice3.png';
+                    this.hexUrl = './assets/hex/dice.png';
                     break;
                 case 'card_1_lvl':
                     this.hexUrl = './assets/hex/card_1_lvl.png';
@@ -77,7 +77,7 @@ export class HexagonComponent implements OnInit {
                     this.hexUrl = './assets/hex/card_master.png';
                     break;
                 case 'extra_turn':
-                    this.hexUrl = './assets/hex/extra_turn_4.png';
+                    this.hexUrl = './assets/hex/extra_turn.png';
                     break;
                 case 'drop_card':
                     this.hexUrl = './assets/hex/drop_card.png';

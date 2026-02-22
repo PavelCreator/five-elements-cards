@@ -2,7 +2,7 @@ import { HowToWinCard } from "../models/how-to-win-card.interface";
 
 export const howToWinCards: HowToWinCard[] = [
     {
-        type: 'Classic Mode',
+        type: 'Classic',
         numberOfElements: 5,
         pay: {
             purple: 4,
@@ -13,7 +13,7 @@ export const howToWinCards: HowToWinCard[] = [
         }
     },
     {
-        type: 'Classic Mode',
+        type: 'Classic',
         numberOfElements: 4,
         pay: {
             white: 7,
@@ -23,63 +23,63 @@ export const howToWinCards: HowToWinCard[] = [
         }
     },
     {
-        type: 'Classic Mode',
+        type: 'Classic',
         numberOfElements: 2,
         pay: {
             twoOf4: 10,
         }
     },
     {
-        type: 'Classic Mode',
+        type: 'Classic',
         numberOfElements: 1,
         pay: {
             oneOf4: 14,
         }
     },
     {
-        type: 'New Horizons',
+        type: 'Grand',
         numberOfElements: 1,
         pay: {
             blue: 11,
         }
     },
     {
-        type: 'New Horizons',
+        type: 'Grand',
         numberOfElements: 1,
         pay: {
             white: 11,
         }
     },
     {
-        type: 'New Horizons',
+        type: 'Grand',
         numberOfElements: 1,
         pay: {
             red: 11,
         }
     },
     {
-        type: 'New Horizons',
+        type: 'Grand',
         numberOfElements: 1,
         pay: {
             green: 11,
         }
     },
     {
-        type: 'New Horizons',
+        type: 'Grand',
         numberOfElements: 1,
         pay: {
             black: 4,
         }
     },
     {
-        type: 'New Horizons',
+        type: 'Grand',
         numberOfElements: 1,
         pay: {
             purple: 6,
         }
     },
     /*{
-        type: 'New Horizons',
+        type: 'Grand',
         numberOfElements: 2,
         pay: {
             red: 9,
@@ -87,7 +87,7 @@ export const howToWinCards: HowToWinCard[] = [
         }
     },
     {
-        type: 'New Horizons',
+        type: 'Grand',
         numberOfElements: 2,
         pay: {
             white: 9,
@@ -95,7 +95,7 @@ export const howToWinCards: HowToWinCard[] = [
         }
     },
     {
-        type: 'New Horizons',
+        type: 'Grand',
         numberOfElements: 2,
         pay: {
             red: 9,
@@ -103,7 +103,7 @@ export const howToWinCards: HowToWinCard[] = [
         }
     },
     {
-        type: 'New Horizons',
+        type: 'Grand',
         numberOfElements: 2,
         pay: {
             white: 9,
@@ -111,7 +111,7 @@ export const howToWinCards: HowToWinCard[] = [
         }
     },
     {
-        type: 'New Horizons',
+        type: 'Grand',
         numberOfElements: 2,
         pay: {
             red: 9,
@@ -119,7 +119,7 @@ export const howToWinCards: HowToWinCard[] = [
         }
     },
     {
-        type: 'New Horizons',
+        type: 'Grand',
         numberOfElements: 2,
         pay: {
             green: 9,
@@ -127,7 +127,7 @@ export const howToWinCards: HowToWinCard[] = [
         }
     },*/
     {
-        type: 'New Horizons',
+        type: 'Grand',
         numberOfElements: 6,
         pay: {
             purple: 3,
@@ -139,7 +139,7 @@ export const howToWinCards: HowToWinCard[] = [
         }
     },
     /*{
-        type: 'New Horizons',
+        type: 'Grand',
         numberOfElements: 3,
         pay: {
             white: 7,
@@ -148,7 +148,7 @@ export const howToWinCards: HowToWinCard[] = [
         }
     },
     {
-        type: 'New Horizons',
+        type: 'Grand',
         numberOfElements: 3,
         pay: {
             blue: 7,
@@ -157,7 +157,7 @@ export const howToWinCards: HowToWinCard[] = [
         }
     },
     {
-        type: 'New Horizons',
+        type: 'Grand',
         numberOfElements: 3,
         pay: {
             white: 7,
@@ -166,7 +166,7 @@ export const howToWinCards: HowToWinCard[] = [
         }
     },
     {
-        type: 'New Horizons',
+        type: 'Grand',
         numberOfElements: 3,
         pay: {
             white: 7,
@@ -175,22 +175,22 @@ export const howToWinCards: HowToWinCard[] = [
         }
     },*/
     {
-        type: 'Collection Mode',
+        type: 'Grand',
         numberOfElements: 4,
         text: 'of Level 3'
     },
     {
-        type: 'Collection Mode',
+        type: 'Grand',
         numberOfElements: 3,
         text: 'of Level 4'
     },
     {
-        type: 'Collection Mode',
+        type: 'Grand',
         numberOfElements: 2,
         text: 'Dragons'
     },
     {
-        type: 'Classic Mode',
+        type: 'Blitz',
         numberOfElements: 5,
         pay: {
             purple: 2,
@@ -198,106 +198,92 @@ export const howToWinCards: HowToWinCard[] = [
             blue: 2,
             green: 2,
             red: 2
-        },
-        time: 'quick'
+        }
     },
     {
-        type: 'Classic Mode',
+        type: 'Blitz',
         numberOfElements: 4,
         pay: {
             white: 4,
             blue: 4,
             green: 4,
             red: 4
-        },
-        time: 'quick'
+        }
     },
     {
-        type: 'Classic Mode',
+        type: 'Blitz',
         numberOfElements: 2,
         pay: {
             twoOf4: 6,
-        },
-        time: 'quick'
+        }
     },
     {
-        type: 'Classic Mode',
+        type: 'Blitz',
         numberOfElements: 1,
         pay: {
             oneOf4: 9,
-        },
-        time: 'quick'
+        }
     },
     {
-        type: 'New Horizons',
+        type: 'Blitz',
         numberOfElements: 1,
         pay: {
             blue: 7,
-        },
-        time: 'quick'
+        }
     },
     {
-        type: 'New Horizons',
+        type: 'Blitz',
         numberOfElements: 1,
         pay: {
             white: 7,
-        },
-        time: 'quick'
+        }
     },
     {
-        type: 'New Horizons',
+        type: 'Blitz',
         numberOfElements: 1,
         pay: {
             red: 7,
-        },
-        time: 'quick'
+        }
     },
     {
-        type: 'New Horizons',
+        type: 'Blitz',
         numberOfElements: 1,
         pay: {
             green: 7,
-        },
-        time: 'quick'
+        }
     },
     {
-        type: 'New Horizons',
+        type: 'Blitz',
         numberOfElements: 1,
         pay: {
             black: 3,
-        },
-        time: 'quick'
+        }
     },
     {
-        type: 'New Horizons',
+        type: 'Blitz',
         numberOfElements: 1,
         pay: {
             purple: 3,
-        },
-        time: 'quick'
+        }
     },
     {
-        type: 'Collection Mode',
+        type: 'Blitz',
         numberOfElements: 2,
         text: 'of Level 3',
-        time: 'quick'
     },
     {
-        type: 'Collection Mode',
+        type: 'Blitz',
         numberOfElements: 1,
         text: 'of Level 3',
-        time: 'quick'
     },
     {
-        type: 'Collection Mode',
+        type: 'Blitz',
         numberOfElements: 4,
         text: 'of Level 2',
-        time: 'quick'
     },
     {
-        type: 'Collection Mode',
+        type: 'Blitz',
         numberOfElements: 1,
         text: 'of Level 4',
-        time: 'quick'
     }
 ];

@@ -38,6 +38,9 @@ export class CardsComponent implements OnInit {
     private _newCardGetKey = 'purple';
     private _newCardGetValue = 2;
 
+    public level1NonSpec: Card[] = [];
+    public level2NonSpec: Card[] = [];
+    public level3NonSpec: Card[] = [];
     public red1: Card[] = [];
     public red2: Card[] = [];
     public red3: Card[] = [];
@@ -318,6 +321,13 @@ export class CardsComponent implements OnInit {
             });
 
         });
+
+        this.level1NonSpec = [...this.green1, ...this.white1, ...this.blue1, ...this.red1];
+        this.level2NonSpec = [...this.green2, ...this.white2, ...this.blue2, ...this.red2];
+        this.level3NonSpec = [...this.green3, ...this.white3, ...this.blue3, ...this.red3];
+
         this._localStorageService.saveArray(this.cards, 'cards');
     }
+
+
 }

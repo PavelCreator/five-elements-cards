@@ -29,7 +29,7 @@ export class HowToWinComponent implements OnInit {
 
     public cardSide: CardSide = 'front';
     public hovered: boolean = false;
-    public chaosCardBackground: string = './assets/back_cards/how_to_win/bg-front-how-to-win'+ (this.card.time === 'quick' ? '-quick' : '') + '.png';
+    public chaosCardBackground: string = '';
 
     constructor(
         private _interactionService: InteractionService,
@@ -39,7 +39,6 @@ export class HowToWinComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('this.card.time =', this.card.time);
         this._interactionService.cardsSide$.subscribe((inCardSide: CardSide) => {
             setTimeout(() => {
                 this.cardSide = inCardSide;
@@ -47,10 +46,7 @@ export class HowToWinComponent implements OnInit {
         })
 
         this.lang = this._settingsService.lang;
-        if (this.card.time === 'quick') {
-            this.chaosCardBackground = './assets/back_cards/how_to_win/bg-front-how-to-win-quick.png';
-        }
-
+        this.chaosCardBackground = './assets/back_cards/how_to_win/bg-front-how-to-win-'+ (this.card.type.toLowerCase()) + '.png';
     }
 
     public formatHexNumber(hexNumber: string): number {

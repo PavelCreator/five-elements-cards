@@ -98,36 +98,36 @@
 								<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.mix" [color]="'mix'" [type]="'getMedWin'" [number]="card?.pay?.mix"></app-hexagon>
 							</div>
         </div>
-        <div class="text-container text-container-chaos text-container-win text-container-win-text" *ngIf="card.type === 'Collection Mode'">
-							<div class="description-win-line">
-								<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="card.text === 'Dragons' ? 'mix2' : 'mix'" [type]="'getWin2'" [number]="card?.numberOfElements"></app-hexagon>
-								<span>{{card?.text}}</span>
-							</div>
+        <div class="text-container text-container-chaos text-container-win text-container-win-text" *ngIf="card.text">
+					<div class="description-win-line">
+						<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="card.text === 'Dragons' ? 'mix2' : 'mix'" [type]="'getWin2'" [number]="card?.numberOfElements"></app-hexagon>
+						<span>{{card?.text}}</span>
+					</div>
         </div>
     </ng-container>
 
     <ng-container *ngIf="cardSide === 'back'">
         <!-- back: используем wrap-back, чтобы background-size для отражений был как у рубашки -->
-        <div
-                class="card-overlay-wrap-back card-overlay-wrap-win"
-                *ngIf="card.type === 'Classic Mode'"
-                [ngStyle]="{ '--card-bg': 'url(./assets/back_cards/how_to_win/classic.jpg)' }"
-        >
-            <div class="card-overlay card-overlay-back"></div>
-        </div>
-        <div
-                class="card-overlay-wrap-back card-overlay-wrap-win"
-								*ngIf="card.type === 'New Horizons'"
-                [ngStyle]="{ '--card-bg': 'url(./assets/back_cards/how_to_win/new.jpg)' }"
-        >
-            <div class="card-overlay card-overlay-back"></div>
-        </div>
-        <div
-                class="card-overlay-wrap-back card-overlay-wrap-win"
-								*ngIf="card.type === 'Collection Mode'"
-                [ngStyle]="{ '--card-bg': 'url(./assets/back_cards/how_to_win/collection.jpg)' }"
-        >
-            <div class="card-overlay card-overlay-back"></div>
-        </div>
+		<div
+			class="card-overlay-wrap-back card-overlay-wrap-win"
+			*ngIf="card.type === 'Classic'"
+			[ngStyle]="{ '--card-bg': 'url(/assets/back_cards/how_to_win/classic_back.png)' }"
+		>
+		    <div class="card-overlay card-overlay-back"></div>
+		</div>
+		<div
+			class="card-overlay-wrap-back card-overlay-wrap-win"
+					*ngIf="card.type === 'Grand'"
+			[ngStyle]="{ '--card-bg': 'url(/assets/back_cards/how_to_win/grand-back.png)' }"
+		>
+		    <div class="card-overlay card-overlay-back"></div>
+		</div>
+		<div
+			class="card-overlay-wrap-back card-overlay-wrap-win"
+					*ngIf="card.type === 'Blitz'"
+			[ngStyle]="{ '--card-bg': 'url(/assets/back_cards/how_to_win/blitz_back.png)' }"
+		>
+		    <div class="card-overlay card-overlay-back"></div>
+		</div>
     </ng-container>
 </div>
