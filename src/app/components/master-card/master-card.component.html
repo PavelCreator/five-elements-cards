@@ -6,11 +6,17 @@
     <ng-container *ngIf="cardSide === 'front'">
         <!-- вместо card-overlay напрямую -->
         <div
-                class="card-overlay-wrap"
-                [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
-                [ngStyle]="{ '--card-bg': 'url(' + card.image + ')' }"
+            class="card-overlay-wrap"
+            [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
+            [ngStyle]="{ '--card-bg': 'url(' + card.image + ')' }"
         >
+            <div class="card-overlay-mirror-topleft"></div>
+            <div class="card-overlay-mirror-topright"></div>
+            <div class="card-overlay-mirror-left"></div>
             <div class="card-overlay"></div>
+            <div class="card-overlay-mirror-right"></div>
+            <div class="card-overlay-mirror-bottomleft"></div>
+            <div class="card-overlay-mirror-bottomright"></div>
         </div>
 
         <div class="text-container text-container-chaos text-container-master">
@@ -39,11 +45,17 @@
     <ng-container *ngIf="cardSide === 'back'">
         <!-- back: используем wrap-back, чтобы background-size для отражений был как у рубашки -->
         <div
-                class="card-overlay-wrap card-overlay-wrap-back"
-                [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
-                [ngStyle]="{ '--card-bg': 'url(./assets/back_cards/master9.jpg)' }"
+            class="card-overlay-wrap card-overlay-wrap-back"
+            [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
+            [ngStyle]="{ '--card-bg': 'url(./assets/back_cards/master9.jpg)' }"
         >
+            <div class="card-overlay-mirror-topleft"></div>
+            <div class="card-overlay-mirror-topright"></div>
+            <div class="card-overlay-mirror-left"></div>
             <div class="card-overlay card-overlay-back"></div>
+            <div class="card-overlay-mirror-right"></div>
+            <div class="card-overlay-mirror-bottomleft"></div>
+            <div class="card-overlay-mirror-bottomright"></div>
         </div>
     </ng-container>
 </div>
