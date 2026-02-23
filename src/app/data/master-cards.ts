@@ -37,4 +37,22 @@ export const masterCards: MasterCard[] = [
         image: './assets/master_cards/master_earth2.jpg',
         orderNumber: 1204,
     },
+    {
+        text: {
+            ru: 'Мастер Эфира"',
+            en: 'Magic Master'
+        },
+        color: 'purple',
+        image: './assets/master_cards/master_ether.jpg',
+        orderNumber: 1205,
+    },
+    {
+        text: {
+            ru: 'Мастер Земли',
+            en: 'Dark Master'
+        },
+        color: 'black',
+        image: './assets/master_cards/master_dark.jpg',
+        orderNumber: 1206,
+    },
 ];
