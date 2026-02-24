@@ -61,7 +61,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy {
     private _buildRows(cards: Card[]) {
         const levels = [4, 3, 2, 1];
         return levels.map((level) => {
-            const levelCards = cards.filter((card) => card.level === level && !card.levelSpecial);
+            const levelCards = cards.filter(
+                (card) => card.level === level && !card.levelSpecial && !card.levelBonus
+            );
             const shuffled = this._shuffle([...levelCards]);
             return {
                 level,
@@ -75,7 +77,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy {
 
     private _buildSpecialStacks(cards: Card[], level: number): SpecialStack[] {
         const levelSpecialCards = this._mergeSpecialCards(cards, initialCards).filter(
-            (card) => card.level === level && card.levelSpecial
+            (card) => card.level === level && card.levelSpecial && !card.levelBonus
         );
         const purpleStack = this._shuffle(
             levelSpecialCards.filter((card) => (card.get?.purple ?? 0) > 0)
@@ -103,7 +105,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy {
         cards.forEach((card) => cardsMap.set(card.orderNumber, card));
 
         baseCards
-            .filter((card) => card.levelSpecial)
+            .filter((card) => card.levelSpecial && !card.levelBonus)
             .forEach((card) => {
                 if (!cardsMap.has(card.orderNumber)) {
                     cardsMap.set(card.orderNumber, card);
