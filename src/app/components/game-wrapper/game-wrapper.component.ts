@@ -117,6 +117,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _buildRows(cards: Card[]) {
         const levels = [4, 3, 2, 1];
+        const cardsPerRow = this._getCardsPerRow();
         const rows = levels.map((level) => {
             const levelCards = cards.filter(
                 (card) => card.level === level && !card.levelSpecial && !card.levelBonus
@@ -125,13 +126,20 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return {
                 level,
                 stack: shuffled,
-                topCards: shuffled.slice(0, 3),
+                topCards: shuffled.slice(0, cardsPerRow),
                 backUrl: shuffled.length ? this._imageService.generateCardBackUrl(shuffled[0]) : '',
                 specialStacks: this._buildSpecialStacks(cards, level)
             };
         });
         this._scheduleScaleUpdate();
         return rows;
+    }
+
+    private _getCardsPerRow(): number {
+        if (!this.playerCount) return 3;
+        if (this.playerCount <= 2) return 3;
+        if (this.playerCount <= 4) return 4;
+        return 5;
     }
 
     private _buildSpecialStacks(cards: Card[], level: number): SpecialStack[] {
