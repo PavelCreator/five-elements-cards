@@ -1,10 +1,17 @@
+.game-wrapper,
+:host {
+    height:100vh;
+    overflow:hidden;
+}
+
 .game-wrapper{
-    min-height:100vh;
     display:flex;
-    align-items:center;
+    align-items:flex-start;
     justify-content:center;
     font-family:"Faculty Glyphic", sans-serif;
     color:#555;
+    padding:16px;
+    box-sizing:border-box;
 }
 
 .game-field{
@@ -16,6 +23,10 @@
     border-radius:18px;
     background:rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(3px);
+    transform-origin: top center;
+    width:max-content;
+    transform: scale(var(--game-scale, 1));
+    margin: 0 auto;
 }
 
 .game-row{
@@ -36,4 +47,5 @@
 .game-row-cards{
     display:flex;
     align-items:center;
+    flex-wrap:nowrap;
 }

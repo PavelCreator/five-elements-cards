@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { CardsStoreService } from '../../services/cards-store.service';
@@ -24,7 +24,8 @@ interface SpecialStack {
     templateUrl: 'game-wrapper.component.html',
     styleUrls: ['./game-wrapper.component.css', '../../style.css'],
 })
-export class GameWrapperComponent implements OnInit, OnDestroy {
+export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
+    @ViewChild('gameField') gameField?: ElementRef<HTMLDivElement>;
     public rows: Array<{
         level: number;
         stack: Card[];
@@ -35,6 +36,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy {
     public printModeEnabled: boolean = true;
     private _cardsSubscription?: Subscription;
     private _printModeSubscription?: Subscription;
+    private _resizeRaf?: number;
 
     constructor(
         private _cardsStoreService: CardsStoreService,
@@ -53,14 +55,43 @@ export class GameWrapperComponent implements OnInit, OnDestroy {
         });
     }
 
+    ngAfterViewInit() {
+        this._scheduleScaleUpdate();
+    }
+
     ngOnDestroy() {
         this._cardsSubscription?.unsubscribe();
         this._printModeSubscription?.unsubscribe();
+        if (this._resizeRaf) cancelAnimationFrame(this._resizeRaf);
+    }
+
+    @HostListener('window:resize')
+    onWindowResize() {
+        this._scheduleScaleUpdate();
+    }
+
+    private _scheduleScaleUpdate() {
+        if (this._resizeRaf) cancelAnimationFrame(this._resizeRaf);
+        this._resizeRaf = requestAnimationFrame(() => this._updateScale());
+    }
+
+    private _updateScale() {
+        if (!this.gameField?.nativeElement) return;
+        const field = this.gameField.nativeElement;
+        const width = field.offsetWidth;
+        const height = field.offsetHeight;
+        if (!width || !height) return;
+        const horizontalPadding = 32;
+        const verticalPadding = 32;
+        const availableWidth = Math.max(0, window.innerWidth - horizontalPadding);
+        const availableHeight = Math.max(0, window.innerHeight - verticalPadding);
+        const scale = Math.min(1, availableWidth / width, availableHeight / height);
+        field.style.setProperty('--game-scale', scale.toFixed(3));
     }
 
     private _buildRows(cards: Card[]) {
         const levels = [4, 3, 2, 1];
-        return levels.map((level) => {
+        const rows = levels.map((level) => {
             const levelCards = cards.filter(
                 (card) => card.level === level && !card.levelSpecial && !card.levelBonus
             );
@@ -73,6 +104,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy {
                 specialStacks: this._buildSpecialStacks(cards, level)
             };
         });
+        this._scheduleScaleUpdate();
+        return rows;
     }
 
     private _buildSpecialStacks(cards: Card[], level: number): SpecialStack[] {

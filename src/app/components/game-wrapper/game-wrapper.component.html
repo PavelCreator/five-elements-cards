@@ -1,5 +1,5 @@
 <div class="game-wrapper">
-    <div class="game-field" *ngIf="rows.length">
+    <div class="game-field" #gameField *ngIf="rows.length">
         <div class="game-row" *ngFor="let row of rows">
             <div class="game-stack" *ngIf="row.stack.length">
                 <div class="card card--back" [ngClass]="{ 'card--view': !printModeEnabled, 'card--print': printModeEnabled }">
