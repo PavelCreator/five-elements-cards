@@ -43,6 +43,7 @@ export class KeysPipe implements PipeTransform {
 export class CardComponent implements OnInit {
     // @ts-ignore
     @Input() card: Card = {} as Card;
+    @Input() disableHoverUi: boolean = false;
     @ViewChild('renameTextarea') renameTextarea: ElementRef | undefined;
 
     private onCompare(_left: KeyValue<any, any>, _right: KeyValue<any, any>): number {
@@ -67,6 +68,24 @@ export class CardComponent implements OnInit {
 
     public trackByColor(index: number, color: string): string {
         return index.toString();
+    }
+
+    public handleCardClick() {
+        if (this.disableHoverUi) return;
+        this.toggleCardSelection();
+    }
+
+    public handleRenameClick(event: MouseEvent) {
+        if (this.disableHoverUi) {
+            event.stopPropagation();
+            return;
+        }
+        this.toggleRename(event, true);
+    }
+
+    public setHovered(isHovered: boolean) {
+        if (this.disableHoverUi) return;
+        this.hovered = isHovered;
     }
 
     constructor(

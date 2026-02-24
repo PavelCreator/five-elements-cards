@@ -13,10 +13,10 @@
                 </div>
             </div>
             <div class="game-row-cards">
-                <app-card *ngFor="let card of row.topCards" [card]="card"></app-card>
+                <app-card *ngFor="let card of row.topCards" [card]="card" [disableHoverUi]="true"></app-card>
                 <ng-container *ngFor="let specialStack of row.specialStacks">
                     <div class="game-stack" *ngIf="specialStack.stack.length">
-                        <app-card [card]="specialStack.topCard"></app-card>
+                        <app-card [card]="specialStack.topCard" [disableHoverUi]="true"></app-card>
                     </div>
                 </ng-container>
             </div>

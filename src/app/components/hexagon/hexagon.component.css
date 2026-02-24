@@ -98,6 +98,11 @@
     cursor: pointer;
 }
 
+:host-context(.game-wrapper) .left-half,
+:host-context(.game-wrapper) .right-half {
+    cursor: default;
+}
+
 .left-half {
     left: 0;
 }

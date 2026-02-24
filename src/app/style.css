@@ -127,6 +127,17 @@
     filter: saturate(150%);
 }
 
+.card--no-edit,
+.card--no-edit * {
+    user-select: none;
+    cursor: default;
+}
+
+.game-wrapper app-hexagon .left-half,
+.game-wrapper app-hexagon .right-half {
+    cursor: default !important;
+}
+
 .card--view{
     margin-bottom: 5px;
 }

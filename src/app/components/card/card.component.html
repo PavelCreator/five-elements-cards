@@ -1,9 +1,9 @@
 <div class="card"
-         [ngClass]="{ 'card--view': !printModeEnabled, 'card--rotated': printModeEnabled && cardSide === 'back', 'card--print': printModeEnabled }"
+         [ngClass]="{ 'card--view': !printModeEnabled, 'card--rotated': printModeEnabled && cardSide === 'back', 'card--print': printModeEnabled, 'card--no-edit': disableHoverUi }"
 		 *ngIf="!card.hidden || (card.hidden && showDisabledCard)"
-		 (click)="toggleCardSelection()"
-		 (mouseenter) ="hovered = true"
-		 (mouseleave) ="hovered = false"
+		 (click)="handleCardClick()"
+		 (mouseenter) ="setHovered(true)"
+		 (mouseleave) ="setHovered(false)"
 >
 	<div class="card-hidden-overlay" *ngIf="card.hidden"></div>
 	<ng-container *ngIf="cardSide === 'front'">
@@ -73,7 +73,7 @@
 		<div class="text-container text-container-warning text-container-warning2" *ngIf="card.levelBonus">
         <div class="art-name small-text">Optional action <p>Single use</p> <p>No bonus</p></div>
     </div>
-    <div class="text-container" (click)="toggleRename($event, true)">
+    <div class="text-container" (click)="handleRenameClick($event)">
         <div *ngIf="!renameModeOn" class="art-name">{{ card.artData?.name }}</div>
     </div>
 		<textarea
@@ -86,7 +86,7 @@
 			[(ngModel)]="card.artData.name">
 		</textarea>
 
-		<div class="hover-buttons-wrapper" [ngStyle]="{'opacity': hovered ? '1' : '0'}">
+		<div class="hover-buttons-wrapper" *ngIf="!disableHoverUi" [ngStyle]="{'opacity': hovered ? '1' : '0'}">
 			<div class="hover-button hover-button-cancel" *ngIf="card.artData" (click)="removeArt($event)">Remove Art</div>
 			<div class="hover-button hover-button-cancel" *ngIf="!card.hidden" (click)="changeDisableState($event, true)">Disable Card</div>
 			<div class="hover-button hover-button-confirm" *ngIf="card.hidden" (click)="changeDisableState($event, false)">Enable Card</div>
