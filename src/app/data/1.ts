@@ -3346,7 +3346,7 @@
             "red": 12
         },
         "get": {
-            "purple": 2
+            "purple": 1
         },
         "color": "purple",
         "boundingClientRect": {
@@ -3380,7 +3380,7 @@
             "white": 12
         },
         "get": {
-            "purple": 2
+            "purple": 1
         },
         "color": "purple",
         "boundingClientRect": {
@@ -3415,7 +3415,7 @@
             "blue": 12
         },
         "get": {
-            "purple": 2
+            "purple": 1
         },
         "color": "purple",
         "boundingClientRect": {
@@ -3449,7 +3449,7 @@
             "green": 12
         },
         "get": {
-            "purple": 2
+            "purple": 1
         },
         "color": "purple",
         "boundingClientRect": {
@@ -3484,7 +3484,7 @@
             "white": 8
         },
         "get": {
-            "purple": 2
+            "purple": 1
         },
         "color": "purple",
         "boundingClientRect": {
@@ -3519,7 +3519,7 @@
             "blue": 8
         },
         "get": {
-            "purple": 2
+            "purple": 1
         },
         "color": "purple",
         "boundingClientRect": {
@@ -4267,7 +4267,7 @@
             "black": 4
         },
         "get": {
-            "purple": 2
+            "purple": 1
         },
         "color": "purple",
         "boundingClientRect": {
@@ -4301,7 +4301,7 @@
             "black": 4
         },
         "get": {
-            "purple": 2
+            "purple": 1
         },
         "color": "purple",
         "boundingClientRect": {
@@ -4335,7 +4335,7 @@
             "black": 4
         },
         "get": {
-            "purple": 2
+            "purple": 1
         },
         "color": "purple",
         "boundingClientRect": {
@@ -4369,7 +4369,7 @@
             "black": 4
         },
         "get": {
-            "purple": 2
+            "purple": 1
         },
         "color": "purple",
         "boundingClientRect": {
@@ -5243,7 +5243,7 @@
             "blue": 5
         },
         "get": {
-            "purple": 2
+            "purple": 1
         },
         "color": "purple",
         "boundingClientRect": {
@@ -5277,7 +5277,7 @@
             "blue": 4
         },
         "get": {
-            "purple": 2
+            "purple": 1
         },
         "color": "purple",
         "boundingClientRect": {

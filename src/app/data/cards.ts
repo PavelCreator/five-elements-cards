@@ -3348,8 +3348,8 @@ export const cards: Card[] = [
             "red": 12
         },
         "get": {
-            "purple": 2
-        },
+            "purple": 1
+        }
         "color": "purple",
         "boundingClientRect": {
             "top": 10320,
@@ -3382,8 +3382,8 @@ export const cards: Card[] = [
             "white": 12
         },
         "get": {
-            "purple": 2
-        },
+            "purple": 1
+        }
         "color": "purple",
         "boundingClientRect": {
             "top": 10320,
@@ -3417,8 +3417,8 @@ export const cards: Card[] = [
             "blue": 12
         },
         "get": {
-            "purple": 2
-        },
+            "purple": 1
+        }
         "color": "purple",
         "boundingClientRect": {
             "top": 10320,
@@ -3451,8 +3451,8 @@ export const cards: Card[] = [
             "green": 12
         },
         "get": {
-            "purple": 2
-        },
+            "purple": 1
+        }
         "color": "purple",
         "boundingClientRect": {
             "top": 10320,
@@ -3486,8 +3486,8 @@ export const cards: Card[] = [
             "white": 8
         },
         "get": {
-            "purple": 2
-        },
+            "purple": 1
+        }
         "color": "purple",
         "boundingClientRect": {
             "top": 10320,
@@ -3521,8 +3521,8 @@ export const cards: Card[] = [
             "blue": 8
         },
         "get": {
-            "purple": 2
-        },
+            "purple": 1
+        }
         "color": "purple",
         "boundingClientRect": {
             "top": 10320,
@@ -4269,8 +4269,8 @@ export const cards: Card[] = [
             "black": 4
         },
         "get": {
-            "purple": 2
-        },
+            "purple": 1
+        }
         "color": "purple",
         "boundingClientRect": {
             "top": 10664,
@@ -4303,8 +4303,8 @@ export const cards: Card[] = [
             "black": 4
         },
         "get": {
-            "purple": 2
-        },
+            "purple": 1
+        }
         "color": "purple",
         "boundingClientRect": {
             "top": 10664,
@@ -4337,8 +4337,8 @@ export const cards: Card[] = [
             "black": 4
         },
         "get": {
-            "purple": 2
-        },
+            "purple": 1
+        }
         "color": "purple",
         "boundingClientRect": {
             "top": 10664,
@@ -4371,8 +4371,8 @@ export const cards: Card[] = [
             "black": 4
         },
         "get": {
-            "purple": 2
-        },
+            "purple": 1
+        }
         "color": "purple",
         "boundingClientRect": {
             "top": 10664,
@@ -5245,8 +5245,8 @@ export const cards: Card[] = [
             "blue": 5
         },
         "get": {
-            "purple": 2
-        },
+            "purple": 1
+        }
         "color": "purple",
         "boundingClientRect": {
             "top": 10664,
@@ -5279,8 +5279,8 @@ export const cards: Card[] = [
             "blue": 4
         },
         "get": {
-            "purple": 2
-        },
+            "purple": 1
+        }
         "color": "purple",
         "boundingClientRect": {
             "top": 10664,
