@@ -1,5 +1,19 @@
 <div class="game-wrapper">
-    <div class="game-field" #gameField *ngIf="rows.length">
+    <div class="game-setup" *ngIf="!playerCount">
+        <div class="game-setup__panel">
+            <div class="game-setup__title">Select Players</div>
+            <div class="game-setup__subtitle">Choose number of players to start the game.</div>
+            <div class="game-setup__buttons">
+                <button type="button" class="game-setup__button" (click)="selectPlayerCount(2)">2</button>
+                <button type="button" class="game-setup__button" (click)="selectPlayerCount(3)">3</button>
+                <button type="button" class="game-setup__button" (click)="selectPlayerCount(4)">4</button>
+                <button type="button" class="game-setup__button" (click)="selectPlayerCount(5)">5</button>
+                <button type="button" class="game-setup__button" (click)="selectPlayerCount(6)">6</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-field" #gameField *ngIf="rows.length && playerCount">
         <div class="game-row" *ngFor="let row of rows">
             <div class="game-stack" *ngIf="row.stack.length">
                 <div class="card card--back" [ngClass]="{ 'card--view': !printModeEnabled, 'card--print': printModeEnabled }">

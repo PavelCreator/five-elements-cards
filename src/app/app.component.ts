@@ -8,7 +8,7 @@ import { ArtToCardAnimationComponent } from "./components/art-to-card-animation/
 import { LocalStorageService } from "./services/local-storage.service";
 import { GameWrapperComponent } from "./components/game-wrapper/game-wrapper.component";
 
-type AppTab = 'collection' | 'game';
+type AppTab = 'collection' | 'game' | 'settings';
 
 @Component({
     selector: 'app-root',
@@ -23,6 +23,8 @@ export class AppComponent implements OnInit{
     public activeTab: AppTab = 'collection';
     public showTabNav: boolean = true;
     private readonly activeTabStorageKey: string = 'activeTab';
+    public playerCount?: number;
+    private readonly playerCountStorageKey: string = 'gamePlayerCount';
 
     constructor(
         private _interactionService: InteractionService,
@@ -32,9 +34,10 @@ export class AppComponent implements OnInit{
 
     ngOnInit() {
         const storedTab: string | null = this._localStorageService.getItem(this.activeTabStorageKey);
-        if (storedTab === 'collection' || storedTab === 'game') {
+        if (storedTab === 'collection' || storedTab === 'game' || storedTab === 'settings') {
             this.activeTab = storedTab;
         }
+        this._loadPlayerCount();
 
         this._interactionService.selectedViewMode$.subscribe((inSelectedMenuItem: number | undefined) => {
             switch (inSelectedMenuItem) {
@@ -70,5 +73,28 @@ export class AppComponent implements OnInit{
     public setActiveTab(tab: AppTab): void {
         this.activeTab = tab;
         this._localStorageService.setItem(this.activeTabStorageKey, tab);
+        if (tab === 'settings') {
+            this._loadPlayerCount();
+        }
+    }
+
+    public setPlayerCount(count: number): void {
+        if (count < 2 || count > 6) return;
+        this.playerCount = count;
+        this._localStorageService.setItem(this.playerCountStorageKey, count.toString());
+    }
+
+    public clearPlayerCount(): void {
+        this.playerCount = undefined;
+        localStorage.removeItem(this.playerCountStorageKey);
+    }
+
+    private _loadPlayerCount(): void {
+        const stored = this._localStorageService.getItem(this.playerCountStorageKey);
+        if (!stored) return;
+        const parsed = Number(stored);
+        if (Number.isInteger(parsed) && parsed >= 2 && parsed <= 6) {
+            this.playerCount = parsed;
+        }
     }
 }

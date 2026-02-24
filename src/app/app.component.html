@@ -5,6 +5,9 @@
 	<button class="tab-nav__button" [class.tab-nav__button--active]="activeTab === 'game'" (click)="setActiveTab('game')">
 		Game
 	</button>
+	<button class="tab-nav__button" [class.tab-nav__button--active]="activeTab === 'settings'" (click)="setActiveTab('settings')">
+		Settings
+	</button>
 </div>
 
 <div class="root-wrapper" *ngIf="activeTab === 'collection'">
@@ -15,3 +18,18 @@
 </div>
 
 <app-game-wrapper *ngIf="activeTab === 'game'"></app-game-wrapper>
+
+<div class="settings-wrapper" *ngIf="activeTab === 'settings'">
+	<div class="settings-panel">
+		<div class="settings-title">Game Settings</div>
+		<div class="settings-subtitle">Players</div>
+		<div class="settings-buttons">
+			<button type="button" class="settings-button" [class.settings-button--active]="playerCount === 2" (click)="setPlayerCount(2)">2</button>
+			<button type="button" class="settings-button" [class.settings-button--active]="playerCount === 3" (click)="setPlayerCount(3)">3</button>
+			<button type="button" class="settings-button" [class.settings-button--active]="playerCount === 4" (click)="setPlayerCount(4)">4</button>
+			<button type="button" class="settings-button" [class.settings-button--active]="playerCount === 5" (click)="setPlayerCount(5)">5</button>
+			<button type="button" class="settings-button" [class.settings-button--active]="playerCount === 6" (click)="setPlayerCount(6)">6</button>
+		</div>
+		<button type="button" class="settings-clear" (click)="clearPlayerCount()">Clear Player Count</button>
+	</div>
+</div>

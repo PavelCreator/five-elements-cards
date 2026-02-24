@@ -8,6 +8,7 @@ import { CardComponent } from '../card/card.component';
 import { ImageService } from '../../services/image.service';
 import { InteractionService } from '../../services/interaction.service';
 import { cards as initialCards } from '../../data/cards';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 type SpecialStackColor = 'purple' | 'black';
 
@@ -26,6 +27,8 @@ interface SpecialStack {
 })
 export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('gameField') gameField?: ElementRef<HTMLDivElement>;
+    public playerCount?: number;
+    private _playerCountKey = 'gamePlayerCount';
     public rows: Array<{
         level: number;
         stack: Card[];
@@ -41,10 +44,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     constructor(
         private _cardsStoreService: CardsStoreService,
         private _imageService: ImageService,
-        private _interactionService: InteractionService
+        private _interactionService: InteractionService,
+        private _localStorageService: LocalStorageService
     ) {}
 
     ngOnInit() {
+        this._loadPlayerCount();
         this._cardsSubscription = this._cardsStoreService.cards$.subscribe((cards) => {
             const preparedCards = this._assignColors(cards);
             this.rows = this._buildRows(preparedCards);
@@ -72,14 +77,19 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _scheduleScaleUpdate() {
         if (this._resizeRaf) cancelAnimationFrame(this._resizeRaf);
-        this._resizeRaf = requestAnimationFrame(() => this._updateScale());
+        this._resizeRaf = requestAnimationFrame(() => {
+            this._updateScale();
+            requestAnimationFrame(() => this._updateScale());
+        });
+        setTimeout(() => this._updateScale(), 0);
     }
 
     private _updateScale() {
         if (!this.gameField?.nativeElement) return;
         const field = this.gameField.nativeElement;
-        const width = field.offsetWidth;
-        const height = field.offsetHeight;
+        field.style.setProperty('--game-scale', '1');
+        const width = field.scrollWidth || field.offsetWidth;
+        const height = field.scrollHeight || field.offsetHeight;
         if (!width || !height) return;
         const horizontalPadding = 32;
         const verticalPadding = 32;
@@ -87,6 +97,22 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         const availableHeight = Math.max(0, window.innerHeight - verticalPadding);
         const scale = Math.min(1, availableWidth / width, availableHeight / height);
         field.style.setProperty('--game-scale', scale.toFixed(3));
+    }
+
+    private _loadPlayerCount() {
+        const stored = this._localStorageService.getItem(this._playerCountKey);
+        if (!stored) return;
+        const parsed = Number(stored);
+        if (Number.isInteger(parsed) && parsed >= 2 && parsed <= 6) {
+            this.playerCount = parsed;
+        }
+    }
+
+    public selectPlayerCount(count: number) {
+        if (count < 2 || count > 6) return;
+        this.playerCount = count;
+        this._localStorageService.setItem(this._playerCountKey, count.toString());
+        this._scheduleScaleUpdate();
     }
 
     private _buildRows(cards: Card[]) {
