@@ -90,6 +90,21 @@
     }
 }
 
+.coin-game-bank{
+    width: calc(var(--deck-width, 239px) * 2 / 3);
+    height: calc(var(--deck-width, 239px) * 2 / 3 * 0.925);
+    background-size: calc(var(--deck-width, 239px) * 2 / 3) calc(var(--deck-width, 239px) * 2 / 3 * 0.925);
+}
+
+.coin-game-bank .number-wrapper{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    user-select: none;
+}
+
 .left-half, .right-half {
     position: absolute;
     top: 0;

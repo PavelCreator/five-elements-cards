@@ -5513,22 +5513,6 @@ export const cards: Card[] = [
         }
     },
     {
-        "orderNumber": 131.6,
-        "level": 1,
-        "levelSpecial": false,
-        "pay": {
-            "red": 0,
-            "green": 2,
-            "white": 0,
-            "blue": 0,
-            "purple": 0,
-            "black": 0
-        },
-        "get": {
-            "": 3
-        }
-    },
-    {
         "orderNumber": 132.6,
         "level": 1,
         "levelSpecial": false,

@@ -1,4 +1,4 @@
-.game-wrapper,
+left-half.game-wrapper,
 :host {
     height:100vh;
     overflow:hidden;
@@ -127,4 +127,12 @@
     justify-content:center;
     gap:6px;
     margin-top:12px;
+    position:relative;
+}
+
+.infinity-icon {
+    width: 71px;
+    position: absolute;
+    right: -370px;
+    bottom: 55px;
 }
