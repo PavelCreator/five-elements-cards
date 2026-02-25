@@ -5,6 +5,7 @@ import { CardsStoreService } from '../../services/cards-store.service';
 import { Card } from '../../models/card.interface';
 import { Color } from '../../models/color.type';
 import { CardComponent } from '../card/card.component';
+import { HexagonComponent } from '../hexagon/hexagon.component';
 import { ImageService } from '../../services/image.service';
 import { InteractionService } from '../../services/interaction.service';
 import { cards as initialCards } from '../../data/cards';
@@ -21,7 +22,7 @@ interface SpecialStack {
 @Component({
     selector: 'app-game-wrapper',
     standalone: true,
-    imports: [NgClass, NgFor, NgIf, NgStyle, CardComponent],
+    imports: [NgClass, NgFor, NgIf, NgStyle, CardComponent, HexagonComponent],
     templateUrl: 'game-wrapper.component.html',
     styleUrls: ['./game-wrapper.component.css', '../../style.css'],
 })
