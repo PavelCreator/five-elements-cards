@@ -65,6 +65,7 @@ export class CardComponent implements OnInit {
     public printModeEnabled: boolean = true;
     public editTokensMode: boolean = false;
     public allColors: string[] = ['green', 'white', 'blue', 'red', 'purple', 'black'];
+    public diceRollResults: string[] = [];
 
     public trackByColor(index: number, color: string): string {
         return index.toString();

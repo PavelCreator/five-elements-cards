@@ -78,6 +78,26 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._scheduleScaleUpdate();
     }
 
+    public rollDice(count: number): string[] {
+        const diceSides = [
+            'dices-blue.png',
+            'dices-green.png',
+            'dices-joker.png',
+            'dices-nothing.png',
+            'dices-red.png',
+            'dices-white.png'
+        ];
+        const rollsCount = Math.max(0, Math.floor(count));
+        const results: string[] = [];
+
+        for (let i = 0; i < rollsCount; i++) {
+            const index = Math.floor(Math.random() * diceSides.length);
+            results.push(diceSides[index]);
+        }
+        console.log('rollDice results:', results);
+        return results;
+    }
+
     private _scheduleScaleUpdate() {
         if (this._resizeRaf) cancelAnimationFrame(this._resizeRaf);
         this._resizeRaf = requestAnimationFrame(() => {

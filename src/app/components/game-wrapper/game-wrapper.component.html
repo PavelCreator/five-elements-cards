@@ -15,8 +15,8 @@
 
     <div class="game-layout" #gameLayout *ngIf="rows.length && playerCount">
         <div class="game-players game-players--left">
-            <div class="player-slot" *ngFor="let isVisible of leftPlayerSlots" [class.player-slot--hidden]="!isVisible">
-                <div class="player-card" *ngIf="isVisible">Player</div>
+            <div class="player-slot" *ngFor="let isVisible of leftPlayerSlots; let i = index" [class.player-slot--hidden]="!isVisible">
+                <div class="player-card" *ngIf="isVisible">Player {{ i * 2 + 1 }}</div>
             </div>
         </div>
 
@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="game-row game-row--hex">
-                    <div class="game-hex-row">
+                    <div class="game-hex-row" (click)="rollDice(4)">
                         <button class="roll-wrapper" type="button" aria-label="Roll dice">
                             <div class="roll-label">Roll</div>
                             <app-hexagon [color]="'dice'" [number]="4" [type]="'gameBank'"></app-hexagon>
@@ -71,8 +71,10 @@
         </div>
 
         <div class="game-players game-players--right">
-            <div class="player-slot" *ngFor="let isVisible of rightPlayerSlots" [class.player-slot--hidden]="!isVisible">
-                <div class="player-card" *ngIf="isVisible">Player</div>
+            <div class="player-slot" *ngFor="let isVisible of rightPlayerSlots; let i = index" [class.player-slot--hidden]="!isVisible">
+                <div class="player-card" *ngIf="isVisible">
+									Player {{ i * 2 + 2 }}
+								</div>
             </div>
         </div>
     </div>
