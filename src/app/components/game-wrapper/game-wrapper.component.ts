@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CardsStoreService } from '../../services/cards-store.service';
 import { Card } from '../../models/card.interface';
@@ -22,7 +23,7 @@ interface SpecialStack {
 @Component({
     selector: 'app-game-wrapper',
     standalone: true,
-    imports: [NgClass, NgFor, NgIf, NgStyle, CardComponent, HexagonComponent],
+    imports: [NgClass, NgFor, NgIf, NgStyle, FormsModule, CardComponent, HexagonComponent],
     templateUrl: 'game-wrapper.component.html',
     styleUrls: ['./game-wrapper.component.css', '../../style.css'],
 })
@@ -30,8 +31,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('gameLayout') gameLayout?: ElementRef<HTMLDivElement>;
     public playerCount?: number;
     private _playerCountKey = 'gamePlayerCount';
+    private _playerNamesKey = 'gamePlayerNames';
     public leftPlayerSlots: boolean[] = [false, false, false];
     public rightPlayerSlots: boolean[] = [false, false, false];
+    public playerNames: string[] = [];
+    public editingPlayerIndex: number | null = null;
+    public editingPlayerName: string = '';
     public rows: Array<{
         level: number;
         stack: Card[];
@@ -52,6 +57,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     ) {}
 
     ngOnInit() {
+        this._initPlayerNames();
+        this._loadPlayerNames();
         this._loadPlayerCount();
         this._cardsSubscription = this._cardsStoreService.cards$.subscribe((cards) => {
             const preparedCards = this._assignColors(cards);
@@ -76,6 +83,43 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     @HostListener('window:resize')
     onWindowResize() {
         this._scheduleScaleUpdate();
+    }
+
+    public getPlayerNumber(side: 'left' | 'right', index: number): number {
+        return side === 'left' ? index * 2 + 1 : index * 2 + 2;
+    }
+
+    public getPlayerName(playerNumber: number): string {
+        return this.playerNames[playerNumber - 1] ?? `Player ${playerNumber}`;
+    }
+
+    public startRename(playerNumber: number) {
+        this.editingPlayerIndex = playerNumber;
+        this.editingPlayerName = this.getPlayerName(playerNumber);
+    }
+
+    public selectAllText(event: FocusEvent) {
+        const target = event.target as HTMLInputElement | null;
+        if (!target) return;
+        setTimeout(() => target.select());
+    }
+
+    public saveRename(playerNumber: number) {
+        const trimmed = this.editingPlayerName.trim();
+        this.playerNames[playerNumber - 1] = trimmed || `Player ${playerNumber}`;
+        this._persistPlayerNames();
+        this.editingPlayerIndex = null;
+        this.editingPlayerName = '';
+    }
+
+    public onRenameBlur(playerNumber: number) {
+        if (this.editingPlayerIndex !== playerNumber) return;
+        this.saveRename(playerNumber);
+    }
+
+    public cancelRename() {
+        this.editingPlayerIndex = null;
+        this.editingPlayerName = '';
     }
 
     public rollDice(count: number): string[] {
@@ -171,6 +215,33 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.leftPlayerSlots = left;
         this.rightPlayerSlots = right;
+    }
+
+    private _initPlayerNames() {
+        if (this.playerNames.length === 6) return;
+        this.playerNames = Array.from({ length: 6 }, (_, i) => `Player ${i + 1}`);
+    }
+
+    private _loadPlayerNames() {
+        const stored = this._localStorageService.getItem(this._playerNamesKey);
+        if (!stored) return;
+        try {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length === 6) {
+                this.playerNames = parsed.map((name, index) => {
+                    if (typeof name === 'string' && name.trim().length > 0) {
+                        return name;
+                    }
+                    return `Player ${index + 1}`;
+                });
+            }
+        } catch {
+            return;
+        }
+    }
+
+    private _persistPlayerNames() {
+        this._localStorageService.setItem(this._playerNamesKey, JSON.stringify(this.playerNames));
     }
 
     private _buildRows(cards: Card[]) {

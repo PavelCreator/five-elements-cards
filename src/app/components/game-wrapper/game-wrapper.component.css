@@ -65,6 +65,70 @@
     padding-top:10px;
     font-size:2.5em;
     color:#2b2b2b;
+    width:100%;
+}
+
+.player-card__header{
+    position:relative;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.player-card__name{
+    position:relative;
+    cursor:text;
+    user-select:text;
+}
+
+.player-card__tooltip{
+    position:absolute;
+    top:100%;
+    left:50%;
+    transform:translateX(-50%);
+    margin-top:6px;
+    font-size:0.45em;
+    padding:4px 8px;
+    border-radius:8px;
+    background:rgba(0, 0, 0, 0.78);
+    color:#fff;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.15s ease-out;
+    white-space:nowrap;
+}
+
+.player-card__name:hover .player-card__tooltip{
+    opacity:1;
+}
+
+.player-card__input{
+    font:inherit;
+    font-weight:inherit;
+    color:inherit;
+    background:transparent;
+    border:none;
+    outline:none;
+    text-align:center;
+    padding:0;
+    margin:0;
+    width:70%;
+    cursor:text;
+}
+
+.player-card__save{
+    position:absolute;
+    right:16px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:0.45em;
+    padding:6px 10px;
+    border-radius:10px;
+    border:1px solid rgba(0, 0, 0, 0.12);
+    background:#fff;
+    color:#2b2b2b;
+    cursor:pointer;
 }
 
 .game-setup{
