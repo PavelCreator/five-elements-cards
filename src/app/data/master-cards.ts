@@ -43,6 +43,7 @@ export const masterCards: MasterCard[] = [
             en: 'Magic Master'
         },
         color: 'purple',
+        grand: true,
         image: './assets/master_cards/master_ether.jpg',
         orderNumber: 1205,
     },
@@ -52,6 +53,7 @@ export const masterCards: MasterCard[] = [
             en: 'Dark Master'
         },
         color: 'black',
+        grand: true,
         image: './assets/master_cards/master_dark.jpg',
         orderNumber: 1206,
     },

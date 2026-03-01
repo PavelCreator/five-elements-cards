@@ -155,7 +155,7 @@ export class CardsComponent implements OnInit {
             ...this.cards.filter(card => card.color === 'blue' && card.levelBonus)
         ];
 
-        const bonusNames = ['dice', 'card_1_lvl', 'card_2_lvl', 'card_3_lvl', 'card_4_lvl', 'card_master', 'extra_turn', 'drop_card', 'steal_card'];
+        const bonusNames = ['dice', 'card_1_lvl', 'card_2_lvl', 'card_3_lvl', 'card_4_lvl', 'card_master', 'card_grand_master', 'extra_turn', 'drop_card', 'steal_card'];
         bonusNames.forEach((bonusName: string) => {
             this.bonus = [
                 ...this.bonus,

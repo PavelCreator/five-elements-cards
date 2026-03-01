@@ -27,9 +27,11 @@ interface SpecialStack {
     styleUrls: ['./game-wrapper.component.css', '../../style.css'],
 })
 export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
-    @ViewChild('gameField') gameField?: ElementRef<HTMLDivElement>;
+    @ViewChild('gameLayout') gameLayout?: ElementRef<HTMLDivElement>;
     public playerCount?: number;
     private _playerCountKey = 'gamePlayerCount';
+    public leftPlayerSlots: boolean[] = [false, false, false];
+    public rightPlayerSlots: boolean[] = [false, false, false];
     public rows: Array<{
         level: number;
         stack: Card[];
@@ -86,18 +88,18 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     private _updateScale() {
-        if (!this.gameField?.nativeElement) return;
-        const field = this.gameField.nativeElement;
-        field.style.setProperty('--game-scale', '1');
-        const width = field.scrollWidth || field.offsetWidth;
-        const height = field.scrollHeight || field.offsetHeight;
+        if (!this.gameLayout?.nativeElement) return;
+        const layout = this.gameLayout.nativeElement;
+        layout.style.setProperty('--game-scale', '1');
+        const width = layout.scrollWidth || layout.offsetWidth;
+        const height = layout.scrollHeight || layout.offsetHeight;
         if (!width || !height) return;
         const horizontalPadding = 32;
         const verticalPadding = 32;
         const availableWidth = Math.max(0, window.innerWidth - horizontalPadding);
         const availableHeight = Math.max(0, window.innerHeight - verticalPadding);
         const scale = Math.min(1, availableWidth / width, availableHeight / height);
-        field.style.setProperty('--game-scale', scale.toFixed(3));
+        layout.style.setProperty('--game-scale', scale.toFixed(3));
     }
 
     private _loadPlayerCount() {
@@ -106,6 +108,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         const parsed = Number(stored);
         if (Number.isInteger(parsed) && parsed >= 2 && parsed <= 6) {
             this.playerCount = parsed;
+            this._updatePlayerSlots();
         }
     }
 
@@ -113,7 +116,41 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         if (count < 2 || count > 6) return;
         this.playerCount = count;
         this._localStorageService.setItem(this._playerCountKey, count.toString());
+        this._updatePlayerSlots();
         this._scheduleScaleUpdate();
+    }
+
+    private _updatePlayerSlots() {
+        const count = this.playerCount ?? 0;
+        const empty = [false, false, false];
+        const left = [...empty];
+        const right = [...empty];
+
+        if (count >= 2) {
+            left[0] = true;
+            right[0] = true;
+        }
+        if (count === 3) {
+            left[2] = true;
+        }
+        if (count === 4) {
+            left[1] = true;
+            right[1] = true;
+        }
+        if (count === 5) {
+            left[1] = true;
+            left[2] = true;
+            right[1] = true;
+        }
+        if (count >= 6) {
+            left[1] = true;
+            left[2] = true;
+            right[1] = true;
+            right[2] = true;
+        }
+
+        this.leftPlayerSlots = left;
+        this.rightPlayerSlots = right;
     }
 
     private _buildRows(cards: Card[]) {

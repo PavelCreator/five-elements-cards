@@ -75,7 +75,7 @@ export const howToWinCards: HowToWinCard[] = [
         type: 'Grand',
         numberOfElements: 1,
         pay: {
-            purple: 6,
+            purple: 4,
         }
     },
     /*{
@@ -221,49 +221,49 @@ export const howToWinCards: HowToWinCard[] = [
         type: 'Blitz',
         numberOfElements: 1,
         pay: {
-            oneOf4: 9,
+            oneOf4: 8,
         }
     },
     {
         type: 'Blitz',
         numberOfElements: 1,
         pay: {
-            blue: 7,
+            blue: 6,
         }
     },
     {
         type: 'Blitz',
         numberOfElements: 1,
         pay: {
-            white: 7,
+            white: 6,
         }
     },
     {
         type: 'Blitz',
         numberOfElements: 1,
         pay: {
-            red: 7,
+            red: 6,
         }
     },
     {
         type: 'Blitz',
         numberOfElements: 1,
         pay: {
-            green: 7,
+            green: 6,
         }
     },
     {
         type: 'Blitz',
         numberOfElements: 1,
         pay: {
-            black: 3,
+            black: 2,
         }
     },
     {
         type: 'Blitz',
         numberOfElements: 1,
         pay: {
-            purple: 3,
+            purple: 2,
         }
     },
     {

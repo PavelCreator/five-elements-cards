@@ -78,6 +78,9 @@ export class HexagonComponent implements OnInit {
                 case 'card_master':
                     this.hexUrl = './assets/hex/card_master.png';
                     break;
+                case 'card_grand_master':
+                    this.hexUrl = './assets/hex/card_grand_master.png';
+                    break;
                 case 'extra_turn':
                     this.hexUrl = './assets/hex/extra_turn.png';
                     break;

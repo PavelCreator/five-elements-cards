@@ -13,5 +13,6 @@ export interface MasterCard {
     color: string;
     orderNumber: number;
     image?: string;
+    grand?: boolean;
 }
 

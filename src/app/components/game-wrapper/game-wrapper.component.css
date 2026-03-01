@@ -1,4 +1,4 @@
-left-half.game-wrapper,
+.game-wrapper,
 :host {
     height:100vh;
     overflow:hidden;
@@ -13,6 +13,60 @@ left-half.game-wrapper,
     padding:16px;
     box-sizing:border-box;
     --deck-width: 239px;
+}
+
+.game-layout{
+    display:grid;
+    grid-template-columns: 380px auto 380px;
+    align-items:start;
+    width:max-content;
+    height:max-content;
+    margin:0 auto;
+    transform-origin: top center;
+    transform: scale(var(--game-scale, 1));
+}
+
+.game-players{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    gap:16px;
+    padding:12px;
+    height:100%;
+}
+
+.game-players--left{
+    align-items:flex-start;
+}
+
+.game-players--right{
+    align-items:flex-end;
+}
+
+.player-slot{
+    width:360px;
+    height:240px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.player-slot--hidden{
+    visibility:hidden;
+}
+
+.player-card{
+    width:100%;
+    height:100%;
+    border-radius:14px;
+    border:1px solid rgba(0, 0, 0, 0.12);
+    background:rgba(255, 255, 255, 0.85);
+    box-shadow:0 10px 20px rgba(0, 0, 0, 0.12);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:600;
+    color:#2b2b2b;
 }
 
 .game-setup{
@@ -88,10 +142,7 @@ left-half.game-wrapper,
     border-radius:18px;
     background:rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(3px);
-    transform-origin: top center;
     width:max-content;
-    transform: scale(var(--game-scale, 1));
-    margin: 0 auto;
 }
 
 .game-row{

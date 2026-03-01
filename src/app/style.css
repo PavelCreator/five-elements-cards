@@ -802,3 +802,15 @@
     top:0;
     z-index:10000;
 }
+
+/* Roll label and dice hexagon in game layout */
+.game-hex-row .roll-wrapper{
+    display:flex;
+    align-items:center;
+    margin-right:20px;
+}
+.game-hex-row .roll-label{
+    font-family: "Macondo", cursive;
+    font-size:60px;
+    margin-right:8px;
+}

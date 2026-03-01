@@ -13,37 +13,55 @@
         </div>
     </div>
 
-    <div class="game-field" #gameField *ngIf="rows.length && playerCount">
-        <div class="game-row" *ngFor="let row of rows">
-            <div class="game-stack" *ngIf="row.stack.length">
-                <div class="card card--back" [ngClass]="{ 'card--view': !printModeEnabled, 'card--print': printModeEnabled }">
-                    <div
-                        class="card-overlay-wrap card-overlay-wrap-back"
-                        [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
-                        [ngStyle]="{ '--card-bg': 'url(' + row.backUrl + ')' }"
-                    >
-                        <div class="card-overlay card-overlay-back"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="game-row-cards">
-                <app-card *ngFor="let card of row.topCards" [card]="card" [disableHoverUi]="true"></app-card>
-                <ng-container *ngFor="let specialStack of row.specialStacks">
-                    <div class="game-stack" *ngIf="specialStack.stack.length">
-                        <app-card [card]="specialStack.topCard" [disableHoverUi]="true"></app-card>
-                    </div>
-                </ng-container>
+    <div class="game-layout" #gameLayout *ngIf="rows.length && playerCount">
+        <div class="game-players game-players--left">
+            <div class="player-slot" *ngFor="let isVisible of leftPlayerSlots" [class.player-slot--hidden]="!isVisible">
+                <div class="player-card" *ngIf="isVisible">Player</div>
             </div>
         </div>
-        <div class="game-row game-row--hex">
-            <div class="game-hex-row">
-                <app-hexagon [color]="'red'" [number]="4" [type]="'gameBank'"></app-hexagon>
-                <app-hexagon [color]="'blue'" [number]="4" [type]="'gameBank'"></app-hexagon>
-                <app-hexagon [color]="'white'" [number]="4" [type]="'gameBank'"></app-hexagon>
-                <app-hexagon [color]="'green'" [number]="4" [type]="'gameBank'"></app-hexagon>
-                <app-hexagon [color]="'purple'" [number]="4" [type]="'gameBank'"></app-hexagon>
-                <app-hexagon [color]="'black'" [number]="0" [type]="'gameBank'"></app-hexagon>
-								<img src="/assets/icons/infinity.svg" class="infinity-icon" alt="Infinity" />
+
+        <div class="game-field">
+            <div class="game-row" *ngFor="let row of rows">
+                <div class="game-stack" *ngIf="row.stack.length">
+                    <div class="card card--back" [ngClass]="{ 'card--view': !printModeEnabled, 'card--print': printModeEnabled }">
+                        <div
+                            class="card-overlay-wrap card-overlay-wrap-back"
+                            [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
+                            [ngStyle]="{ '--card-bg': 'url(' + row.backUrl + ')' }"
+                        >
+                            <div class="card-overlay card-overlay-back"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="game-row-cards">
+                    <app-card *ngFor="let card of row.topCards" [card]="card" [disableHoverUi]="true"></app-card>
+                    <ng-container *ngFor="let specialStack of row.specialStacks">
+                        <div class="game-stack" *ngIf="specialStack.stack.length">
+                            <app-card [card]="specialStack.topCard" [disableHoverUi]="true"></app-card>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="game-row game-row--hex">
+                    <div class="game-hex-row">
+                        <div class="roll-wrapper">
+                            <div class="roll-label">Roll</div>
+                            <app-hexagon [color]="'dice'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                        </div>
+                    <app-hexagon [color]="'red'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                    <app-hexagon [color]="'blue'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                    <app-hexagon [color]="'white'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                    <app-hexagon [color]="'green'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                    <app-hexagon [color]="'purple'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                    <app-hexagon [color]="'black'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                    <img src="/assets/icons/infinity.svg" class="infinity-icon" alt="Infinity" />
+                </div>
+            </div>
+        </div>
+
+        <div class="game-players game-players--right">
+            <div class="player-slot" *ngFor="let isVisible of rightPlayerSlots" [class.player-slot--hidden]="!isVisible">
+                <div class="player-card" *ngIf="isVisible">Player</div>
             </div>
         </div>
     </div>

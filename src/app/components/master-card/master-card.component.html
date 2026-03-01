@@ -49,7 +49,7 @@
         <div
             class="card-overlay-wrap card-overlay-wrap-back"
             [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
-            [ngStyle]="{ '--card-bg': 'url(./assets/back_cards/master9.jpg)' }"
+            [ngStyle]="{ '--card-bg': card.grand ? 'url(./assets/back_cards/grand_master.jpg)' : 'url(./assets/back_cards/master.jpg)' }"
         >
             <div class="card-overlay-mirror-topleft"></div>
             <div class="card-overlay-mirror-topright"></div>

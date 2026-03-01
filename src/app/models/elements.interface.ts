@@ -12,6 +12,7 @@ export interface Elements {
     card_3_lvl?: number,
     card_4_lvl?: number,
     card_master?: number,
+    card_grand_master?: number,
     extra_turn?: number,
     drop_card?: number,
     steal_card?: number,
