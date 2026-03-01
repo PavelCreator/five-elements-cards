@@ -3342,7 +3342,7 @@
             "white": 0,
             "blue": 0,
             "purple": 0,
-            "black": 2,
+            "black": 0,
             "red": 12
         },
         "get": {
@@ -3376,7 +3376,7 @@
             "green": 0,
             "blue": 0,
             "purple": 0,
-            "black": 2,
+            "black": 0,
             "white": 12
         },
         "get": {
@@ -3411,7 +3411,7 @@
             "green": 0,
             "white": 0,
             "purple": 0,
-            "black": 2,
+            "black": 0,
             "blue": 12
         },
         "get": {
@@ -3445,7 +3445,7 @@
             "white": 0,
             "blue": 0,
             "purple": 0,
-            "black": 2,
+            "black": 0,
             "green": 12
         },
         "get": {
@@ -3479,7 +3479,7 @@
             "red": 0,
             "blue": 0,
             "purple": 0,
-            "black": 2,
+            "black": 0,
             "green": 8,
             "white": 8
         },
@@ -3514,7 +3514,7 @@
             "green": 0,
             "white": 0,
             "purple": 0,
-            "black": 2,
+            "black": 0,
             "red": 8,
             "blue": 8
         },
@@ -4260,11 +4260,12 @@
         "level": 3,
         "levelSpecial": true,
         "pay": {
-            "purple": 2,
-            "red": 4,
-            "green": 4,
-            "blue": 4,
-            "black": 4
+            "purple": 0,
+            "black": 0,
+            "red": 3,
+            "green": 3,
+            "blue": 3,
+            "white": 7
         },
         "get": {
             "purple": 1
@@ -4294,11 +4295,12 @@
         "level": 3,
         "levelSpecial": true,
         "pay": {
-            "purple": 2,
-            "red": 4,
-            "white": 4,
-            "blue": 4,
-            "black": 4
+            "purple": 0,
+            "black": 0,
+            "red": 3,
+            "white": 3,
+            "blue": 3,
+            "green": 7
         },
         "get": {
             "purple": 1
@@ -4328,11 +4330,12 @@
         "level": 3,
         "levelSpecial": true,
         "pay": {
-            "purple": 2,
-            "green": 4,
-            "white": 4,
-            "blue": 4,
-            "black": 4
+            "purple": 0,
+            "black": 0,
+            "green": 3,
+            "white": 3,
+            "blue": 3,
+            "red": 7
         },
         "get": {
             "purple": 1
@@ -4362,11 +4365,12 @@
         "level": 3,
         "levelSpecial": true,
         "pay": {
-            "purple": 2,
-            "red": 4,
-            "green": 4,
-            "white": 4,
-            "black": 4
+            "purple": 0,
+            "black": 0,
+            "red": 3,
+            "green": 3,
+            "white": 3,
+            "blue": 7
         },
         "get": {
             "purple": 1
@@ -5236,11 +5240,12 @@
         "level": 3,
         "levelSpecial": true,
         "pay": {
-            "black": 4,
-            "red": 5,
-            "green": 5,
-            "white": 5,
-            "blue": 5
+            "black": 0,
+            "red": 0,
+            "green": 0,
+            "white": 3,
+            "blue": 3,
+            "purple": 3
         },
         "get": {
             "purple": 1
@@ -5270,11 +5275,12 @@
         "level": 3,
         "levelSpecial": true,
         "pay": {
-            "purple": 3,
-            "red": 4,
-            "green": 4,
-            "white": 4,
-            "blue": 4
+            "purple": 0,
+            "white": 0,
+            "blue": 0,
+            "red": 3,
+            "green": 3,
+            "black": 5
         },
         "get": {
             "purple": 1
@@ -5516,11 +5522,11 @@
         "levelSpecial": false,
         "pay": {
             "red": 0,
-            "green": 2,
             "white": 0,
             "blue": 0,
             "purple": 0,
-            "black": 0
+            "black": 0,
+            "green": 2
         },
         "get": {
             "": 3
@@ -5716,8 +5722,8 @@
             "card_master": 0
         },
         "boundingClientRect": {
-            "top": 716.75,
-            "left": 996
+            "top": 30,
+            "left": 1261
         },
         "isSelected": false,
         "levelBonus": true,
@@ -5729,7 +5735,7 @@
             "level": 4,
             "hidden": true,
             "boundingClientRectStart": {
-                "top": 570.0416870117188,
+                "top": 580.4000244140625,
                 "left": 249
             },
             "isSelected": true,
@@ -7768,6 +7774,57 @@
             "level": 1,
             "boundingClientRectStart": {
                 "top": 741.7777709960938,
+                "left": 249
+            },
+            "isSelected": true
+        }
+    },
+    {
+        "orderNumber": 201.6,
+        "level": 4,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "red": 4,
+            "green": 4,
+            "white": 4,
+            "blue": 4,
+            "purple": 4,
+            "black": null
+        },
+        "get": {
+            "grand_master": 0
+        }
+    },
+    {
+        "orderNumber": 202.6,
+        "level": 4,
+        "levelSpecial": false,
+        "levelBonus": true,
+        "pay": {
+            "black": 0,
+            "red": 4,
+            "green": 4,
+            "white": 4,
+            "blue": 4,
+            "purple": 4
+        },
+        "get": {
+            "card_grand_master": 0
+        },
+        "boundingClientRect": {
+            "top": -374.8000183105469,
+            "left": 996
+        },
+        "isSelected": false,
+        "artData": {
+            "picturePath": "https://cdn.midjourney.com/b8f5fd0d-c417-40ca-bf10-88ea49ba5639/0_3.png",
+            "name": "Goddess Of Night",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
+            "boundingClientRectStart": {
+                "top": 664.4000244140625,
                 "left": 249
             },
             "isSelected": true
