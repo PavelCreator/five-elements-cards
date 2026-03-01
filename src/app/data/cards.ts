@@ -5519,22 +5519,6 @@ export const cards: Card[] = [
         }
     },
     {
-        "orderNumber": 131.6,
-        "level": 1,
-        "levelSpecial": false,
-        "pay": {
-            "red": 0,
-            "white": 0,
-            "blue": 0,
-            "purple": 0,
-            "black": 0,
-            "green": 2
-        },
-        "get": {
-            "": 3
-        }
-    },
-    {
         "orderNumber": 132.6,
         "level": 1,
         "levelSpecial": false,
@@ -7779,23 +7763,6 @@ export const cards: Card[] = [
                 "left": 249
             },
             "isSelected": true
-        }
-    },
-    {
-        "orderNumber": 201.6,
-        "level": 4,
-        "levelSpecial": false,
-        "levelBonus": true,
-        "pay": {
-            "red": 4,
-            "green": 4,
-            "white": 4,
-            "blue": 4,
-            "purple": 4,
-            "black": null
-        },
-        "get": {
-            "grand_master": 0
         }
     },
     {
