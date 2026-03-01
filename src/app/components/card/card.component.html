@@ -9,7 +9,7 @@
 	<ng-container *ngIf="cardSide === 'front'">
         <div
             class="card-overlay-wrap"
-            [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
+            [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled || disableHoverUi }"
             [ngStyle]="{
                 '--card-bg': 'url(' + card.artData?.picturePath + ')',
                 transform: (card.artData?.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')
@@ -58,7 +58,7 @@
     <div class="order-num">{{ card.orderNumber }}</div>
         <div
                 class="card-overlay-wrap"
-                [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
+                [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled || disableHoverUi }"
                 *ngIf="card.artData"
                 [ngStyle]="{
                 '--card-bg': 'url(' + card.artData.picturePath + ')',
@@ -107,7 +107,7 @@
 
         <div
             class="card-overlay-wrap"
-            [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
+            [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled || disableHoverUi }"
             [ngStyle]="{ '--card-bg': 'url(' + cardBackUrl + ')' }"
         >
             <div class="card-overlay-mirror-topleft"></div>

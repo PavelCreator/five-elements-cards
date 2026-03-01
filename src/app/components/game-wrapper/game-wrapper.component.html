@@ -49,7 +49,7 @@
                 <div class="game-stack" *ngIf="row.stack.length">
                     <div class="card card--back" [ngClass]="{ 'card--view': !printModeEnabled, 'card--print': printModeEnabled }">
                         <div
-                            class="card-overlay-wrap card-overlay-wrap-back"
+                            class="card-overlay-wrap card-overlay-wrap-back card-overlay-wrap--no-reflection"
                             [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
                             [ngStyle]="{ '--card-bg': 'url(' + row.backUrl + ')' }"
                         >
