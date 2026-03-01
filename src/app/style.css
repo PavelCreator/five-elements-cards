@@ -842,3 +842,43 @@
     line-height:1;
     user-select: none;
 }
+
+/* Active state for roll / bank buttons */
+.game-hex-row .roll-wrapper.active,
+.game-hex-row .roll-wrapper.is-active{
+    background: #e6f7ff;
+    border-color: #66b2ff;
+    box-shadow: 0 6px 18px rgba(102,178,255,0.18), 0 0 0 4px rgba(102,178,255,0.06);
+    transform: translateY(-2px) scale(1.02);
+}
+
+/* Explicit class to mark a player as active (can be toggled from component) */
+.player-slot.player-slot--active .player-card__name{
+    border-bottom: 3px solid #66b2ff;
+    color: #0a63b7;
+    padding-bottom: 2px;
+}
+
+/* Blue box-shadow around the active player's slot (parent) */
+.player-slot.player-slot--active{
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(102,178,255,1), 0 0 0 4px rgba(102,178,255,1);
+}
+
+/* removed automatic highlight for first player; use explicit .player-card--active */
+
+/* small button to mark a player active */
+.player-set-active{
+    background: transparent;
+    border: none;
+    color: rgba(10,99,183,0.9);
+    font-size: 18px;
+    line-height: 1;
+    margin-left: 8px;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+.player-set-active:hover{
+    background: rgba(102,178,255,0.12);
+}

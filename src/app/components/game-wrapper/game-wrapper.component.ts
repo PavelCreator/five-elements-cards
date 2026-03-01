@@ -34,6 +34,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private _playerNamesKey = 'gamePlayerNames';
     public leftPlayerSlots: boolean[] = [false, false, false];
     public rightPlayerSlots: boolean[] = [false, false, false];
+    public activePlayer: number = 1; // 1-based player number that's highlighted
     public playerNames: string[] = [];
     public editingPlayerIndex: number | null = null;
     public editingPlayerName: string = '';
@@ -182,6 +183,21 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._localStorageService.setItem(this._playerCountKey, count.toString());
         this._updatePlayerSlots();
         this._scheduleScaleUpdate();
+    }
+
+    /** Public method to update left/right slots based on a provided count (2-6). */
+    public updateSlots(count: number) {
+        if (!Number.isInteger(count) || count < 2 || count > 6) return;
+        this.playerCount = count;
+        this._localStorageService.setItem(this._playerCountKey, count.toString());
+        this._updatePlayerSlots();
+        this._scheduleScaleUpdate();
+    }
+
+    /** Set which player (1..6) is active/highlighted. */
+    public setActivePlayer(playerNumber: number) {
+        if (!Number.isInteger(playerNumber) || playerNumber < 1 || playerNumber > 6) return;
+        this.activePlayer = playerNumber;
     }
 
     private _updatePlayerSlots() {

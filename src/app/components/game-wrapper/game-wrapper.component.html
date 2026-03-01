@@ -15,14 +15,15 @@
 
     <div class="game-layout" #gameLayout *ngIf="rows.length && playerCount">
         <div class="game-players game-players--left">
-            <div class="player-slot" *ngFor="let isVisible of leftPlayerSlots; let i = index" [class.player-slot--hidden]="!isVisible">
+            <div class="player-slot" *ngFor="let isVisible of leftPlayerSlots; let i = index" [class.player-slot--hidden]="!isVisible" [class.player-slot--active]="getPlayerNumber('left', i) === activePlayer">
                 <div class="player-card" *ngIf="isVisible">
                     <div class="player-card__header">
                         <ng-container *ngIf="editingPlayerIndex !== getPlayerNumber('left', i); else leftEditTemplate">
-                            <span class="player-card__name" (click)="startRename(getPlayerNumber('left', i))">
+                            <span class="player-card__name">
                                 {{ getPlayerName(getPlayerNumber('left', i)) }}
                                 <span class="player-card__tooltip">Rename</span>
                             </span>
+                            <button class="player-set-active" type="button" (click)="$event.stopPropagation(); setActivePlayer(getPlayerNumber('left', i))" title="Set active player">●</button>
                         </ng-container>
                         <ng-template #leftEditTemplate>
                             <input
@@ -95,14 +96,15 @@
         </div>
 
         <div class="game-players game-players--right">
-            <div class="player-slot" *ngFor="let isVisible of rightPlayerSlots; let i = index" [class.player-slot--hidden]="!isVisible">
+            <div class="player-slot" *ngFor="let isVisible of rightPlayerSlots; let i = index" [class.player-slot--hidden]="!isVisible" [class.player-slot--active]="getPlayerNumber('right', i) === activePlayer">
                 <div class="player-card" *ngIf="isVisible">
                     <div class="player-card__header">
                         <ng-container *ngIf="editingPlayerIndex !== getPlayerNumber('right', i); else rightEditTemplate">
-                            <span class="player-card__name" (click)="startRename(getPlayerNumber('right', i))">
+                            <span class="player-card__name">
                                 {{ getPlayerName(getPlayerNumber('right', i)) }}
                                 <span class="player-card__tooltip">Rename</span>
                             </span>
+                            <button class="player-set-active" type="button" (click)="$event.stopPropagation(); setActivePlayer(getPlayerNumber('right', i))" title="Set active player">●</button>
                         </ng-container>
                         <ng-template #rightEditTemplate>
                             <input
