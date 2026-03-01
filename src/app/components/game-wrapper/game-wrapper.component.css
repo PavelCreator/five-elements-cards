@@ -13,6 +13,7 @@
     padding:16px;
     box-sizing:border-box;
     --deck-width: 239px;
+    background: #d8d8d8;
 }
 
 .game-layout{
@@ -31,7 +32,6 @@
     flex-direction:column;
     justify-content:space-between;
     gap:16px;
-    padding:12px;
     height:100%;
 }
 
@@ -45,7 +45,7 @@
 
 .player-slot{
     width:360px;
-    height:240px;
+    height:540px;
     display:flex;
     align-items:center;
     justify-content:center;

@@ -125,3 +125,11 @@
 .right-half {
     right: 0;
 }
+
+.infinity-icon {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    top: 8px;
+    position: relative;
+}

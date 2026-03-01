@@ -44,17 +44,28 @@
             </div>
             <div class="game-row game-row--hex">
                     <div class="game-hex-row">
-                        <div class="roll-wrapper">
+                        <button class="roll-wrapper" type="button" aria-label="Roll dice">
                             <div class="roll-label">Roll</div>
                             <app-hexagon [color]="'dice'" [number]="4" [type]="'gameBank'"></app-hexagon>
-                        </div>
-                    <app-hexagon [color]="'red'" [number]="4" [type]="'gameBank'"></app-hexagon>
-                    <app-hexagon [color]="'blue'" [number]="4" [type]="'gameBank'"></app-hexagon>
-                    <app-hexagon [color]="'white'" [number]="4" [type]="'gameBank'"></app-hexagon>
-                    <app-hexagon [color]="'green'" [number]="4" [type]="'gameBank'"></app-hexagon>
-                    <app-hexagon [color]="'purple'" [number]="4" [type]="'gameBank'"></app-hexagon>
-                    <app-hexagon [color]="'black'" [number]="4" [type]="'gameBank'"></app-hexagon>
-                    <img src="/assets/icons/infinity.svg" class="infinity-icon" alt="Infinity" />
+                        </button>
+                    <button class="roll-wrapper" type="button" aria-label="Red bank">
+                        <app-hexagon [color]="'red'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                    </button>
+                    <button class="roll-wrapper" type="button" aria-label="Blue bank">
+                        <app-hexagon [color]="'blue'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                    </button>
+                    <button class="roll-wrapper" type="button" aria-label="White bank">
+                        <app-hexagon [color]="'white'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                    </button>
+                    <button class="roll-wrapper" type="button" aria-label="Green bank">
+                        <app-hexagon [color]="'green'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                    </button>
+                    <button class="roll-wrapper" type="button" aria-label="Purple bank">
+                        <app-hexagon [color]="'purple'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                    </button>
+                    <!--<button class="roll-wrapper" type="button" aria-label="Black bank">
+                        <app-hexagon [color]="'black'" [number]="'infinity'" [type]="'gameBank'"></app-hexagon>
+                    </button>-->
                 </div>
             </div>
         </div>

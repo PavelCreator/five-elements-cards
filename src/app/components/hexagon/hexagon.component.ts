@@ -12,14 +12,19 @@ import { Color } from "../../models/color.type";
 					<div class="left-half" (click)="$event.stopPropagation(); onLeftClick()"></div>
 					<div class="right-half" (click)="$event.stopPropagation(); onRightClick()"></div>
 				</ng-container>
-				<div class="number-wrapper" *ngIf="number">{{ number }}</div>
+				<div class="number-wrapper" *ngIf="number">
+					<ng-container *ngIf="!isInfinity; else infinityTemplate">{{ number }}</ng-container>
+					<ng-template #infinityTemplate>
+						<img src="/assets/icons/infinity.svg" class="infinity-icon" alt="Infinity" />
+					</ng-template>
+				</div>
 			</div>
     `,
     styleUrl: `hexagon.component.css`
 })
 
 export class HexagonComponent implements OnInit {
-    @Input() number: number | undefined;
+    @Input() number: number | 'infinity' | undefined;
     @Input() color: Color | undefined;
     @Input() type: 'get' | 'getWin' | 'getWin2' | 'pay' | 'getMix' | 'getMedWin' | 'chaos' | 'chaos-card' | 'payBonus' | 'gameBank' | undefined;
 
@@ -29,6 +34,9 @@ export class HexagonComponent implements OnInit {
     public gradient: string | undefined;
     public hexUrl: string | undefined;
     public coinClass: 'coin-chaos' | 'coin-small' | 'coin-medium' | 'coin-big' | 'coin-big-win' | 'coin-big-win2' | 'coin-medium-win' | 'coin-game-bank' = 'coin-small';
+    public get isInfinity(): boolean {
+        return this.number === 'infinity';
+    }
 
     ngOnInit() {
             switch (this.color) {
