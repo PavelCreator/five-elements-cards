@@ -26,7 +26,7 @@ import { Color } from "../../models/color.type";
 export class HexagonComponent implements OnInit {
     @Input() number: number | 'infinity' | undefined;
     @Input() color: Color | undefined;
-    @Input() type: 'get' | 'getWin' | 'getWin2' | 'pay' | 'getMix' | 'getMedWin' | 'chaos' | 'chaos-card' | 'payBonus' | 'gameBank' | undefined;
+    @Input() type: 'get' | 'getWin' | 'getWin2' | 'pay' | 'getMix' | 'getMedWin' | 'chaos' | 'chaos-card' | 'payBonus' | 'gameBank' | 'playerBank' | undefined;
 
     @Output() leftClick = new EventEmitter<string>();
     @Output() rightClick = new EventEmitter<string>();
@@ -125,6 +125,9 @@ export class HexagonComponent implements OnInit {
                 break;
             case 'gameBank':
                 this.coinClass = 'coin-game-bank';
+                break;
+            case 'playerBank':
+                this.coinClass = 'coin-big-win';
                 break;
         }
     }
