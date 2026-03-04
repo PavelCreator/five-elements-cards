@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { NgFor, NgIf, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HexagonComponent } from '../hexagon/hexagon.component';
 
 @Component({
     selector: 'app-player-column',
     standalone: true,
-    imports: [NgFor, NgIf, NgClass, FormsModule],
+    imports: [NgFor, NgIf, NgClass, FormsModule, HexagonComponent],
     templateUrl: './player-column.component.html',
     styleUrls: ['./player-column.component.css', '../../style.css'],
 })

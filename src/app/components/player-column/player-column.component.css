@@ -131,3 +131,20 @@
     color:#fff;
     border-color:#4a90e2;
 }
+
+.player-hexagons{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    padding: 6px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 323px;
+}
+
+.player-hexagons app-hexagon:nth-child(even){
+    margin-left: -28px;
+    margin-top: 10px;
+    width: 100px;
+}
