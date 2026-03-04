@@ -7,6 +7,7 @@ import { Card } from '../../models/card.interface';
 import { Color } from '../../models/color.type';
 import { CardComponent } from '../card/card.component';
 import { HexagonComponent } from '../hexagon/hexagon.component';
+import { PlayerColumnComponent } from '../player-column/player-column.component';
 import { ImageService } from '../../services/image.service';
 import { InteractionService } from '../../services/interaction.service';
 import { cards as initialCards } from '../../data/cards';
@@ -23,7 +24,7 @@ interface SpecialStack {
 @Component({
     selector: 'app-game-wrapper',
     standalone: true,
-    imports: [NgClass, NgFor, NgIf, NgStyle, FormsModule, CardComponent, HexagonComponent],
+    imports: [NgClass, NgFor, NgIf, NgStyle, FormsModule, CardComponent, HexagonComponent, PlayerColumnComponent],
     templateUrl: 'game-wrapper.component.html',
     styleUrls: ['./game-wrapper.component.css', '../../style.css'],
 })
@@ -37,7 +38,6 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public activePlayer: number = 1; // 1-based player number that's highlighted
     public playerNames: string[] = [];
     public editingPlayerIndex: number | null = null;
-    public editingPlayerName: string = '';
     public rows: Array<{
         level: number;
         stack: Card[];
@@ -86,41 +86,18 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._scheduleScaleUpdate();
     }
 
-    public getPlayerNumber(side: 'left' | 'right', index: number): number {
-        return side === 'left' ? index * 2 + 1 : index * 2 + 2;
-    }
-
-    public getPlayerName(playerNumber: number): string {
-        return this.playerNames[playerNumber - 1] ?? `Player ${playerNumber}`;
-    }
-
-    public startRename(playerNumber: number) {
+    public startRename(playerNumber: number): void {
         this.editingPlayerIndex = playerNumber;
-        this.editingPlayerName = this.getPlayerName(playerNumber);
     }
 
-    public selectAllText(event: FocusEvent) {
-        const target = event.target as HTMLInputElement | null;
-        if (!target) return;
-        setTimeout(() => target.select());
-    }
-
-    public saveRename(playerNumber: number) {
-        const trimmed = this.editingPlayerName.trim();
-        this.playerNames[playerNumber - 1] = trimmed || `Player ${playerNumber}`;
+    public saveRename(playerNumber: number, name: string): void {
+        this.playerNames[playerNumber - 1] = name;
         this._persistPlayerNames();
         this.editingPlayerIndex = null;
-        this.editingPlayerName = '';
     }
 
-    public onRenameBlur(playerNumber: number) {
-        if (this.editingPlayerIndex !== playerNumber) return;
-        this.saveRename(playerNumber);
-    }
-
-    public cancelRename() {
+    public cancelRename(): void {
         this.editingPlayerIndex = null;
-        this.editingPlayerName = '';
     }
 
     public rollDice(count: number): string[] {

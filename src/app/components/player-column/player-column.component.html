@@ -1,0 +1,35 @@
+<div class="game-players" [ngClass]="'game-players--' + side">
+    <div class="player-slot" *ngFor="let isVisible of playerSlots; let i = index" 
+         [class.player-slot--hidden]="!isVisible" 
+         [class.player-slot--active]="getPlayerNumber(i) === activePlayer">
+        <div class="player-card" *ngIf="isVisible">
+            <div class="player-card__header">
+                <ng-container *ngIf="editingPlayerIndex !== getPlayerNumber(i); else editTemplate">
+                    <span class="player-card__name" (click)="startRename(getPlayerNumber(i))">
+                        {{ getPlayerName(getPlayerNumber(i)) }}
+                        <span class="player-card__tooltip">Rename</span>
+                    </span>
+                    <button class="player-set-active" type="button" 
+                            (click)="$event.stopPropagation(); setActivePlayer(getPlayerNumber(i))" 
+                            title="Set active player">●</button>
+                </ng-container>
+                <ng-template #editTemplate>
+                    <input
+                        #renameInput
+                        class="player-card__input"
+                        type="text"
+                        [(ngModel)]="editingPlayerName"
+                        (focus)="selectAllText($event)"
+                        (keydown.enter)="saveRename(getPlayerNumber(i))"
+                        (keydown.escape)="$event.preventDefault(); cancelRename()"
+                        (blur)="onRenameBlur(getPlayerNumber(i))"
+                    />
+                    <button class="player-card__save" type="button" 
+                            (mousedown)="saveRename(getPlayerNumber(i))">
+                        Save
+                    </button>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>

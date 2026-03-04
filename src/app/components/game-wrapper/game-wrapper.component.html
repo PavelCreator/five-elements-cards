@@ -14,36 +14,17 @@
     </div>
 
     <div class="game-layout" #gameLayout *ngIf="rows.length && playerCount">
-        <div class="game-players game-players--left">
-            <div class="player-slot" *ngFor="let isVisible of leftPlayerSlots; let i = index" [class.player-slot--hidden]="!isVisible" [class.player-slot--active]="getPlayerNumber('left', i) === activePlayer">
-                <div class="player-card" *ngIf="isVisible">
-                    <div class="player-card__header">
-                        <ng-container *ngIf="editingPlayerIndex !== getPlayerNumber('left', i); else leftEditTemplate">
-                            <span class="player-card__name">
-                                {{ getPlayerName(getPlayerNumber('left', i)) }}
-                                <span class="player-card__tooltip">Rename</span>
-                            </span>
-                            <button class="player-set-active" type="button" (click)="$event.stopPropagation(); setActivePlayer(getPlayerNumber('left', i))" title="Set active player">●</button>
-                        </ng-container>
-                        <ng-template #leftEditTemplate>
-                            <input
-                                class="player-card__input"
-                                type="text"
-                                [(ngModel)]="editingPlayerName"
-                                (focus)="selectAllText($event)"
-                                (keydown.enter)="saveRename(getPlayerNumber('left', i))"
-                                (keydown.escape)="$event.preventDefault(); cancelRename()"
-                                (blur)="onRenameBlur(getPlayerNumber('left', i))"
-                                autofocus
-                            />
-                            <button class="player-card__save" type="button" (mousedown)="saveRename(getPlayerNumber('left', i))">
-                                Save
-                            </button>
-                        </ng-template>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <app-player-column 
+            [playerSlots]="leftPlayerSlots" 
+            [side]="'left'" 
+            [activePlayer]="activePlayer" 
+            [playerNames]="playerNames"
+            [editingPlayerIndex]="editingPlayerIndex"
+            (activePlayerChange)="setActivePlayer($event)"
+            (startRenameEvent)="startRename($event)"
+            (saveRenameEvent)="saveRename($event.playerNumber, $event.name)"
+            (cancelRenameEvent)="cancelRename()">
+        </app-player-column>
 
         <div class="game-field">
             <div class="game-row" *ngFor="let row of rows">
@@ -95,35 +76,16 @@
             </div>
         </div>
 
-        <div class="game-players game-players--right">
-            <div class="player-slot" *ngFor="let isVisible of rightPlayerSlots; let i = index" [class.player-slot--hidden]="!isVisible" [class.player-slot--active]="getPlayerNumber('right', i) === activePlayer">
-                <div class="player-card" *ngIf="isVisible">
-                    <div class="player-card__header">
-                        <ng-container *ngIf="editingPlayerIndex !== getPlayerNumber('right', i); else rightEditTemplate">
-                            <span class="player-card__name">
-                                {{ getPlayerName(getPlayerNumber('right', i)) }}
-                                <span class="player-card__tooltip">Rename</span>
-                            </span>
-                            <button class="player-set-active" type="button" (click)="$event.stopPropagation(); setActivePlayer(getPlayerNumber('right', i))" title="Set active player">●</button>
-                        </ng-container>
-                        <ng-template #rightEditTemplate>
-                            <input
-                                class="player-card__input"
-                                type="text"
-                                [(ngModel)]="editingPlayerName"
-                                (focus)="selectAllText($event)"
-                                (keydown.enter)="saveRename(getPlayerNumber('right', i))"
-                                (keydown.escape)="$event.preventDefault(); cancelRename()"
-                                (blur)="onRenameBlur(getPlayerNumber('right', i))"
-                                autofocus
-                            />
-                            <button class="player-card__save" type="button" (mousedown)="saveRename(getPlayerNumber('right', i))">
-                                Save
-                            </button>
-                        </ng-template>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <app-player-column 
+            [playerSlots]="rightPlayerSlots" 
+            [side]="'right'" 
+            [activePlayer]="activePlayer" 
+            [playerNames]="playerNames"
+            [editingPlayerIndex]="editingPlayerIndex"
+            (activePlayerChange)="setActivePlayer($event)"
+            (startRenameEvent)="startRename($event)"
+            (saveRenameEvent)="saveRename($event.playerNumber, $event.name)"
+            (cancelRenameEvent)="cancelRename()">
+        </app-player-column>
     </div>
 </div>
