@@ -144,7 +144,7 @@
 }
 
 .player-hexagons app-hexagon:nth-child(even){
-    margin-left: -28px;
-    margin-top: 10px;
+    margin-left: -35px;
+    margin-top: 0px;
     width: 100px;
 }
