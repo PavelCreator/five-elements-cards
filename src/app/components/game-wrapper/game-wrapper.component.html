@@ -117,14 +117,42 @@
                     <!-- Non-nothing dice results -->
                     <div class="dice-cancel-item" 
                          *ngFor="let diceResult of nonNothingDiceResults" 
-                         (click)="onCancelDice(diceResult)"
-                         [class.dice-cancel-item--selected]="selectedCancelChoice?.type === 'dice' && selectedCancelChoice?.value === diceResult">
-                        <img [src]="'assets/dice_side/' + diceResult" [alt]="diceResult" class="dice-cancel-image">
+                         (click)="onCancelDice(diceResult.value, diceResult.index)"
+                         [class.dice-cancel-item--selected]="isDiceSelected(diceResult.index)">
+                        <img [src]="'assets/dice_side/' + diceResult.value" [alt]="diceResult.value" class="dice-cancel-image">
                     </div>
                     <!-- Player tokens (expanded) -->
                     <div class="dice-cancel-item dice-cancel-item--token" 
                          *ngFor="let token of activePlayerTokens; let i = index" 
-                         (click)="onCancelToken(token.color)"
+                         (click)="onCancelToken(token.color, token.index)"
+                         [class.dice-cancel-item--selected]="isTokenSelected(token.color, token.index)">
+                        <app-hexagon [color]="token.color" [number]="0" [type]="'playerBank'"></app-hexagon>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Three Nothings Warning Block -->
+            <div class="dice-cancel-block" *ngIf="hasThreeNothings">
+                <div class="dice-cancel-warning">
+                    <ng-container *ngIf="!activePlayerHasTokens">
+                        ⚠️ Three crosses rolled! You have no tokens. Please cancel ONE dice to continue ({{ selectedCancelChoices.length }}/1 selected).
+                    </ng-container>
+                    <ng-container *ngIf="activePlayerHasTokens">
+                        ⚠️ Three crosses rolled! Please cancel TWO tokens or dice to continue ({{ selectedCancelChoices.length }}/2 selected).
+                    </ng-container>
+                </div>
+                <div class="dice-cancel-options">
+                    <!-- Non-nothing dice results -->
+                    <div class="dice-cancel-item" 
+                         *ngFor="let diceResult of nonNothingDiceResults" 
+                         (click)="onCancelDice(diceResult.value, diceResult.index)"
+                         [class.dice-cancel-item--selected]="isDiceSelected(diceResult.index)">
+                        <img [src]="'assets/dice_side/' + diceResult.value" [alt]="diceResult.value" class="dice-cancel-image">
+                    </div>
+                    <!-- Player tokens (expanded) -->
+                    <div class="dice-cancel-item dice-cancel-item--token" 
+                         *ngFor="let token of activePlayerTokens; let i = index" 
+                         (click)="onCancelToken(token.color, token.index)"
                          [class.dice-cancel-item--selected]="isTokenSelected(token.color, token.index)">
                         <app-hexagon [color]="token.color" [number]="0" [type]="'playerBank'"></app-hexagon>
                     </div>

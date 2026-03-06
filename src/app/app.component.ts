@@ -7,6 +7,7 @@ import { CardsComponent } from "./components/cards/cards.component";
 import { ArtToCardAnimationComponent } from "./components/art-to-card-animation/art-to-card-animation.component";
 import { LocalStorageService } from "./services/local-storage.service";
 import { GameWrapperComponent } from "./components/game-wrapper/game-wrapper.component";
+import { SettingsService } from "./services/settings.service";
 
 type AppTab = 'collection' | 'game' | 'settings';
 
@@ -25,10 +26,13 @@ export class AppComponent implements OnInit{
     private readonly activeTabStorageKey: string = 'activeTab';
     public playerCount?: number;
     private readonly playerCountStorageKey: string = 'gamePlayerCount';
+    public checkToCrossMode: boolean = false;
+    public checkToThreeCrossMode: boolean = false;
 
     constructor(
         private _interactionService: InteractionService,
-        private _localStorageService: LocalStorageService
+        private _localStorageService: LocalStorageService,
+        private _settingsService: SettingsService
     ) {
     }
 
@@ -38,6 +42,8 @@ export class AppComponent implements OnInit{
             this.activeTab = storedTab;
         }
         this._loadPlayerCount();
+        this._loadCheckToCrossMode();
+        this._loadCheckToThreeCrossMode();
 
         this._interactionService.selectedViewMode$.subscribe((inSelectedMenuItem: number | undefined) => {
             switch (inSelectedMenuItem) {
@@ -89,6 +95,20 @@ export class AppComponent implements OnInit{
         localStorage.removeItem(this.playerCountStorageKey);
     }
 
+    public toggleCheckToCrossMode(): void {
+        this.checkToCrossMode = !this.checkToCrossMode;
+        this._settingsService.setCheckToCrossMode(this.checkToCrossMode);
+        // Update three cross mode state after service handles mutual exclusion
+        this.checkToThreeCrossMode = this._settingsService.isCheckToThreeCrossModeEnabled();
+    }
+
+    public toggleCheckToThreeCrossMode(): void {
+        this.checkToThreeCrossMode = !this.checkToThreeCrossMode;
+        this._settingsService.setCheckToThreeCrossMode(this.checkToThreeCrossMode);
+        // Update two cross mode state after service handles mutual exclusion
+        this.checkToCrossMode = this._settingsService.isCheckToCrossModeEnabled();
+    }
+
     private _loadPlayerCount(): void {
         const stored = this._localStorageService.getItem(this.playerCountStorageKey);
         if (!stored) return;
@@ -96,5 +116,13 @@ export class AppComponent implements OnInit{
         if (Number.isInteger(parsed) && parsed >= 2 && parsed <= 6) {
             this.playerCount = parsed;
         }
+    }
+
+    private _loadCheckToCrossMode(): void {
+        this.checkToCrossMode = this._settingsService.isCheckToCrossModeEnabled();
+    }
+
+    private _loadCheckToThreeCrossMode(): void {
+        this.checkToThreeCrossMode = this._settingsService.isCheckToThreeCrossModeEnabled();
     }
 }

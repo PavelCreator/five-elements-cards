@@ -375,7 +375,7 @@
 .dice-cancel-options {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 6px;
     justify-content: center;
     align-items: center;
 }
@@ -383,11 +383,11 @@
 .dice-cancel-item {
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    border-radius: 8px;
+    border-radius: 6px;
     overflow: visible;
     background: white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border: 3px solid transparent;
+    border: 2px solid transparent;
 }
 
 .dice-cancel-item:hover {
@@ -401,13 +401,13 @@
 
 .dice-cancel-item--selected {
     border-color: #4a90e2;
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
     transform: scale(1.05);
 }
 
 .dice-cancel-image {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
     display: block;
 }
@@ -415,9 +415,9 @@
 .dice-cancel-item--token {
     background: transparent;
     box-shadow: none;
-    border: 3px solid transparent;
-    width: 50px;
-    height: 50px;
+    border: 2px solid transparent;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -431,13 +431,17 @@
 }
 
 .dice-cancel-item--token.dice-cancel-item--selected {
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
+}
+
+.dice-cancel-item--token ::ng-deep app-hexagon {
+    pointer-events: none;
 }
 
 .dice-cancel-item--token ::ng-deep .coin {
-    width: 50px !important;
-    height: 46px !important;
-    background-size: 50px 46px !important;
+    width: 40px !important;
+    height: 40px !important;
+    background-size: contain !important;
 }
 
 .dice-cancel-item--token ::ng-deep .number-wrapper {

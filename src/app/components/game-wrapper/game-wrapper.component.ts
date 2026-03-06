@@ -12,6 +12,7 @@ import { ImageService } from '../../services/image.service';
 import { InteractionService } from '../../services/interaction.service';
 import { cards as initialCards } from '../../data/cards';
 import { LocalStorageService } from '../../services/local-storage.service';
+import { SettingsService } from '../../services/settings.service';
 
 type SpecialStackColor = 'purple' | 'black';
 
@@ -61,7 +62,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public diceReels: string[][] = []; // Array of arrays for dice animation reels
     public isDiceAnimationEnabled: boolean = true;
     public hasTwoNothings: boolean = false;
-    public selectedCancelChoice: { type: 'dice' | 'token', value: string | Color } | null = null;
+    public hasThreeNothings: boolean = false;
+    public selectedCancelChoices: Array<{ type: 'dice' | 'token', value: string | Color, diceIndex?: number, tokenIndex?: number }> = [];
     public rows: Array<{
         level: number;
         stack: Card[];
@@ -78,13 +80,20 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         private _cardsStoreService: CardsStoreService,
         private _imageService: ImageService,
         private _interactionService: InteractionService,
-        private _localStorageService: LocalStorageService
+        private _localStorageService: LocalStorageService,
+        private _settingsService: SettingsService
     ) {}
 
     ngOnInit() {
         this._initPlayerNames();
         this._loadPlayerNames();
         this._loadPlayerCount();
+        
+        // Initialize player hexagons based on checkToCross or checkToThreeCross mode
+        if (this._settingsService.isCheckToCrossModeEnabled() || this._settingsService.isCheckToThreeCrossModeEnabled()) {
+            this._initPlayerHexagonsWithTestTokens();
+        }
+        
         this._cardsSubscription = this._cardsStoreService.cards$.subscribe((cards) => {
             const preparedCards = this._assignColors(cards);
             this.rows = this._buildRows(preparedCards);
@@ -265,11 +274,25 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         const results: string[] = [];
         const reels: string[][] = [];
         const reelLength = 15; // Number of images in the reel
+        
+        const isCheckToCrossMode = this._settingsService.isCheckToCrossModeEnabled();
+        const isCheckToThreeCrossMode = this._settingsService.isCheckToThreeCrossModeEnabled();
 
         for (let i = 0; i < rollsCount; i++) {
-            // Select final result
-            const finalIndex = Math.floor(Math.random() * diceSides.length);
-            results.push(diceSides[finalIndex]);
+            // Force results to be crosses based on mode
+            let finalResult: string;
+            if (isCheckToThreeCrossMode && i < 3) {
+                // Three cross mode: first 3 dice are crosses
+                finalResult = 'dices-nothing.png';
+            } else if (isCheckToCrossMode && i < 2) {
+                // Two cross mode: first 2 dice are crosses
+                finalResult = 'dices-nothing.png';
+            } else {
+                const finalIndex = Math.floor(Math.random() * diceSides.length);
+                finalResult = diceSides[finalIndex];
+            }
+            
+            results.push(finalResult);
             
             // Generate reel for animation
             const reel: string[] = [];
@@ -278,24 +301,27 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
                 reel.push(diceSides[randomIndex]);
             }
             // Add final result as the last image
-            reel.push(diceSides[finalIndex]);
+            reel.push(finalResult);
             reels.push(reel);
         }
         
         this.diceResults = results;
         this.diceReels = reels;
         
-        // Check for two nothings
+        // Check for two or three nothings
         const nothingCount = results.filter(r => r === 'dices-nothing.png').length;
-        this.hasTwoNothings = nothingCount >= 2;
-        this.selectedCancelChoice = null;
+        this.hasTwoNothings = nothingCount === 2;
+        this.hasThreeNothings = nothingCount >= 3;
+        this.selectedCancelChoices = [];
         
         this.showDiceModal = true;
         console.log('rollDice results:', results);
     }
 
-    public get nonNothingDiceResults(): string[] {
-        return this.diceResults.filter(r => r !== 'dices-nothing.png');
+    public get nonNothingDiceResults(): Array<{value: string, index: number}> {
+        return this.diceResults
+            .map((value, index) => ({ value, index }))
+            .filter(r => r.value !== 'dices-nothing.png');
     }
 
     public get activePlayerTokens(): Array<{color: Color, index: number}> {
@@ -303,7 +329,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!playerHex) return [];
         
         const tokens: Array<{color: Color, index: number}> = [];
-        const colors: Color[] = ['red', 'blue', 'white', 'green', 'purple', 'black'];
+        const colors: Color[] = ['red', 'blue', 'white', 'green', 'purple'];
         
         for (const color of colors) {
             const count = playerHex[color] ?? 0;
@@ -316,51 +342,111 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return tokens;
     }
 
-    public onCancelDice(diceResult: string): void {
-        this.selectedCancelChoice = { type: 'dice', value: diceResult };
+    public get activePlayerHasTokens(): boolean {
+        return this.activePlayerTokens.length > 0;
     }
 
-    public onCancelToken(color: Color): void {
-        this.selectedCancelChoice = { type: 'token', value: color };
+    public onCancelDice(diceResult: string, diceIndex: number): void {
+        const existingIndex = this.selectedCancelChoices.findIndex(
+            choice => choice.type === 'dice' && choice.diceIndex === diceIndex
+        );
+        
+        if (existingIndex !== -1) {
+            // Remove if already selected
+            this.selectedCancelChoices.splice(existingIndex, 1);
+        } else {
+            // Add new selection
+            const maxSelections = this.hasThreeNothings 
+                ? (this.activePlayerHasTokens ? 2 : 1)
+                : 1;
+            if (this.selectedCancelChoices.length < maxSelections) {
+                this.selectedCancelChoices.push({ type: 'dice', value: diceResult, diceIndex });
+            }
+        }
+    }
+
+    public onCancelToken(color: Color, index: number): void {
+        const existingIndex = this.selectedCancelChoices.findIndex(
+            choice => choice.type === 'token' && choice.value === color && choice.tokenIndex === index
+        );
+        
+        if (existingIndex !== -1) {
+            // Remove if already selected
+            this.selectedCancelChoices.splice(existingIndex, 1);
+        } else {
+            // Add new selection
+            const maxSelections = this.hasThreeNothings 
+                ? (this.activePlayerHasTokens ? 2 : 1)
+                : 1;
+            if (this.selectedCancelChoices.length < maxSelections) {
+                this.selectedCancelChoices.push({ type: 'token', value: color, tokenIndex: index });
+            }
+        }
     }
 
     public isDiceDisabled(index: number): boolean {
-        if (!this.selectedCancelChoice || this.selectedCancelChoice.type !== 'dice') return false;
-        const diceResult = this.diceResults[index];
-        return diceResult === this.selectedCancelChoice.value;
+        return this.selectedCancelChoices.some(
+            choice => choice.type === 'dice' && choice.diceIndex === index
+        );
+    }
+
+    public isDiceSelected(index: number): boolean {
+        return this.selectedCancelChoices.some(
+            choice => choice.type === 'dice' && choice.diceIndex === index
+        );
     }
 
     public isTokenSelected(color: Color, index: number): boolean {
-        if (!this.selectedCancelChoice || this.selectedCancelChoice.type !== 'token') return false;
-        // Only highlight the first token of this color
-        return this.selectedCancelChoice.value === color && index === 0;
+        return this.selectedCancelChoices.some(
+            choice => choice.type === 'token' && choice.value === color && choice.tokenIndex === index
+        );
     }
 
     public get canCloseDiceModal(): boolean {
-        if (!this.hasTwoNothings) return true;
-        return this.selectedCancelChoice !== null;
+        if (!this.hasTwoNothings && !this.hasThreeNothings) return true;
+        
+        if (this.hasTwoNothings) {
+            // Two crosses: always need exactly 1 selection
+            return this.selectedCancelChoices.length === 1;
+        }
+        
+        if (this.hasThreeNothings) {
+            // Three crosses: depends on whether player has tokens
+            if (!this.activePlayerHasTokens) {
+                // No tokens: need exactly 1 dice selection
+                return this.selectedCancelChoices.length === 1;
+            } else {
+                // Has tokens: need exactly 2 selections
+                return this.selectedCancelChoices.length === 2;
+            }
+        }
+        
+        return false;
     }
 
     public closeDiceModal(): void {
         if (!this.canCloseDiceModal) return;
         
-        // Apply cancel choice if two nothings rolled
-        if (this.hasTwoNothings && this.selectedCancelChoice) {
-            if (this.selectedCancelChoice.type === 'token') {
-                const color = this.selectedCancelChoice.value as Color;
-                const playerHex = this.playerHexagons[this.activePlayer];
-                if (playerHex && playerHex[color] && playerHex[color]! > 0) {
-                    playerHex[color] = playerHex[color]! - 1;
+        // Apply cancel choices if two or three nothings rolled
+        if ((this.hasTwoNothings || this.hasThreeNothings) && this.selectedCancelChoices.length > 0) {
+            for (const choice of this.selectedCancelChoices) {
+                if (choice.type === 'token') {
+                    const color = choice.value as Color;
+                    const playerHex = this.playerHexagons[this.activePlayer];
+                    if (playerHex && playerHex[color] && playerHex[color]! > 0) {
+                        playerHex[color] = playerHex[color]! - 1;
+                    }
                 }
+                // If dice was selected, we don't need to do anything - it just won't count
             }
-            // If dice was selected, we don't need to do anything - it just won't count
         }
         
         this.showDiceModal = false;
         this.diceResults = [];
         this.diceReels = [];
         this.hasTwoNothings = false;
-        this.selectedCancelChoice = null;
+        this.hasThreeNothings = false;
+        this.selectedCancelChoices = [];
     }
 
     public toggleDiceAnimation(): void {
@@ -479,7 +565,34 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
     }
-
+    private _initPlayerHexagonsWithTestTokens() {
+        const isThreeCrossMode = this._settingsService.isCheckToThreeCrossModeEnabled();
+        
+        // Give each player tokens for testing
+        for (let playerNum = 1; playerNum <= 6; playerNum++) {
+            if (isThreeCrossMode) {
+                // In three cross mode, give 0 tokens for testing
+                this.playerHexagons[playerNum] = {
+                    red: 0,
+                    blue: 0,
+                    white: 0,
+                    green: 0,
+                    purple: 0,
+                    black: 0
+                };
+            } else {
+                // In two cross mode, give 2 tokens of each color for testing
+                this.playerHexagons[playerNum] = {
+                    red: 2,
+                    blue: 2,
+                    white: 2,
+                    green: 2,
+                    purple: 2,
+                    black: 2
+                };
+            }
+        }
+    }
     private _persistPlayerNames() {
         this._localStorageService.setItem(this._playerNamesKey, JSON.stringify(this.playerNames));
     }
