@@ -220,6 +220,32 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return this.hexagonsPickedThisTurn > 0;
     }
 
+    public get diceCount(): number {
+        // If purple was picked, no dice
+        if (this.pickedTokensThisTurn.includes('purple')) return 0;
+        
+        // Count only regular tokens (not purple)
+        const regularTokensCount = this.pickedTokensThisTurn.filter(
+            color => color !== 'purple'
+        ).length;
+        
+        // 0 tokens = 4 dice, 1 token = 2 dice, 2 tokens = 0 dice
+        if (regularTokensCount === 0) return 4;
+        if (regularTokensCount === 1) return 2;
+        return 0;
+    }
+
+    public get isDiceRollDisabled(): boolean {
+        // Disable if purple was picked
+        if (this.pickedTokensThisTurn.includes('purple')) return true;
+        
+        // Disable if 2 or more regular tokens were picked
+        const regularTokensCount = this.pickedTokensThisTurn.filter(
+            color => color !== 'purple'
+        ).length;
+        return regularTokensCount >= 2;
+    }
+
     public rollDice(count: number): string[] {
         const diceSides = [
             'dices-blue.png',

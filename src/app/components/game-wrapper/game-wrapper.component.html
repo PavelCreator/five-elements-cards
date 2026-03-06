@@ -50,10 +50,10 @@
                 </div>
             </div>
             <div class="game-row game-row--hex">
-                    <div class="game-hex-row" (click)="rollDice(4)">
-                        <button class="roll-wrapper" type="button" aria-label="Roll dice">
+                    <div class="game-hex-row" (click)="!isDiceRollDisabled && rollDice(diceCount)">
+                        <button class="roll-wrapper" type="button" aria-label="Roll dice" [disabled]="isDiceRollDisabled">
                             <div class="roll-label">Roll</div>
-                            <app-hexagon [color]="'dice'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                            <app-hexagon [color]="'dice'" [number]="diceCount" [type]="'gameBank'"></app-hexagon>
                         </button>
                     <button class="roll-wrapper" type="button" aria-label="Red bank" (click)="onHexagonClick('red')" [disabled]="isHexagonDisabled('red')">
                         <app-hexagon [color]="'red'" [number]="gameBankHexagons['red']" [type]="'gameBank'"></app-hexagon>
