@@ -20,6 +20,7 @@
             [activePlayer]="activePlayer" 
             [playerNames]="playerNames"
             [editingPlayerIndex]="editingPlayerIndex"
+            [playerHexagons]="playerHexagons"
             (activePlayerChange)="setActivePlayer($event)"
             (startRenameEvent)="startRename($event)"
             (saveRenameEvent)="saveRename($event.playerNumber, $event.name)"
@@ -54,24 +55,27 @@
                             <div class="roll-label">Roll</div>
                             <app-hexagon [color]="'dice'" [number]="4" [type]="'gameBank'"></app-hexagon>
                         </button>
-                    <button class="roll-wrapper" type="button" aria-label="Red bank">
-                        <app-hexagon [color]="'red'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                    <button class="roll-wrapper" type="button" aria-label="Red bank" (click)="onHexagonClick('red')" [disabled]="gameBankHexagons['red'] === 0">
+                        <app-hexagon [color]="'red'" [number]="gameBankHexagons['red']" [type]="'gameBank'"></app-hexagon>
                     </button>
-                    <button class="roll-wrapper" type="button" aria-label="Blue bank">
-                        <app-hexagon [color]="'blue'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                    <button class="roll-wrapper" type="button" aria-label="Blue bank" (click)="onHexagonClick('blue')" [disabled]="gameBankHexagons['blue'] === 0">
+                        <app-hexagon [color]="'blue'" [number]="gameBankHexagons['blue']" [type]="'gameBank'"></app-hexagon>
                     </button>
-                    <button class="roll-wrapper" type="button" aria-label="White bank">
-                        <app-hexagon [color]="'white'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                    <button class="roll-wrapper" type="button" aria-label="White bank" (click)="onHexagonClick('white')" [disabled]="gameBankHexagons['white'] === 0">
+                        <app-hexagon [color]="'white'" [number]="gameBankHexagons['white']" [type]="'gameBank'"></app-hexagon>
                     </button>
-                    <button class="roll-wrapper" type="button" aria-label="Green bank">
-                        <app-hexagon [color]="'green'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                    <button class="roll-wrapper" type="button" aria-label="Green bank" (click)="onHexagonClick('green')" [disabled]="gameBankHexagons['green'] === 0">
+                        <app-hexagon [color]="'green'" [number]="gameBankHexagons['green']" [type]="'gameBank'"></app-hexagon>
                     </button>
-                    <button class="roll-wrapper" type="button" aria-label="Purple bank">
-                        <app-hexagon [color]="'purple'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                    <button class="roll-wrapper" type="button" aria-label="Purple bank" (click)="onHexagonClick('purple')" [disabled]="gameBankHexagons['purple'] === 0">
+                        <app-hexagon [color]="'purple'" [number]="gameBankHexagons['purple']" [type]="'gameBank'"></app-hexagon>
                     </button>
-                    <!--<button class="roll-wrapper" type="button" aria-label="Black bank">
-                        <app-hexagon [color]="'black'" [number]="'infinity'" [type]="'gameBank'"></app-hexagon>
-                    </button>-->
+										<button class="game-button finish-turn-button" type="button" (click)="finishTurn()" [disabled]="!canFinishTurn">
+											Finish Turn
+										</button>
+										<button class="game-button cancel-tokens-button" type="button" (click)="cancelTokens()" [disabled]="!canCancelTokens">
+											Cancel Tokens
+										</button>
                 </div>
             </div>
         </div>
@@ -82,6 +86,7 @@
             [activePlayer]="activePlayer" 
             [playerNames]="playerNames"
             [editingPlayerIndex]="editingPlayerIndex"
+            [playerHexagons]="playerHexagons"
             (activePlayerChange)="setActivePlayer($event)"
             (startRenameEvent)="startRename($event)"
             (saveRenameEvent)="saveRename($event.playerNumber, $event.name)"

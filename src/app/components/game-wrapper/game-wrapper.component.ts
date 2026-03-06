@@ -38,6 +38,24 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public activePlayer: number = 1; // 1-based player number that's highlighted
     public playerNames: string[] = [];
     public editingPlayerIndex: number | null = null;
+    public gameBankHexagons: { [key in Color]?: number } = {
+        red: 4,
+        blue: 4,
+        white: 4,
+        green: 4,
+        purple: 4,
+    };
+    public playerHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {
+        1: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
+        2: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
+        3: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
+        4: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
+        5: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
+        6: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
+    };
+    public hexagonsPickedThisTurn: number = 0;
+    public readonly maxHexagonsPerTurn: number = 2;
+    private pickedTokensThisTurn: Color[] = [];
     public rows: Array<{
         level: number;
         stack: Card[];
@@ -98,6 +116,80 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public cancelRename(): void {
         this.editingPlayerIndex = null;
+    }
+
+    public onHexagonClick(color: Color): void {
+        // Check if turn limit reached
+        if (this.hexagonsPickedThisTurn >= this.maxHexagonsPerTurn) {
+            console.log('Turn limit reached. Please finish your turn.');
+            return;
+        }
+        
+        const bankValue = this.gameBankHexagons[color];
+        if (bankValue === undefined || bankValue <= 0) return;
+        
+        // Decrease bank value
+        this.gameBankHexagons[color] = bankValue - 1;
+        
+        // Increase active player's hexagon value
+        const playerHex = this.playerHexagons[this.activePlayer];
+        if (playerHex) {
+            playerHex[color] = (playerHex[color] ?? 0) + 1;
+        }
+        
+        // Track picked token
+        this.pickedTokensThisTurn.push(color);
+        
+        // Increment turn counter
+        this.hexagonsPickedThisTurn++;
+    }
+
+    public finishTurn(): void {
+        // Reset turn counter and picked tokens
+        this.hexagonsPickedThisTurn = 0;
+        this.pickedTokensThisTurn = [];
+        
+        // Move to next player
+        if (!this.playerCount) return;
+        
+        let nextPlayer = this.activePlayer + 1;
+        if (nextPlayer > this.playerCount) {
+            nextPlayer = 1;
+        }
+        
+        this.activePlayer = nextPlayer;
+    }
+
+    public cancelTokens(): void {
+        // Return all picked tokens back to game bank
+        const playerHex = this.playerHexagons[this.activePlayer];
+        if (!playerHex) return;
+        
+        for (const color of this.pickedTokensThisTurn) {
+            // Return token to bank
+            const bankValue = this.gameBankHexagons[color];
+            if (bankValue !== undefined) {
+                this.gameBankHexagons[color] = bankValue + 1;
+            }
+            
+            // Remove from player
+            const playerValue = playerHex[color];
+            if (playerValue !== undefined && playerValue > 0) {
+                playerHex[color] = playerValue - 1;
+            }
+        }
+        
+        // Reset counters
+        this.hexagonsPickedThisTurn = 0;
+        this.pickedTokensThisTurn = [];
+    }
+
+    public get canFinishTurn(): boolean {
+        return this.hexagonsPickedThisTurn >= this.maxHexagonsPerTurn;
+    }
+
+    public get canCancelTokens(): boolean {
+        return this.hexagonsPickedThisTurn > 0;
     }
 
     public rollDice(count: number): string[] {

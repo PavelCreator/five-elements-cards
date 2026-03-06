@@ -138,6 +138,68 @@
     margin-top:12px;
     position:relative;
 }
+.game-button:nth-child(even){
+    margin-left:10px;
+}
+
+.game-button{
+    padding: 20px;
+    font-size: 40px;
+    font-weight:700;
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    transition:all 0.2s ease-out;
+    font-family:"Faculty Glyphic", sans-serif;
+}
+
+.game-button:hover{
+    transform:translateY(-2px);
+}
+
+.game-button:active{
+    transform:translateY(0);
+}
+
+.game-button:disabled{
+    background:#999 !important;
+    cursor:not-allowed;
+    box-shadow:none !important;
+    opacity:0.6;
+}
+
+.game-button:disabled:hover{
+    transform:none;
+}
+
+.finish-turn-button{
+    background:#4a90e2;
+    box-shadow:0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+.finish-turn-button:hover{
+    background:#357abd;
+    box-shadow:0 6px 16px rgba(74, 144, 226, 0.4);
+}
+
+.finish-turn-button:active{
+    box-shadow:0 2px 8px rgba(74, 144, 226, 0.3);
+}
+
+.cancel-tokens-button{
+    background:#e67e22;
+    box-shadow:0 4px 12px rgba(230, 126, 34, 0.3);
+}
+
+.cancel-tokens-button:hover{
+    background:#d35400;
+    box-shadow:0 6px 16px rgba(230, 126, 34, 0.4);
+}
+
+.cancel-tokens-button:active{
+    box-shadow:0 2px 8px rgba(230, 126, 34, 0.3);
+}
 
 .infinity-icon {
     width: 71px;

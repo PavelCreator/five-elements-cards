@@ -31,18 +31,42 @@
                 </ng-template>
             </div>
             <div class="player-hexagons">
-                <app-hexagon [color]="'red'" [number]="0" [type]="'getWin'"></app-hexagon>
-							<app-hexagon [color]="'red'" [number]="0" [type]="'playerBank'"></app-hexagon>
-                <app-hexagon [color]="'blue'" [number]="0" [type]="'getWin'"></app-hexagon>
-							<app-hexagon [color]="'blue'" [number]="0" [type]="'playerBank'"></app-hexagon>
-                <app-hexagon [color]="'white'" [number]="0" [type]="'getWin'"></app-hexagon>
-							<app-hexagon [color]="'white'" [number]="0" [type]="'playerBank'"></app-hexagon>
-                <app-hexagon [color]="'green'" [number]="0" [type]="'getWin'"></app-hexagon>
-							<app-hexagon [color]="'green'" [number]="0" [type]="'playerBank'"></app-hexagon>
-                <app-hexagon [color]="'purple'" [number]="0" [type]="'getWin'"></app-hexagon>
-							<app-hexagon [color]="'purple'" [number]="0" [type]="'playerBank'"></app-hexagon>
-								<app-hexagon [color]="'black'" [number]="0" [type]="'getWin'"></app-hexagon>
-							<app-hexagon [color]="'black'" [number]="0" [type]="'playerBank'"></app-hexagon>
+                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'red') === 0">
+                    <app-hexagon [color]="'red'" [number]="getHexagonValue(getPlayerNumber(i), 'red')" [type]="'getWin'"></app-hexagon>
+                </div>
+                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'red') === 0">
+                    <app-hexagon [color]="'red'" [number]="getHexagonValue(getPlayerNumber(i), 'red')" [type]="'playerBank'"></app-hexagon>
+                </div>
+                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'blue') === 0">
+                    <app-hexagon [color]="'blue'" [number]="getHexagonValue(getPlayerNumber(i), 'blue')" [type]="'getWin'"></app-hexagon>
+                </div>
+                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'blue') === 0">
+                    <app-hexagon [color]="'blue'" [number]="getHexagonValue(getPlayerNumber(i), 'blue')" [type]="'playerBank'"></app-hexagon>
+                </div>
+                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'white') === 0">
+                    <app-hexagon [color]="'white'" [number]="getHexagonValue(getPlayerNumber(i), 'white')" [type]="'getWin'"></app-hexagon>
+                </div>
+                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'white') === 0">
+                    <app-hexagon [color]="'white'" [number]="getHexagonValue(getPlayerNumber(i), 'white')" [type]="'playerBank'"></app-hexagon>
+                </div>
+                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'green') === 0">
+                    <app-hexagon [color]="'green'" [number]="getHexagonValue(getPlayerNumber(i), 'green')" [type]="'getWin'"></app-hexagon>
+                </div>
+                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'green') === 0">
+                    <app-hexagon [color]="'green'" [number]="getHexagonValue(getPlayerNumber(i), 'green')" [type]="'playerBank'"></app-hexagon>
+                </div>
+                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'purple') === 0">
+                    <app-hexagon [color]="'purple'" [number]="getHexagonValue(getPlayerNumber(i), 'purple')" [type]="'getWin'"></app-hexagon>
+                </div>
+                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'purple') === 0">
+                    <app-hexagon [color]="'purple'" [number]="getHexagonValue(getPlayerNumber(i), 'purple')" [type]="'playerBank'"></app-hexagon>
+                </div>
+                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'black') === 0">
+                    <app-hexagon [color]="'black'" [number]="getHexagonValue(getPlayerNumber(i), 'black')" [type]="'getWin'"></app-hexagon>
+                </div>
+                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'black') === 0">
+                    <app-hexagon [color]="'black'" [number]="getHexagonValue(getPlayerNumber(i), 'black')" [type]="'playerBank'"></app-hexagon>
+                </div>
             </div>
 
         </div>

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewC
 import { NgFor, NgIf, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HexagonComponent } from '../hexagon/hexagon.component';
+import { Color } from '../../models/color.type';
 
 @Component({
     selector: 'app-player-column',
@@ -17,6 +18,7 @@ export class PlayerColumnComponent implements OnChanges, AfterViewChecked {
     @Input() activePlayer: number = 1;
     @Input() playerNames: string[] = [];
     @Input() editingPlayerIndex: number | null = null;
+    @Input() playerHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {};
 
     @Output() activePlayerChange = new EventEmitter<number>();
     @Output() startRenameEvent = new EventEmitter<number>();
@@ -62,6 +64,13 @@ export class PlayerColumnComponent implements OnChanges, AfterViewChecked {
      */
     public getPlayerName(playerNumber: number): string {
         return this.playerNames[playerNumber - 1] ?? `Player ${playerNumber}`;
+    }
+
+    /**
+     * Get hexagon value for a specific player and color.
+     */
+    public getHexagonValue(playerNumber: number, color: Color): number {
+        return this.playerHexagons[playerNumber]?.[color] ?? 0;
     }
 
     /**

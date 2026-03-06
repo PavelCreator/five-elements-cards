@@ -143,8 +143,16 @@
     width: 323px;
 }
 
-.player-hexagons app-hexagon:nth-child(even){
+.player-hexagons > div:nth-child(even){
     margin-left: -35px;
     margin-top: 0px;
+}
+
+.player-hexagons > div:nth-child(even) app-hexagon{
     width: 100px;
+}
+
+.hexagon-empty{
+    opacity: 0.5;
+    pointer-events: none;
 }
