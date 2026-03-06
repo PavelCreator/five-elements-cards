@@ -56,6 +56,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public hexagonsPickedThisTurn: number = 0;
     public readonly maxHexagonsPerTurn: number = 2;
     private pickedTokensThisTurn: Color[] = [];
+    public showDiceModal: boolean = false;
+    public diceResults: string[] = [];
     public rows: Array<{
         level: number;
         stack: Card[];
@@ -246,7 +248,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return regularTokensCount >= 2;
     }
 
-    public rollDice(count: number): string[] {
+    public rollDice(count: number): void {
         const diceSides = [
             'dices-blue.png',
             'dices-green.png',
@@ -262,8 +264,15 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             const index = Math.floor(Math.random() * diceSides.length);
             results.push(diceSides[index]);
         }
+        
+        this.diceResults = results;
+        this.showDiceModal = true;
         console.log('rollDice results:', results);
-        return results;
+    }
+
+    public closeDiceModal(): void {
+        this.showDiceModal = false;
+        this.diceResults = [];
     }
 
     private _scheduleScaleUpdate() {
