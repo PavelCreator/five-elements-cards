@@ -119,6 +119,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public onHexagonClick(color: Color): void {
+        // Check if hexagon is disabled
+        if (this.isHexagonDisabled(color)) {
+            return;
+        }
+        
         // Check if turn limit reached
         if (this.hexagonsPickedThisTurn >= this.maxHexagonsPerTurn) {
             console.log('Turn limit reached. Please finish your turn.');
@@ -140,8 +145,31 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         // Track picked token
         this.pickedTokensThisTurn.push(color);
         
-        // Increment turn counter
-        this.hexagonsPickedThisTurn++;
+        // Purple counts as 2 tokens
+        if (color === 'purple') {
+            this.hexagonsPickedThisTurn += 2;
+        } else {
+            this.hexagonsPickedThisTurn++;
+        }
+    }
+
+    public isHexagonDisabled(color: Color): boolean {
+        // If no bank value, disable
+        const bankValue = this.gameBankHexagons[color];
+        if (bankValue === undefined || bankValue <= 0) return true;
+        
+        // If purple was picked, disable everything
+        if (this.pickedTokensThisTurn.includes('purple')) return true;
+        
+        // If checking purple
+        if (color === 'purple') {
+            // Disable purple if any token was picked (because purple = 2 tokens)
+            return this.hexagonsPickedThisTurn > 0;
+        }
+        
+        // For regular tokens (red, blue, white, green)
+        // Disable if 2 tokens already picked
+        return this.hexagonsPickedThisTurn >= 2;
     }
 
     public finishTurn(): void {
