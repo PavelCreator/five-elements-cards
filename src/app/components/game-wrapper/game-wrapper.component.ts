@@ -60,6 +60,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public diceResults: string[] = [];
     public diceReels: string[][] = []; // Array of arrays for dice animation reels
     public isDiceAnimationEnabled: boolean = true;
+    public hasTwoNothings: boolean = false;
+    public cancelChoiceMade: boolean = false;
+    public disabledDiceIndices: Set<number> = new Set();
     public rows: Array<{
         level: number;
         stack: Card[];
@@ -282,14 +285,73 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         
         this.diceResults = results;
         this.diceReels = reels;
+        
+        // Check for two nothings
+        const nothingCount = results.filter(r => r === 'dices-nothing.png').length;
+        this.hasTwoNothings = nothingCount >= 2;
+        this.cancelChoiceMade = false;
+        this.disabledDiceIndices.clear();
+        
         this.showDiceModal = true;
         console.log('rollDice results:', results);
     }
 
+    public get nonNothingDiceResults(): string[] {
+        return this.diceResults.filter(r => r !== 'dices-nothing.png');
+    }
+
+    public get activePlayerTokens(): Array<{color: Color, count: number}> {
+        const playerHex = this.playerHexagons[this.activePlayer];
+        if (!playerHex) return [];
+        
+        const tokens: Array<{color: Color, count: number}> = [];
+        const colors: Color[] = ['red', 'blue', 'white', 'green', 'purple', 'black'];
+        
+        for (const color of colors) {
+            const count = playerHex[color] ?? 0;
+            if (count > 0) {
+                tokens.push({ color, count });
+            }
+        }
+        
+        return tokens;
+    }
+
+    public onCancelDice(diceResult: string): void {
+        // Find the index of this dice result in the original results
+        const index = this.diceResults.indexOf(diceResult);
+        if (index !== -1) {
+            this.disabledDiceIndices.add(index);
+            this.cancelChoiceMade = true;
+        }
+    }
+
+    public onCancelToken(color: Color): void {
+        const playerHex = this.playerHexagons[this.activePlayer];
+        if (playerHex && playerHex[color] && playerHex[color]! > 0) {
+            playerHex[color] = playerHex[color]! - 1;
+            this.cancelChoiceMade = true;
+        }
+    }
+
+    public isDiceDisabled(index: number): boolean {
+        return this.disabledDiceIndices.has(index);
+    }
+
+    public get canCloseDiceModal(): boolean {
+        if (!this.hasTwoNothings) return true;
+        return this.cancelChoiceMade;
+    }
+
     public closeDiceModal(): void {
+        if (!this.canCloseDiceModal) return;
+        
         this.showDiceModal = false;
         this.diceResults = [];
         this.diceReels = [];
+        this.hasTwoNothings = false;
+        this.cancelChoiceMade = false;
+        this.disabledDiceIndices.clear();
     }
 
     public toggleDiceAnimation(): void {

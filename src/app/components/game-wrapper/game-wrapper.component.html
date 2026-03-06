@@ -98,7 +98,7 @@
     <div class="dice-modal-overlay" *ngIf="showDiceModal" (click)="closeDiceModal()">
         <div class="dice-modal" (click)="$event.stopPropagation()">
             <div class="dice-grid" [class.dice-grid--two]="diceResults.length === 2">
-                <div class="dice-item" *ngFor="let reel of diceReels; let i = index">
+                <div class="dice-item" *ngFor="let reel of diceReels; let i = index" [class.dice-item--disabled]="isDiceDisabled(i)">
                     <div class="dice-reel" [class.dice-reel--animated]="isDiceAnimationEnabled">
                         <img *ngFor="let side of reel" 
                              [src]="'assets/dice_side/' + side" 
@@ -107,11 +107,29 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Two Nothings Warning Block -->
+            <div class="dice-cancel-block" *ngIf="hasTwoNothings">
+                <div class="dice-cancel-warning">
+                    ⚠️ Two crosses rolled! Please cancel one token or dice to continue.
+                </div>
+                <div class="dice-cancel-options">
+                    <!-- Non-nothing dice results -->
+                    <div class="dice-cancel-item" *ngFor="let diceResult of nonNothingDiceResults" (click)="onCancelDice(diceResult)">
+                        <img [src]="'assets/dice_side/' + diceResult" [alt]="diceResult" class="dice-cancel-image">
+                    </div>
+                    <!-- Player tokens -->
+                    <div class="dice-cancel-item" *ngFor="let token of activePlayerTokens" (click)="onCancelToken(token.color)">
+                        <app-hexagon [color]="token.color" [number]="token.count" [type]="'playerBank'" class="dice-cancel-hexagon"></app-hexagon>
+                    </div>
+                </div>
+            </div>
+
             <div class="dice-modal-buttons">
                 <button type="button" class="dice-modal-button dice-modal-button--secondary" (click)="toggleDiceAnimation()">
                     {{ isDiceAnimationEnabled ? 'Disable Animation' : 'Enable Animation' }}
                 </button>
-                <button type="button" class="dice-modal-button dice-modal-button--primary" (click)="closeDiceModal()">Close</button>
+                <button type="button" class="dice-modal-button dice-modal-button--primary" (click)="closeDiceModal()" [disabled]="!canCloseDiceModal">Close</button>
             </div>
         </div>
     </div>
