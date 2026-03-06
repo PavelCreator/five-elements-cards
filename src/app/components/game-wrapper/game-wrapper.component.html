@@ -99,7 +99,7 @@
         <div class="dice-modal" (click)="$event.stopPropagation()">
             <div class="dice-grid" [class.dice-grid--two]="diceResults.length === 2">
                 <div class="dice-item" *ngFor="let reel of diceReels; let i = index">
-                    <div class="dice-reel">
+                    <div class="dice-reel" [class.dice-reel--animated]="isDiceAnimationEnabled">
                         <img *ngFor="let side of reel" 
                              [src]="'assets/dice_side/' + side" 
                              [alt]="side" 
@@ -107,7 +107,12 @@
                     </div>
                 </div>
             </div>
-            <button type="button" class="dice-modal-close" (click)="closeDiceModal()">Close</button>
+            <div class="dice-modal-buttons">
+                <button type="button" class="dice-modal-button dice-modal-button--secondary" (click)="toggleDiceAnimation()">
+                    {{ isDiceAnimationEnabled ? 'Disable Animation' : 'Enable Animation' }}
+                </button>
+                <button type="button" class="dice-modal-button dice-modal-button--primary" (click)="closeDiceModal()">Close</button>
+            </div>
         </div>
     </div>
 </div>

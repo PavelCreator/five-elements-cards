@@ -255,8 +255,15 @@
 .dice-reel {
     display: flex;
     flex-direction: column;
+}
+
+.dice-reel--animated {
     animation: diceRoll 1.5s cubic-bezier(0.25, 0.1, 0.25, 1);
     animation-fill-mode: forwards;
+}
+
+.dice-reel:not(.dice-reel--animated) {
+    transform: translateY(-2100px); /* Immediately show last image */
 }
 
 @keyframes diceRoll {
@@ -276,26 +283,52 @@
     flex-shrink: 0;
 }
 
-.dice-modal-close {
+.dice-modal-buttons {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.dice-modal-button {
     padding: 12px 32px;
-    background: #4a90e2;
-    color: white;
     border: none;
     border-radius: 8px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
+}
+
+.dice-modal-button--primary {
+    background: #4a90e2;
+    color: white;
     box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
 }
 
-.dice-modal-close:hover {
+.dice-modal-button--primary:hover {
     background: #357abd;
     box-shadow: 0 6px 16px rgba(74, 144, 226, 0.4);
     transform: translateY(-2px);
 }
 
-.dice-modal-close:active {
+.dice-modal-button--primary:active {
     transform: translateY(0);
     box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+}
+
+.dice-modal-button--secondary {
+    background: #6c757d;
+    color: white;
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+.dice-modal-button--secondary:hover {
+    background: #5a6268;
+    box-shadow: 0 6px 16px rgba(108, 117, 125, 0.4);
+    transform: translateY(-2px);
+}
+
+.dice-modal-button--secondary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
 }

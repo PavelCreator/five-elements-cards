@@ -59,6 +59,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public showDiceModal: boolean = false;
     public diceResults: string[] = [];
     public diceReels: string[][] = []; // Array of arrays for dice animation reels
+    public isDiceAnimationEnabled: boolean = true;
     public rows: Array<{
         level: number;
         stack: Card[];
@@ -289,6 +290,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.showDiceModal = false;
         this.diceResults = [];
         this.diceReels = [];
+    }
+
+    public toggleDiceAnimation(): void {
+        this.isDiceAnimationEnabled = !this.isDiceAnimationEnabled;
     }
 
     private _scheduleScaleUpdate() {
