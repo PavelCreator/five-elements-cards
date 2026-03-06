@@ -63,6 +63,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public isDiceAnimationEnabled: boolean = true;
     public hasTwoNothings: boolean = false;
     public hasThreeNothings: boolean = false;
+    public hasFourNothings: boolean = false;
     public selectedCancelChoices: Array<{ type: 'dice' | 'token', value: string | Color, diceIndex?: number, tokenIndex?: number }> = [];
     public rows: Array<{
         level: number;
@@ -89,8 +90,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._loadPlayerNames();
         this._loadPlayerCount();
         
-        // Initialize player hexagons based on checkToCross or checkToThreeCross mode
-        if (this._settingsService.isCheckToCrossModeEnabled() || this._settingsService.isCheckToThreeCrossModeEnabled()) {
+        // Initialize player hexagons based on any cross mode
+        if (this._settingsService.isCheckToCrossModeEnabled() || 
+            this._settingsService.isCheckToThreeCrossModeEnabled() ||
+            this._settingsService.isCheckToFourCrossModeEnabled()) {
             this._initPlayerHexagonsWithTestTokens();
         }
         
@@ -277,11 +280,15 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         
         const isCheckToCrossMode = this._settingsService.isCheckToCrossModeEnabled();
         const isCheckToThreeCrossMode = this._settingsService.isCheckToThreeCrossModeEnabled();
+        const isCheckToFourCrossMode = this._settingsService.isCheckToFourCrossModeEnabled();
 
         for (let i = 0; i < rollsCount; i++) {
             // Force results to be crosses based on mode
             let finalResult: string;
-            if (isCheckToThreeCrossMode && i < 3) {
+            if (isCheckToFourCrossMode && i < 4) {
+                // Four cross mode: first 4 dice are crosses
+                finalResult = 'dices-nothing.png';
+            } else if (isCheckToThreeCrossMode && i < 3) {
                 // Three cross mode: first 3 dice are crosses
                 finalResult = 'dices-nothing.png';
             } else if (isCheckToCrossMode && i < 2) {
@@ -308,11 +315,24 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.diceResults = results;
         this.diceReels = reels;
         
-        // Check for two or three nothings
+        // Check for crosses
         const nothingCount = results.filter(r => r === 'dices-nothing.png').length;
         this.hasTwoNothings = nothingCount === 2;
-        this.hasThreeNothings = nothingCount >= 3;
+        this.hasThreeNothings = nothingCount === 3;
+        this.hasFourNothings = nothingCount >= 4;
         this.selectedCancelChoices = [];
+        
+        // Auto-select tokens for four cross mode if player has <= 3 tokens
+        if (this.hasFourNothings && this.activePlayerTokens.length <= 3) {
+            // Auto-select all tokens
+            for (const token of this.activePlayerTokens) {
+                this.selectedCancelChoices.push({
+                    type: 'token',
+                    value: token.color,
+                    tokenIndex: token.index
+                });
+            }
+        }
         
         this.showDiceModal = true;
         console.log('rollDice results:', results);
@@ -356,9 +376,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             this.selectedCancelChoices.splice(existingIndex, 1);
         } else {
             // Add new selection
-            const maxSelections = this.hasThreeNothings 
-                ? (this.activePlayerHasTokens ? 2 : 1)
-                : 1;
+            let maxSelections = 1;
+            if (this.hasFourNothings) {
+                maxSelections = 3;
+            } else if (this.hasThreeNothings) {
+                maxSelections = this.activePlayerHasTokens ? 2 : 1;
+            }
             if (this.selectedCancelChoices.length < maxSelections) {
                 this.selectedCancelChoices.push({ type: 'dice', value: diceResult, diceIndex });
             }
@@ -375,9 +398,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             this.selectedCancelChoices.splice(existingIndex, 1);
         } else {
             // Add new selection
-            const maxSelections = this.hasThreeNothings 
-                ? (this.activePlayerHasTokens ? 2 : 1)
-                : 1;
+            let maxSelections = 1;
+            if (this.hasFourNothings) {
+                maxSelections = 3;
+            } else if (this.hasThreeNothings) {
+                maxSelections = this.activePlayerHasTokens ? 2 : 1;
+            }
             if (this.selectedCancelChoices.length < maxSelections) {
                 this.selectedCancelChoices.push({ type: 'token', value: color, tokenIndex: index });
             }
@@ -403,7 +429,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public get canCloseDiceModal(): boolean {
-        if (!this.hasTwoNothings && !this.hasThreeNothings) return true;
+        if (!this.hasTwoNothings && !this.hasThreeNothings && !this.hasFourNothings) return true;
         
         if (this.hasTwoNothings) {
             // Two crosses: always need exactly 1 selection
@@ -421,14 +447,20 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         }
         
+        if (this.hasFourNothings) {
+            // Four crosses: need exactly 3 token selections, or all tokens if player has <= 3
+            const requiredSelections = Math.min(3, this.activePlayerTokens.length);
+            return this.selectedCancelChoices.length === requiredSelections;
+        }
+        
         return false;
     }
 
     public closeDiceModal(): void {
         if (!this.canCloseDiceModal) return;
         
-        // Apply cancel choices if two or three nothings rolled
-        if ((this.hasTwoNothings || this.hasThreeNothings) && this.selectedCancelChoices.length > 0) {
+        // Apply cancel choices if crosses rolled
+        if ((this.hasTwoNothings || this.hasThreeNothings || this.hasFourNothings) && this.selectedCancelChoices.length > 0) {
             for (const choice of this.selectedCancelChoices) {
                 if (choice.type === 'token') {
                     const color = choice.value as Color;
@@ -446,6 +478,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.diceReels = [];
         this.hasTwoNothings = false;
         this.hasThreeNothings = false;
+        this.hasFourNothings = false;
         this.selectedCancelChoices = [];
     }
 
@@ -567,6 +600,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     private _initPlayerHexagonsWithTestTokens() {
         const isThreeCrossMode = this._settingsService.isCheckToThreeCrossModeEnabled();
+        const isFourCrossMode = this._settingsService.isCheckToFourCrossModeEnabled();
         
         // Give each player tokens for testing
         for (let playerNum = 1; playerNum <= 6; playerNum++) {
@@ -574,6 +608,16 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
                 // In three cross mode, give 0 tokens for testing
                 this.playerHexagons[playerNum] = {
                     red: 0,
+                    blue: 0,
+                    white: 0,
+                    green: 0,
+                    purple: 0,
+                    black: 0
+                };
+            } else if (isFourCrossMode) {
+                // In four cross mode, give 5 tokens of each color for testing (4+ scenario)
+                this.playerHexagons[playerNum] = {
+                    red: 5,
                     blue: 0,
                     white: 0,
                     green: 0,

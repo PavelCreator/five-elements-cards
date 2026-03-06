@@ -159,6 +159,27 @@
                 </div>
             </div>
 
+            <!-- Four Nothings Warning Block -->
+            <div class="dice-cancel-block" *ngIf="hasFourNothings">
+                <div class="dice-cancel-warning">
+                    <ng-container *ngIf="activePlayerTokens.length <= 3">
+                        ⚠️ Four crosses rolled! All your {{ activePlayerTokens.length }} token(s) are auto-selected. Click Close to continue.
+                    </ng-container>
+                    <ng-container *ngIf="activePlayerTokens.length > 3">
+                        ⚠️ Four crosses rolled! Please select THREE tokens to cancel ({{ selectedCancelChoices.length }}/3 selected).
+                    </ng-container>
+                </div>
+                <div class="dice-cancel-options">
+                    <!-- Player tokens (expanded) -->
+                    <div class="dice-cancel-item dice-cancel-item--token" 
+                         *ngFor="let token of activePlayerTokens; let i = index" 
+                         (click)="onCancelToken(token.color, token.index)"
+                         [class.dice-cancel-item--selected]="isTokenSelected(token.color, token.index)">
+                        <app-hexagon [color]="token.color" [number]="0" [type]="'playerBank'"></app-hexagon>
+                    </div>
+                </div>
+            </div>
+
             <div class="dice-modal-buttons">
                 <button type="button" class="dice-modal-button dice-modal-button--secondary" (click)="toggleDiceAnimation()">
                     {{ isDiceAnimationEnabled ? 'Disable Animation' : 'Enable Animation' }}

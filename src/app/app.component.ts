@@ -28,6 +28,7 @@ export class AppComponent implements OnInit{
     private readonly playerCountStorageKey: string = 'gamePlayerCount';
     public checkToCrossMode: boolean = false;
     public checkToThreeCrossMode: boolean = false;
+    public checkToFourCrossMode: boolean = false;
 
     constructor(
         private _interactionService: InteractionService,
@@ -44,6 +45,7 @@ export class AppComponent implements OnInit{
         this._loadPlayerCount();
         this._loadCheckToCrossMode();
         this._loadCheckToThreeCrossMode();
+        this._loadCheckToFourCrossMode();
 
         this._interactionService.selectedViewMode$.subscribe((inSelectedMenuItem: number | undefined) => {
             switch (inSelectedMenuItem) {
@@ -98,15 +100,25 @@ export class AppComponent implements OnInit{
     public toggleCheckToCrossMode(): void {
         this.checkToCrossMode = !this.checkToCrossMode;
         this._settingsService.setCheckToCrossMode(this.checkToCrossMode);
-        // Update three cross mode state after service handles mutual exclusion
+        // Update other modes state after service handles mutual exclusion
         this.checkToThreeCrossMode = this._settingsService.isCheckToThreeCrossModeEnabled();
+        this.checkToFourCrossMode = this._settingsService.isCheckToFourCrossModeEnabled();
     }
 
     public toggleCheckToThreeCrossMode(): void {
         this.checkToThreeCrossMode = !this.checkToThreeCrossMode;
         this._settingsService.setCheckToThreeCrossMode(this.checkToThreeCrossMode);
-        // Update two cross mode state after service handles mutual exclusion
+        // Update other modes state after service handles mutual exclusion
         this.checkToCrossMode = this._settingsService.isCheckToCrossModeEnabled();
+        this.checkToFourCrossMode = this._settingsService.isCheckToFourCrossModeEnabled();
+    }
+
+    public toggleCheckToFourCrossMode(): void {
+        this.checkToFourCrossMode = !this.checkToFourCrossMode;
+        this._settingsService.setCheckToFourCrossMode(this.checkToFourCrossMode);
+        // Update other modes state after service handles mutual exclusion
+        this.checkToCrossMode = this._settingsService.isCheckToCrossModeEnabled();
+        this.checkToThreeCrossMode = this._settingsService.isCheckToThreeCrossModeEnabled();
     }
 
     private _loadPlayerCount(): void {
@@ -124,5 +136,9 @@ export class AppComponent implements OnInit{
 
     private _loadCheckToThreeCrossMode(): void {
         this.checkToThreeCrossMode = this._settingsService.isCheckToThreeCrossModeEnabled();
+    }
+
+    private _loadCheckToFourCrossMode(): void {
+        this.checkToFourCrossMode = this._settingsService.isCheckToFourCrossModeEnabled();
     }
 }

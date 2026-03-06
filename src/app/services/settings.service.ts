@@ -14,6 +14,8 @@ export class SettingsService {
   public checkToCrossMode$ = this._checkToCrossMode.asObservable();
   private _checkToThreeCrossMode = new BehaviorSubject<boolean>(false);
   public checkToThreeCrossMode$ = this._checkToThreeCrossMode.asObservable();
+  private _checkToFourCrossMode = new BehaviorSubject<boolean>(false);
+  public checkToFourCrossMode$ = this._checkToFourCrossMode.asObservable();
 
   constructor(
       private _localStorageService: LocalStorageService
@@ -30,6 +32,11 @@ export class SettingsService {
     if (checkToThreeCrossMode === 'true') {
       this._checkToThreeCrossMode.next(true);
     }
+    
+    const checkToFourCrossMode = this._localStorageService.getItem('checkToFourCrossMode');
+    if (checkToFourCrossMode === 'true') {
+      this._checkToFourCrossMode.next(true);
+    }
   }
 
   public setLang(inLang: Lang): void {
@@ -40,9 +47,10 @@ export class SettingsService {
   public setCheckToCrossMode(enabled: boolean): void {
     this._checkToCrossMode.next(enabled);
     this._localStorageService.setItem('checkToCrossMode', enabled.toString());
-    // Disable three cross mode if two cross is enabled
-    if (enabled && this._checkToThreeCrossMode.value) {
-      this.setCheckToThreeCrossMode(false);
+    // Disable other modes if two cross is enabled
+    if (enabled) {
+      if (this._checkToThreeCrossMode.value) this.setCheckToThreeCrossMode(false);
+      if (this._checkToFourCrossMode.value) this.setCheckToFourCrossMode(false);
     }
   }
 
@@ -53,13 +61,28 @@ export class SettingsService {
   public setCheckToThreeCrossMode(enabled: boolean): void {
     this._checkToThreeCrossMode.next(enabled);
     this._localStorageService.setItem('checkToThreeCrossMode', enabled.toString());
-    // Disable two cross mode if three cross is enabled
-    if (enabled && this._checkToCrossMode.value) {
-      this.setCheckToCrossMode(false);
+    // Disable other modes if three cross is enabled
+    if (enabled) {
+      if (this._checkToCrossMode.value) this.setCheckToCrossMode(false);
+      if (this._checkToFourCrossMode.value) this.setCheckToFourCrossMode(false);
     }
   }
 
   public isCheckToThreeCrossModeEnabled(): boolean {
     return this._checkToThreeCrossMode.value;
+  }
+
+  public setCheckToFourCrossMode(enabled: boolean): void {
+    this._checkToFourCrossMode.next(enabled);
+    this._localStorageService.setItem('checkToFourCrossMode', enabled.toString());
+    // Disable other modes if four cross is enabled
+    if (enabled) {
+      if (this._checkToCrossMode.value) this.setCheckToCrossMode(false);
+      if (this._checkToThreeCrossMode.value) this.setCheckToThreeCrossMode(false);
+    }
+  }
+
+  public isCheckToFourCrossModeEnabled(): boolean {
+    return this._checkToFourCrossMode.value;
   }
 }
