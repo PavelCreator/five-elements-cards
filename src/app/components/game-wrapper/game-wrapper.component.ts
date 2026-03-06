@@ -58,6 +58,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private pickedTokensThisTurn: Color[] = [];
     public showDiceModal: boolean = false;
     public diceResults: string[] = [];
+    public diceReels: string[][] = []; // Array of arrays for dice animation reels
     public rows: Array<{
         level: number;
         stack: Card[];
@@ -259,13 +260,27 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         ];
         const rollsCount = Math.max(0, Math.floor(count));
         const results: string[] = [];
+        const reels: string[][] = [];
+        const reelLength = 15; // Number of images in the reel
 
         for (let i = 0; i < rollsCount; i++) {
-            const index = Math.floor(Math.random() * diceSides.length);
-            results.push(diceSides[index]);
+            // Select final result
+            const finalIndex = Math.floor(Math.random() * diceSides.length);
+            results.push(diceSides[finalIndex]);
+            
+            // Generate reel for animation
+            const reel: string[] = [];
+            for (let j = 0; j < reelLength - 1; j++) {
+                const randomIndex = Math.floor(Math.random() * diceSides.length);
+                reel.push(diceSides[randomIndex]);
+            }
+            // Add final result as the last image
+            reel.push(diceSides[finalIndex]);
+            reels.push(reel);
         }
         
         this.diceResults = results;
+        this.diceReels = reels;
         this.showDiceModal = true;
         console.log('rollDice results:', results);
     }
@@ -273,6 +288,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public closeDiceModal(): void {
         this.showDiceModal = false;
         this.diceResults = [];
+        this.diceReels = [];
     }
 
     private _scheduleScaleUpdate() {

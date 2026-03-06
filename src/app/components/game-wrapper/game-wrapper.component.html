@@ -98,8 +98,13 @@
     <div class="dice-modal-overlay" *ngIf="showDiceModal" (click)="closeDiceModal()">
         <div class="dice-modal" (click)="$event.stopPropagation()">
             <div class="dice-grid" [class.dice-grid--two]="diceResults.length === 2">
-                <div class="dice-item" *ngFor="let result of diceResults">
-                    <img [src]="'assets/dice_side/' + result" [alt]="result" class="dice-image">
+                <div class="dice-item" *ngFor="let reel of diceReels; let i = index">
+                    <div class="dice-reel">
+                        <img *ngFor="let side of reel" 
+                             [src]="'assets/dice_side/' + side" 
+                             [alt]="side" 
+                             class="dice-image">
+                    </div>
                 </div>
             </div>
             <button type="button" class="dice-modal-close" (click)="closeDiceModal()">Close</button>

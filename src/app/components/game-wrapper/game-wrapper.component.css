@@ -245,9 +245,27 @@
 }
 
 .dice-item {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 30px;
+}
+
+.dice-reel {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    animation: diceRoll 1.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    animation-fill-mode: forwards;
+}
+
+@keyframes diceRoll {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-2100px); /* 14 images * 150px */
+    }
 }
 
 .dice-image {
@@ -255,6 +273,7 @@
     height: 150px;
     object-fit: contain;
     filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+    flex-shrink: 0;
 }
 
 .dice-modal-close {
