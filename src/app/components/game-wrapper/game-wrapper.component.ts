@@ -90,10 +90,13 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._loadPlayerNames();
         this._loadPlayerCount();
         
-        // Initialize player hexagons based on any cross mode
+        // Initialize player hexagons based on any cross or joker mode
         if (this._settingsService.isCheckToCrossModeEnabled() || 
             this._settingsService.isCheckToThreeCrossModeEnabled() ||
-            this._settingsService.isCheckToFourCrossModeEnabled()) {
+            this._settingsService.isCheckToFourCrossModeEnabled() ||
+            this._settingsService.isCheck2toJokersModeEnabled() ||
+            this._settingsService.isCheck2to3JokersModeEnabled() ||
+            this._settingsService.isCheck2to4JokersModeEnabled()) {
             this._initPlayerHexagonsWithTestTokens();
         }
         
@@ -281,10 +284,15 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         const isCheckToCrossMode = this._settingsService.isCheckToCrossModeEnabled();
         const isCheckToThreeCrossMode = this._settingsService.isCheckToThreeCrossModeEnabled();
         const isCheckToFourCrossMode = this._settingsService.isCheckToFourCrossModeEnabled();
+        const isCheck2toJokersMode = this._settingsService.isCheck2toJokersModeEnabled();
+        const isCheck2to3JokersMode = this._settingsService.isCheck2to3JokersModeEnabled();
+        const isCheck2to4JokersMode = this._settingsService.isCheck2to4JokersModeEnabled();
 
         for (let i = 0; i < rollsCount; i++) {
-            // Force results to be crosses based on mode
+            // Force results based on active mode
             let finalResult: string;
+            
+            // Cross modes
             if (isCheckToFourCrossMode && i < 4) {
                 // Four cross mode: first 4 dice are crosses
                 finalResult = 'dices-nothing.png';
@@ -294,7 +302,20 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             } else if (isCheckToCrossMode && i < 2) {
                 // Two cross mode: first 2 dice are crosses
                 finalResult = 'dices-nothing.png';
-            } else {
+            }
+            // Joker modes
+            else if (isCheck2to4JokersMode && i < 4) {
+                // Four jokers mode: first 4 dice are jokers
+                finalResult = 'dices-joker.png';
+            } else if (isCheck2to3JokersMode && i < 3) {
+                // Three jokers mode: first 3 dice are jokers
+                finalResult = 'dices-joker.png';
+            } else if (isCheck2toJokersMode && i < 2) {
+                // Two jokers mode: first 2 dice are jokers
+                finalResult = 'dices-joker.png';
+            }
+            // Random roll
+            else {
                 const finalIndex = Math.floor(Math.random() * diceSides.length);
                 finalResult = diceSides[finalIndex];
             }

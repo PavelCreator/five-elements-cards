@@ -40,5 +40,14 @@
 		<button type="button" class="settings-clear" [class.settings-button--active]="checkToFourCrossMode" (click)="toggleCheckToFourCrossMode()">
 			Check To Four Cross {{ checkToFourCrossMode ? '[ON]' : '[OFF]' }}
 		</button>
+		<button type="button" class="settings-clear" [class.settings-button--active]="check2toJokersMode" (click)="toggleCheck2toJokersMode()">
+			Check 2 Jokers {{ check2toJokersMode ? '[ON]' : '[OFF]' }}
+		</button>
+		<button type="button" class="settings-clear" [class.settings-button--active]="check2to3JokersMode" (click)="toggleCheck2to3JokersMode()">
+			Check 3 Jokers {{ check2to3JokersMode ? '[ON]' : '[OFF]' }}
+		</button>
+		<button type="button" class="settings-clear" [class.settings-button--active]="check2to4JokersMode" (click)="toggleCheck2to4JokersMode()">
+			Check 4 Jokers {{ check2to4JokersMode ? '[ON]' : '[OFF]' }}
+		</button>
 	</div>
 </div>
