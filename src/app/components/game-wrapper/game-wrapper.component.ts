@@ -322,10 +322,45 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.hasFourNothings = nothingCount >= 4;
         this.selectedCancelChoices = [];
         
-        // Auto-select tokens for four cross mode if player has <= 3 tokens
-        if (this.hasFourNothings && this.activePlayerTokens.length <= 3) {
-            // Auto-select all tokens
-            for (const token of this.activePlayerTokens) {
+        // Universal auto-select logic: if required selections equals available elements, auto-select all
+        this._autoSelectIfNecessary();
+        
+        this.showDiceModal = true;
+        console.log('rollDice results:', results);
+    }
+
+    private _autoSelectIfNecessary(): void {
+        // Determine required selections based on cross mode
+        let requiredSelections = 0;
+        
+        if (this.hasTwoNothings) {
+            requiredSelections = 1;
+        } else if (this.hasThreeNothings) {
+            requiredSelections = this.activePlayerHasTokens ? 2 : 1;
+        } else if (this.hasFourNothings) {
+            requiredSelections = Math.min(3, this.activePlayerTokens.length);
+        } else {
+            return; // No crosses, no need to select
+        }
+        
+        // Calculate available elements
+        const availableDice = this.nonNothingDiceResults;
+        const availableTokens = this.activePlayerTokens;
+        const totalAvailable = availableDice.length + availableTokens.length;
+        
+        // Auto-select if required equals available
+        if (requiredSelections === totalAvailable) {
+            // Select all dice
+            for (const dice of availableDice) {
+                this.selectedCancelChoices.push({
+                    type: 'dice',
+                    value: dice.value,
+                    diceIndex: dice.index
+                });
+            }
+            
+            // Select all tokens
+            for (const token of availableTokens) {
                 this.selectedCancelChoices.push({
                     type: 'token',
                     value: token.color,
@@ -333,9 +368,6 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
                 });
             }
         }
-        
-        this.showDiceModal = true;
-        console.log('rollDice results:', results);
     }
 
     public get nonNothingDiceResults(): Array<{value: string, index: number}> {
@@ -364,6 +396,25 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public get activePlayerHasTokens(): boolean {
         return this.activePlayerTokens.length > 0;
+    }
+
+    public get requiredSelections(): number {
+        if (this.hasTwoNothings) {
+            return 1;
+        } else if (this.hasThreeNothings) {
+            return this.activePlayerHasTokens ? 2 : 1;
+        } else if (this.hasFourNothings) {
+            return Math.min(3, this.activePlayerTokens.length);
+        }
+        return 0;
+    }
+
+    public get totalAvailableElements(): number {
+        return this.nonNothingDiceResults.length + this.activePlayerTokens.length;
+    }
+
+    public get isAutoSelected(): boolean {
+        return this.requiredSelections === this.totalAvailableElements && this.selectedCancelChoices.length > 0;
     }
 
     public onCancelDice(diceResult: string, diceIndex: number): void {

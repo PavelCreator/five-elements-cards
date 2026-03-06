@@ -111,7 +111,12 @@
             <!-- Two Nothings Warning Block -->
             <div class="dice-cancel-block" *ngIf="hasTwoNothings">
                 <div class="dice-cancel-warning">
-                    ⚠️ Two crosses rolled! Please cancel one token or dice to continue.
+                    <ng-container *ngIf="isAutoSelected">
+                        ⚠️ Two crosses rolled! The only available element is auto-selected. Click Close to continue.
+                    </ng-container>
+                    <ng-container *ngIf="!isAutoSelected">
+                        ⚠️ Two crosses rolled! Please cancel one token or dice to continue ({{ selectedCancelChoices.length }}/{{ requiredSelections }} selected).
+                    </ng-container>
                 </div>
                 <div class="dice-cancel-options">
                     <!-- Non-nothing dice results -->
@@ -134,11 +139,14 @@
             <!-- Three Nothings Warning Block -->
             <div class="dice-cancel-block" *ngIf="hasThreeNothings">
                 <div class="dice-cancel-warning">
-                    <ng-container *ngIf="!activePlayerHasTokens">
-                        ⚠️ Three crosses rolled! You have no tokens. Please cancel ONE dice to continue ({{ selectedCancelChoices.length }}/1 selected).
+                    <ng-container *ngIf="isAutoSelected">
+                        ⚠️ Three crosses rolled! All {{ totalAvailableElements }} available element(s) are auto-selected. Click Close to continue.
                     </ng-container>
-                    <ng-container *ngIf="activePlayerHasTokens">
-                        ⚠️ Three crosses rolled! Please cancel TWO tokens or dice to continue ({{ selectedCancelChoices.length }}/2 selected).
+                    <ng-container *ngIf="!isAutoSelected && !activePlayerHasTokens">
+                        ⚠️ Three crosses rolled! You have no tokens. Please cancel ONE dice to continue ({{ selectedCancelChoices.length }}/{{ requiredSelections }} selected).
+                    </ng-container>
+                    <ng-container *ngIf="!isAutoSelected && activePlayerHasTokens">
+                        ⚠️ Three crosses rolled! Please cancel TWO tokens or dice to continue ({{ selectedCancelChoices.length }}/{{ requiredSelections }} selected).
                     </ng-container>
                 </div>
                 <div class="dice-cancel-options">
@@ -162,11 +170,11 @@
             <!-- Four Nothings Warning Block -->
             <div class="dice-cancel-block" *ngIf="hasFourNothings">
                 <div class="dice-cancel-warning">
-                    <ng-container *ngIf="activePlayerTokens.length <= 3">
-                        ⚠️ Four crosses rolled! All your {{ activePlayerTokens.length }} token(s) are auto-selected. Click Close to continue.
+                    <ng-container *ngIf="isAutoSelected">
+                        ⚠️ Four crosses rolled! All {{ totalAvailableElements }} available element(s) are auto-selected. Click Close to continue.
                     </ng-container>
-                    <ng-container *ngIf="activePlayerTokens.length > 3">
-                        ⚠️ Four crosses rolled! Please select THREE tokens to cancel ({{ selectedCancelChoices.length }}/3 selected).
+                    <ng-container *ngIf="!isAutoSelected">
+                        ⚠️ Four crosses rolled! Please select THREE tokens to cancel ({{ selectedCancelChoices.length }}/{{ requiredSelections }} selected).
                     </ng-container>
                 </div>
                 <div class="dice-cancel-options">
