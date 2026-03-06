@@ -61,8 +61,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public diceReels: string[][] = []; // Array of arrays for dice animation reels
     public isDiceAnimationEnabled: boolean = true;
     public hasTwoNothings: boolean = false;
-    public cancelChoiceMade: boolean = false;
-    public disabledDiceIndices: Set<number> = new Set();
+    public selectedCancelChoice: { type: 'dice' | 'token', value: string | Color } | null = null;
     public rows: Array<{
         level: number;
         stack: Card[];
@@ -289,8 +288,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         // Check for two nothings
         const nothingCount = results.filter(r => r === 'dices-nothing.png').length;
         this.hasTwoNothings = nothingCount >= 2;
-        this.cancelChoiceMade = false;
-        this.disabledDiceIndices.clear();
+        this.selectedCancelChoice = null;
         
         this.showDiceModal = true;
         console.log('rollDice results:', results);
@@ -300,17 +298,18 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return this.diceResults.filter(r => r !== 'dices-nothing.png');
     }
 
-    public get activePlayerTokens(): Array<{color: Color, count: number}> {
+    public get activePlayerTokens(): Array<{color: Color, index: number}> {
         const playerHex = this.playerHexagons[this.activePlayer];
         if (!playerHex) return [];
         
-        const tokens: Array<{color: Color, count: number}> = [];
+        const tokens: Array<{color: Color, index: number}> = [];
         const colors: Color[] = ['red', 'blue', 'white', 'green', 'purple', 'black'];
         
         for (const color of colors) {
             const count = playerHex[color] ?? 0;
-            if (count > 0) {
-                tokens.push({ color, count });
+            // Expand tokens: if count = 3, add 3 separate entries
+            for (let i = 0; i < count; i++) {
+                tokens.push({ color, index: i });
             }
         }
         
@@ -318,40 +317,50 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public onCancelDice(diceResult: string): void {
-        // Find the index of this dice result in the original results
-        const index = this.diceResults.indexOf(diceResult);
-        if (index !== -1) {
-            this.disabledDiceIndices.add(index);
-            this.cancelChoiceMade = true;
-        }
+        this.selectedCancelChoice = { type: 'dice', value: diceResult };
     }
 
     public onCancelToken(color: Color): void {
-        const playerHex = this.playerHexagons[this.activePlayer];
-        if (playerHex && playerHex[color] && playerHex[color]! > 0) {
-            playerHex[color] = playerHex[color]! - 1;
-            this.cancelChoiceMade = true;
-        }
+        this.selectedCancelChoice = { type: 'token', value: color };
     }
 
     public isDiceDisabled(index: number): boolean {
-        return this.disabledDiceIndices.has(index);
+        if (!this.selectedCancelChoice || this.selectedCancelChoice.type !== 'dice') return false;
+        const diceResult = this.diceResults[index];
+        return diceResult === this.selectedCancelChoice.value;
+    }
+
+    public isTokenSelected(color: Color, index: number): boolean {
+        if (!this.selectedCancelChoice || this.selectedCancelChoice.type !== 'token') return false;
+        // Only highlight the first token of this color
+        return this.selectedCancelChoice.value === color && index === 0;
     }
 
     public get canCloseDiceModal(): boolean {
         if (!this.hasTwoNothings) return true;
-        return this.cancelChoiceMade;
+        return this.selectedCancelChoice !== null;
     }
 
     public closeDiceModal(): void {
         if (!this.canCloseDiceModal) return;
         
+        // Apply cancel choice if two nothings rolled
+        if (this.hasTwoNothings && this.selectedCancelChoice) {
+            if (this.selectedCancelChoice.type === 'token') {
+                const color = this.selectedCancelChoice.value as Color;
+                const playerHex = this.playerHexagons[this.activePlayer];
+                if (playerHex && playerHex[color] && playerHex[color]! > 0) {
+                    playerHex[color] = playerHex[color]! - 1;
+                }
+            }
+            // If dice was selected, we don't need to do anything - it just won't count
+        }
+        
         this.showDiceModal = false;
         this.diceResults = [];
         this.diceReels = [];
         this.hasTwoNothings = false;
-        this.cancelChoiceMade = false;
-        this.disabledDiceIndices.clear();
+        this.selectedCancelChoice = null;
     }
 
     public toggleDiceAnimation(): void {

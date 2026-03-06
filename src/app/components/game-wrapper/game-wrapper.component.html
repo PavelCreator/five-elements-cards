@@ -115,12 +115,18 @@
                 </div>
                 <div class="dice-cancel-options">
                     <!-- Non-nothing dice results -->
-                    <div class="dice-cancel-item" *ngFor="let diceResult of nonNothingDiceResults" (click)="onCancelDice(diceResult)">
+                    <div class="dice-cancel-item" 
+                         *ngFor="let diceResult of nonNothingDiceResults" 
+                         (click)="onCancelDice(diceResult)"
+                         [class.dice-cancel-item--selected]="selectedCancelChoice?.type === 'dice' && selectedCancelChoice?.value === diceResult">
                         <img [src]="'assets/dice_side/' + diceResult" [alt]="diceResult" class="dice-cancel-image">
                     </div>
-                    <!-- Player tokens -->
-                    <div class="dice-cancel-item" *ngFor="let token of activePlayerTokens" (click)="onCancelToken(token.color)">
-                        <app-hexagon [color]="token.color" [number]="token.count" [type]="'playerBank'" class="dice-cancel-hexagon"></app-hexagon>
+                    <!-- Player tokens (expanded) -->
+                    <div class="dice-cancel-item dice-cancel-item--token" 
+                         *ngFor="let token of activePlayerTokens; let i = index" 
+                         (click)="onCancelToken(token.color)"
+                         [class.dice-cancel-item--selected]="isTokenSelected(token.color, token.index)">
+                        <app-hexagon [color]="token.color" [number]="0" [type]="'playerBank'"></app-hexagon>
                     </div>
                 </div>
             </div>
