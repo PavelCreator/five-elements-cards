@@ -64,6 +64,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public hasTwoNothings: boolean = false;
     public hasThreeNothings: boolean = false;
     public hasFourNothings: boolean = false;
+    public hasJokers: boolean = false;
+    public jokerCount: number = 0;
+    public selectedJokerExchanges: Color[] = []; // One color per joker
     public selectedCancelChoices: Array<{ type: 'dice' | 'token', value: string | Color, diceIndex?: number, tokenIndex?: number }> = [];
     public rows: Array<{
         level: number;
@@ -343,11 +346,16 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.hasFourNothings = nothingCount >= 4;
         this.selectedCancelChoices = [];
         
+        // Check for jokers
+        const jokerCount = results.filter(r => r === 'dices-joker.png').length;
+        this.hasJokers = jokerCount > 0;
+        this.jokerCount = jokerCount;
+        this.selectedJokerExchanges = [];
+        
         // Universal auto-select logic: if required selections equals available elements, auto-select all
         this._autoSelectIfNecessary();
         
         this.showDiceModal = true;
-        console.log('rollDice results:', results);
     }
 
     private _autoSelectIfNecessary(): void {
@@ -500,7 +508,62 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         );
     }
 
+    /**
+     * Get available tokens for joker exchange with remaining counts
+     */
+    public get availableJokerTokens(): Array<{color: Color, remainingCount: number}> {
+        const basicColors: Color[] = ['green', 'white', 'blue', 'red'];
+        const tokens: Array<{color: Color, remainingCount: number}> = [];
+        
+        for (const color of basicColors) {
+            const bankCount = this.gameBankHexagons[color] ?? 0;
+            // Count how many times this color was selected
+            const selectedCount = this.selectedJokerExchanges.filter(c => c === color).length;
+            const remainingCount = bankCount - selectedCount;
+            
+            // Show all 4 colors always
+            tokens.push({ color, remainingCount });
+        }
+        
+        return tokens;
+    }
+
+    /**
+     * Handle joker token click
+     */
+    public onJokerTokenClick(color: Color): void {
+        // Find remaining count for this color
+        const token = this.availableJokerTokens.find(t => t.color === color);
+        if (!token || token.remainingCount === 0) return;
+        
+        // Check if we've already selected enough jokers
+        if (this.selectedJokerExchanges.length >= this.jokerCount) return;
+        
+        // Add this color selection
+        this.selectedJokerExchanges.push(color);
+    }
+
+    /**
+     * Check if all jokers have been exchanged for tokens
+     */
+    public get isJokerExchangeComplete(): boolean {
+        if (!this.hasJokers) return true;
+        
+        // Check that we have exactly jokerCount selections
+        return this.selectedJokerExchanges.length === this.jokerCount;
+    }
+
+    /**
+     * Get count of exchanged jokers
+     */
+    public get exchangedJokersCount(): number {
+        return this.selectedJokerExchanges.length;
+    }
+
     public get canCloseDiceModal(): boolean {
+        // First, check if all jokers have been exchanged
+        if (!this.isJokerExchangeComplete) return false;
+        
         if (!this.hasTwoNothings && !this.hasThreeNothings && !this.hasFourNothings) return true;
         
         if (this.hasTwoNothings) {
@@ -551,6 +614,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.hasTwoNothings = false;
         this.hasThreeNothings = false;
         this.hasFourNothings = false;
+        this.hasJokers = false;
+        this.jokerCount = 0;
+        this.selectedJokerExchanges = [];
         this.selectedCancelChoices = [];
     }
 

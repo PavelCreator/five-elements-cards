@@ -108,6 +108,21 @@
                 </div>
             </div>
 
+            <!-- Joker Exchange Block -->
+            <div class="dice-cancel-block" *ngIf="hasJokers">
+                <div class="dice-cancel-warning">
+                    🃏 Поменяй джокера на токены ({{ exchangedJokersCount }}/{{ jokerCount }})
+                </div>
+                <div class="dice-cancel-options">
+                    <div class="dice-cancel-item dice-cancel-item--token dice-cancel-item--joker" 
+                         *ngFor="let token of availableJokerTokens" 
+                         (click)="onJokerTokenClick(token.color)"
+                         [class.dice-cancel-item--disabled]="token.remainingCount === 0">
+                        <app-hexagon [color]="token.color" [number]="token.remainingCount" [type]="'playerBank'"></app-hexagon>
+                    </div>
+                </div>
+            </div>
+
             <!-- Two Nothings Warning Block -->
             <div class="dice-cancel-block" *ngIf="hasTwoNothings">
                 <div class="dice-cancel-warning">

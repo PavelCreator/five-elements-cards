@@ -405,6 +405,12 @@
     transform: scale(1.05);
 }
 
+.dice-cancel-item--disabled {
+    opacity: 0.3;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
 .dice-cancel-image {
     width: 40px;
     height: 40px;
@@ -447,3 +453,29 @@
 .dice-cancel-item--token ::ng-deep .number-wrapper {
     display: none !important;
 }
+
+/* Override number hiding for joker exchange tokens */
+.dice-cancel-item--joker ::ng-deep .number-wrapper {
+    display: flex !important;
+}
+
+/* Joker section styles */
+.dice-joker-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.dice-joker-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #8e44ad;
+}
+
+.dice-joker-tokens {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
