@@ -526,13 +526,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             tokens.push({ color, remainingCount });
         }
         
-        // Add purple option: N jokers = (N-1) purple hexagons
-        // 2 jokers = 1 purple, 3 jokers = 2 purple, 4 jokers = 3 purple
-        const purpleCount = this.jokerCount - 1;
-        const hasPurpleSelected = this.selectedJokerExchanges.includes('purple');
-        const purpleRemainingCount = hasPurpleSelected ? 0 : purpleCount;
-        
-        if (purpleCount > 0) {
+        // Add purple option: show bank value minus selected purple count
+        if (this.jokerCount > 1) {
+            const purpleBankCount = this.gameBankHexagons['purple'] ?? 0;
+            const purpleSelectedCount = this.selectedJokerExchanges.filter(c => c === 'purple').length;
+            const purpleRemainingCount = purpleBankCount - purpleSelectedCount;
+            
             tokens.push({ color: 'purple', remainingCount: purpleRemainingCount });
         }
         
@@ -555,10 +554,17 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!token || token.remainingCount === 0) return;
         
         if (color === 'purple') {
+            // Check if there are enough purple tokens in bank
+            const purpleNeeded = this.jokerCount - 1;
+            const purpleBankCount = this.gameBankHexagons['purple'] ?? 0;
+            if (purpleBankCount < purpleNeeded) {
+                // Not enough purple in bank
+                return;
+            }
+            
             // Selecting purple: clear all selections and add (jokerCount - 1) purple tokens
             this.selectedJokerExchanges = [];
-            const purpleCount = this.jokerCount - 1;
-            for (let i = 0; i < purpleCount; i++) {
+            for (let i = 0; i < purpleNeeded; i++) {
                 this.selectedJokerExchanges.push('purple');
             }
         } else {
@@ -582,8 +588,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public get isJokerExchangeComplete(): boolean {
         if (!this.hasJokers) return true;
         
-        // Check that we have exactly jokerCount selections
-        return this.selectedJokerExchanges.length === this.jokerCount;
+        // For purple: need (jokerCount - 1) selections
+        // For basic colors: need jokerCount selections
+        const requiredCount = this.isPurpleSelected ? this.jokerCount - 1 : this.jokerCount;
+        return this.selectedJokerExchanges.length === requiredCount;
     }
 
     /**
@@ -591,6 +599,13 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     public get exchangedJokersCount(): number {
         return this.selectedJokerExchanges.length;
+    }
+
+    /**
+     * Reset joker selections to initial state
+     */
+    public resetJokerSelection(): void {
+        this.selectedJokerExchanges = [];
     }
 
     public get canCloseDiceModal(): boolean {
@@ -626,6 +641,23 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public closeDiceModal(): void {
         if (!this.canCloseDiceModal) return;
+        
+        // Apply joker exchanges
+        if (this.hasJokers && this.selectedJokerExchanges.length > 0) {
+            const playerHex = this.playerHexagons[this.activePlayer];
+            if (playerHex) {
+                for (const color of this.selectedJokerExchanges) {
+                    // Add to player bank
+                    playerHex[color] = (playerHex[color] ?? 0) + 1;
+                    
+                    // Subtract from game bank
+                    const bankValue = this.gameBankHexagons[color];
+                    if (bankValue && bankValue > 0) {
+                        this.gameBankHexagons[color] = bankValue - 1;
+                    }
+                }
+            }
+        }
         
         // Apply cancel choices if crosses rolled
         if ((this.hasTwoNothings || this.hasThreeNothings || this.hasFourNothings) && this.selectedCancelChoices.length > 0) {

@@ -127,10 +127,17 @@
                     <div class="dice-cancel-item dice-cancel-item--token dice-cancel-item--joker" 
                          *ngFor="let token of availableJokerTokens" 
                          (click)="onJokerTokenClick(token.color)"
-                         [class.dice-cancel-item--disabled]="token.remainingCount === 0 || (token.color !== 'purple' && isPurpleSelected) || (token.color === 'purple' && exchangedJokersCount > 0 && !isPurpleSelected)">
+                         [class.dice-cancel-item--disabled]="token.remainingCount === 0 || (token.color !== 'purple' && isPurpleSelected) || (token.color === 'purple' && exchangedJokersCount > 0)">
                         <app-hexagon [color]="token.color" [number]="token.remainingCount" [type]="'playerBank'"></app-hexagon>
                     </div>
                 </div>
+                <button type="button" 
+                        *ngIf="exchangedJokersCount > 0" 
+                        class="dice-modal-button dice-modal-button--secondary" 
+                        style="margin-top: 10px;"
+                        (click)="resetJokerSelection()">
+                    Reset Selection
+                </button>
             </div>
 
             <!-- Two Nothings Warning Block -->
