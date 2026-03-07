@@ -110,8 +110,18 @@
 
             <!-- Joker Exchange Block -->
             <div class="dice-cancel-block" *ngIf="hasJokers">
-                <div class="dice-cancel-warning">
-                    🃏 Exchange jokers for tokens ({{ exchangedJokersCount }}/{{ jokerCount }})
+                <div class="dice-cancel-warning" style="display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap;">
+                    <span>🃏 Exchange jokers for</span>
+                    <div class="dice-cancel-item dice-cancel-item--token dice-cancel-item--joker">
+                        <app-hexagon [color]="'mix'" [number]="undefined" [type]="'playerBank'"></app-hexagon>
+                    </div>
+                    <span>({{ exchangedJokersCount }}/{{ jokerCount }})</span>
+                    <ng-container *ngIf="jokerCount > 1">
+                        <span>or {{ jokerCount - 1 }}</span>
+                        <div class="dice-cancel-item dice-cancel-item--token dice-cancel-item--joker" >
+                            <app-hexagon [color]="'purple'" [number]="undefined" [type]="'playerBank'"></app-hexagon>
+                        </div>
+                    </ng-container>
                 </div>
                 <div class="dice-cancel-options">
                     <div class="dice-cancel-item dice-cancel-item--token dice-cancel-item--joker" 
