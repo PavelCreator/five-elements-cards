@@ -509,12 +509,13 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     /**
-     * Get available tokens for joker exchange with remaining counts
+     * Get available tokens for joker exchange with remaining counts (including purple option)
      */
     public get availableJokerTokens(): Array<{color: Color, remainingCount: number}> {
         const basicColors: Color[] = ['green', 'white', 'blue', 'red'];
         const tokens: Array<{color: Color, remainingCount: number}> = [];
         
+        // Add basic colors (green, white, blue, red)
         for (const color of basicColors) {
             const bankCount = this.gameBankHexagons[color] ?? 0;
             // Count how many times this color was selected
@@ -525,22 +526,54 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             tokens.push({ color, remainingCount });
         }
         
+        // Add purple option: N jokers = (N-1) purple hexagons
+        // 2 jokers = 1 purple, 3 jokers = 2 purple, 4 jokers = 3 purple
+        const purpleCount = this.jokerCount - 1;
+        const hasPurpleSelected = this.selectedJokerExchanges.includes('purple');
+        const purpleRemainingCount = hasPurpleSelected ? 0 : purpleCount;
+        
+        if (purpleCount > 0) {
+            tokens.push({ color: 'purple', remainingCount: purpleRemainingCount });
+        }
+        
         return tokens;
     }
 
     /**
-     * Handle joker token click
+     * Check if purple option is currently selected
+     */
+    public get isPurpleSelected(): boolean {
+        return this.selectedJokerExchanges.includes('purple');
+    }
+
+    /**
+     * Handle joker token click with purple/basic colors mutual exclusion
      */
     public onJokerTokenClick(color: Color): void {
         // Find remaining count for this color
         const token = this.availableJokerTokens.find(t => t.color === color);
         if (!token || token.remainingCount === 0) return;
         
-        // Check if we've already selected enough jokers
-        if (this.selectedJokerExchanges.length >= this.jokerCount) return;
-        
-        // Add this color selection
-        this.selectedJokerExchanges.push(color);
+        if (color === 'purple') {
+            // Selecting purple: clear all selections and add (jokerCount - 1) purple tokens
+            this.selectedJokerExchanges = [];
+            const purpleCount = this.jokerCount - 1;
+            for (let i = 0; i < purpleCount; i++) {
+                this.selectedJokerExchanges.push('purple');
+            }
+        } else {
+            // Selecting basic color: check if purple is already selected
+            if (this.isPurpleSelected) {
+                // Cannot select basic colors when purple is selected
+                return;
+            }
+            
+            // Check if we've already selected enough jokers
+            if (this.selectedJokerExchanges.length >= this.jokerCount) return;
+            
+            // Add basic color selection
+            this.selectedJokerExchanges.push(color);
+        }
     }
 
     /**

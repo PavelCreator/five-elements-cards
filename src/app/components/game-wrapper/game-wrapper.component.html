@@ -117,7 +117,7 @@
                     <div class="dice-cancel-item dice-cancel-item--token dice-cancel-item--joker" 
                          *ngFor="let token of availableJokerTokens" 
                          (click)="onJokerTokenClick(token.color)"
-                         [class.dice-cancel-item--disabled]="token.remainingCount === 0">
+                         [class.dice-cancel-item--disabled]="token.remainingCount === 0 || (token.color !== 'purple' && isPurpleSelected) || (token.color === 'purple' && exchangedJokersCount > 0 && !isPurpleSelected)">
                         <app-hexagon [color]="token.color" [number]="token.remainingCount" [type]="'playerBank'"></app-hexagon>
                     </div>
                 </div>
