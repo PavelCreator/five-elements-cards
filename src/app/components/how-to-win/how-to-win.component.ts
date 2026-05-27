@@ -46,7 +46,14 @@ export class HowToWinComponent implements OnInit {
         })
 
         this.lang = this._settingsService.lang;
-        this.chaosCardBackground = './assets/back_cards/how_to_win/bg-front-how-to-win-'+ (this.card.type.toLowerCase()) + '.png';
+        const type = this.card.type.toLowerCase();
+        if (type === 'grand') {
+            this.chaosCardBackground = './assets/back_cards/how_to_win/how-to-win-rect-grand.jpg';
+        } else if (type === 'blitz') {
+            this.chaosCardBackground = './assets/back_cards/how_to_win/how-to-win-rect-blitz.jpg';
+        } else {
+            this.chaosCardBackground = './assets/back_cards/how_to_win/bg-front-how-to-win-' + type + '.png';
+        }
     }
 
     public formatHexNumber(hexNumber: string): number {

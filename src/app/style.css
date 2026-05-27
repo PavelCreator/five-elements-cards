@@ -320,23 +320,23 @@
 
 
 .card-win {
-    width: 378px;
+    width: 146px;
     height: 332px;
-    background-size: 378px 332px;
+    background-size: 146px 332px;
 }
 
 .card-overlay-wrap-win{
     position: absolute;
     height: 332px;
-    width: 378px;
+    width: 146px;
     overflow: hidden;
     z-index: 3;
     transition: transform .3s ease-out;
 }
 
 .card-overlay-wrap-win .card-overlay{
-    background-size: 378px 332px; /* твои значения */
-    width: 378px;
+    background-size: 146px 332px; /* твои значения */
+    width: 146px;
     height: 332px;
 }
 
@@ -585,68 +585,68 @@
     bottom: 2px;
 }
 .text-container-win {
-    width: 228px;
-    top: 160px;
-    left: 75px;
+    width: 122px;
+    top: 136px;
+    left: 10px;
 }
 .text-container-win-1 {
-    width: 228px;
-    top: 166px;
-    left: 75px;
+    width: 122px;
+    top: 136px;
+    left: 15px;
 }
 .text-container-win-2 {
-    width: 228px;
-    top: 160px;
-    left: 75px;
+    width: 122px;
+    top: 136px;
+    left: 15px;
 }
 .text-container-win-2-of-4 {
-    width: 228px;
-    top: 160px;
-    left: 77px;
+    width: 122px;
+    top: 136px;
+    left: 15px;
 }
 .text-container-win-1-of-4 {
-    top: 60px;
+    top: 33px;
 }
 .text-container-win-2-of-4 span {
-    position:relative;
-    top: 12px;
-    left: -5px;
+    width: 122px;
+    top: 136px;
+    left: 15px;
     font-size: 27px;
 }
 .text-container-win-3 {
     width: 240px;
     top: 166px;
-    left: 58px;
+    left: 10px;
 }
 
 .text-container-win-3 .hexagon-chaos-wrapper{
     margin-right: -20px;
 }
 .text-container-win-4 {
-    width: 175px;
-    top: 165px;
-    left: 102px;
+    width: 122px;
+    top: 136px;
+    left: 15px;
 }
 .text-container-win-5 {
-    width: 180px;
-    top: 165px;
-    left: 98px;
+    width: 122px;
+    top: 136px;
+    left: 15px;
 }
 .text-container-win-6 {
-    width: 180px;
-    top: 165px;
-    left: 98px;
+    width: 122px;
+    top: 136px;
+    left: 15px;
 }
 .text-container-win-text {
-    width: 227px;
+    width: 122px;
+    top: 30px;
+    left: 15px;
     text-align: center;
-    top: 65px;
 }
 .text-container-win-text span{
     position: relative;
-    top: 14px;
-    left: -5px;
-    font-size: 33px;
+    top: 2px;
+    font-size: 27px;
 }
 /*.text-container-win-1-of-4 {
     width: 180px;
@@ -748,7 +748,7 @@
     position: relative;
     top: 16px;
     margin-top: -20px;
-    padding-bottom: 14px;
+    padding-bottom: 19px;
 }
 
 .hexagons-master-wrapper {

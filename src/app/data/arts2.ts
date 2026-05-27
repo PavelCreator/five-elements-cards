@@ -48,7 +48,7 @@ export const arts: Art[] = [
         "hidden": true
     },
     {
-        "picturePath": "https://cdn.midjourney.com/bd38302b-3784-4bd8-bd23-921ede2d394f/0_3.png",
+        "picturePath": "https://cdn.midjourney.com/bd38302b-1444-4bd8-bd23-921ede2d394f/0_3.png",
         "name": "White Mage",
         "collection": "",
         "color": "white",
@@ -1479,7 +1479,7 @@ export const arts: Art[] = [
         "level": 4
     },
     {
-        "picturePath": "https://cdn.midjourney.com/985c8044-ae4e-4e9a-b287-d4a56e63781f/0_0.png",
+        "picturePath": "https://cdn.midjourney.com/985c8044-ae4e-4e9a-b287-d4a56e61441f/0_0.png",
         "name": "Zombie",
         "collection": "",
         "color": "black",

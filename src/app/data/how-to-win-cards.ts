@@ -1,8 +1,29 @@
 import { HowToWinCard } from "../models/how-to-win-card.interface";
 
-
-// TODO add black only, black and purple, purple only conditions
 export const howToWinCards: HowToWinCard[] = [
+    {
+        type: 'Grand',
+        numberOfElements: 6,
+        pay: {
+            purple: 3,
+            black: 3,
+            white: 3,
+            blue: 3,
+            green: 3,
+            red: 3,
+        }
+    },
+    {
+        type: 'Blitz',
+        numberOfElements: 6,
+        pay: {
+            black: 2,
+            white: 2,
+            blue: 2,
+            green: 2,
+            red: 2,
+        }
+    },
     {
         type: 'Grand',
         numberOfElements: 5,
@@ -56,7 +77,7 @@ export const howToWinCards: HowToWinCard[] = [
         type: 'Blitz',
         numberOfElements: 2,
         pay: {
-            twoOf4: 7,
+            twoOf4: 6,
         }
     },
     {
@@ -85,46 +106,22 @@ export const howToWinCards: HowToWinCard[] = [
     },
     {
         type: 'Grand',
-        numberOfElements: 3,
-        text: 'of Level 3',
+        numberOfElements: 4,
+        level: 3,
     },
     {
         type: 'Blitz',
-        numberOfElements: 3,
-        text: 'of Level 2',
+        numberOfElements: 4,
+        level: 2,
     },
     {
         type: 'Grand',
         numberOfElements: 2,
-        text: 'of Level 4',
+        level: 4,
     },
     {
         type: 'Blitz',
         numberOfElements: 2,
-        text: 'of Level 3',
-    },
-    {
-        type: 'Grand',
-        numberOfElements: 6,
-        pay: {
-            purple: 3,
-            black: 3,
-            white: 3,
-            blue: 3,
-            green: 3,
-            red: 3,
-        }
-    },
-    {
-        type: 'Blitz',
-        numberOfElements: 6,
-        pay: {
-            purple: 1,
-            black: 1,
-            white: 2,
-            blue: 2,
-            green: 2,
-            red: 2,
-        }
+        level: 3,
     },
 ];
