@@ -790,6 +790,11 @@
     z-index:10;
 }
 
+.master-cost-wrapper {
+    top: 10px;
+    bottom: auto;
+}
+
 .get-wrapper{
     position:absolute;
     left:1px;

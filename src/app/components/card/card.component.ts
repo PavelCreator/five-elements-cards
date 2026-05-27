@@ -236,6 +236,17 @@ export class CardComponent implements OnInit {
         }, 300);
     }
 
+    public changeUrl(event: MouseEvent) {
+        event.stopPropagation();
+        if (!this.card.artData) return;
+
+        const newUrl = prompt('Enter new URL:', this.card.artData.picturePath);
+        if (newUrl && newUrl.trim() !== '') {
+            this.card.artData.picturePath = newUrl.trim();
+            this._interactionService.saveCards();
+        }
+    }
+
     public increaseToken(color: string) {
         console.log('increaseToken called with color:', color);
         if (!this.editTokensMode) return;

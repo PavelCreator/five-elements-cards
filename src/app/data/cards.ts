@@ -414,7 +414,7 @@ export const cards: Card[] = [
                 "left": 996
             },
             "isSelected": true,
-            "horizontalReverse": true
+            "horizontalReverse": false
         }
     },
     {
@@ -542,7 +542,7 @@ export const cards: Card[] = [
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/a95159b2-b5c4-4db9-8131-5f60314f22ef/0_0.png",
+            "picturePath": "https://cdn.midjourney.com/fb3cc1d8-e864-44dc-a33a-522bbed492b5/0_0.png",
             "name": "Hobbit",
             "color": "green",
             "level": 1,
@@ -1892,21 +1892,22 @@ export const cards: Card[] = [
         },
         "color": "green",
         "boundingClientRect": {
-            "top": 2160,
-            "left": 498
+            "top": 719.1818237304688,
+            "left": 502
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/f498e318-642c-43ce-8095-3ac84d3cec01/0_3.png",
-            "name": "Witcher",
-            "collection": "",
-            "color": "green",
-            "level": 2,
+            "picturePath": "https://cdn.midjourney.com/22f47aff-c24a-44cb-ad39-3c1dc02cba6e/0_0.png",
+            "name": "Oracle",
+            "color": "bonus",
+            "hidden": false,
+            "level": 1,
             "boundingClientRectStart": {
-                "top": 495.6000061035156,
-                "left": 1245
+                "top": 671.6364135742188,
+                "left": 747
             },
-            "isSelected": true
+            "isSelected": true,
+            "horizontalReverse": true
         }
     },
     {
@@ -2415,22 +2416,23 @@ export const cards: Card[] = [
         },
         "color": "white",
         "boundingClientRect": {
-            "top": 440,
-            "left": 1494
+            "top": 3892.36376953125,
+            "left": 506
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/7a8efd00-4d7c-4919-8d9b-94b8831dc903/0_3.png",
-            "name": "Catapult",
+            "picturePath": "https://cdn.midjourney.com/376742c1-deb9-4618-a362-98fac28bf164/0_2.png",
+            "name": "Vityaz",
             "collection": "",
             "color": "white",
-            "level": 2,
+            "level": 1,
+            "hidden": false,
             "boundingClientRectStart": {
-                "top": 495.6000061035156,
-                "left": 1245
+                "top": 481.6363830566406,
+                "left": 0
             },
             "isSelected": true,
-            "horizontalReverse": false
+            "horizontalReverse": true
         }
     },
     {

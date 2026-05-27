@@ -93,6 +93,7 @@
 			<div class="hover-button hover-button-confirm" *ngIf="card.hidden" (click)="changeDisableState($event, false)">Enable Card</div>
 			<div class="hover-button" *ngIf="card.artData && !card.artData?.horizontalReverse" (click)="flip($event)">Flip Horizontal</div>
 			<div class="hover-button" *ngIf="card.artData && card.artData?.horizontalReverse" (click)="flip($event)">Unflip Horizontal</div>
+            <div class="hover-button" *ngIf="card.artData" (click)="changeUrl($event)">Change URL</div>
 			<div class="hover-button" *ngIf="card.artData && !renameModeOn" (click)="toggleRename($event, true)">Rename</div>
 			<div class="hover-button hover-button-confirm" *ngIf="card.artData && renameModeOn" (click)="toggleRename($event, false)">Confirm Rename</div>
 			<div class="hover-button hover-button-cancel" *ngIf="card.artData && renameModeOn" (click)="cancelRename($event)">Cancel Rename</div>

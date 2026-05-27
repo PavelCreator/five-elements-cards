@@ -56,6 +56,17 @@
         padding-top:14px;
     }
 }
+.coin-medium-pay{
+    height:56px;
+    width:60px;
+    background-size:60px 56px;
+
+    .number-wrapper{
+        padding-right:0px;
+        font-size:27.5px;
+        padding-top:10px;
+    }
+}
 .coin-big{
     height: 74px;
     width: 80px;

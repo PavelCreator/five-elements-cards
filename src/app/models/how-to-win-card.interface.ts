@@ -1,6 +1,6 @@
 import {Elements} from "./elements.interface";
 
-export type HowToWinCardType = 'Classic' | 'Blitz' | 'Grand';
+export type HowToWinCardType = 'Blitz' | 'Grand';
 
 export interface HowToWinCard {
     type: HowToWinCardType,

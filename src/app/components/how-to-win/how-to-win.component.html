@@ -100,7 +100,7 @@
         </div>
         <div class="text-container text-container-chaos text-container-win text-container-win-text" *ngIf="card.text">
 					<div class="description-win-line">
-						<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="card.text === 'Dragons' ? 'mix2' : 'mix'" [type]="'getWin2'" [number]="card?.numberOfElements"></app-hexagon>
+						<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="card.text.includes('Dragon') ? 'mix2' : 'mix'" [type]="'getWin2'" [number]="card?.numberOfElements"></app-hexagon>
 						<span>{{card?.text}}</span>
 					</div>
         </div>
@@ -110,8 +110,8 @@
         <!-- back: используем wrap-back, чтобы background-size для отражений был как у рубашки -->
 		<div
 			class="card-overlay-wrap-back card-overlay-wrap-win"
-			*ngIf="card.type === 'Classic'"
-			[ngStyle]="{ '--card-bg': 'url(/assets/back_cards/how_to_win/classic_back.png)' }"
+			*ngIf="card.type === 'Grand'"
+			[ngStyle]="{ '--card-bg': 'url(/assets/back_cards/how_to_win/Grand_back.png)' }"
 		>
 		    <div class="card-overlay card-overlay-back"></div>
 		</div>

@@ -515,12 +515,29 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         const basicColors: Color[] = ['green', 'white', 'blue', 'red'];
         const tokens: Array<{color: Color, remainingCount: number}> = [];
         
+        // Count non-joker dice by color
+        const nonJokerDiceCounts: Record<string, number> = {
+            green: 0,
+            white: 0,
+            blue: 0,
+            red: 0
+        };
+        
+        for (const diceResult of this.diceResults) {
+            if (diceResult === 'dices-blue.png') nonJokerDiceCounts['blue']++;
+            else if (diceResult === 'dices-green.png') nonJokerDiceCounts['green']++;
+            else if (diceResult === 'dices-red.png') nonJokerDiceCounts['red']++;
+            else if (diceResult === 'dices-white.png') nonJokerDiceCounts['white']++;
+            // Skip jokers and crosses
+        }
+        
         // Add basic colors (green, white, blue, red)
         for (const color of basicColors) {
             const bankCount = this.gameBankHexagons[color] ?? 0;
-            // Count how many times this color was selected
+            const diceCount = nonJokerDiceCounts[color] ?? 0;
+            // Count how many times this color was selected for joker exchange
             const selectedCount = this.selectedJokerExchanges.filter(c => c === color).length;
-            const remainingCount = bankCount - selectedCount;
+            const remainingCount = bankCount - diceCount - selectedCount;
             
             // Show all 4 colors always
             tokens.push({ color, remainingCount });

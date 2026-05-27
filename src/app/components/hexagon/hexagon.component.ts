@@ -26,14 +26,14 @@ import { Color } from "../../models/color.type";
 export class HexagonComponent implements OnInit {
     @Input() number: number | 'infinity' | undefined;
     @Input() color: Color | undefined;
-    @Input() type: 'get' | 'getWin' | 'getWin2' | 'pay' | 'getMix' | 'getMedWin' | 'chaos' | 'chaos-card' | 'payBonus' | 'gameBank' | 'playerBank' | undefined;
+    @Input() type: 'get' | 'getWin' | 'getWin2' | 'pay' | 'payMedium' | 'getMix' | 'getMedWin' | 'payMed' | 'chaos' | 'chaos-card' | 'payBonus' | 'gameBank' | 'playerBank' | undefined;
 
     @Output() leftClick = new EventEmitter<string>();
     @Output() rightClick = new EventEmitter<string>();
 
     public gradient: string | undefined;
     public hexUrl: string | undefined;
-    public coinClass: 'coin-chaos' | 'coin-small' | 'coin-medium' | 'coin-big' | 'coin-big-win' | 'coin-big-win2' | 'coin-medium-win' | 'coin-game-bank' = 'coin-small';
+    public coinClass: 'coin-chaos' | 'coin-small' | 'coin-medium' | 'coin-big' | 'coin-big-win' | 'coin-big-win2' | 'coin-medium-win' | 'coin-medium-pay' | 'coin-game-bank' = 'coin-small';
     public get isInfinity(): boolean {
         return this.number === 'infinity';
     }
@@ -122,6 +122,9 @@ export class HexagonComponent implements OnInit {
                 break;
             case 'getMedWin':
                 this.coinClass = 'coin-medium-win';
+                break;
+            case 'payMed':
+                this.coinClass = 'coin-medium-pay';
                 break;
             case 'gameBank':
                 this.coinClass = 'coin-game-bank';

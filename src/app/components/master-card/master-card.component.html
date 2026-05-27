@@ -19,6 +19,10 @@
             <div class="card-overlay-mirror-bottomright"></div>
         </div>
 
+        <div class="pay-wrapper master-cost-wrapper">
+            <app-hexagon [color]="'black'" [number]="card.cost" [type]="'payMed'"></app-hexagon>
+        </div>
+
         <div class="text-container text-container-chaos text-container-master">
             <div class="header-master-line">{{ card.text.en }}</div>
 
