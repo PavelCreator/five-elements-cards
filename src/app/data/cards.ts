@@ -3972,8 +3972,8 @@ export const cards: Card[] = [
             "white": 0,
             "purple": 2,
             "black": 2,
-            "red": 8,
-            "blue": 8
+            "red": 7,
+            "blue": 7
         },
         "get": {
             "blue": 2,
@@ -4008,8 +4008,8 @@ export const cards: Card[] = [
             "blue": 0,
             "purple": 2,
             "black": 2,
-            "red": 8,
-            "white": 8
+            "red": 7,
+            "white": 7
         },
         "get": {
             "white": 2,
@@ -4044,8 +4044,8 @@ export const cards: Card[] = [
             "blue": 0,
             "purple": 2,
             "black": 2,
-            "green": 8,
-            "white": 8
+            "green": 7,
+            "white": 7
         },
         "get": {
             "white": 2,
@@ -4080,8 +4080,8 @@ export const cards: Card[] = [
             "white": 0,
             "purple": 2,
             "black": 2,
-            "green": 8,
-            "blue": 8
+            "green": 7,
+            "blue": 7
         },
         "get": {
             "blue": 2,
@@ -4621,8 +4621,8 @@ export const cards: Card[] = [
             "green": 0,
             "purple": 2,
             "black": 2,
-            "white": 8,
-            "blue": 8
+            "white": 7,
+            "blue": 7
         },
         "get": {
             "white": 2,
@@ -4657,8 +4657,8 @@ export const cards: Card[] = [
             "blue": 0,
             "purple": 2,
             "black": 2,
-            "red": 8,
-            "green": 8
+            "red": 7,
+            "green": 7
         },
         "get": {
             "red": 2,
