@@ -33,12 +33,16 @@
 								<span>or</span><app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="'green'" [type]="'getMix'" [number]="card?.pay?.oneOf4"></app-hexagon></p>
 							</div>
         </div>-->
-				<div class="text-container text-container-chaos text-container-win text-container-win-2-of-4 text-container-win-1-of-4" *ngIf="card.pay?.oneOf4">
+				<div class="text-container text-container-chaos text-container-win text-container-win-2-of-4 text-container-win-1-of-4"
+						 [ngClass]="{ 'text-container-win-text-white': !textInverseColor, 'text-container-win-text-black': textInverseColor }"
+						 *ngIf="card.pay?.oneOf4">
 							<div class="description-win-line">
 									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="'mix'" [type]="'getWin2'" [number]="card?.pay?.oneOf4"></app-hexagon><span><br>of <br>1 color</span>
 							</div>
 				</div>
-        <div class="text-container text-container-chaos text-container-win text-container-win-2-of-4" *ngIf="card.pay?.twoOf4">
+        <div class="text-container text-container-chaos text-container-win text-container-win-2-of-4"
+						 [ngClass]="{ 'text-container-win-text-white': !textInverseColor, 'text-container-win-text-black': textInverseColor }"
+						 *ngIf="card.pay?.twoOf4">
 							<div class="description-win-line">
 									<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="'mix'" [type]="'getWin2'" [number]="card?.pay?.twoOf4"></app-hexagon><span><br>of <br>2 colors</span>
 							</div>
@@ -98,13 +102,17 @@
 								<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" *ngIf="card?.pay?.mix" [color]="'mix'" [type]="'getMedWin'" [number]="card?.pay?.mix"></app-hexagon>
 							</div>
         </div>
-        <div class="text-container text-container-chaos text-container-win text-container-win-text" *ngIf="card.text">
+        <div class="text-container text-container-chaos text-container-win text-container-win-text"
+						 [ngClass]="{ 'text-container-win-text-white': !textInverseColor, 'text-container-win-text-black': textInverseColor }"
+						 *ngIf="card.text">
 					<div class="description-win-line">
 						<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="'mix2'" [type]="'getWin2'" [number]="card?.numberOfElements"></app-hexagon>
 						<span><br>{{card?.text}}</span>
 					</div>
         </div>
-        <div class="text-container text-container-chaos text-container-win text-container-win-text" *ngIf="card.level">
+        <div class="text-container text-container-chaos text-container-win text-container-win-text"
+						 [ngClass]="{ 'text-container-win-text-white': !textInverseColor, 'text-container-win-text-black': textInverseColor }"
+						 *ngIf="card.level">
 					<div class="description-win-line">
 						<app-hexagon class="hexagon-chaos-wrapper hexagon-win-wrapper" [color]="'mix'" [type]="'getWin2'" [number]="card?.numberOfElements"></app-hexagon>
 						<span *ngIf="card.level"><br>of <br>Level {{card.level}}</span>

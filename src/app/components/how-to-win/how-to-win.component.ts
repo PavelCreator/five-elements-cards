@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgIf, NgStyle } from "@angular/common";
+import {NgClass, NgIf, NgStyle} from "@angular/common";
 import { InteractionService } from "../../services/interaction.service";
 import { FormsModule } from "@angular/forms";
 import { ImageService } from "../../services/image.service";
@@ -17,7 +17,8 @@ import { HowToWinCard } from "../../models/how-to-win-card.interface";
         NgStyle,
         NgIf,
         HexagonComponent,
-        FormsModule
+        FormsModule,
+        NgClass
     ],
     styleUrls: ['../../style.css']
 })
@@ -30,6 +31,7 @@ export class HowToWinComponent implements OnInit {
     public cardSide: CardSide = 'front';
     public hovered: boolean = false;
     public chaosCardBackground: string = '';
+    public textInverseColor: boolean = false;
 
     constructor(
         private _interactionService: InteractionService,
@@ -51,8 +53,7 @@ export class HowToWinComponent implements OnInit {
             this.chaosCardBackground = './assets/back_cards/how_to_win/how-to-win-rect-grand.jpg';
         } else if (type === 'blitz') {
             this.chaosCardBackground = './assets/back_cards/how_to_win/how-to-win-rect-blitz.jpg';
-        } else {
-            this.chaosCardBackground = './assets/back_cards/how_to_win/bg-front-how-to-win-' + type + '.png';
+            this.textInverseColor = true;
         }
     }
 
