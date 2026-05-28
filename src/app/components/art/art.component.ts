@@ -4,6 +4,7 @@ import { Art } from "../../models/art.interface";
 import { InteractionService } from "../../services/interaction.service";
 import { FormsModule } from "@angular/forms";
 import { TextareaAutoresizeDirective } from "../../directives/textarea-autoresize.directive";
+import { ImageService } from "../../services/image.service";
 
 @Component({
     selector: 'app-art',
@@ -32,11 +33,13 @@ export class ArtComponent implements OnInit {
 
     constructor(
         private _interactionService: InteractionService,
+        private _imageService: ImageService,
         private el: ElementRef
     ) {
     }
 
     ngOnInit() {
+        this.art.picturePath = this._imageService.normalizeMidjourneyUrl(this.art.picturePath) ?? this.art.picturePath;
         this._setBorderColorFromArtColor();
 
         this._interactionService.selectedArt$.subscribe((inArt: Art | undefined) => {
@@ -165,7 +168,7 @@ export class ArtComponent implements OnInit {
         event.stopPropagation();
         const newUrl = prompt('Enter new URL:', this.art.picturePath);
         if (newUrl && newUrl.trim() !== '') {
-            this.art.picturePath = newUrl.trim();
+            this.art.picturePath = this._imageService.normalizeMidjourneyUrl(newUrl.trim()) ?? newUrl.trim();
             this._interactionService.saveArts();
         }
     }

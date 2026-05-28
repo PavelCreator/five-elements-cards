@@ -43,7 +43,7 @@ export class ChaosCardComponent implements OnInit {
     public showDisabledCard: boolean = false;
 
     public borderColor: string | undefined = 'grey';
-    public chaosCardBackground: string = './assets/back_cards/chaos_front4.png'; //'https://cdn.midjourney.com/78e3d8e0-b1be-4429-bc5d-199ebdf6e763/0_1.png';//, 'https://cdn.midjourney.com/f0d7865d-925f-4095-acf7-030ee9c5be0b/0_2.png';
+    public chaosCardBackground: string = './assets/back_cards/chaos_front4.png'; //'assets/images/78e3d8e0-b1be-4429-bc5d-199ebdf6e763/0_1.png';//, 'assets/images/f0d7865d-925f-4095-acf7-030ee9c5be0b/0_2.png';
     public cardSide: CardSide = 'front';
     private _boundingClientRect: BoundingClientRect = {
         top: 0,

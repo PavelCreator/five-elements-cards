@@ -12,6 +12,7 @@ import { Color } from "../../models/color.type";
 import { HelperService } from "../../services/helper.service";
 import { LocalStorageService } from "../../services/local-storage.service";
 import { FormsModule } from "@angular/forms";
+import { ImageService } from "../../services/image.service";
 
 @Component({
     selector: 'app-arts',
@@ -95,7 +96,8 @@ export class ArtsComponent implements OnInit {
 
     constructor(
         private _interactionService: InteractionService,
-        private _localStorageService: LocalStorageService
+        private _localStorageService: LocalStorageService,
+        private _imageService: ImageService
     ) {
     }
 
@@ -119,7 +121,7 @@ export class ArtsComponent implements OnInit {
 
     public addNewArt() {
         const newArt: Art = {
-            picturePath: this.newArtUrl,
+            picturePath: this._imageService.normalizeMidjourneyUrl(this.newArtUrl) ?? this.newArtUrl,
             name: this.newArtName,
             color: this.newArtColor,
             hidden: this.newArtHidden,

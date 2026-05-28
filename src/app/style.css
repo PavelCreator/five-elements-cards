@@ -320,24 +320,24 @@
 
 
 .card-win {
-    width: 146px;
-    height: 332px;
-    background-size: 146px 332px;
+    width: 150px;
+    height: 342px;
+    background-size: 150px 342px;
 }
 
 .card-overlay-wrap-win{
     position: absolute;
-    height: 332px;
-    width: 146px;
+    height: 342px;
+    width: 150px;
     overflow: hidden;
     z-index: 3;
     transition: transform .3s ease-out;
 }
 
 .card-overlay-wrap-win .card-overlay{
-    background-size: 146px 332px; /* твои значения */
-    width: 146px;
-    height: 332px;
+    background-size: 150px 342px; /* твои значения */
+    width: 150px;
+    height: 342px;
 }
 
 .card-overlay-image{

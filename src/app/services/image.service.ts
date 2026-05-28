@@ -8,7 +8,18 @@ import { Art } from "../models/art.interface";
 })
 export class ImageService {
 
+  private readonly midjourneyUrlRegex = /^https:\/\/cdn\.midjourney\.com\/([0-9a-fA-F-]+)\/(\d+_\d+\.[a-zA-Z0-9]+)(\?[^\s'"`)]*)?$/;
+
   constructor() { }
+
+  public normalizeMidjourneyUrl(url: string | undefined): string | undefined {
+      if (!url) return url;
+
+      const match = url.match(this.midjourneyUrlRegex);
+      if (!match) return url;
+
+      return `assets/images/${match[1]}/${match[2]}`;
+  }
 
   public generateCardBackUrl(card: Card): string {
       if (card.levelBonus) {

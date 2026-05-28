@@ -98,6 +98,9 @@ export class CardComponent implements OnInit {
     }
 
     ngOnInit() {
+        if (this.card.artData?.picturePath) {
+            this.card.artData.picturePath = this._imageService.normalizeMidjourneyUrl(this.card.artData.picturePath) ?? this.card.artData.picturePath;
+        }
         this.cardBackUrl = this._imageService.generateCardBackUrl(this.card);
         this.render.listen('window', 'load', () => {
 
@@ -242,7 +245,7 @@ export class CardComponent implements OnInit {
 
         const newUrl = prompt('Enter new URL:', this.card.artData.picturePath);
         if (newUrl && newUrl.trim() !== '') {
-            this.card.artData.picturePath = newUrl.trim();
+            this.card.artData.picturePath = this._imageService.normalizeMidjourneyUrl(newUrl.trim()) ?? newUrl.trim();
             this._interactionService.saveCards();
         }
     }
