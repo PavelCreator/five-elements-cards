@@ -302,7 +302,7 @@ export const cards: Card[] = [
         "isSelected": false,
         "artData": {
             "picturePath": "assets/images/768b8bfe-ad93-414e-9df5-6f1fb35e6bb9/0_1.png",
-            "name": "Uther",
+            "name": "Hell Child",
             "collection": "",
             "color": "red",
             "level": 1,
@@ -543,7 +543,7 @@ export const cards: Card[] = [
         "isSelected": false,
         "artData": {
             "picturePath": "assets/images/fb3cc1d8-e864-44dc-a33a-522bbed492b5/0_0.png",
-            "name": "Hobbit",
+            "name": "Halfling",
             "color": "green",
             "level": 1,
             "boundingClientRectStart": {
@@ -852,7 +852,7 @@ export const cards: Card[] = [
         "isSelected": false,
         "artData": {
             "picturePath": "assets/images/caa164b8-c71a-42ee-a678-b4b7c7da9463/0_2.png",
-            "name": "Sinful soul",
+            "name": "Sinful Soul",
             "color": "red",
             "level": 1,
             "boundingClientRectStart": {
@@ -1026,7 +1026,7 @@ export const cards: Card[] = [
         "isSelected": false,
         "artData": {
             "picturePath": "assets/images/db6137d6-2bee-463e-ba34-a552f0d2a563/0_2.png",
-            "name": "Blacksmit",
+            "name": "Blacksmith",
             "collection": "",
             "color": "white",
             "level": 1,
@@ -1793,7 +1793,7 @@ export const cards: Card[] = [
         "isSelected": false,
         "artData": {
             "picturePath": "assets/images/de689b9c-e2f2-49f0-bc9c-4a25839fbbf5/0_3.png",
-            "name": "Dendroid",
+            "name": "Treefolk",
             "collection": "",
             "color": "green",
             "level": 2,
@@ -2421,7 +2421,7 @@ export const cards: Card[] = [
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "assets/images/376742c1-deb9-4618-a362-98fac28bf164/0_2.png",
+            "picturePath": "assets/images/a2174049-bbd2-47f6-ba07-9cfe4f310cdb/0_1.png",
             "name": "Vityaz",
             "collection": "",
             "color": "white",
@@ -3848,7 +3848,7 @@ export const cards: Card[] = [
         "isSelected": false,
         "artData": {
             "picturePath": "assets/images/ad601a88-2aa3-4090-9ee4-88de7d4f8b33/0_2.png",
-            "name": "Overlord",
+            "name": "Moloch",
             "collection": "",
             "color": "red",
             "level": 3,
@@ -4847,7 +4847,7 @@ export const cards: Card[] = [
         "isSelected": false,
         "artData": {
             "picturePath": "assets/images/03b03b1e-89cd-423f-a29c-9e35dc3db9d5/0_1.png",
-            "name": "Diablo Hell King",
+            "name": "Hell King",
             "collection": "",
             "color": "red",
             "level": 3,
@@ -5402,8 +5402,8 @@ export const cards: Card[] = [
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "assets/images/df80a025-cf73-44b8-ad1e-1ae8a2a7880b/0_3.png",
-            "name": "Vampire Dragon",
+            "picturePath": "assets/images/6ef61ffb-968f-4d47-bdf0-56ad59564246/0_2.png",
+            "name": "Desert Dragon",
             "collection": "",
             "color": "black",
             "level": 4,
@@ -5612,7 +5612,7 @@ export const cards: Card[] = [
         "levelBonus": true,
         "artData": {
             "picturePath": "assets/images/04dc9632-2519-4efb-b276-124327e5ae87/0_2.png",
-            "name": "Vasilisa The Beautiful",
+            "name": "Vasilisa the Beautiful",
             "color": "bonus",
             "hidden": false,
             "level": 1,
@@ -6144,7 +6144,7 @@ export const cards: Card[] = [
         "isSelected": false,
         "artData": {
             "picturePath": "assets/images/596c5897-359b-4d3b-a8bc-189a4c24f7f5/0_2.png",
-            "name": "Moonkin",
+            "name": "Moon Child",
             "color": "bonus",
             "hidden": false,
             "level": 1,
@@ -6995,7 +6995,7 @@ export const cards: Card[] = [
         "isSelected": false,
         "artData": {
             "picturePath": "assets/images/b3b9f27e-0d2e-439d-8460-141f00d7a63d/0_0.png",
-            "name": "Flamehart",
+            "name": "Flame Heart",
             "color": "bonus",
             "hidden": false,
             "level": 1,
@@ -7549,7 +7549,7 @@ export const cards: Card[] = [
         "isSelected": false,
         "artData": {
             "picturePath": "assets/images/1a9d9dd8-a49a-4bb1-be49-980a8cde862e/0_3.png",
-            "name": "Ravenlord",
+            "name": "Raven Lord",
             "color": "bonus",
             "hidden": false,
             "level": 1,
@@ -7653,7 +7653,7 @@ export const cards: Card[] = [
         "isSelected": false,
         "artData": {
             "picturePath": "assets/images/7685b00b-3900-4f91-b99d-879e46df1e88/0_1.png",
-            "name": "Assasin",
+            "name": "Assassin",
             "collection": "",
             "color": "bonus",
             "level": 1,
@@ -7790,7 +7790,7 @@ export const cards: Card[] = [
         "isSelected": false,
         "artData": {
             "picturePath": "assets/images/b8f5fd0d-c417-40ca-bf10-88ea49ba5639/0_3.png",
-            "name": "Goddess Of Night",
+            "name": "Goddess of Night",
             "color": "bonus",
             "hidden": false,
             "level": 1,
