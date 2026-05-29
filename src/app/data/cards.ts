@@ -1512,7 +1512,7 @@ export const cards: Card[] = [
         },
         "isSelected": false,
         "artData": {
-            "picturePath": "https://cdn.midjourney.com/985c8044-ae4e-4e9a-b287-d4a56e61441f/0_0.png",
+            "picturePath": "assets/images/985c8044-ae4e-4e9a-b287-d4a56e63781f/0_0.png",
             "name": "Zombie",
             "collection": "",
             "color": "black",

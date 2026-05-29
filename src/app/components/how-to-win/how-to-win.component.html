@@ -1,16 +1,23 @@
 <div class="card card-win"
+     [ngClass]="{ 'card--view': !printModeEnabled, 'card--print': printModeEnabled, 'card--rotated': printModeEnabled && cardSide === 'back' }"
      (mouseenter)="hovered = true"
      (mouseleave)="hovered = false"
 >
     <ng-container *ngIf="cardSide === 'front'">
-        <!-- вместо card-overlay напрямую -->
 			<div
 					class="card-overlay-wrap-win"
+					[ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
 					[ngStyle]="{
         '--card-bg': 'url(' + chaosCardBackground + ')'
       }"
 			>
+				<div class="card-overlay-mirror-topleft"></div>
+				<div class="card-overlay-mirror-topright"></div>
+				<div class="card-overlay-mirror-left"></div>
 				<div class="card-overlay"></div>
+				<div class="card-overlay-mirror-right"></div>
+				<div class="card-overlay-mirror-bottomleft"></div>
+				<div class="card-overlay-mirror-bottomright"></div>
 			</div>
         <div class="text-container text-container-chaos text-container-win text-container-win-1" *ngIf="card.numberOfElements === 1">
 							<div class="description-win-line">
@@ -121,27 +128,47 @@
     </ng-container>
 
     <ng-container *ngIf="cardSide === 'back'">
-        <!-- back: используем wrap-back, чтобы background-size для отражений был как у рубашки -->
 		<div
 			class="card-overlay-wrap-back card-overlay-wrap-win"
+			[ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
 			*ngIf="card.type === 'Grand'"
 			[ngStyle]="{ '--card-bg': 'url(/assets/back_cards/how_to_win/Grand_back.png)' }"
 		>
+			<div class="card-overlay-mirror-topleft"></div>
+			<div class="card-overlay-mirror-topright"></div>
+			<div class="card-overlay-mirror-left"></div>
 		    <div class="card-overlay card-overlay-back"></div>
+			<div class="card-overlay-mirror-right"></div>
+			<div class="card-overlay-mirror-bottomleft"></div>
+			<div class="card-overlay-mirror-bottomright"></div>
 		</div>
 		<div
 			class="card-overlay-wrap-back card-overlay-wrap-win"
+			[ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
 					*ngIf="card.type === 'Grand'"
 			[ngStyle]="{ '--card-bg': 'url(/assets/back_cards/how_to_win/grand-back.png)' }"
 		>
+			<div class="card-overlay-mirror-topleft"></div>
+			<div class="card-overlay-mirror-topright"></div>
+			<div class="card-overlay-mirror-left"></div>
 		    <div class="card-overlay card-overlay-back"></div>
+			<div class="card-overlay-mirror-right"></div>
+			<div class="card-overlay-mirror-bottomleft"></div>
+			<div class="card-overlay-mirror-bottomright"></div>
 		</div>
 		<div
 			class="card-overlay-wrap-back card-overlay-wrap-win"
+			[ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
 					*ngIf="card.type === 'Blitz'"
 			[ngStyle]="{ '--card-bg': 'url(/assets/back_cards/how_to_win/blitz_back.png)' }"
 		>
+			<div class="card-overlay-mirror-topleft"></div>
+			<div class="card-overlay-mirror-topright"></div>
+			<div class="card-overlay-mirror-left"></div>
 		    <div class="card-overlay card-overlay-back"></div>
+			<div class="card-overlay-mirror-right"></div>
+			<div class="card-overlay-mirror-bottomleft"></div>
+			<div class="card-overlay-mirror-bottomright"></div>
 		</div>
     </ng-container>
 </div>

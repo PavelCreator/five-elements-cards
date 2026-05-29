@@ -245,8 +245,8 @@
 }
 
 .dice-item {
-    width: 150px;
-    height: 150px;
+    width: 146px;
+    height: 146px;
     overflow: hidden;
     position: relative;
     border-radius: 30px;
@@ -277,13 +277,13 @@
         transform: translateY(0);
     }
     100% {
-        transform: translateY(-2100px); /* 14 images * 150px */
+        transform: translateY(-2100px); /* 14 images * 146px */
     }
 }
 
 .dice-image {
-    width: 150px;
-    height: 150px;
+    width: 146px;
+    height: 146px;
     object-fit: contain;
     filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
     flex-shrink: 0;

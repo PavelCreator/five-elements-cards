@@ -320,24 +320,46 @@
 
 
 .card-win {
-    width: 150px;
-    height: 342px;
-    background-size: 150px 342px;
+    width: 146px;
+    height: 332px;
+    background-size: 146px 332px;
 }
 
 .card-overlay-wrap-win{
+    --bleed-y: 5px;
+    --bleed-x: 5px;
+    --card-w: 146px;
+    --card-h: 332px;
     position: absolute;
-    height: 342px;
-    width: 150px;
+    left: calc(-1 * var(--bleed-x));
+    top: calc(-1 * var(--bleed-y));
+    width: calc(var(--card-w) + (var(--bleed-x) * 2));
+    height: calc(var(--card-h) + (var(--bleed-y) * 2));
     overflow: hidden;
     z-index: 3;
     transition: transform .3s ease-out;
 }
 
 .card-overlay-wrap-win .card-overlay{
-    background-size: 150px 342px; /* твои значения */
-    width: 150px;
-    height: 342px;
+    background-size: 146px 332px; /* твои значения */
+    width: var(--card-w);
+    height: var(--card-h);
+    top: var(--bleed-y);
+    left: var(--bleed-x);
+}
+
+.card-overlay-wrap-win .card-overlay-mirror-topleft,
+.card-overlay-wrap-win .card-overlay-mirror-topright,
+.card-overlay-wrap-win .card-overlay-mirror-bottomleft,
+.card-overlay-wrap-win .card-overlay-mirror-bottomright,
+.card-overlay-wrap-win .card-overlay-mirror-left,
+.card-overlay-wrap-win .card-overlay-mirror-right {
+    background-size: 146px 332px;
+}
+
+.card-overlay-wrap-win::before,
+.card-overlay-wrap-win::after {
+    background-size: 146px 332px;
 }
 
 .card-overlay-image{
@@ -363,7 +385,9 @@
 
 /* Vertical bleed mirrors (top/bottom) */
 .card-overlay-wrap::before,
-.card-overlay-wrap::after{
+.card-overlay-wrap::after,
+.card-overlay-wrap-win::before,
+.card-overlay-wrap-win::after{
     content: "";
     position: absolute;
     left: var(--bleed-x);
@@ -414,12 +438,20 @@
 
 
 /* Верхний mirror: его НИЗ должен совпасть с верхом основного арта (y = bleed) */
-.card-overlay-wrap::before{
+.card-overlay-wrap::before,
+.card-overlay-wrap-win::before{
     top: calc(var(--bleed-y) - var(--card-h) + 1px);
 }
 /* Нижний mirror: его ВЕРХ должен совпасть с низом основного арта */
-.card-overlay-wrap::after{
+.card-overlay-wrap::after,
+.card-overlay-wrap-win::after{
     top: calc(var(--bleed-y) + var(--card-h) - 1px);
+}
+
+/* Keep win-card vertical mirrors aligned with win front image dimensions. */
+.card-overlay-wrap-win::before,
+.card-overlay-wrap-win::after {
+    background-size: 146px 332px;
 }
 
 /* Левый mirror: его ПРАВО должен совпасть с левым краем основного арта (x = bleed) */
@@ -449,8 +481,8 @@
 }
 
 /* для рубашки нужно, чтобы mirror использовал тот же background-size */
-.card-overlay-wrap-back::before,
-.card-overlay-wrap-back::after{
+.card-overlay-wrap.card-overlay-wrap-back::before,
+.card-overlay-wrap.card-overlay-wrap-back::after{
     background-size: 241px 333.5px;
 }
 
@@ -538,7 +570,7 @@
     line-height: 28px;
     position: absolute;
     color: #fff;
-    width: 150px;
+    width: 146px;
     left: 19px;
     text-align: left;
     right: auto;

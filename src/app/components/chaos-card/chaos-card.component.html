@@ -16,7 +16,13 @@
         transform: (card.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')
       }"
         >
+                        <div class="card-overlay-mirror-topleft"></div>
+                        <div class="card-overlay-mirror-topright"></div>
+                        <div class="card-overlay-mirror-left"></div>
             <div class="card-overlay"></div>
+                        <div class="card-overlay-mirror-right"></div>
+                        <div class="card-overlay-mirror-bottomleft"></div>
+                        <div class="card-overlay-mirror-bottomright"></div>
         </div>
 
         <!-- 2) Внутренняя картинка (НЕ трогаем bleed, это не full-bleed слой) -->
@@ -88,7 +94,13 @@
                 [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
                 [ngStyle]="{ '--card-bg': 'url(./assets/back_cards/chaos3.jpg)' }"
         >
+            <div class="card-overlay-mirror-topleft"></div>
+            <div class="card-overlay-mirror-topright"></div>
+            <div class="card-overlay-mirror-left"></div>
             <div class="card-overlay card-overlay-back"></div>
+            <div class="card-overlay-mirror-right"></div>
+            <div class="card-overlay-mirror-bottomleft"></div>
+            <div class="card-overlay-mirror-bottomright"></div>
         </div>
     </ng-container>
 </div>
