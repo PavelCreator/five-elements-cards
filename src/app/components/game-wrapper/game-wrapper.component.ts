@@ -46,6 +46,20 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         green: 4,
         purple: 4,
     };
+    public modalTokenBankHexagons: { [key in Color]?: number } = {
+        red: 0,
+        blue: 0,
+        white: 0,
+        green: 0,
+        purple: 0,
+    };
+    public modalHandHexagons: { [key in Color]?: number } = {
+        red: 0,
+        blue: 0,
+        white: 0,
+        green: 0,
+        purple: 0,
+    };
     public playerHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {
         1: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
         2: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
@@ -202,6 +216,31 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         // For regular tokens (red, blue, white, green)
         // Disable if 2 tokens already picked
         return this.hexagonsPickedThisTurn >= 2;
+    }
+
+    public onTokenBankModalClick(color: Color): void {
+        if (this.isTokenBankModalDisabled(color)) {
+            return;
+        }
+
+        const bankValue = this.modalTokenBankHexagons[color] ?? 0;
+        if (bankValue <= 0) return;
+
+        this.modalTokenBankHexagons[color] = bankValue - 1;
+        this.modalHandHexagons[color] = (this.modalHandHexagons[color] ?? 0) + 1;
+
+        this._updateTokensByDiceState();
+    }
+
+    public isTokenBankModalDisabled(color: Color): boolean {
+        const bankValue = this.modalTokenBankHexagons[color] ?? 0;
+        if (bankValue <= 0) return true;
+
+        if (color === 'purple' && !this.isLuckyPurpleEnabled) {
+            return true;
+        }
+
+        return false;
     }
 
     public finishTurn(): void {
@@ -369,8 +408,20 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         
         // Universal auto-select logic: if required selections equals available elements, auto-select all
         this._autoSelectIfNecessary();
+
+        this._syncModalTokenStateFromGame();
         
         this.showDiceModal = true;
+    }
+
+    private _syncModalTokenStateFromGame(): void {
+        const colors: Color[] = ['red', 'blue', 'white', 'green', 'purple'];
+        const playerHex = this.playerHexagons[this.activePlayer];
+
+        for (const color of colors) {
+            this.modalTokenBankHexagons[color] = this.gameBankHexagons[color] ?? 0;
+            this.modalHandHexagons[color] = playerHex?.[color] ?? 0;
+        }
     }
 
     private _updateTokensByDiceState(): void {
@@ -693,6 +744,15 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public closeDiceModal(): void {
         if (!this.canCloseDiceModal) return;
+
+        const colors: Color[] = ['red', 'blue', 'white', 'green', 'purple'];
+        const playerHex = this.playerHexagons[this.activePlayer];
+        if (playerHex) {
+            for (const color of colors) {
+                this.gameBankHexagons[color] = this.modalTokenBankHexagons[color] ?? 0;
+                playerHex[color] = this.modalHandHexagons[color] ?? 0;
+            }
+        }
         
         // Apply joker exchanges
         if (this.hasJokers && this.selectedJokerExchanges.length > 0) {
