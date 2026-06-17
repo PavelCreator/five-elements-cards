@@ -234,6 +234,7 @@
 }
 
 .dice-grid {
+    --dice-size: 146px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
@@ -245,8 +246,8 @@
 }
 
 .dice-item {
-    width: 146px;
-    height: 146px;
+    width: var(--dice-size);
+    height: var(--dice-size);
     overflow: hidden;
     position: relative;
     border-radius: 30px;
@@ -269,7 +270,7 @@
 }
 
 .dice-reel:not(.dice-reel--animated) {
-    transform: translateY(-2100px); /* Immediately show last image */
+    transform: translateY(calc(-14 * var(--dice-size))); /* Immediately show last image */
 }
 
 @keyframes diceRoll {
@@ -277,13 +278,13 @@
         transform: translateY(0);
     }
     100% {
-        transform: translateY(-2100px); /* 14 images * 146px */
+        transform: translateY(calc(-14 * var(--dice-size))); /* 14 steps to final image */
     }
 }
 
 .dice-image {
-    width: 146px;
-    height: 146px;
+    width: var(--dice-size);
+    height: var(--dice-size);
     object-fit: contain;
     filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
     flex-shrink: 0;
