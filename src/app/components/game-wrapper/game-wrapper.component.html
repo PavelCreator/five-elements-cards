@@ -107,115 +107,77 @@
                     </div>
                 </div>
             </div>
+            <div class="tokens-by-dice-block">
+                <div class="tokens-by-dice-warning">Token Bank
 
-            <!-- Joker Exchange Block -->
-            <div class="dice-cancel-block" *ngIf="hasJokers">
-                <div class="dice-cancel-warning" style="display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap;">
-                    <span>🃏 Exchange jokers for</span>
-                    <div class="dice-cancel-item dice-cancel-item--token dice-cancel-item--joker">
-                        <app-hexagon [color]="'mix'" [number]="undefined" [type]="'playerBank'"></app-hexagon>
+									<div class="tokens-by-dice-warning-small" *ngIf="luckyPurple">Lucky Purple: {{ luckyPurple }}</div>
+								</div>
+                <div class="tokens-by-dice-options">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token">
+                        <app-hexagon [color]="'red'" [number]="gameBankHexagons['red']" [type]="'playerBank'"></app-hexagon>
                     </div>
-                    <span>({{ exchangedJokersCount }}/{{ jokerCount }})</span>
-                    <ng-container *ngIf="jokerCount > 1">
-                        <span>or {{ jokerCount - 1 }}</span>
-                        <div class="dice-cancel-item dice-cancel-item--token dice-cancel-item--joker" >
-                            <app-hexagon [color]="'purple'" [number]="undefined" [type]="'playerBank'"></app-hexagon>
-                        </div>
-                    </ng-container>
-                </div>
-                <div class="dice-cancel-options">
-                    <div class="dice-cancel-item dice-cancel-item--token dice-cancel-item--joker" 
-                         *ngFor="let token of availableJokerTokens" 
-                         (click)="onJokerTokenClick(token.color)"
-                         [class.dice-cancel-item--disabled]="token.remainingCount === 0 || (token.color !== 'purple' && (isPurpleSelected || exchangedJokersCount >= jokerCount)) || (token.color === 'purple' && exchangedJokersCount > 0)">
-                        <app-hexagon [color]="token.color" [number]="token.remainingCount" [type]="'playerBank'"></app-hexagon>
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token">
+                        <app-hexagon [color]="'blue'" [number]="gameBankHexagons['blue']" [type]="'playerBank'"></app-hexagon>
                     </div>
-                </div>
-                <button type="button" 
-                        *ngIf="exchangedJokersCount > 0" 
-                        class="dice-modal-button dice-modal-button--secondary" 
-                        style="margin-top: 10px;"
-                        (click)="resetJokerSelection()">
-                    Reset Selection
-                </button>
-            </div>
-
-            <!-- Two Nothings Warning Block -->
-            <div class="dice-cancel-block" *ngIf="hasTwoNothings">
-                <div class="dice-cancel-warning">
-                    <ng-container *ngIf="isAutoSelected">
-                        ⚠️ Two crosses rolled! The only available element is auto-selected. Click Close to continue.
-                    </ng-container>
-                    <ng-container *ngIf="!isAutoSelected">
-                        ⚠️ Two crosses rolled! Please cancel one token or dice to continue ({{ selectedCancelChoices.length }}/{{ requiredSelections }} selected).
-                    </ng-container>
-                </div>
-                <div class="dice-cancel-options">
-                    <!-- Non-nothing dice results -->
-                    <div class="dice-cancel-item" 
-                         *ngFor="let diceResult of nonNothingDiceResults" 
-                         (click)="onCancelDice(diceResult.value, diceResult.index)"
-                         [class.dice-cancel-item--selected]="isDiceSelected(diceResult.index)">
-                        <img [src]="'assets/dice_side/' + diceResult.value" [alt]="diceResult.value" class="dice-cancel-image">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token">
+                        <app-hexagon [color]="'white'" [number]="gameBankHexagons['white']" [type]="'playerBank'"></app-hexagon>
                     </div>
-                    <!-- Player tokens (expanded) -->
-                    <div class="dice-cancel-item dice-cancel-item--token" 
-                         *ngFor="let token of activePlayerTokens; let i = index" 
-                         (click)="onCancelToken(token.color, token.index)"
-                         [class.dice-cancel-item--selected]="isTokenSelected(token.color, token.index)">
-                        <app-hexagon [color]="token.color" [number]="0" [type]="'playerBank'"></app-hexagon>
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token">
+                        <app-hexagon [color]="'green'" [number]="gameBankHexagons['green']" [type]="'playerBank'"></app-hexagon>
+                    </div>
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token">
+                        <app-hexagon [color]="'purple'" [number]="gameBankHexagons['purple']" [type]="'playerBank'" [class.tokens-by-dice-item--disabled]="!isLuckyPurpleEnabled" [attr.aria-disabled]="!isLuckyPurpleEnabled"></app-hexagon>
                     </div>
                 </div>
             </div>
 
-            <!-- Three Nothings Warning Block -->
-            <div class="dice-cancel-block" *ngIf="hasThreeNothings">
-                <div class="dice-cancel-warning">
-                    <ng-container *ngIf="isAutoSelected">
-                        ⚠️ Three crosses rolled! All {{ totalAvailableElements }} available element(s) are auto-selected. Click Close to continue.
-                    </ng-container>
-                    <ng-container *ngIf="!isAutoSelected && !activePlayerHasTokens">
-                        ⚠️ Three crosses rolled! You have no tokens. Please cancel ONE dice to continue ({{ selectedCancelChoices.length }}/{{ requiredSelections }} selected).
-                    </ng-container>
-                    <ng-container *ngIf="!isAutoSelected && activePlayerHasTokens">
-                        ⚠️ Three crosses rolled! Please cancel TWO tokens or dice to continue ({{ selectedCancelChoices.length }}/{{ requiredSelections }} selected).
-                    </ng-container>
-                </div>
-                <div class="dice-cancel-options">
-                    <!-- Non-nothing dice results -->
-                    <div class="dice-cancel-item" 
-                         *ngFor="let diceResult of nonNothingDiceResults" 
-                         (click)="onCancelDice(diceResult.value, diceResult.index)"
-                         [class.dice-cancel-item--selected]="isDiceSelected(diceResult.index)">
-                        <img [src]="'assets/dice_side/' + diceResult.value" [alt]="diceResult.value" class="dice-cancel-image">
-                    </div>
-                    <!-- Player tokens (expanded) -->
-                    <div class="dice-cancel-item dice-cancel-item--token" 
-                         *ngFor="let token of activePlayerTokens; let i = index" 
-                         (click)="onCancelToken(token.color, token.index)"
-                         [class.dice-cancel-item--selected]="isTokenSelected(token.color, token.index)">
-                        <app-hexagon [color]="token.color" [number]="0" [type]="'playerBank'"></app-hexagon>
-                    </div>
-                </div>
+            <div class="tokens-by-dice-arrows" aria-hidden="true">
+                <span class="tokens-by-dice-arrow" *ngFor="let _ of [1, 2, 3, 4, 5]"></span>
             </div>
 
-            <!-- Four Nothings Warning Block -->
-            <div class="dice-cancel-block" *ngIf="hasFourNothings">
-                <div class="dice-cancel-warning">
-                    <ng-container *ngIf="isAutoSelected">
-                        ⚠️ Four crosses rolled! All {{ totalAvailableElements }} available element(s) are auto-selected. Click Close to continue.
-                    </ng-container>
-                    <ng-container *ngIf="!isAutoSelected">
-                        ⚠️ Four crosses rolled! Please select THREE tokens to cancel ({{ selectedCancelChoices.length }}/{{ requiredSelections }} selected).
-                    </ng-container>
-                </div>
-                <div class="dice-cancel-options">
-                    <!-- Player tokens (expanded) -->
-                    <div class="dice-cancel-item dice-cancel-item--token" 
-                         *ngFor="let token of activePlayerTokens; let i = index" 
-                         (click)="onCancelToken(token.color, token.index)"
-                         [class.dice-cancel-item--selected]="isTokenSelected(token.color, token.index)">
-                        <app-hexagon [color]="token.color" [number]="0" [type]="'playerBank'"></app-hexagon>
+						<!-- Dice Modal Rows -->
+                        <div class="tokens-by-dice-block">
+													<div class="tokens-by-dice-warning">Tokens <p>in Hand</p></div>
+							<div class="tokens-by-dice-options">
+								<div class="tokens-by-dice-item tokens-by-dice-item--token">
+									<app-hexagon [color]="'red'" [number]="0" [type]="'playerBank'"></app-hexagon>
+								</div>
+								<div class="tokens-by-dice-item tokens-by-dice-item--token">
+									<app-hexagon [color]="'blue'" [number]="0" [type]="'playerBank'"></app-hexagon>
+								</div>
+								<div class="tokens-by-dice-item tokens-by-dice-item--token">
+									<app-hexagon [color]="'white'" [number]="0" [type]="'playerBank'"></app-hexagon>
+								</div>
+								<div class="tokens-by-dice-item tokens-by-dice-item--token">
+									<app-hexagon [color]="'green'" [number]="0" [type]="'playerBank'"></app-hexagon>
+								</div>
+								<div class="tokens-by-dice-item tokens-by-dice-item--token">
+									<app-hexagon [color]="'purple'" [number]="0" [type]="'playerBank'"></app-hexagon>
+								</div>
+							</div>
+						</div>
+
+            <div class="tokens-by-dice-arrows" aria-hidden="true" *ngIf="showTokensToDiscardBlock">
+                <span class="tokens-by-dice-arrow" *ngFor="let _ of [1, 2, 3, 4, 5]"></span>
+            </div>
+
+            <div class="tokens-by-dice-block" *ngIf="showTokensToDiscardBlock">
+                <div class="tokens-by-dice-warning">Tokens to <p>Discard: {{ tokensToDiscard }}</p></div>
+                <div class="tokens-by-dice-options">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token">
+                        <app-hexagon [color]="'red'" [number]="0" [type]="'playerBank'"></app-hexagon>
+                    </div>
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token">
+                        <app-hexagon [color]="'blue'" [number]="0" [type]="'playerBank'"></app-hexagon>
+                    </div>
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token">
+                        <app-hexagon [color]="'white'" [number]="0" [type]="'playerBank'"></app-hexagon>
+                    </div>
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token">
+                        <app-hexagon [color]="'green'" [number]="0" [type]="'playerBank'"></app-hexagon>
+                    </div>
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token">
+                        <app-hexagon [color]="'purple'" [number]="0" [type]="'playerBank'"></app-hexagon>
                     </div>
                 </div>
             </div>
@@ -225,6 +187,7 @@
                     {{ isDiceAnimationEnabled ? 'Disable Animation' : 'Enable Animation' }}
                 </button>
                 <button type="button" class="dice-modal-button dice-modal-button--primary" (click)="closeDiceModal()" [disabled]="!canCloseDiceModal">Close</button>
+                <button type="button" class="dice-modal-button dice-modal-button--primary" (click)="reRoll()">Reroll</button>
             </div>
         </div>
     </div>

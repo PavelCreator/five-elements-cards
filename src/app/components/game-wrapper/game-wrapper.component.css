@@ -352,35 +352,80 @@
 }
 
 /* Two Nothings Cancel Block */
-.dice-cancel-block {
+.tokens-by-dice-block {
     width: 100%;
-    max-width: 340px;
+    max-width: 600px;
     display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 20px;
+    flex-direction: row;
+    gap: 20px;
+    padding: 10px 15px 5px;
     background: rgba(255, 193, 7, 0.1);
     border: 2px solid #ffc107;
     border-radius: 12px;
-}
-
-.dice-cancel-warning {
-    text-align: center;
-    font-size: 15px;
-    font-weight: 600;
-    color: #e67e22;
-    line-height: 1.4;
-}
-
-.dice-cancel-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: center;
     align-items: center;
 }
 
-.dice-cancel-item {
+.tokens-by-dice-warning {
+    flex: 0 0 auto;
+    font-size: 20px;
+    font-weight: 600;
+    color: #e67e22;
+    line-height: 1.4;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.tokens-by-dice-warning-small {
+    font-size: 15px;
+    font-weight: 600;
+    color: #e67e22;
+    line-height: 1;
+}
+
+
+
+.tokens-by-dice-options {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0;
+    justify-content: flex-end;
+    align-items: center;
+    flex: 1;
+}
+
+.tokens-by-dice-arrows{
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 81.5px;
+    margin: -42px 0 -37px;
+    padding-right: 82px;
+}
+
+.tokens-by-dice-arrow {
+    width: 2px;
+    height: 26px;
+    background: #ffc107;
+    position: relative;
+    border-radius: 2px;
+}
+
+.tokens-by-dice-arrow::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -8px;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 9px solid #ffc107;
+}
+
+.tokens-by-dice-item {
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     border-radius: 6px;
@@ -390,40 +435,40 @@
     border: 2px solid transparent;
 }
 
-.dice-cancel-item:hover {
+.tokens-by-dice-item:hover {
     transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.dice-cancel-item:active {
+.tokens-by-dice-item:active {
     transform: scale(0.95);
 }
 
-.dice-cancel-item--selected {
+.tokens-by-dice-item--selected {
     border-color: #4a90e2;
     box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
     transform: scale(1.05);
 }
 
-.dice-cancel-item--disabled {
+.tokens-by-dice-item--disabled {
     opacity: 0.3;
     pointer-events: none;
     cursor: not-allowed;
 }
 
-.dice-cancel-image {
+.tokens-by-dice-image {
     width: 40px;
     height: 40px;
     object-fit: contain;
     display: block;
 }
 
-.dice-cancel-item--token {
+.tokens-by-dice-item--token {
     background: transparent;
     box-shadow: none;
     border: 2px solid transparent;
-    width: 40px;
-    height: 40px;
+    width: 80px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -431,31 +476,31 @@
     overflow: visible;
 }
 
-.dice-cancel-item--token:hover {
+.tokens-by-dice-item--token:hover {
     background: transparent;
     box-shadow: none;
 }
 
-.dice-cancel-item--token.dice-cancel-item--selected {
+.tokens-by-dice-item--token.tokens-by-dice-item--selected {
     box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
 }
 
-.dice-cancel-item--token ::ng-deep app-hexagon {
+.tokens-by-dice-item--token ::ng-deep app-hexagon {
     pointer-events: none;
 }
 
-.dice-cancel-item--token ::ng-deep .coin {
-    width: 40px !important;
-    height: 40px !important;
+.tokens-by-dice-item--token ::ng-deep .coin {
+    width: 80px !important;
+    height: 80px !important;
     background-size: contain !important;
 }
 
-.dice-cancel-item--token ::ng-deep .number-wrapper {
+.tokens-by-dice-item--token ::ng-deep .number-wrapper {
     display: none !important;
 }
 
 /* Override number hiding for joker exchange tokens */
-.dice-cancel-item--joker ::ng-deep .number-wrapper {
+.tokens-by-dice-item--joker ::ng-deep .number-wrapper {
     display: flex !important;
 }
 
