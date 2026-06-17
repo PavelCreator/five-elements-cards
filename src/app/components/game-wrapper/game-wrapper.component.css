@@ -500,6 +500,16 @@
     display: none !important;
 }
 
+.tokens-by-dice-options--bank .tokens-by-dice-item--token ::ng-deep .number-wrapper {
+    display: flex !important;
+}
+
+.tokens-by-dice-options--bank .tokens-by-dice-item--token ::ng-deep .coin-game-bank .number-wrapper {
+    font-size: 40px !important;
+    top: 39px;
+
+}
+
 /* Override number hiding for joker exchange tokens */
 .tokens-by-dice-item--joker ::ng-deep .number-wrapper {
     display: flex !important;

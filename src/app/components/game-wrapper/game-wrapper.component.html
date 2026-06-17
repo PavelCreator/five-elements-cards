@@ -112,21 +112,21 @@
 
 									<div class="tokens-by-dice-warning-small" *ngIf="luckyPurple">Lucky Purple: {{ luckyPurple }}</div>
 								</div>
-                <div class="tokens-by-dice-options">
+                <div class="tokens-by-dice-options tokens-by-dice-options--bank">
                     <div class="tokens-by-dice-item tokens-by-dice-item--token">
-                        <app-hexagon [color]="'red'" [number]="gameBankHexagons['red']" [type]="'playerBank'"></app-hexagon>
+                        <app-hexagon [color]="'red'" [number]="gameBankHexagons['red']" [type]="'gameBank'"></app-hexagon>
                     </div>
                     <div class="tokens-by-dice-item tokens-by-dice-item--token">
-                        <app-hexagon [color]="'blue'" [number]="gameBankHexagons['blue']" [type]="'playerBank'"></app-hexagon>
+                        <app-hexagon [color]="'blue'" [number]="gameBankHexagons['blue']" [type]="'gameBank'"></app-hexagon>
                     </div>
                     <div class="tokens-by-dice-item tokens-by-dice-item--token">
-                        <app-hexagon [color]="'white'" [number]="gameBankHexagons['white']" [type]="'playerBank'"></app-hexagon>
+                        <app-hexagon [color]="'white'" [number]="gameBankHexagons['white']" [type]="'gameBank'"></app-hexagon>
                     </div>
                     <div class="tokens-by-dice-item tokens-by-dice-item--token">
-                        <app-hexagon [color]="'green'" [number]="gameBankHexagons['green']" [type]="'playerBank'"></app-hexagon>
+                        <app-hexagon [color]="'green'" [number]="gameBankHexagons['green']" [type]="'gameBank'"></app-hexagon>
                     </div>
                     <div class="tokens-by-dice-item tokens-by-dice-item--token">
-                        <app-hexagon [color]="'purple'" [number]="gameBankHexagons['purple']" [type]="'playerBank'" [class.tokens-by-dice-item--disabled]="!isLuckyPurpleEnabled" [attr.aria-disabled]="!isLuckyPurpleEnabled"></app-hexagon>
+                        <app-hexagon [color]="'purple'" [number]="gameBankHexagons['purple']" [type]="'gameBank'" [class.tokens-by-dice-item--disabled]="!isLuckyPurpleEnabled" [attr.aria-disabled]="!isLuckyPurpleEnabled"></app-hexagon>
                     </div>
                 </div>
             </div>
