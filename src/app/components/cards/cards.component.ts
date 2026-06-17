@@ -33,6 +33,8 @@ export class CardsComponent implements OnInit {
     public chaosCards: ChaosCard[] = chaosCards;
     public masterCards: MasterCard[] = masterCards;
     public howToWinCards: HowToWinCard[] = howToWinCards;
+    public howToWinCardsBlitz: HowToWinCard[] = this.howToWinCards.filter(card => card.type === 'Blitz');
+    public howToWinCardsGrand: HowToWinCard[] = this.howToWinCards.filter(card => card.type === 'Grand');
     public showCollectionHeader: boolean = true;
     public printModeEnabled: boolean = true;
     private _newCardGetKey = 'purple';

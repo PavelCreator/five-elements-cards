@@ -18,7 +18,7 @@
 **Correct:**
 ```html
 <!-- Joker Exchange Block -->
-<div class="dice-cancel-warning">
+<div class="tokens-by-dice-warning">
     🃏 Exchange jokers for tokens ({{ exchangedJokersCount }}/{{ jokerCount }})
 </div>
 ```
@@ -26,7 +26,7 @@
 **Incorrect:**
 ```html
 <!-- Блок обмена джокеров -->
-<div class="dice-cancel-warning">
+<div class="tokens-by-dice-warning">
     🃏 Поменяй джокера на токены ({{ exchangedJokersCount }}/{{ jokerCount }})
 </div>
 ```

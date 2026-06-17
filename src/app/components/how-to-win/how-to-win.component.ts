@@ -32,6 +32,7 @@ export class HowToWinComponent implements OnInit {
     public hovered: boolean = false;
     public chaosCardBackground: string = '';
     public textInverseColor: boolean = false;
+    public printModeEnabled: boolean = true;
 
     constructor(
         private _interactionService: InteractionService,
@@ -45,6 +46,10 @@ export class HowToWinComponent implements OnInit {
             setTimeout(() => {
                 this.cardSide = inCardSide;
             }, 150);
+        })
+
+        this._interactionService.printMode$.subscribe((inPrintMode: boolean) => {
+            this.printModeEnabled = inPrintMode;
         })
 
         this.lang = this._settingsService.lang;

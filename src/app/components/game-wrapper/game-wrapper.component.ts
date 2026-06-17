@@ -46,6 +46,20 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         green: 4,
         purple: 4,
     };
+    public modalTokenBankHexagons: { [key in Color]?: number } = {
+        red: 0,
+        blue: 0,
+        white: 0,
+        green: 0,
+        purple: 0,
+    };
+    public modalHandHexagons: { [key in Color]?: number } = {
+        red: 0,
+        blue: 0,
+        white: 0,
+        green: 0,
+        purple: 0,
+    };
     public playerHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {
         1: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
         2: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
@@ -66,6 +80,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public hasFourNothings: boolean = false;
     public hasJokers: boolean = false;
     public jokerCount: number = 0;
+    public rolledCrossesCount: number = 0;
+    public rolledJokersCount: number = 0;
+    public tokensToDiscard: number = 0;
+    public luckyPurple: number = 0;
+    public showTokensToDiscardBlock: boolean = false;
+    public isLuckyPurpleEnabled: boolean = false;
     public selectedJokerExchanges: Color[] = []; // One color per joker
     public selectedCancelChoices: Array<{ type: 'dice' | 'token', value: string | Color, diceIndex?: number, tokenIndex?: number }> = [];
     public rows: Array<{
@@ -175,6 +195,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
             this.hexagonsPickedThisTurn++;
         }
+
+        this._updateTokensByDiceState();
     }
 
     public isHexagonDisabled(color: Color): boolean {
@@ -196,10 +218,52 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return this.hexagonsPickedThisTurn >= 2;
     }
 
+    public onTokenBankModalClick(color: Color): void {
+        if (this.isTokenBankModalDisabled(color)) {
+            return;
+        }
+
+        const bankValue = this.modalTokenBankHexagons[color] ?? 0;
+        if (bankValue <= 0) return;
+
+        this.modalTokenBankHexagons[color] = bankValue - 1;
+        this.modalHandHexagons[color] = (this.modalHandHexagons[color] ?? 0) + 1;
+
+        this._updateTokensByDiceState();
+    }
+
+    public isTokenBankModalDisabled(color: Color): boolean {
+        const bankValue = this.modalTokenBankHexagons[color] ?? 0;
+        if (bankValue <= 0) return true;
+
+        if (color === 'purple' && !this.isLuckyPurpleEnabled) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public isTokenToDiscardModalDisabled(color: Color): boolean {
+        const handValue = this.modalHandHexagons[color] ?? 0;
+        return handValue <= 0;
+    }
+
+    public get areAllTokenBankModalDisabled(): boolean {
+        const colors: Color[] = ['red', 'blue', 'white', 'green', 'purple'];
+        return colors.every((color) => this.isTokenBankModalDisabled(color));
+    }
+
+    public get areAllTokensToDiscardModalDisabled(): boolean {
+        const colors: Color[] = ['red', 'blue', 'white', 'green', 'purple'];
+        return colors.every((color) => this.isTokenToDiscardModalDisabled(color));
+    }
+
     public finishTurn(): void {
         // Reset turn counter and picked tokens
         this.hexagonsPickedThisTurn = 0;
         this.pickedTokensThisTurn = [];
+
+        this._updateTokensByDiceState();
         
         // Move to next player
         if (!this.playerCount) return;
@@ -234,6 +298,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         // Reset counters
         this.hexagonsPickedThisTurn = 0;
         this.pickedTokensThisTurn = [];
+
+        this._updateTokensByDiceState();
     }
 
     public get canFinishTurn(): boolean {
@@ -338,6 +404,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         
         this.diceResults = results;
         this.diceReels = reels;
+
+        this._updateTokensByDiceState();
         
         // Check for crosses
         const nothingCount = results.filter(r => r === 'dices-nothing.png').length;
@@ -351,11 +419,33 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.hasJokers = jokerCount > 0;
         this.jokerCount = jokerCount;
         this.selectedJokerExchanges = [];
+        this._updateTokensByDiceState();
         
         // Universal auto-select logic: if required selections equals available elements, auto-select all
         this._autoSelectIfNecessary();
+
+        this._syncModalTokenStateFromGame();
         
         this.showDiceModal = true;
+    }
+
+    private _syncModalTokenStateFromGame(): void {
+        const colors: Color[] = ['red', 'blue', 'white', 'green', 'purple'];
+        const playerHex = this.playerHexagons[this.activePlayer];
+
+        for (const color of colors) {
+            this.modalTokenBankHexagons[color] = this.gameBankHexagons[color] ?? 0;
+            this.modalHandHexagons[color] = playerHex?.[color] ?? 0;
+        }
+    }
+
+    private _updateTokensByDiceState(): void {
+        this.rolledCrossesCount = this.diceResults.filter(result => result === 'dices-nothing.png').length;
+        this.rolledJokersCount = this.diceResults.filter(result => result === 'dices-joker.png').length;
+        this.tokensToDiscard = Math.max(this.rolledCrossesCount - 1, 0);
+        this.luckyPurple = Math.max(this.rolledJokersCount - 1, 0);
+        this.showTokensToDiscardBlock = this.rolledCrossesCount >= 2 && this.rolledCrossesCount <= 4;
+        this.isLuckyPurpleEnabled = this.rolledJokersCount >= 2 && this.rolledJokersCount <= 4;
     }
 
     private _autoSelectIfNecessary(): void {
@@ -466,6 +556,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.selectedCancelChoices.push({ type: 'dice', value: diceResult, diceIndex });
             }
         }
+
+        this._updateTokensByDiceState();
     }
 
     public onCancelToken(color: Color, index: number): void {
@@ -488,6 +580,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.selectedCancelChoices.push({ type: 'token', value: color, tokenIndex: index });
             }
         }
+
+        this._updateTokensByDiceState();
     }
 
     public isDiceDisabled(index: number): boolean {
@@ -597,6 +691,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             // Add basic color selection
             this.selectedJokerExchanges.push(color);
         }
+
+        this._updateTokensByDiceState();
     }
 
     /**
@@ -623,9 +719,18 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     public resetJokerSelection(): void {
         this.selectedJokerExchanges = [];
+        this._updateTokensByDiceState();
     }
 
     public get canCloseDiceModal(): boolean {
+        if (this.areAllTokenBankModalDisabled) {
+            if (!this.showTokensToDiscardBlock) {
+                return true;
+            }
+
+            return this.areAllTokensToDiscardModalDisabled;
+        }
+
         // First, check if all jokers have been exchanged
         if (!this.isJokerExchangeComplete) return false;
         
@@ -656,8 +761,21 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return false;
     }
 
+    public reRoll() {
+        this.rollDice(4);
+    }
+
     public closeDiceModal(): void {
         if (!this.canCloseDiceModal) return;
+
+        const colors: Color[] = ['red', 'blue', 'white', 'green', 'purple'];
+        const playerHex = this.playerHexagons[this.activePlayer];
+        if (playerHex) {
+            for (const color of colors) {
+                this.gameBankHexagons[color] = this.modalTokenBankHexagons[color] ?? 0;
+                playerHex[color] = this.modalHandHexagons[color] ?? 0;
+            }
+        }
         
         // Apply joker exchanges
         if (this.hasJokers && this.selectedJokerExchanges.length > 0) {
@@ -700,6 +818,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.jokerCount = 0;
         this.selectedJokerExchanges = [];
         this.selectedCancelChoices = [];
+        this._updateTokensByDiceState();
     }
 
     public toggleDiceAnimation(): void {

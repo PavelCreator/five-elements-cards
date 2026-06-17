@@ -33,16 +33,17 @@
                         <app-hexagon class="hexagon-inline" *ngIf="card.color !== 'blue'" [color]="'blue'" [type]="'chaos'"></app-hexagon>
                         <app-hexagon class="hexagon-inline" *ngIf="card.color !== 'white'" [color]="'white'" [type]="'chaos'"></app-hexagon>
                         <app-hexagon class="hexagon-inline" *ngIf="card.color !== 'green'" [color]="'green'" [type]="'chaos'"></app-hexagon>
+                        <app-hexagon class="hexagon-inline" *ngIf="card.color === 'black'" [color]="'purple'" [type]="'chaos'"></app-hexagon>
                     </div>
 
-                    <span class="description-master-line-text">{{ canBeUsedAs.en }}</span>
+                    <span class="description-master-line-text">can <br><span [class.description-master-line-text-black]="card.color === 'black'">be used as</span></span>
 
-                    <app-hexagon class="hexagon-chaos-wrapper hexagon-master-wrapper" *ngIf="card.color === 'red'" [color]="'red'" [type]="'chaos'"></app-hexagon>
-                    <app-hexagon class="hexagon-chaos-wrapper hexagon-master-wrapper" *ngIf="card.color === 'blue'" [color]="'blue'" [type]="'chaos'"></app-hexagon>
-                    <app-hexagon class="hexagon-chaos-wrapper hexagon-master-wrapper" *ngIf="card.color === 'white'" [color]="'white'" [type]="'chaos'"></app-hexagon>
-                    <app-hexagon class="hexagon-chaos-wrapper hexagon-master-wrapper" *ngIf="card.color === 'green'" [color]="'green'" [type]="'chaos'"></app-hexagon>
-                    <app-hexagon class="hexagon-chaos-wrapper hexagon-master-wrapper" *ngIf="card.color === 'purple'" [color]="'purple'" [type]="'chaos'"></app-hexagon>
-                    <app-hexagon class="hexagon-chaos-wrapper hexagon-master-wrapper" *ngIf="card.color === 'black'" [color]="'black'" [type]="'chaos'"></app-hexagon>
+                    <app-hexagon class="hexagon-chaos-wrapper hexagon-master-wrapper description-master-line-text-no-black" *ngIf="card.color === 'red'" [color]="'red'" [type]="'chaos'"></app-hexagon>
+                    <app-hexagon class="hexagon-chaos-wrapper hexagon-master-wrapper description-master-line-text-no-black" *ngIf="card.color === 'blue'" [color]="'blue'" [type]="'chaos'"></app-hexagon>
+                    <app-hexagon class="hexagon-chaos-wrapper hexagon-master-wrapper description-master-line-text-no-black" *ngIf="card.color === 'white'" [color]="'white'" [type]="'chaos'"></app-hexagon>
+                    <app-hexagon class="hexagon-chaos-wrapper hexagon-master-wrapper description-master-line-text-no-black" *ngIf="card.color === 'green'" [color]="'green'" [type]="'chaos'"></app-hexagon>
+                    <app-hexagon class="hexagon-chaos-wrapper hexagon-master-wrapper description-master-line-text-no-black" *ngIf="card.color === 'purple'" [color]="'purple'" [type]="'chaos'"></app-hexagon>
+                    <app-hexagon class="hexagon-chaos-wrapper hexagon-master-wrapper description-master-line-text-black" *ngIf="card.color === 'black'" [color]="'black'" [type]="'chaos'"></app-hexagon>
                 </div>
             </div>
         </div>
