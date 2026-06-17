@@ -243,6 +243,21 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return false;
     }
 
+    public isTokenToDiscardModalDisabled(color: Color): boolean {
+        const handValue = this.modalHandHexagons[color] ?? 0;
+        return handValue <= 0;
+    }
+
+    public get areAllTokenBankModalDisabled(): boolean {
+        const colors: Color[] = ['red', 'blue', 'white', 'green', 'purple'];
+        return colors.every((color) => this.isTokenBankModalDisabled(color));
+    }
+
+    public get areAllTokensToDiscardModalDisabled(): boolean {
+        const colors: Color[] = ['red', 'blue', 'white', 'green', 'purple'];
+        return colors.every((color) => this.isTokenToDiscardModalDisabled(color));
+    }
+
     public finishTurn(): void {
         // Reset turn counter and picked tokens
         this.hexagonsPickedThisTurn = 0;
@@ -708,6 +723,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public get canCloseDiceModal(): boolean {
+        if (this.areAllTokenBankModalDisabled) {
+            if (!this.showTokensToDiscardBlock) {
+                return true;
+            }
+
+            return this.areAllTokensToDiscardModalDisabled;
+        }
+
         // First, check if all jokers have been exchanged
         if (!this.isJokerExchangeComplete) return false;
         
