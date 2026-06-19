@@ -63,6 +63,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public modalRollResultsSnapshot: string[] = [];
     public modalRemainingRollResults: string[] = [];
     public modalConsumedDiceIndexes: number[] = [];
+    public showLuckyPurpleChoiceModal: boolean = false;
     public playerHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {
         1: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
         2: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
@@ -226,6 +227,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
+        if (color === 'purple') {
+            this._handlePurpleTokenBankClick();
+            return;
+        }
+
         if (this._isBasicColor(color) && !this._consumeRollResultForBasicColor(color)) {
             return;
         }
@@ -339,6 +345,83 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         this.modalConsumedDiceIndexes = [...this.modalConsumedDiceIndexes, diceIndex];
+    }
+
+    private _handlePurpleTokenBankClick(): void {
+        const maxSelectable = this.maxLuckyPurpleSelectable;
+        if (maxSelectable <= 0) {
+            return;
+        }
+
+        if (this.luckyPurple > 1 && maxSelectable > 1) {
+            this.showLuckyPurpleChoiceModal = true;
+            return;
+        }
+
+        this._applyLuckyPurpleSelection(1);
+    }
+
+    public get maxLuckyPurpleSelectable(): number {
+        const purpleBankCount = this.modalTokenBankHexagons['purple'] ?? 0;
+        return Math.min(this.luckyPurple, purpleBankCount);
+    }
+
+    public get luckyPurpleSelectionOptions(): number[] {
+        const maxValue = this.maxLuckyPurpleSelectable;
+        const options: number[] = [];
+        for (let i = 1; i <= maxValue; i++) {
+            options.push(i);
+        }
+        return options;
+    }
+
+    public confirmLuckyPurpleSelection(count: number): void {
+        this.showLuckyPurpleChoiceModal = false;
+        this._applyLuckyPurpleSelection(count);
+    }
+
+    public cancelLuckyPurpleSelection(): void {
+        this.showLuckyPurpleChoiceModal = false;
+    }
+
+    private _applyLuckyPurpleSelection(count: number): void {
+        const maxSelectable = this.maxLuckyPurpleSelectable;
+        if (count < 1 || count > maxSelectable) {
+            return;
+        }
+
+        // Purple bonus consumes (selected purple + 1) jokers from rolled results.
+        const jokersToConsume = count + 1;
+        if (!this._consumeJokers(jokersToConsume)) {
+            return;
+        }
+
+        const purpleBankCount = this.modalTokenBankHexagons['purple'] ?? 0;
+        if (purpleBankCount < count) {
+            return;
+        }
+
+        this.modalTokenBankHexagons['purple'] = purpleBankCount - count;
+        this.modalHandHexagons['purple'] = (this.modalHandHexagons['purple'] ?? 0) + count;
+
+        this._updateTokensByDiceState();
+    }
+
+    private _consumeJokers(count: number): boolean {
+        const remainingJokers = this.modalRemainingRollResults.filter(result => result === 'dices-joker.png').length;
+        if (remainingJokers < count) {
+            return false;
+        }
+
+        for (let i = 0; i < count; i++) {
+            const jokerIndex = this._findAvailableDiceIndexBySide('dices-joker.png');
+            if (jokerIndex === -1) {
+                return false;
+            }
+            this._consumeDiceResult('dices-joker.png', jokerIndex);
+        }
+
+        return true;
     }
 
     public isTokenToDiscardModalDisabled(color: Color): boolean {
@@ -528,6 +611,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._autoSelectIfNecessary();
 
         this._syncModalTokenStateFromGame();
+        this._updateTokensByDiceState();
         
         this.showDiceModal = true;
     }
@@ -545,19 +629,21 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.modalRollResultsSnapshot = this.diceResults.map((result) => `${result}`);
         this.modalRemainingRollResults = [...this.modalRollResultsSnapshot];
         this.modalConsumedDiceIndexes = [];
+        this.showLuckyPurpleChoiceModal = false;
     }
 
     private _updateTokensByDiceState(): void {
-        const effectiveResults = this.modalRemainingRollResults.length > 0
-            ? this.modalRemainingRollResults
-            : this.diceResults;
+        const hasModalSnapshot = this.modalRollResultsSnapshot.length > 0;
+        const effectiveResults = hasModalSnapshot ? this.modalRemainingRollResults : this.diceResults;
 
         this.rolledCrossesCount = effectiveResults.filter(result => result === 'dices-nothing.png').length;
         this.rolledJokersCount = effectiveResults.filter(result => result === 'dices-joker.png').length;
+        const purpleBankCount = this.modalTokenBankHexagons['purple'] ?? this.gameBankHexagons['purple'] ?? 0;
+        const rawLuckyPurple = Math.max(this.rolledJokersCount - 1, 0);
         this.tokensToDiscard = Math.max(this.rolledCrossesCount - 1, 0);
-        this.luckyPurple = Math.max(this.rolledJokersCount - 1, 0);
+        this.luckyPurple = Math.min(rawLuckyPurple, purpleBankCount);
         this.showTokensToDiscardBlock = this.rolledCrossesCount >= 2 && this.rolledCrossesCount <= 4;
-        this.isLuckyPurpleEnabled = this.rolledJokersCount >= 2 && this.rolledJokersCount <= 4;
+        this.isLuckyPurpleEnabled = this.luckyPurple > 0;
     }
 
     private _autoSelectIfNecessary(): void {
@@ -935,6 +1021,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.modalRollResultsSnapshot = [];
         this.modalRemainingRollResults = [];
         this.modalConsumedDiceIndexes = [];
+        this.showLuckyPurpleChoiceModal = false;
         this._updateTokensByDiceState();
     }
 

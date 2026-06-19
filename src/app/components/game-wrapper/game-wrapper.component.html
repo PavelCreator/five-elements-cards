@@ -182,6 +182,28 @@
                 </div>
             </div>
 
+            <div class="lucky-purple-modal-overlay" *ngIf="showLuckyPurpleChoiceModal" (click)="$event.stopPropagation()">
+                <div class="lucky-purple-modal">
+                    <div class="lucky-purple-modal__title">Choose Purple Bonus</div>
+                    <div class="lucky-purple-modal__subtitle">Select how many purple tokens to take.</div>
+                    <div class="lucky-purple-modal__options">
+                        <button
+                            type="button"
+                            class="lucky-purple-modal__option"
+                            *ngFor="let option of luckyPurpleSelectionOptions"
+                            (click)="confirmLuckyPurpleSelection(option)">
+                            {{ option }}
+                        </button>
+                    </div>
+                    <button
+                        type="button"
+                        class="lucky-purple-modal__cancel"
+                        (click)="cancelLuckyPurpleSelection()">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+
             <div class="dice-modal-buttons">
                 <button type="button" class="dice-modal-button dice-modal-button--secondary" (click)="toggleDiceAnimation()">
                     {{ isDiceAnimationEnabled ? 'Disable Animation' : 'Enable Animation' }}
