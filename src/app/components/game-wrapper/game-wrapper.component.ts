@@ -435,6 +435,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public rollDice(count: number): void {
+        // Reset modal draft roll state before generating a new roll to avoid stale calculations.
+        this.modalRollResultsSnapshot = [];
+        this.modalRemainingRollResults = [];
+        this.modalConsumedDiceIndexes = [];
+
         const diceSides = [
             'dices-blue.png',
             'dices-green.png',
@@ -543,8 +548,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     private _updateTokensByDiceState(): void {
-        this.rolledCrossesCount = this.diceResults.filter(result => result === 'dices-nothing.png').length;
-        this.rolledJokersCount = this.diceResults.filter(result => result === 'dices-joker.png').length;
+        const effectiveResults = this.modalRemainingRollResults.length > 0
+            ? this.modalRemainingRollResults
+            : this.diceResults;
+
+        this.rolledCrossesCount = effectiveResults.filter(result => result === 'dices-nothing.png').length;
+        this.rolledJokersCount = effectiveResults.filter(result => result === 'dices-joker.png').length;
         this.tokensToDiscard = Math.max(this.rolledCrossesCount - 1, 0);
         this.luckyPurple = Math.max(this.rolledJokersCount - 1, 0);
         this.showTokensToDiscardBlock = this.rolledCrossesCount >= 2 && this.rolledCrossesCount <= 4;
