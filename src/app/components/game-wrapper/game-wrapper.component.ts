@@ -60,6 +60,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         green: 0,
         purple: 0,
     };
+    public modalRollResultsSnapshot: string[] = [];
+    public modalRemainingRollResults: string[] = [];
+    public modalConsumedDiceIndexes: number[] = [];
     public playerHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {
         1: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
         2: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
@@ -223,6 +226,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
+        if (this._isBasicColor(color) && !this._consumeRollResultForBasicColor(color)) {
+            return;
+        }
+
         const bankValue = this.modalTokenBankHexagons[color] ?? 0;
         if (bankValue <= 0) return;
 
@@ -254,7 +261,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     private _isBasicColorEnabledByDice(color: Color): boolean {
-        const hasJoker = this.diceResults.includes('dices-joker.png');
+        const hasJoker = this.modalRemainingRollResults.includes('dices-joker.png');
         if (hasJoker) {
             return true;
         }
@@ -277,7 +284,61 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
                 return true;
         }
 
-        return this.diceResults.includes(requiredSide);
+        return this.modalRemainingRollResults.includes(requiredSide);
+    }
+
+    private _consumeRollResultForBasicColor(color: Color): boolean {
+        const colorSide = this._getDiceSideByBasicColor(color);
+        if (!colorSide) {
+            return false;
+        }
+
+        const colorIndex = this._findAvailableDiceIndexBySide(colorSide);
+        if (colorIndex !== -1) {
+            this._consumeDiceResult(colorSide, colorIndex);
+            return true;
+        }
+
+        const jokerIndex = this._findAvailableDiceIndexBySide('dices-joker.png');
+        if (jokerIndex !== -1) {
+            this._consumeDiceResult('dices-joker.png', jokerIndex);
+            return true;
+        }
+
+        return false;
+    }
+
+    private _getDiceSideByBasicColor(color: Color): string | null {
+        switch (color) {
+            case 'red':
+                return 'dices-red.png';
+            case 'blue':
+                return 'dices-blue.png';
+            case 'white':
+                return 'dices-white.png';
+            case 'green':
+                return 'dices-green.png';
+            default:
+                return null;
+        }
+    }
+
+    private _findAvailableDiceIndexBySide(side: string): number {
+        return this.diceResults.findIndex((result, index) => {
+            return result === side && !this.modalConsumedDiceIndexes.includes(index);
+        });
+    }
+
+    private _consumeDiceResult(side: string, diceIndex: number): void {
+        const remainingIndex = this.modalRemainingRollResults.indexOf(side);
+        if (remainingIndex !== -1) {
+            this.modalRemainingRollResults = [
+                ...this.modalRemainingRollResults.slice(0, remainingIndex),
+                ...this.modalRemainingRollResults.slice(remainingIndex + 1),
+            ];
+        }
+
+        this.modalConsumedDiceIndexes = [...this.modalConsumedDiceIndexes, diceIndex];
     }
 
     public isTokenToDiscardModalDisabled(color: Color): boolean {
@@ -474,6 +535,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             this.modalTokenBankHexagons[color] = this.gameBankHexagons[color] ?? 0;
             this.modalHandHexagons[color] = playerHex?.[color] ?? 0;
         }
+
+        // Keep an immutable copy of rolled results and a separate mutable remaining pool.
+        this.modalRollResultsSnapshot = this.diceResults.map((result) => `${result}`);
+        this.modalRemainingRollResults = [...this.modalRollResultsSnapshot];
+        this.modalConsumedDiceIndexes = [];
     }
 
     private _updateTokensByDiceState(): void {
@@ -622,9 +688,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public isDiceDisabled(index: number): boolean {
-        return this.selectedCancelChoices.some(
+        const isDisabledByCancelSelection = this.selectedCancelChoices.some(
             choice => choice.type === 'dice' && choice.diceIndex === index
         );
+
+        return isDisabledByCancelSelection || this.modalConsumedDiceIndexes.includes(index);
     }
 
     public isDiceSelected(index: number): boolean {
@@ -855,6 +923,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.jokerCount = 0;
         this.selectedJokerExchanges = [];
         this.selectedCancelChoices = [];
+        this.modalRollResultsSnapshot = [];
+        this.modalRemainingRollResults = [];
+        this.modalConsumedDiceIndexes = [];
         this._updateTokensByDiceState();
     }
 
