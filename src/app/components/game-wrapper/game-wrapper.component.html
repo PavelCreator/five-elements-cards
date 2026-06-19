@@ -97,13 +97,31 @@
     <!-- Dice Roll Modal -->
     <div class="dice-modal-overlay" *ngIf="showDiceModal" (click)="closeDiceModal()">
         <div class="dice-modal" (click)="$event.stopPropagation()">
-            <div class="dice-grid" [class.dice-grid--two]="diceResults.length === 2">
-                <div class="dice-item" *ngFor="let reel of diceReels; let i = index" [class.dice-item--disabled]="isDiceDisabled(i)">
-                    <div class="dice-reel" [class.dice-reel--animated]="isDiceAnimationEnabled">
-                        <img *ngFor="let side of reel" 
-                             [src]="'assets/dice_side/' + side" 
-                             [alt]="side" 
-                             class="dice-image">
+            <div class="dice-roll-debug-layout">
+                <div class="dice-roll-debug-panel">
+                    <div class="dice-roll-debug-panel__title">Mock Roll (Temp)</div>
+                    <div class="dice-roll-debug-panel__group">
+                        <button type="button" class="dice-roll-debug-panel__button" (click)="onMockRollScenario('joker', 1)">1 Joker</button>
+                        <button type="button" class="dice-roll-debug-panel__button" (click)="onMockRollScenario('joker', 2)">2 Jokers</button>
+                        <button type="button" class="dice-roll-debug-panel__button" (click)="onMockRollScenario('joker', 3)">3 Jokers</button>
+                        <button type="button" class="dice-roll-debug-panel__button" (click)="onMockRollScenario('joker', 4)">4 Jokers</button>
+                    </div>
+                    <div class="dice-roll-debug-panel__group">
+                        <button type="button" class="dice-roll-debug-panel__button" (click)="onMockRollScenario('cross', 1)">1 Cross</button>
+                        <button type="button" class="dice-roll-debug-panel__button" (click)="onMockRollScenario('cross', 2)">2 Crosses</button>
+                        <button type="button" class="dice-roll-debug-panel__button" (click)="onMockRollScenario('cross', 3)">3 Crosses</button>
+                        <button type="button" class="dice-roll-debug-panel__button" (click)="onMockRollScenario('cross', 4)">4 Crosses</button>
+                    </div>
+                </div>
+
+                <div class="dice-grid" [class.dice-grid--two]="diceResults.length === 2">
+                    <div class="dice-item" *ngFor="let reel of diceReels; let i = index" [class.dice-item--disabled]="isDiceDisabled(i)">
+                        <div class="dice-reel" [class.dice-reel--animated]="isDiceAnimationEnabled">
+                            <img *ngFor="let side of reel" 
+                                 [src]="'assets/dice_side/' + side" 
+                                 [alt]="side" 
+                                 class="dice-image">
+                        </div>
                     </div>
                 </div>
             </div>

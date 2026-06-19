@@ -100,6 +100,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         specialStacks: SpecialStack[];
     }> = [];
     public printModeEnabled: boolean = true;
+    private readonly _diceSides: string[] = [
+        'dices-blue.png',
+        'dices-green.png',
+        'dices-joker.png',
+        'dices-nothing.png',
+        'dices-red.png',
+        'dices-white.png',
+    ];
     private _cardsSubscription?: Subscription;
     private _printModeSubscription?: Subscription;
     private _resizeRaf?: number;
@@ -523,18 +531,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.modalRemainingRollResults = [];
         this.modalConsumedDiceIndexes = [];
 
-        const diceSides = [
-            'dices-blue.png',
-            'dices-green.png',
-            'dices-joker.png',
-            'dices-nothing.png',
-            'dices-red.png',
-            'dices-white.png'
-        ];
         const rollsCount = Math.max(0, Math.floor(count));
         const results: string[] = [];
-        const reels: string[][] = [];
-        const reelLength = 15; // Number of images in the reel
         
         const isCheckToCrossMode = this._settingsService.isCheckToCrossModeEnabled();
         const isCheckToThreeCrossMode = this._settingsService.isCheckToThreeCrossModeEnabled();
@@ -571,48 +569,75 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             // Random roll
             else {
-                const finalIndex = Math.floor(Math.random() * diceSides.length);
-                finalResult = diceSides[finalIndex];
+                const finalIndex = Math.floor(Math.random() * this._diceSides.length);
+                finalResult = this._diceSides[finalIndex];
             }
             
             results.push(finalResult);
-            
-            // Generate reel for animation
+        }
+
+        const reels = this._buildReelsFromResults(results);
+        this._applyDiceRollResults(results, reels);
+    }
+
+    public onMockRollScenario(type: 'joker' | 'cross', count: number): void {
+        const clampedCount = Math.min(4, Math.max(1, Math.floor(count)));
+        const fixedFill = ['dices-green.png', 'dices-white.png', 'dices-red.png', 'dices-blue.png'];
+        const primarySide = type === 'joker' ? 'dices-joker.png' : 'dices-nothing.png';
+        const results: string[] = [];
+
+        for (let i = 0; i < 4; i++) {
+            if (i < clampedCount) {
+                results.push(primarySide);
+            } else {
+                results.push(fixedFill[(i - clampedCount) % fixedFill.length]);
+            }
+        }
+
+        const reels = this._buildReelsFromResults(results);
+        this._applyDiceRollResults(results, reels);
+    }
+
+    private _buildReelsFromResults(results: string[]): string[][] {
+        const reels: string[][] = [];
+        const reelLength = 15;
+
+        for (const finalResult of results) {
             const reel: string[] = [];
             for (let j = 0; j < reelLength - 1; j++) {
-                const randomIndex = Math.floor(Math.random() * diceSides.length);
-                reel.push(diceSides[randomIndex]);
+                const randomIndex = Math.floor(Math.random() * this._diceSides.length);
+                reel.push(this._diceSides[randomIndex]);
             }
-            // Add final result as the last image
             reel.push(finalResult);
             reels.push(reel);
         }
-        
-        this.diceResults = results;
-        this.diceReels = reels;
+
+        return reels;
+    }
+
+    private _applyDiceRollResults(results: string[], reels: string[][]): void {
+        this.diceResults = [...results];
+        this.diceReels = reels.map((reel) => [...reel]);
 
         this._updateTokensByDiceState();
-        
-        // Check for crosses
-        const nothingCount = results.filter(r => r === 'dices-nothing.png').length;
+
+        const nothingCount = this.diceResults.filter(r => r === 'dices-nothing.png').length;
         this.hasTwoNothings = nothingCount === 2;
         this.hasThreeNothings = nothingCount === 3;
         this.hasFourNothings = nothingCount >= 4;
         this.selectedCancelChoices = [];
-        
-        // Check for jokers
-        const jokerCount = results.filter(r => r === 'dices-joker.png').length;
+
+        const jokerCount = this.diceResults.filter(r => r === 'dices-joker.png').length;
         this.hasJokers = jokerCount > 0;
         this.jokerCount = jokerCount;
         this.selectedJokerExchanges = [];
         this._updateTokensByDiceState();
-        
-        // Universal auto-select logic: if required selections equals available elements, auto-select all
+
         this._autoSelectIfNecessary();
 
         this._syncModalTokenStateFromGame();
         this._updateTokensByDiceState();
-        
+
         this.showDiceModal = true;
     }
 

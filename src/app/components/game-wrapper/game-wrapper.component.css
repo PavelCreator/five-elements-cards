@@ -234,6 +234,54 @@
     gap: 30px;
 }
 
+.dice-roll-debug-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
+    justify-content: center;
+}
+
+.dice-roll-debug-panel {
+    min-width: 170px;
+    max-width: 190px;
+    padding: 12px;
+    border: 2px dashed #9ca3af;
+    border-radius: 12px;
+    background: #f9fafb;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dice-roll-debug-panel__title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #4b5563;
+    text-align: center;
+}
+
+.dice-roll-debug-panel__group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.dice-roll-debug-panel__button {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #1f2937;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 4px;
+    cursor: pointer;
+}
+
+.dice-roll-debug-panel__button:hover {
+    background: #f3f4f6;
+}
+
 .dice-grid {
     --dice-size: 146px;
     display: grid;
