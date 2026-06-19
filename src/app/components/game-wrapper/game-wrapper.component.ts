@@ -708,7 +708,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const isCrossDiscardScenario = this.rolledCrossesCount >= 2 && this.rolledCrossesCount <= 4;
         const allHandDisabled = totalTokensInHand <= 0 || this.tokensToDiscard <= 0;
-        this.showTokensToDiscardBlock = isCrossDiscardScenario && !(allHandDisabled && allBankDisabled);
+        const hasAnyDiscardedTokens = selectedDiscardCount > 0;
+        this.showTokensToDiscardBlock = isCrossDiscardScenario && (!(allHandDisabled && allBankDisabled) || hasAnyDiscardedTokens);
     }
 
     private _getSelectedDiscardCount(): number {
@@ -1049,7 +1050,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         const playerHex = this.playerHexagons[this.activePlayer];
         if (playerHex) {
             for (const color of colors) {
-                this.gameBankHexagons[color] = this.modalTokenBankHexagons[color] ?? 0;
+                const bankValue = this.modalTokenBankHexagons[color] ?? 0;
+                const discardedValue = this.modalDiscardHexagons[color] ?? 0;
+                this.gameBankHexagons[color] = bankValue + discardedValue;
                 playerHex[color] = this.modalHandHexagons[color] ?? 0;
             }
         }
