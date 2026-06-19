@@ -80,6 +80,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         6: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
     };
     public hexagonsPickedThisTurn: number = 0;
+    public isFinishTurnUnlockedByDiceModal: boolean = false;
     public readonly maxHexagonsPerTurn: number = 2;
     private pickedTokensThisTurn: Color[] = [];
     public showDiceModal: boolean = false;
@@ -477,6 +478,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public finishTurn(): void {
         // Reset turn counter and picked tokens
         this.hexagonsPickedThisTurn = 0;
+        this.isFinishTurnUnlockedByDiceModal = false;
         this.pickedTokensThisTurn = [];
 
         this._updateTokensByDiceState();
@@ -519,7 +521,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public get canFinishTurn(): boolean {
-        return this.hexagonsPickedThisTurn >= this.maxHexagonsPerTurn;
+        return this.hexagonsPickedThisTurn >= this.maxHexagonsPerTurn || this.isFinishTurnUnlockedByDiceModal;
     }
 
     public get canCancelTokens(): boolean {
@@ -1056,6 +1058,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
                 playerHex[color] = this.modalHandHexagons[color] ?? 0;
             }
         }
+
+        this.isFinishTurnUnlockedByDiceModal = true;
         
         // Apply joker exchanges
         if (this.hasJokers && this.selectedJokerExchanges.length > 0) {
