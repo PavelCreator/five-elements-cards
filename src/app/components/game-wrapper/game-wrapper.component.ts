@@ -236,11 +236,48 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         const bankValue = this.modalTokenBankHexagons[color] ?? 0;
         if (bankValue <= 0) return true;
 
+        // Basic colors are available only if their color was rolled,
+        // unless at least one joker was rolled (then all basics are available).
+        if (this._isBasicColor(color) && !this._isBasicColorEnabledByDice(color)) {
+            return true;
+        }
+
         if (color === 'purple' && !this.isLuckyPurpleEnabled) {
             return true;
         }
 
         return false;
+    }
+
+    private _isBasicColor(color: Color): boolean {
+        return color === 'red' || color === 'blue' || color === 'white' || color === 'green';
+    }
+
+    private _isBasicColorEnabledByDice(color: Color): boolean {
+        const hasJoker = this.diceResults.includes('dices-joker.png');
+        if (hasJoker) {
+            return true;
+        }
+
+        let requiredSide = '';
+        switch (color) {
+            case 'red':
+                requiredSide = 'dices-red.png';
+                break;
+            case 'blue':
+                requiredSide = 'dices-blue.png';
+                break;
+            case 'white':
+                requiredSide = 'dices-white.png';
+                break;
+            case 'green':
+                requiredSide = 'dices-green.png';
+                break;
+            default:
+                return true;
+        }
+
+        return this.diceResults.includes(requiredSide);
     }
 
     public isTokenToDiscardModalDisabled(color: Color): boolean {
