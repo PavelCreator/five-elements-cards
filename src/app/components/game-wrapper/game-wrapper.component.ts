@@ -60,6 +60,13 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         green: 0,
         purple: 0,
     };
+    public modalDiscardHexagons: { [key in Color]?: number } = {
+        red: 0,
+        blue: 0,
+        white: 0,
+        green: 0,
+        purple: 0,
+    };
     public modalRollResultsSnapshot: string[] = [];
     public modalRemainingRollResults: string[] = [];
     public modalConsumedDiceIndexes: number[] = [];
@@ -253,6 +260,22 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._updateTokensByDiceState();
     }
 
+    public onTokensInHandClick(color: Color): void {
+        const handValue = this.modalHandHexagons[color] ?? 0;
+        if (handValue <= 0) {
+            return;
+        }
+
+        if (this.tokensToDiscard <= 0) {
+            return;
+        }
+
+        this.modalHandHexagons[color] = handValue - 1;
+        this.modalDiscardHexagons[color] = (this.modalDiscardHexagons[color] ?? 0) + 1;
+
+        this._updateTokensByDiceState();
+    }
+
     public isTokenBankModalDisabled(color: Color): boolean {
         const bankValue = this.modalTokenBankHexagons[color] ?? 0;
         if (bankValue <= 0) return true;
@@ -433,8 +456,13 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public isTokenToDiscardModalDisabled(color: Color): boolean {
+        const discardValue = this.modalDiscardHexagons[color] ?? 0;
+        return this.tokensToDiscard === 0 || discardValue <= 0;
+    }
+
+    public isTokenInHandDisabled(color: Color): boolean {
         const handValue = this.modalHandHexagons[color] ?? 0;
-        return handValue <= 0;
+        return handValue <= 0 || this.tokensToDiscard <= 0;
     }
 
     public get areAllTokenBankModalDisabled(): boolean {
@@ -443,8 +471,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public get areAllTokensToDiscardModalDisabled(): boolean {
-        const colors: Color[] = ['red', 'blue', 'white', 'green', 'purple'];
-        return colors.every((color) => this.isTokenToDiscardModalDisabled(color));
+        return this.tokensToDiscard === 0;
     }
 
     public finishTurn(): void {
@@ -648,6 +675,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         for (const color of colors) {
             this.modalTokenBankHexagons[color] = this.gameBankHexagons[color] ?? 0;
             this.modalHandHexagons[color] = playerHex?.[color] ?? 0;
+            this.modalDiscardHexagons[color] = 0;
         }
 
         // Keep an immutable copy of rolled results and a separate mutable remaining pool.
@@ -665,10 +693,34 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.rolledJokersCount = effectiveResults.filter(result => result === 'dices-joker.png').length;
         const purpleBankCount = this.modalTokenBankHexagons['purple'] ?? this.gameBankHexagons['purple'] ?? 0;
         const rawLuckyPurple = Math.max(this.rolledJokersCount - 1, 0);
-        this.tokensToDiscard = Math.max(this.rolledCrossesCount - 1, 0);
+        const selectedDiscardCount = this._getSelectedDiscardCount();
         this.luckyPurple = Math.min(rawLuckyPurple, purpleBankCount);
-        this.showTokensToDiscardBlock = this.rolledCrossesCount >= 2 && this.rolledCrossesCount <= 4;
         this.isLuckyPurpleEnabled = this.luckyPurple > 0;
+
+        const rawRequiredDiscardCount = Math.max(this.rolledCrossesCount - 1, 0);
+        const totalTokensInHand = this._getTotalTokensInHandCount();
+        const allBankDisabled = this.areAllTokenBankModalDisabled;
+        const maxDiscardPossibleWithCurrentState = totalTokensInHand + selectedDiscardCount;
+        const requiredDiscardCount = allBankDisabled
+            ? Math.min(rawRequiredDiscardCount, maxDiscardPossibleWithCurrentState)
+            : rawRequiredDiscardCount;
+        this.tokensToDiscard = Math.max(requiredDiscardCount - selectedDiscardCount, 0);
+
+        const isCrossDiscardScenario = this.rolledCrossesCount >= 2 && this.rolledCrossesCount <= 4;
+        const allHandDisabled = totalTokensInHand <= 0 || this.tokensToDiscard <= 0;
+        this.showTokensToDiscardBlock = isCrossDiscardScenario && !(allHandDisabled && allBankDisabled);
+    }
+
+    private _getSelectedDiscardCount(): number {
+        return ['red', 'blue', 'white', 'green', 'purple'].reduce((total, color) => {
+            return total + (this.modalDiscardHexagons[color as Color] ?? 0);
+        }, 0);
+    }
+
+    private _getTotalTokensInHandCount(): number {
+        return ['red', 'blue', 'white', 'green', 'purple'].reduce((total, color) => {
+            return total + (this.modalHandHexagons[color as Color] ?? 0);
+        }, 0);
     }
 
     private _autoSelectIfNecessary(): void {
@@ -1047,6 +1099,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.modalRemainingRollResults = [];
         this.modalConsumedDiceIndexes = [];
         this.showLuckyPurpleChoiceModal = false;
+        this.modalDiscardHexagons = { red: 0, blue: 0, white: 0, green: 0, purple: 0 };
         this._updateTokensByDiceState();
     }
 

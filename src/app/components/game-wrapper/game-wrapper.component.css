@@ -638,7 +638,22 @@
 .tokens-by-dice-options--bank .tokens-by-dice-item--token ::ng-deep .coin-game-bank .number-wrapper {
     font-size: 40px !important;
     top: 39px;
+}
 
+.tokens-by-dice-options--discard .tokens-by-dice-item--token ::ng-deep .number-wrapper {
+    display: flex !important;
+    position: absolute !important;
+    top: 39px !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    padding: 0 !important;
+    font-size: 40px !important;
+    line-height: 1 !important;
+}
+
+.tokens-by-dice-options--discard .tokens-by-dice-item--token.tokens-by-dice-item--disabled {
+    opacity: 1;
+    pointer-events: none;
 }
 
 /* Override number hiding for joker exchange tokens */

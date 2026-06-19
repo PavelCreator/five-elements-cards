@@ -157,22 +157,22 @@
                         <div class="tokens-by-dice-block">
 													<div class="tokens-by-dice-warning">Tokens <p>in Hand</p></div>
                             <div class="tokens-by-dice-options tokens-by-dice-options--hand">
-								<div class="tokens-by-dice-item tokens-by-dice-item--token">
+                                <div class="tokens-by-dice-item tokens-by-dice-item--token" (click)="onTokensInHandClick('red')" [class.tokens-by-dice-item--disabled]="isTokenInHandDisabled('red')" [attr.aria-disabled]="isTokenInHandDisabled('red')">
                                     <app-hexagon [color]="'red'" [number]="modalHandHexagons['red'] ?? 0" [type]="'playerBank'"></app-hexagon>
-								</div>
-								<div class="tokens-by-dice-item tokens-by-dice-item--token">
+                                </div>
+                                <div class="tokens-by-dice-item tokens-by-dice-item--token" (click)="onTokensInHandClick('blue')" [class.tokens-by-dice-item--disabled]="isTokenInHandDisabled('blue')" [attr.aria-disabled]="isTokenInHandDisabled('blue')">
                                     <app-hexagon [color]="'blue'" [number]="modalHandHexagons['blue'] ?? 0" [type]="'playerBank'"></app-hexagon>
-								</div>
-								<div class="tokens-by-dice-item tokens-by-dice-item--token">
+                                </div>
+                                <div class="tokens-by-dice-item tokens-by-dice-item--token" (click)="onTokensInHandClick('white')" [class.tokens-by-dice-item--disabled]="isTokenInHandDisabled('white')" [attr.aria-disabled]="isTokenInHandDisabled('white')">
                                     <app-hexagon [color]="'white'" [number]="modalHandHexagons['white'] ?? 0" [type]="'playerBank'"></app-hexagon>
-								</div>
-								<div class="tokens-by-dice-item tokens-by-dice-item--token">
+                                </div>
+                                <div class="tokens-by-dice-item tokens-by-dice-item--token" (click)="onTokensInHandClick('green')" [class.tokens-by-dice-item--disabled]="isTokenInHandDisabled('green')" [attr.aria-disabled]="isTokenInHandDisabled('green')">
                                     <app-hexagon [color]="'green'" [number]="modalHandHexagons['green'] ?? 0" [type]="'playerBank'"></app-hexagon>
-								</div>
-								<div class="tokens-by-dice-item tokens-by-dice-item--token">
+                                </div>
+                                <div class="tokens-by-dice-item tokens-by-dice-item--token" (click)="onTokensInHandClick('purple')" [class.tokens-by-dice-item--disabled]="isTokenInHandDisabled('purple')" [attr.aria-disabled]="isTokenInHandDisabled('purple')">
                                     <app-hexagon [color]="'purple'" [number]="modalHandHexagons['purple'] ?? 0" [type]="'playerBank'"></app-hexagon>
-								</div>
-							</div>
+                                </div>
+                            </div>
 						</div>
 
             <div class="tokens-by-dice-arrows" aria-hidden="true" *ngIf="showTokensToDiscardBlock">
@@ -182,20 +182,20 @@
             <div class="tokens-by-dice-block" *ngIf="showTokensToDiscardBlock">
                 <div class="tokens-by-dice-warning">Tokens to <p>Discard: {{ tokensToDiscard }}</p></div>
                 <div class="tokens-by-dice-options tokens-by-dice-options--discard">
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token" [class.tokens-by-dice-item--disabled]="isTokenToDiscardModalDisabled('red')" [attr.aria-disabled]="isTokenToDiscardModalDisabled('red')">
-                        <app-hexagon [color]="'red'" [number]="modalHandHexagons['red'] ?? 0" [type]="'playerBank'"></app-hexagon>
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled">
+                        <app-hexagon [color]="'red'" [number]="modalDiscardHexagons['red'] ?? 0" [type]="'playerBank'"></app-hexagon>
                     </div>
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token" [class.tokens-by-dice-item--disabled]="isTokenToDiscardModalDisabled('blue')" [attr.aria-disabled]="isTokenToDiscardModalDisabled('blue')">
-                        <app-hexagon [color]="'blue'" [number]="modalHandHexagons['blue'] ?? 0" [type]="'playerBank'"></app-hexagon>
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled">
+                        <app-hexagon [color]="'blue'" [number]="modalDiscardHexagons['blue'] ?? 0" [type]="'playerBank'"></app-hexagon>
                     </div>
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token" [class.tokens-by-dice-item--disabled]="isTokenToDiscardModalDisabled('white')" [attr.aria-disabled]="isTokenToDiscardModalDisabled('white')">
-                        <app-hexagon [color]="'white'" [number]="modalHandHexagons['white'] ?? 0" [type]="'playerBank'"></app-hexagon>
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled">
+                        <app-hexagon [color]="'white'" [number]="modalDiscardHexagons['white'] ?? 0" [type]="'playerBank'"></app-hexagon>
                     </div>
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token" [class.tokens-by-dice-item--disabled]="isTokenToDiscardModalDisabled('green')" [attr.aria-disabled]="isTokenToDiscardModalDisabled('green')">
-                        <app-hexagon [color]="'green'" [number]="modalHandHexagons['green'] ?? 0" [type]="'playerBank'"></app-hexagon>
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled">
+                        <app-hexagon [color]="'green'" [number]="modalDiscardHexagons['green'] ?? 0" [type]="'playerBank'"></app-hexagon>
                     </div>
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token" [class.tokens-by-dice-item--disabled]="isTokenToDiscardModalDisabled('purple')" [attr.aria-disabled]="isTokenToDiscardModalDisabled('purple')">
-                        <app-hexagon [color]="'purple'" [number]="modalHandHexagons['purple'] ?? 0" [type]="'playerBank'"></app-hexagon>
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled">
+                        <app-hexagon [color]="'purple'" [number]="modalDiscardHexagons['purple'] ?? 0" [type]="'playerBank'"></app-hexagon>
                     </div>
                 </div>
             </div>
