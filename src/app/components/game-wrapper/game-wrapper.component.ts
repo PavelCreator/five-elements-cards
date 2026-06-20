@@ -602,6 +602,19 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return this._hasTurnStateChanges();
     }
 
+    public get activePlayerTokensForPurchase(): { [key in Color]?: number } {
+        return this.playerHexagons[this.activePlayer] ?? {};
+    }
+
+    public get isCardPurchaseLockedThisTurn(): boolean {
+        return this.hexagonsPickedThisTurn > 0
+            || this.showDiceModal
+            || this.diceResults.length > 0
+            || this.isFinishTurnUnlockedByDiceModal
+            || this.isWaitingForPostRoll2Token
+            || this._lastClosedRollCount > 0;
+    }
+
     public get diceCount(): number {
         // If purple was picked, no dice
         if (this.pickedTokensThisTurn.includes('purple')) return 0;

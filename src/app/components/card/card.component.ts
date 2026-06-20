@@ -9,6 +9,7 @@ import { TextareaAutoresizeDirective } from "../../directives/textarea-autoresiz
 import { ImageService } from "../../services/image.service";
 import { CardSide } from "../../models/card-side.type";
 import { ChaosCard } from "../../models/chaos-card.interface";
+import { Color } from '../../models/color.type';
 
 @Pipe({
     name: 'keys',
@@ -44,6 +45,8 @@ export class CardComponent implements OnInit {
     // @ts-ignore
     @Input() card: Card = {} as Card;
     @Input() disableHoverUi: boolean = false;
+    @Input() playerTokens?: { [key in Color]?: number };
+    @Input() purchaseLockedThisTurn: boolean = false;
     @ViewChild('renameTextarea') renameTextarea: ElementRef | undefined;
 
     private onCompare(_left: KeyValue<any, any>, _right: KeyValue<any, any>): number {
@@ -66,6 +69,44 @@ export class CardComponent implements OnInit {
     public editTokensMode: boolean = false;
     public allColors: string[] = ['green', 'white', 'blue', 'red', 'purple', 'black'];
     public diceRollResults: string[] = [];
+    private readonly _payColorsWithoutPurple: Color[] = ['red', 'green', 'white', 'blue', 'black'];
+    private readonly _supportedPayKeys: Set<string> = new Set(['red', 'green', 'white', 'blue', 'black', 'purple']);
+
+    public get isAffordableForPlayer(): boolean {
+        if (!this.disableHoverUi || !this.playerTokens) {
+            return false;
+        }
+
+        const pay = this.card?.pay;
+        if (!pay) {
+            return false;
+        }
+
+        for (const [key, value] of Object.entries(pay)) {
+            if ((value ?? 0) > 0 && !this._supportedPayKeys.has(key)) {
+                return false;
+            }
+        }
+
+        const availablePurple = this.playerTokens['purple'] ?? 0;
+        let purpleNeeded = pay['purple'] ?? 0;
+
+        for (const color of this._payColorsWithoutPurple) {
+            const required = pay[color] ?? 0;
+            const available = this.playerTokens[color] ?? 0;
+            purpleNeeded += Math.max(required - available, 0);
+        }
+
+        return availablePurple >= purpleNeeded;
+    }
+
+    public get isAffordableNow(): boolean {
+        return this.isAffordableForPlayer && !this.purchaseLockedThisTurn;
+    }
+
+    public get isAffordableNextTurnOnly(): boolean {
+        return this.isAffordableForPlayer && this.purchaseLockedThisTurn;
+    }
 
     public trackByColor(index: number, color: string): string {
         return index.toString();

@@ -41,10 +41,10 @@
                     </div>
                 </div>
                 <div class="game-row-cards">
-                    <app-card *ngFor="let card of row.topCards" [card]="card" [disableHoverUi]="true"></app-card>
+                    <app-card *ngFor="let card of row.topCards" [card]="card" [disableHoverUi]="true" [playerTokens]="activePlayerTokensForPurchase" [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn"></app-card>
                     <ng-container *ngFor="let specialStack of row.specialStacks">
                         <div class="game-stack" *ngIf="specialStack.stack.length">
-                            <app-card [card]="specialStack.topCard" [disableHoverUi]="true"></app-card>
+                            <app-card [card]="specialStack.topCard" [disableHoverUi]="true" [playerTokens]="activePlayerTokensForPurchase" [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn"></app-card>
                         </div>
                     </ng-container>
                 </div>
