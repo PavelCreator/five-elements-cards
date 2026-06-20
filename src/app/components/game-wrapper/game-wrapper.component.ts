@@ -85,9 +85,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public isWaitingForPostRoll2Token: boolean = false;
     public readonly maxHexagonsPerTurn: number = 2;
     private readonly _turnTrackedColors: Color[] = ['red', 'blue', 'white', 'green', 'purple', 'black'];
+    private readonly _purchasePayColors: Color[] = ['red', 'green', 'white', 'blue', 'black'];
+    private readonly _purchaseBonusColors: Color[] = ['red', 'green', 'white', 'blue', 'purple', 'black'];
     private _turnStartGameBankHexagons: { [key in Color]?: number } = {};
     private _turnStartPlayerHexagons: { [key in Color]?: number } = {};
     private _lastClosedRollCount: number = 0;
+    private _pendingPurchasedCardOrderNumbers: Set<number> = new Set<number>();
     private pickedTokensThisTurn: Color[] = [];
     public showDiceModal: boolean = false;
     public diceResults: string[] = [];
@@ -553,6 +556,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public finishTurn(): void {
+        this._commitPendingPurchasedCards();
+
         // Reset turn counter and picked tokens
         this.hexagonsPickedThisTurn = 0;
         this.isFinishTurnUnlockedByDiceModal = false;
@@ -589,8 +594,56 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.isFinishTurnUnlockedByDiceModal = false;
         this.isWaitingForPostRoll2Token = false;
         this._lastClosedRollCount = 0;
+        this._pendingPurchasedCardOrderNumbers.clear();
         this.pickedTokensThisTurn = [];
 
+        this._updateTokensByDiceState();
+    }
+
+    public isCardSoldPending(card: Card | undefined): boolean {
+        if (!card) return false;
+        return this._pendingPurchasedCardOrderNumbers.has(card.orderNumber);
+    }
+
+    public onPurchaseCard(card: Card): void {
+        if (!card || this.isCardPurchaseLockedThisTurn || this.isCardSoldPending(card)) {
+            return;
+        }
+
+        const playerHex = this.playerHexagons[this.activePlayer];
+        if (!playerHex) return;
+
+        const paymentPlan = this._buildCardPaymentPlan(card, playerHex);
+        if (!paymentPlan.isAffordable) {
+            return;
+        }
+
+        for (const color of this._purchasePayColors) {
+            const spendValue = paymentPlan.spend[color] ?? 0;
+            if (spendValue > 0) {
+                playerHex[color] = Math.max((playerHex[color] ?? 0) - spendValue, 0);
+            }
+        }
+
+        const spentPurple = paymentPlan.spend['purple'] ?? 0;
+        if (spentPurple > 0) {
+            playerHex['purple'] = Math.max((playerHex['purple'] ?? 0) - spentPurple, 0);
+        }
+
+        for (const color of this._purchaseBonusColors) {
+            const bonusValue = card.get?.[color] ?? 0;
+            if (bonusValue > 0) {
+                playerHex[color] = (playerHex[color] ?? 0) + bonusValue;
+            }
+        }
+
+        // Each purchased card grants one additional black token.
+        playerHex['black'] = (playerHex['black'] ?? 0) + 1;
+        const blackBankValue = this.gameBankHexagons['black'] ?? 0;
+        this.gameBankHexagons['black'] = Math.max(blackBankValue - 1, 0);
+
+        this._pendingPurchasedCardOrderNumbers.add(card.orderNumber);
+        this.isFinishTurnUnlockedByDiceModal = true;
         this._updateTokensByDiceState();
     }
 
@@ -612,7 +665,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             || this.diceResults.length > 0
             || this.isFinishTurnUnlockedByDiceModal
             || this.isWaitingForPostRoll2Token
-            || this._lastClosedRollCount > 0;
+            || this._lastClosedRollCount > 0
+            || this._pendingPurchasedCardOrderNumbers.size > 0;
     }
 
     public get diceCount(): number {
@@ -1326,6 +1380,61 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!Number.isInteger(playerNumber) || playerNumber < 1 || playerNumber > 6) return;
         this.activePlayer = playerNumber;
         this._captureTurnStartState();
+    }
+
+    private _buildCardPaymentPlan(card: Card, playerHex: { [key in Color]?: number }): { isAffordable: boolean; spend: { [key in Color]?: number } } {
+        const spend: { [key in Color]?: number } = {};
+
+        for (const [key, value] of Object.entries(card.pay ?? {})) {
+            if ((value ?? 0) > 0 && !this._turnTrackedColors.includes(key as Color)) {
+                return { isAffordable: false, spend };
+            }
+        }
+
+        let purpleNeeded = card.pay?.['purple'] ?? 0;
+
+        for (const color of this._purchasePayColors) {
+            const required = card.pay?.[color] ?? 0;
+            const available = playerHex[color] ?? 0;
+            const directSpend = Math.min(required, available);
+
+            if (directSpend > 0) {
+                spend[color] = directSpend;
+            }
+
+            purpleNeeded += Math.max(required - available, 0);
+        }
+
+        const availablePurple = playerHex['purple'] ?? 0;
+        if (availablePurple < purpleNeeded) {
+            return { isAffordable: false, spend };
+        }
+
+        if (purpleNeeded > 0) {
+            spend['purple'] = purpleNeeded;
+        }
+
+        return { isAffordable: true, spend };
+    }
+
+    private _commitPendingPurchasedCards(): void {
+        if (this._pendingPurchasedCardOrderNumbers.size === 0) {
+            return;
+        }
+
+        const cardsPerRow = this._getCardsPerRow();
+
+        for (const row of this.rows) {
+            row.stack = row.stack.filter((card) => !this._pendingPurchasedCardOrderNumbers.has(card.orderNumber));
+            row.topCards = row.stack.slice(0, cardsPerRow);
+
+            for (const specialStack of row.specialStacks) {
+                specialStack.stack = specialStack.stack.filter((card) => !this._pendingPurchasedCardOrderNumbers.has(card.orderNumber));
+                specialStack.topCard = specialStack.stack[0];
+            }
+        }
+
+        this._pendingPurchasedCardOrderNumbers.clear();
     }
 
     private _captureTurnStartState(): void {

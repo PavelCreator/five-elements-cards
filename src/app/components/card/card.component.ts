@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, Pipe, PipeTransform, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Pipe, PipeTransform, Renderer2, ViewChild } from '@angular/core';
 import { KeyValue, KeyValuePipe, NgClass, NgForOf, NgIf, NgStyle } from "@angular/common";
 import { HexagonComponent } from "../hexagon/hexagon.component";
 import { InteractionService } from "../../services/interaction.service";
@@ -47,6 +47,8 @@ export class CardComponent implements OnInit {
     @Input() disableHoverUi: boolean = false;
     @Input() playerTokens?: { [key in Color]?: number };
     @Input() purchaseLockedThisTurn: boolean = false;
+    @Input() soldPending: boolean = false;
+    @Output() purchaseCard = new EventEmitter<Card>();
     @ViewChild('renameTextarea') renameTextarea: ElementRef | undefined;
 
     private onCompare(_left: KeyValue<any, any>, _right: KeyValue<any, any>): number {
@@ -101,11 +103,15 @@ export class CardComponent implements OnInit {
     }
 
     public get isAffordableNow(): boolean {
-        return this.isAffordableForPlayer && !this.purchaseLockedThisTurn;
+        return this.isAffordableForPlayer && !this.purchaseLockedThisTurn && !this.soldPending;
     }
 
     public get isAffordableNextTurnOnly(): boolean {
-        return this.isAffordableForPlayer && this.purchaseLockedThisTurn;
+        return this.isAffordableForPlayer && this.purchaseLockedThisTurn && !this.soldPending;
+    }
+
+    public get isCardPurchasable(): boolean {
+        return this.disableHoverUi && this.isAffordableNow;
     }
 
     public trackByColor(index: number, color: string): string {
@@ -113,7 +119,12 @@ export class CardComponent implements OnInit {
     }
 
     public handleCardClick() {
-        if (this.disableHoverUi) return;
+        if (this.disableHoverUi) {
+            if (this.isCardPurchasable) {
+                this.purchaseCard.emit(this.card);
+            }
+            return;
+        }
         this.toggleCardSelection();
     }
 

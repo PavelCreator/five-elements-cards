@@ -1,5 +1,5 @@
 <div class="card"
-         [ngClass]="{ 'card--view': !printModeEnabled, 'card--rotated': printModeEnabled && cardSide === 'back', 'card--print': printModeEnabled, 'card--no-edit': disableHoverUi, 'card--affordable-blue': isAffordableNow, 'card--affordable-yellow': isAffordableNextTurnOnly }"
+         [ngClass]="{ 'card--view': !printModeEnabled, 'card--rotated': printModeEnabled && cardSide === 'back', 'card--print': printModeEnabled, 'card--no-edit': disableHoverUi, 'card--affordable-blue': isAffordableNow, 'card--affordable-yellow': isAffordableNextTurnOnly, 'card--purchasable': isCardPurchasable, 'card--sold-pending': soldPending }"
 		 *ngIf="!card.hidden || (card.hidden && showDisabledCard)"
 		 (click)="handleCardClick()"
 		 (mouseenter) ="setHovered(true)"
@@ -121,4 +121,5 @@
         </div>
 
     </ng-container>
+	<div class="card-sold-overlay" *ngIf="soldPending">SOLD</div>
 </div>

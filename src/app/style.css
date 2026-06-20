@@ -238,6 +238,41 @@
     box-shadow: 0 0 18px rgba(255, 210, 74, 0.95), 0 0 30px rgba(255, 210, 74, 0.7);
 }
 
+.card--purchasable{
+    cursor: pointer;
+}
+
+.card--purchasable *{
+    cursor: pointer;
+}
+
+.card--no-edit.card--purchasable,
+.card--no-edit.card--purchasable *{
+    cursor: pointer !important;
+}
+
+.card--sold-pending{
+    isolation: isolate;
+}
+
+.card-sold-overlay{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.58);
+    color: #ffffff;
+    font-family: "Skranji", serif;
+    font-size: 72px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.85);
+    z-index: 999;
+    pointer-events: none;
+}
+
 .card--no-edit,
 .card--no-edit * {
     user-select: none;
