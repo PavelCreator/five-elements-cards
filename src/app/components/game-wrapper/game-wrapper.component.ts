@@ -80,6 +80,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         5: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
         6: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
     };
+    public playerCardHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {
+        1: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
+        2: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
+        3: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
+        4: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
+        5: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
+        6: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
+    };
     public hexagonsPickedThisTurn: number = 0;
     public isFinishTurnUnlockedByDiceModal: boolean = false;
     public isWaitingForPostRoll2Token: boolean = false;
@@ -89,6 +97,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly _purchaseBonusColors: Color[] = ['red', 'green', 'white', 'blue', 'purple', 'black'];
     private _turnStartGameBankHexagons: { [key in Color]?: number } = {};
     private _turnStartPlayerHexagons: { [key in Color]?: number } = {};
+    private _turnStartPlayerCardHexagons: { [key in Color]?: number } = {};
     private _lastClosedRollCount: number = 0;
     private _pendingPurchasedCardOrderNumbers: Set<number> = new Set<number>();
     private pickedTokensThisTurn: Color[] = [];
@@ -582,11 +591,13 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public cancelTokens(): void {
         // Restore bank and active player tokens to turn-start snapshot.
         const playerHex = this.playerHexagons[this.activePlayer];
-        if (!playerHex) return;
+        const playerCards = this.playerCardHexagons[this.activePlayer];
+        if (!playerHex || !playerCards) return;
 
         for (const color of this._turnTrackedColors) {
             this.gameBankHexagons[color] = this._turnStartGameBankHexagons[color] ?? 0;
             playerHex[color] = this._turnStartPlayerHexagons[color] ?? 0;
+            playerCards[color] = this._turnStartPlayerCardHexagons[color] ?? 0;
         }
         
         // Reset counters
@@ -611,7 +622,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         const playerHex = this.playerHexagons[this.activePlayer];
-        if (!playerHex) return;
+        const playerCards = this.playerCardHexagons[this.activePlayer];
+        if (!playerHex || !playerCards) return;
 
         const paymentPlan = this._buildCardPaymentPlan(card, playerHex);
         if (!paymentPlan.isAffordable) {
@@ -633,7 +645,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         for (const color of this._purchaseBonusColors) {
             const bonusValue = card.get?.[color] ?? 0;
             if (bonusValue > 0) {
-                playerHex[color] = (playerHex[color] ?? 0) + bonusValue;
+                playerCards[color] = (playerCards[color] ?? 0) + bonusValue;
             }
         }
 
@@ -1439,25 +1451,32 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _captureTurnStartState(): void {
         const playerHex = this.playerHexagons[this.activePlayer];
-        if (!playerHex) return;
+        const playerCards = this.playerCardHexagons[this.activePlayer];
+        if (!playerHex || !playerCards) return;
 
         for (const color of this._turnTrackedColors) {
             this._turnStartGameBankHexagons[color] = this.gameBankHexagons[color] ?? 0;
             this._turnStartPlayerHexagons[color] = playerHex[color] ?? 0;
+            this._turnStartPlayerCardHexagons[color] = playerCards[color] ?? 0;
         }
     }
 
     private _hasTurnStateChanges(): boolean {
         const playerHex = this.playerHexagons[this.activePlayer];
-        if (!playerHex) return false;
+        const playerCards = this.playerCardHexagons[this.activePlayer];
+        if (!playerHex || !playerCards) return false;
 
         for (const color of this._turnTrackedColors) {
             const currentBankValue = this.gameBankHexagons[color] ?? 0;
             const currentPlayerValue = playerHex[color] ?? 0;
+            const currentPlayerCardValue = playerCards[color] ?? 0;
             const startBankValue = this._turnStartGameBankHexagons[color] ?? 0;
             const startPlayerValue = this._turnStartPlayerHexagons[color] ?? 0;
+            const startPlayerCardValue = this._turnStartPlayerCardHexagons[color] ?? 0;
 
-            if (currentBankValue !== startBankValue || currentPlayerValue !== startPlayerValue) {
+            if (currentBankValue !== startBankValue
+                || currentPlayerValue !== startPlayerValue
+                || currentPlayerCardValue !== startPlayerCardValue) {
                 return true;
             }
         }

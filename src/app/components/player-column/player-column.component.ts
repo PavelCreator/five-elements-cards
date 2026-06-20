@@ -19,6 +19,7 @@ export class PlayerColumnComponent implements OnChanges, AfterViewChecked {
     @Input() playerNames: string[] = [];
     @Input() editingPlayerIndex: number | null = null;
     @Input() playerHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {};
+    @Input() playerCardHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {};
 
     @Output() activePlayerChange = new EventEmitter<number>();
     @Output() startRenameEvent = new EventEmitter<number>();
@@ -71,6 +72,13 @@ export class PlayerColumnComponent implements OnChanges, AfterViewChecked {
      */
     public getHexagonValue(playerNumber: number, color: Color): number {
         return this.playerHexagons[playerNumber]?.[color] ?? 0;
+    }
+
+    /**
+     * Get passive card value for a specific player and color.
+     */
+    public getCardHexagonValue(playerNumber: number, color: Color): number {
+        return this.playerCardHexagons[playerNumber]?.[color] ?? 0;
     }
 
     /**
