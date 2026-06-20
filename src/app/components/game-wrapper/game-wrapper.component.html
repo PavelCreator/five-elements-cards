@@ -53,13 +53,11 @@
                 <div class="game-toolbar">
                     <div class="game-toolbar__row game-toolbar__row--actions game-hex-row" style="flex-wrap: wrap;">
 
-											<div class="roll-label">Roll</div>
+                                                <div class="roll-title">Roll:</div>
                         <button class="roll-wrapper" type="button" aria-label="Roll 4" (click)="rollDice(4)" [disabled]="isRollButtonDisabled(4)">
-
                             <app-hexagon [color]="'dice'" [number]="4" [type]="'gameBank'"></app-hexagon>
                         </button>
                         <button class="roll-wrapper" type="button" aria-label="Roll 2" (click)="rollDice(2)" [disabled]="isRollButtonDisabled(2)">
-                            <div class="roll-label">Roll</div>
                             <app-hexagon [color]="'dice'" [number]="2" [type]="'gameBank'"></app-hexagon>
                         </button>
                         <button class="game-button bonus-market-button" type="button" (click)="openBonusMarket()">

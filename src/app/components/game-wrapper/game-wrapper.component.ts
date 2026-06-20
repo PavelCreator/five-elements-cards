@@ -82,7 +82,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     public hexagonsPickedThisTurn: number = 0;
     public isFinishTurnUnlockedByDiceModal: boolean = false;
+    public isWaitingForPostRoll2Token: boolean = false;
     public readonly maxHexagonsPerTurn: number = 2;
+    private _lastClosedRollCount: number = 0;
     private pickedTokensThisTurn: Color[] = [];
     public showDiceModal: boolean = false;
     public diceResults: string[] = [];
@@ -216,6 +218,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             this.hexagonsPickedThisTurn += 2;
         } else {
             this.hexagonsPickedThisTurn++;
+
+            if (this.isWaitingForPostRoll2Token) {
+                this.isWaitingForPostRoll2Token = false;
+                this.isFinishTurnUnlockedByDiceModal = true;
+            }
         }
 
         this._updateTokensByDiceState();
@@ -224,6 +231,13 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public isHexagonDisabled(color: Color): boolean {
         // Lock all bank tokens once the turn can be finished.
         if (this.canFinishTurn) return true;
+
+        // Roll 2 + token rule: after closing a 2-dice roll without a token,
+        // only one non-purple token can be selected.
+        if (this.isWaitingForPostRoll2Token) {
+            if (color === 'purple') return true;
+            return this.hexagonsPickedThisTurn >= 1;
+        }
 
         // If no bank value, disable
         const bankValue = this.gameBankHexagons[color];
@@ -534,6 +548,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         // Reset turn counter and picked tokens
         this.hexagonsPickedThisTurn = 0;
         this.isFinishTurnUnlockedByDiceModal = false;
+        this.isWaitingForPostRoll2Token = false;
+        this._lastClosedRollCount = 0;
         this.pickedTokensThisTurn = [];
 
         this._updateTokensByDiceState();
@@ -571,6 +587,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         // Reset counters
         this.hexagonsPickedThisTurn = 0;
         this.pickedTokensThisTurn = [];
+
+        if (this._lastClosedRollCount === 2) {
+            // Roll 2 turn remains incomplete until one regular token is picked.
+            this.isFinishTurnUnlockedByDiceModal = false;
+            this.isWaitingForPostRoll2Token = true;
+        }
 
         this._updateTokensByDiceState();
     }
@@ -610,6 +632,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public isRollButtonDisabled(rollCount: number): boolean {
+        if (this.isWaitingForPostRoll2Token) {
+            return true;
+        }
+
         if (this.canFinishTurn) {
             return true;
         }
@@ -1132,6 +1158,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public closeDiceModal(): void {
         if (!this.canCloseDiceModal) return;
 
+        const rolledDiceCount = this.modalRollResultsSnapshot.length || this.diceResults.length;
+        const regularPickedTokensCount = this.pickedTokensThisTurn.filter((color) => color !== 'purple').length;
+
         const colors: Color[] = ['red', 'blue', 'white', 'green', 'purple'];
         const playerHex = this.playerHexagons[this.activePlayer];
         if (playerHex) {
@@ -1143,7 +1172,16 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         }
 
-        this.isFinishTurnUnlockedByDiceModal = true;
+        this._lastClosedRollCount = rolledDiceCount;
+
+        if (rolledDiceCount === 2) {
+            const hasRegularTokenForRoll2Rule = regularPickedTokensCount >= 1;
+            this.isFinishTurnUnlockedByDiceModal = hasRegularTokenForRoll2Rule;
+            this.isWaitingForPostRoll2Token = !hasRegularTokenForRoll2Rule;
+        } else {
+            this.isFinishTurnUnlockedByDiceModal = true;
+            this.isWaitingForPostRoll2Token = false;
+        }
         
         // Apply joker exchanges
         if (this.hasJokers && this.selectedJokerExchanges.length > 0) {

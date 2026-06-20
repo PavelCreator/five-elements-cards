@@ -136,8 +136,20 @@
 
 .game-toolbar__row{
     display:flex;
+    align-items:center;
     justify-content:center;
     gap:8px;
+}
+
+.roll-title{
+    display:flex;
+    align-items:center;
+    margin-right:8px;
+    color:#000;
+    font-family:"Macondo", cursive;
+    font-size:60px;
+    line-height:1;
+    user-select:none;
 }
 
 .game-toolbar__row--actions{
