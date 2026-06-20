@@ -36,6 +36,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private _playerNamesKey = 'gamePlayerNames';
     public leftPlayerSlots: boolean[] = [false, false, false];
     public rightPlayerSlots: boolean[] = [false, false, false];
+    public rightSidebarPage: number = 1;
+    public readonly playersPerSidebarPage: number = 3;
     public activePlayer: number = 1; // 1-based player number that's highlighted
     public playerNames: string[] = [];
     public editingPlayerIndex: number | null = null;
@@ -585,6 +587,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         
         this.activePlayer = nextPlayer;
+        this._ensureActivePlayerPage();
         this._captureTurnStartState();
     }
 
@@ -669,6 +672,38 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public get activePlayerTokensForPurchase(): { [key in Color]?: number } {
         return this.playerHexagons[this.activePlayer] ?? {};
+    }
+
+    public get totalSidebarPages(): number {
+        const count = this.playerCount ?? 0;
+        return Math.max(1, Math.ceil(count / this.playersPerSidebarPage));
+    }
+
+    public get sidebarPageNumbers(): number[] {
+        return Array.from({ length: this.totalSidebarPages }, (_, index) => index + 1);
+    }
+
+    public get rightSidebarPlayerNumbers(): number[] {
+        const count = this.playerCount ?? 0;
+        if (count <= 0) return [];
+
+        const allPlayers = Array.from({ length: count }, (_, index) => index + 1);
+        const start = (this.rightSidebarPage - 1) * this.playersPerSidebarPage;
+        const end = start + this.playersPerSidebarPage;
+        return allPlayers.slice(start, end);
+    }
+
+    public get rightSidebarSlots(): boolean[] {
+        const slots = [false, false, false];
+        for (let i = 0; i < this.rightSidebarPlayerNumbers.length; i++) {
+            slots[i] = true;
+        }
+        return slots;
+    }
+
+    public setRightSidebarPage(page: number): void {
+        if (!Number.isInteger(page)) return;
+        this.rightSidebarPage = Math.min(this.totalSidebarPages, Math.max(1, page));
     }
 
     public get isCardPurchaseLockedThisTurn(): boolean {
@@ -1347,6 +1382,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             this.playerCount = parsed;
             this._updatePlayerSlots();
             this._setBlackTokensByPlayerCount(parsed);
+            this._ensureActivePlayerPage();
         }
     }
 
@@ -1356,6 +1392,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._localStorageService.setItem(this._playerCountKey, count.toString());
         this._updatePlayerSlots();
         this._setBlackTokensByPlayerCount(count);
+        this._ensureActivePlayerPage();
         this._captureTurnStartState();
         this._scheduleScaleUpdate();
     }
@@ -1367,6 +1404,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._localStorageService.setItem(this._playerCountKey, count.toString());
         this._updatePlayerSlots();
         this._setBlackTokensByPlayerCount(count);
+        this._ensureActivePlayerPage();
         this._captureTurnStartState();
         this._scheduleScaleUpdate();
     }
@@ -1391,7 +1429,13 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public setActivePlayer(playerNumber: number) {
         if (!Number.isInteger(playerNumber) || playerNumber < 1 || playerNumber > 6) return;
         this.activePlayer = playerNumber;
+        this._ensureActivePlayerPage();
         this._captureTurnStartState();
+    }
+
+    private _ensureActivePlayerPage(): void {
+        this.rightSidebarPage = Math.max(1, Math.ceil(this.activePlayer / this.playersPerSidebarPage));
+        this.rightSidebarPage = Math.min(this.rightSidebarPage, this.totalSidebarPages);
     }
 
     private _buildCardPaymentPlan(card: Card, playerHex: { [key in Color]?: number }): { isAffordable: boolean; spend: { [key in Color]?: number } } {

@@ -18,6 +18,7 @@ export class PlayerColumnComponent implements OnChanges, AfterViewChecked {
     @Input() activePlayer: number = 1;
     @Input() playerNames: string[] = [];
     @Input() editingPlayerIndex: number | null = null;
+    @Input() visiblePlayerNumbers: number[] = [];
     @Input() playerHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {};
     @Input() playerCardHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {};
 
@@ -52,11 +53,15 @@ export class PlayerColumnComponent implements OnChanges, AfterViewChecked {
     }
 
     /**
-     * Calculate player number based on side and index.
-     * Left side: 1, 3, 5 (odd numbers)
-     * Right side: 2, 4, 6 (even numbers)
+     * Calculate player number by explicit list when provided;
+     * fallback to side-based layout for legacy usage.
      */
     public getPlayerNumber(index: number): number {
+        const explicit = this.visiblePlayerNumbers[index];
+        if (Number.isInteger(explicit) && explicit >= 1 && explicit <= 6) {
+            return explicit;
+        }
+
         return this.side === 'left' ? index * 2 + 1 : index * 2 + 2;
     }
 

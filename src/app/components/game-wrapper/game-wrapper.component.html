@@ -14,19 +14,7 @@
     </div>
 
     <div class="game-layout" #gameLayout *ngIf="rows.length && playerCount">
-        <app-player-column 
-            [playerSlots]="leftPlayerSlots" 
-            [side]="'left'" 
-            [activePlayer]="activePlayer" 
-            [playerNames]="playerNames"
-            [editingPlayerIndex]="editingPlayerIndex"
-            [playerHexagons]="playerHexagons"
-            [playerCardHexagons]="playerCardHexagons"
-            (activePlayerChange)="setActivePlayer($event)"
-            (startRenameEvent)="startRename($event)"
-            (saveRenameEvent)="saveRename($event.playerNumber, $event.name)"
-            (cancelRenameEvent)="cancelRename()">
-        </app-player-column>
+        <div class="game-sidebar game-sidebar--left" aria-hidden="true"></div>
 
         <div class="game-field">
             <div class="game-row" *ngFor="let row of rows">
@@ -96,19 +84,33 @@
             </div>
         </div>
 
-        <app-player-column 
-            [playerSlots]="rightPlayerSlots" 
-            [side]="'right'" 
-            [activePlayer]="activePlayer" 
-            [playerNames]="playerNames"
-            [editingPlayerIndex]="editingPlayerIndex"
-            [playerHexagons]="playerHexagons"
-            [playerCardHexagons]="playerCardHexagons"
-            (activePlayerChange)="setActivePlayer($event)"
-            (startRenameEvent)="startRename($event)"
-            (saveRenameEvent)="saveRename($event.playerNumber, $event.name)"
-            (cancelRenameEvent)="cancelRename()">
-        </app-player-column>
+        <div class="right-sidebar">
+            <app-player-column 
+                [playerSlots]="rightSidebarSlots" 
+                [visiblePlayerNumbers]="rightSidebarPlayerNumbers"
+                [side]="'right'" 
+                [activePlayer]="activePlayer" 
+                [playerNames]="playerNames"
+                [editingPlayerIndex]="editingPlayerIndex"
+                [playerHexagons]="playerHexagons"
+                [playerCardHexagons]="playerCardHexagons"
+                (activePlayerChange)="setActivePlayer($event)"
+                (startRenameEvent)="startRename($event)"
+                (saveRenameEvent)="saveRename($event.playerNumber, $event.name)"
+                (cancelRenameEvent)="cancelRename()">
+            </app-player-column>
+
+            <div class="right-sidebar__pager" *ngIf="totalSidebarPages > 1">
+                <button
+                    class="right-sidebar__page-button"
+                    type="button"
+                    *ngFor="let page of sidebarPageNumbers"
+                    [class.right-sidebar__page-button--active]="page === rightSidebarPage"
+                    (click)="setRightSidebarPage(page)">
+                    Page {{ page }}
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Dice Roll Modal -->
