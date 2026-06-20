@@ -22,6 +22,19 @@ interface SpecialStack {
     topCard?: Card;
 }
 
+interface BonusShopRule {
+    blackCost: number;
+    rewards: BonusShopReward[];
+}
+
+interface BonusShopReward {
+    kind: 'hex' | 'image';
+    color?: Color;
+    imageSrc?: string;
+    number?: number;
+    alt: string;
+}
+
 @Component({
     selector: 'app-game-wrapper',
     standalone: true,
@@ -74,13 +87,80 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public modalRemainingRollResults: string[] = [];
     public modalConsumedDiceIndexes: number[] = [];
     public showLuckyPurpleChoiceModal: boolean = false;
+    public showBonusShopModal: boolean = false;
+    public readonly bonusShopRules: BonusShopRule[] = [
+        {
+            blackCost: 1,
+            rewards: [
+                { kind: 'hex', color: 'dice', alt: 'Dice reward' }
+            ]
+        },
+        {
+            blackCost: 2,
+            rewards: [
+                { kind: 'hex', color: 'mix', alt: 'Mixed hex reward' },
+                { kind: 'hex', color: 'dice', number: 2, alt: 'Dice reward with value 2' }
+            ]
+        },
+        {
+            blackCost: 3,
+            rewards: [
+                { kind: 'hex', color: 'purple', alt: 'Purple hex reward' },
+                { kind: 'image', imageSrc: 'assets/hex/card_1_lvl.png', alt: 'Free level 1 card' }
+            ]
+        },
+        {
+            blackCost: 4,
+            rewards: [
+                { kind: 'hex', color: 'mix', number: 2, alt: 'Mixed hex reward with value 2' },
+                { kind: 'image', imageSrc: 'assets/hex/extra_turn.png', alt: 'Extra turn reward' }
+            ]
+        },
+        {
+            blackCost: 5,
+            rewards: [
+                { kind: 'hex', color: 'purple', number: 2, alt: 'Purple hex reward with value 2' },
+                { kind: 'image', imageSrc: 'assets/hex/card_2_lvl.png', alt: 'Free level 2 card' }
+            ]
+        },
+        {
+            blackCost: 6,
+            rewards: [
+                { kind: 'image', imageSrc: 'assets/hex/card_master.png', alt: 'Master card reward' }
+            ]
+        },
+        {
+            blackCost: 7,
+            rewards: [
+                { kind: 'image', imageSrc: 'assets/hex/card_3_lvl.png', alt: 'Free level 3 card' }
+            ]
+        },
+        {
+            blackCost: 8,
+            rewards: [
+                { kind: 'hex', color: 'purple', number: 4, alt: 'Purple hex reward with value 4' }
+            ]
+        },
+        {
+            blackCost: 9,
+            rewards: [
+                { kind: 'image', imageSrc: 'assets/hex/card_4_lvl.png', alt: 'Free level 4 card' }
+            ]
+        },
+        {
+            blackCost: 10,
+            rewards: [
+                { kind: 'image', imageSrc: 'assets/hex/card_grand_master.png', alt: 'Grand master card reward' }
+            ]
+        },
+    ];
     public playerHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {
-        1: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
-        2: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
-        3: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
-        4: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
-        5: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
-        6: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
+        1: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 10 },
+        2: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 10 },
+        3: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 10 },
+        4: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 10 },
+        5: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 10 },
+        6: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 10 },
     };
     public playerCardHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {
         1: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
@@ -709,6 +789,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return slots;
     }
 
+    public get bonusShopRulesLeft(): BonusShopRule[] {
+        return this.bonusShopRules.slice(0, 5);
+    }
+
+    public get bonusShopRulesRight(): BonusShopRule[] {
+        return this.bonusShopRules.slice(5, 10);
+    }
+
     public setRightSidebarPage(page: number): void {
         if (!Number.isInteger(page)) return;
         this.rightSidebarPage = Math.min(this.totalSidebarPages, Math.max(1, page));
@@ -783,8 +871,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
-        // Placeholder until bonus market flow is implemented.
-        console.log('Bonus market is not implemented yet.');
+        this.showBonusShopModal = true;
+    }
+
+    public closeBonusShopModal(): void {
+        this.showBonusShopModal = false;
     }
 
     public rollDice(count: number): void {
@@ -1609,7 +1700,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
                     white: 0,
                     green: 0,
                     purple: 0,
-                    black: 0
+                    black: 10
                 };
             } else if (isFourCrossMode) {
                 // In four cross mode, give 5 tokens of each color for testing (4+ scenario)
@@ -1619,7 +1710,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
                     white: 0,
                     green: 0,
                     purple: 0,
-                    black: 0
+                    black: 10
                 };
             } else {
                 // In two cross mode, give 2 tokens of each color for testing
@@ -1629,7 +1720,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
                     white: 2,
                     green: 2,
                     purple: 2,
-                    black: 2
+                    black: 10
                 };
             }
         }

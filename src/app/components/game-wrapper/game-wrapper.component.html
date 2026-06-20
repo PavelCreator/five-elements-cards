@@ -132,6 +132,64 @@
         </div>
     </div>
 
+    <div class="bonus-shop-overlay" *ngIf="showBonusShopModal" (click)="closeBonusShopModal()">
+        <div class="bonus-shop-modal" (click)="$event.stopPropagation()">
+            <div class="bonus-shop-modal__title">Bonus Shop</div>
+
+            <div class="bonus-shop-rules">
+                <div class="bonus-shop-rules__column">
+                    <div class="bonus-shop-rule" *ngFor="let rule of bonusShopRulesLeft">
+                        <div class="bonus-shop-rule__cost">
+                            <app-hexagon [color]="'black'" [number]="rule.blackCost" [type]="'playerBank'"></app-hexagon>
+                        </div>
+
+                        <div class="bonus-shop-rule__eq">=</div>
+
+                        <div class="bonus-shop-rule__rewards">
+                            <ng-container *ngFor="let reward of rule.rewards; let isLast = last">
+                                <ng-container *ngIf="reward.kind === 'hex'; else imageReward">
+                                    <div class="bonus-shop-rule__reward-hex">
+                                        <app-hexagon [color]="reward.color" [number]="reward.number" [type]="'gameBank'"></app-hexagon>
+                                    </div>
+                                </ng-container>
+                                <ng-template #imageReward>
+                                    <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
+                                </ng-template>
+                                <span class="bonus-shop-rule__or" *ngIf="!isLast">OR</span>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bonus-shop-rules__column">
+                    <div class="bonus-shop-rule" *ngFor="let rule of bonusShopRulesRight">
+                        <div class="bonus-shop-rule__cost">
+                            <app-hexagon [color]="'black'" [number]="rule.blackCost" [type]="'playerBank'"></app-hexagon>
+                        </div>
+
+                        <div class="bonus-shop-rule__eq">=</div>
+
+                        <div class="bonus-shop-rule__rewards">
+                            <ng-container *ngFor="let reward of rule.rewards; let isLast = last">
+                                <ng-container *ngIf="reward.kind === 'hex'; else imageRewardRight">
+                                    <div class="bonus-shop-rule__reward-hex">
+                                        <app-hexagon [color]="reward.color" [number]="reward.number" [type]="'gameBank'"></app-hexagon>
+                                    </div>
+                                </ng-container>
+                                <ng-template #imageRewardRight>
+                                    <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
+                                </ng-template>
+                                <span class="bonus-shop-rule__or" *ngIf="!isLast">OR</span>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="bonus-shop-modal__cancel" (click)="closeBonusShopModal()">Cancel</button>
+        </div>
+    </div>
+
     <!-- Dice Roll Modal -->
     <div class="dice-modal-overlay" *ngIf="showDiceModal" (click)="closeDiceModal()">
         <div class="dice-modal" (click)="$event.stopPropagation()">
