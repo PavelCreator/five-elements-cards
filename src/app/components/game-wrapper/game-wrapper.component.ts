@@ -84,6 +84,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public isFinishTurnUnlockedByDiceModal: boolean = false;
     public isWaitingForPostRoll2Token: boolean = false;
     public readonly maxHexagonsPerTurn: number = 2;
+    private readonly _turnTrackedColors: Color[] = ['red', 'blue', 'white', 'green', 'purple', 'black'];
+    private _turnStartGameBankHexagons: { [key in Color]?: number } = {};
+    private _turnStartPlayerHexagons: { [key in Color]?: number } = {};
     private _lastClosedRollCount: number = 0;
     private pickedTokensThisTurn: Color[] = [];
     public showDiceModal: boolean = false;
@@ -146,6 +149,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             this._settingsService.isCheck2to4JokersModeEnabled()) {
             this._initPlayerHexagonsWithTestTokens();
         }
+
+        this._captureTurnStartState();
         
         this._cardsSubscription = this._cardsStoreService.cards$.subscribe((cards) => {
             const preparedCards = this._assignColors(cards);
@@ -563,36 +568,25 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         
         this.activePlayer = nextPlayer;
+        this._captureTurnStartState();
     }
 
     public cancelTokens(): void {
-        // Return all picked tokens back to game bank
+        // Restore bank and active player tokens to turn-start snapshot.
         const playerHex = this.playerHexagons[this.activePlayer];
         if (!playerHex) return;
-        
-        for (const color of this.pickedTokensThisTurn) {
-            // Return token to bank
-            const bankValue = this.gameBankHexagons[color];
-            if (bankValue !== undefined) {
-                this.gameBankHexagons[color] = bankValue + 1;
-            }
-            
-            // Remove from player
-            const playerValue = playerHex[color];
-            if (playerValue !== undefined && playerValue > 0) {
-                playerHex[color] = playerValue - 1;
-            }
+
+        for (const color of this._turnTrackedColors) {
+            this.gameBankHexagons[color] = this._turnStartGameBankHexagons[color] ?? 0;
+            playerHex[color] = this._turnStartPlayerHexagons[color] ?? 0;
         }
         
         // Reset counters
         this.hexagonsPickedThisTurn = 0;
+        this.isFinishTurnUnlockedByDiceModal = false;
+        this.isWaitingForPostRoll2Token = false;
+        this._lastClosedRollCount = 0;
         this.pickedTokensThisTurn = [];
-
-        if (this._lastClosedRollCount === 2) {
-            // Roll 2 turn remains incomplete until one regular token is picked.
-            this.isFinishTurnUnlockedByDiceModal = false;
-            this.isWaitingForPostRoll2Token = true;
-        }
 
         this._updateTokensByDiceState();
     }
@@ -602,7 +596,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public get canCancelTokens(): boolean {
-        return this.hexagonsPickedThisTurn > 0;
+        return this._hasTurnStateChanges();
     }
 
     public get diceCount(): number {
@@ -1280,6 +1274,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._localStorageService.setItem(this._playerCountKey, count.toString());
         this._updatePlayerSlots();
         this._setBlackTokensByPlayerCount(count);
+        this._captureTurnStartState();
         this._scheduleScaleUpdate();
     }
 
@@ -1290,6 +1285,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._localStorageService.setItem(this._playerCountKey, count.toString());
         this._updatePlayerSlots();
         this._setBlackTokensByPlayerCount(count);
+        this._captureTurnStartState();
         this._scheduleScaleUpdate();
     }
 
@@ -1313,6 +1309,35 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public setActivePlayer(playerNumber: number) {
         if (!Number.isInteger(playerNumber) || playerNumber < 1 || playerNumber > 6) return;
         this.activePlayer = playerNumber;
+        this._captureTurnStartState();
+    }
+
+    private _captureTurnStartState(): void {
+        const playerHex = this.playerHexagons[this.activePlayer];
+        if (!playerHex) return;
+
+        for (const color of this._turnTrackedColors) {
+            this._turnStartGameBankHexagons[color] = this.gameBankHexagons[color] ?? 0;
+            this._turnStartPlayerHexagons[color] = playerHex[color] ?? 0;
+        }
+    }
+
+    private _hasTurnStateChanges(): boolean {
+        const playerHex = this.playerHexagons[this.activePlayer];
+        if (!playerHex) return false;
+
+        for (const color of this._turnTrackedColors) {
+            const currentBankValue = this.gameBankHexagons[color] ?? 0;
+            const currentPlayerValue = playerHex[color] ?? 0;
+            const startBankValue = this._turnStartGameBankHexagons[color] ?? 0;
+            const startPlayerValue = this._turnStartPlayerHexagons[color] ?? 0;
+
+            if (currentBankValue !== startBankValue || currentPlayerValue !== startPlayerValue) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private _updatePlayerSlots() {
