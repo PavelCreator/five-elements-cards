@@ -19,9 +19,9 @@
 .game-layout{
     display:grid;
     grid-template-columns: 380px auto 380px;
-    align-items:start;
+    align-items:stretch;
     width:max-content;
-    height:max-content;
+    min-height:calc(100vh - 32px);
     margin:0 auto;
     transform-origin: top center;
     transform: scale(var(--game-scale, 1));
@@ -29,6 +29,70 @@
 
 .game-sidebar{
     width:380px;
+}
+
+.game-sidebar--left{
+    display:flex;
+    justify-content:flex-start;
+}
+
+.left-bank-panel{
+    width:360px;
+    border-radius:14px;
+    border:1px solid rgba(0, 0, 0, 0.12);
+    background:rgba(255, 255, 255, 0.85);
+    box-shadow:0 10px 20px rgba(0, 0, 0, 0.12);
+    padding:18px 14px 14px;
+    box-sizing:border-box;
+}
+
+.left-bank-panel__title{
+    display:flex;
+    justify-content:center;
+    color:#000;
+    font-family:"Faculty Glyphic", sans-serif;
+    font-size:60px;
+    font-weight:400;
+    line-height:1;
+    margin-top:8px;
+    margin-bottom:5px;
+}
+
+.left-bank-panel__row{
+    display:flex;
+    justify-content:center;
+    margin-top:8px;
+}
+
+.left-bank-panel .game-hex-row{
+    margin-top:8px;
+    width:100%;
+    justify-content:center;
+    gap:8px;
+    flex-wrap:nowrap;
+}
+
+.left-bank-panel .game-hex-row .roll-wrapper{
+    margin-right:0;
+}
+
+.left-bank-panel .game-hex-row .roll-label{
+    font-family:"Faculty Glyphic", sans-serif;
+    font-size:40px;
+    font-weight:700;
+    padding-left:0;
+}
+
+.left-bank-panel__row--action .roll-wrapper{
+    width:100%;
+    justify-content:center;
+}
+
+.left-bank-panel__action-button{
+    width:100%;
+    padding:14px 16px;
+    font-size:30px;
+    line-height:1;
 }
 
 .right-sidebar{
@@ -132,10 +196,12 @@
     display:flex;
     flex-direction:column;
     gap:24px;
+    justify-content:flex-start;
     align-items:flex-start;
+    // height:100%;
     padding:24px 32px;
     border-radius:18px;
-    background:rgba(255, 255, 255, 0.5);
+    background:rgba(255, 255, 255, 1);
     backdrop-filter: blur(3px);
     width:max-content;
 }
@@ -144,6 +210,7 @@
     display:flex;
     align-items:center;
     gap:16px;
+    zoom:1.15;
 }
 
 .game-stack{

@@ -14,7 +14,70 @@
     </div>
 
     <div class="game-layout" #gameLayout *ngIf="rows.length && playerCount">
-        <div class="game-sidebar game-sidebar--left" aria-hidden="true"></div>
+        <div class="game-sidebar game-sidebar--left">
+            <div class="left-bank-panel">
+                <div class="left-bank-panel__title">Bank</div>
+
+                <div class="left-bank-panel__row game-hex-row">
+                    <button class="roll-wrapper" type="button" aria-label="Red bank" (click)="onHexagonClick('red')" [disabled]="isHexagonDisabled('red')">
+                        <app-hexagon [color]="'red'" [number]="gameBankHexagons['red']" [type]="'gameBank'"></app-hexagon>
+                    </button>
+                    <button class="roll-wrapper" type="button" aria-label="Blue bank" (click)="onHexagonClick('blue')" [disabled]="isHexagonDisabled('blue')">
+                        <app-hexagon [color]="'blue'" [number]="gameBankHexagons['blue']" [type]="'gameBank'"></app-hexagon>
+                    </button>
+                </div>
+
+                <div class="left-bank-panel__row game-hex-row">
+                    <button class="roll-wrapper" type="button" aria-label="White bank" (click)="onHexagonClick('white')" [disabled]="isHexagonDisabled('white')">
+                        <app-hexagon [color]="'white'" [number]="gameBankHexagons['white']" [type]="'gameBank'"></app-hexagon>
+                    </button>
+                    <button class="roll-wrapper" type="button" aria-label="Green bank" (click)="onHexagonClick('green')" [disabled]="isHexagonDisabled('green')">
+                        <app-hexagon [color]="'green'" [number]="gameBankHexagons['green']" [type]="'gameBank'"></app-hexagon>
+                    </button>
+                </div>
+
+                <div class="left-bank-panel__row game-hex-row">
+                    <button class="roll-wrapper" type="button" aria-label="Purple bank" (click)="onHexagonClick('purple')" [disabled]="isHexagonDisabled('purple')">
+                        <app-hexagon [color]="'purple'" [number]="gameBankHexagons['purple']" [type]="'gameBank'"></app-hexagon>
+                    </button>
+                    <button class="roll-wrapper" type="button" aria-label="Black bank" (click)="onHexagonClick('black')" [disabled]="isHexagonDisabled('black')">
+                        <app-hexagon [color]="'black'" [number]="gameBankHexagons['black']" [type]="'gameBank'"></app-hexagon>
+                    </button>
+                </div>
+
+                <div class="left-bank-panel__row game-hex-row left-bank-panel__row--action">
+                    <button class="roll-wrapper" type="button" aria-label="Roll 4" (click)="rollDice(4)" [disabled]="isRollButtonDisabled(4)">
+                        <div class="roll-label">Roll</div>
+                        <app-hexagon [color]="'dice'" [number]="4" [type]="'gameBank'"></app-hexagon>
+                    </button>
+                </div>
+
+                <div class="left-bank-panel__row game-hex-row left-bank-panel__row--action">
+                    <button class="roll-wrapper" type="button" aria-label="Roll 2" (click)="rollDice(2)" [disabled]="isRollButtonDisabled(2)">
+                        <div class="roll-label">Roll</div>
+                        <app-hexagon [color]="'dice'" [number]="2" [type]="'gameBank'"></app-hexagon>
+                    </button>
+                </div>
+
+                <div class="left-bank-panel__row left-bank-panel__row--action">
+                    <button class="game-button bonus-market-button left-bank-panel__action-button" type="button" (click)="openBonusMarket()">
+                        Bonus Market
+                    </button>
+                </div>
+
+                <div class="left-bank-panel__row left-bank-panel__row--action">
+                    <button class="game-button finish-turn-button left-bank-panel__action-button" type="button" (click)="finishTurn()" [disabled]="!canFinishTurn">
+                        Finish Turn
+                    </button>
+                </div>
+
+                <div class="left-bank-panel__row left-bank-panel__row--action">
+                    <button class="game-button cancel-tokens-button left-bank-panel__action-button" type="button" (click)="cancelTokens()" [disabled]="!canCancelTokens">
+                        Cancel Tokens
+                    </button>
+                </div>
+            </div>
+        </div>
 
         <div class="game-field">
             <div class="game-row" *ngFor="let row of rows">
@@ -36,50 +99,6 @@
                             <app-card [card]="specialStack.topCard" [disableHoverUi]="true" [playerTokens]="activePlayerTokensForPurchase" [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn" [soldPending]="isCardSoldPending(specialStack.topCard)" (purchaseCard)="onPurchaseCard($event)"></app-card>
                         </div>
                     </ng-container>
-                </div>
-            </div>
-            <div class="game-row game-row--hex">
-                <div class="game-toolbar">
-                    <div class="game-toolbar__row game-toolbar__row--actions game-hex-row" style="flex-wrap: wrap;">
-
-                                                <div class="roll-title">Roll:</div>
-                        <button class="roll-wrapper" type="button" aria-label="Roll 4" (click)="rollDice(4)" [disabled]="isRollButtonDisabled(4)">
-                            <app-hexagon [color]="'dice'" [number]="4" [type]="'gameBank'"></app-hexagon>
-                        </button>
-                        <button class="roll-wrapper" type="button" aria-label="Roll 2" (click)="rollDice(2)" [disabled]="isRollButtonDisabled(2)">
-                            <app-hexagon [color]="'dice'" [number]="2" [type]="'gameBank'"></app-hexagon>
-                        </button>
-                        <button class="game-button bonus-market-button" type="button" (click)="openBonusMarket()">
-                            Bonus <br>Market
-                        </button>
-                        <button class="game-button finish-turn-button" type="button" (click)="finishTurn()" [disabled]="!canFinishTurn">
-                            Finish <br>Turn
-                        </button>
-                        <button class="game-button cancel-tokens-button" type="button" (click)="cancelTokens()" [disabled]="!canCancelTokens">
-                            Cancel <br>Tokens
-                        </button>
-                    </div>
-
-                    <div class="game-toolbar__row game-hex-row">
-                        <button class="roll-wrapper" type="button" aria-label="Red bank" (click)="onHexagonClick('red')" [disabled]="isHexagonDisabled('red')">
-                            <app-hexagon [color]="'red'" [number]="gameBankHexagons['red']" [type]="'gameBank'"></app-hexagon>
-                        </button>
-                        <button class="roll-wrapper" type="button" aria-label="Blue bank" (click)="onHexagonClick('blue')" [disabled]="isHexagonDisabled('blue')">
-                            <app-hexagon [color]="'blue'" [number]="gameBankHexagons['blue']" [type]="'gameBank'"></app-hexagon>
-                        </button>
-                        <button class="roll-wrapper" type="button" aria-label="White bank" (click)="onHexagonClick('white')" [disabled]="isHexagonDisabled('white')">
-                            <app-hexagon [color]="'white'" [number]="gameBankHexagons['white']" [type]="'gameBank'"></app-hexagon>
-                        </button>
-                        <button class="roll-wrapper" type="button" aria-label="Green bank" (click)="onHexagonClick('green')" [disabled]="isHexagonDisabled('green')">
-                            <app-hexagon [color]="'green'" [number]="gameBankHexagons['green']" [type]="'gameBank'"></app-hexagon>
-                        </button>
-                        <button class="roll-wrapper" type="button" aria-label="Purple bank" (click)="onHexagonClick('purple')" [disabled]="isHexagonDisabled('purple')">
-                            <app-hexagon [color]="'purple'" [number]="gameBankHexagons['purple']" [type]="'gameBank'"></app-hexagon>
-                        </button>
-                        <button class="roll-wrapper" type="button" aria-label="Black bank" (click)="onHexagonClick('black')" [disabled]="isHexagonDisabled('black')">
-                            <app-hexagon [color]="'black'" [number]="gameBankHexagons['black']" [type]="'gameBank'"></app-hexagon>
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

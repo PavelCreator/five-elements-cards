@@ -221,6 +221,10 @@
     filter: saturate(150%);
 }
 
+.game-field .game-row:last-child .card{
+    margin-bottom: 5px;
+}
+
 .card--affordable-blue::after,
 .card--affordable-yellow::after{
     content: '';
