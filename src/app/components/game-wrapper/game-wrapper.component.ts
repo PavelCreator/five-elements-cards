@@ -45,6 +45,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         white: 4,
         green: 4,
         purple: 4,
+        black: 20,
     };
     public modalTokenBankHexagons: { [key in Color]?: number } = {
         red: 0,
@@ -132,6 +133,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._initPlayerNames();
         this._loadPlayerNames();
         this._loadPlayerCount();
+        this._setBlackTokensByPlayerCount(this.playerCount);
         
         // Initialize player hexagons based on any cross or joker mode
         if (this._settingsService.isCheckToCrossModeEnabled() || 
@@ -220,6 +222,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public isHexagonDisabled(color: Color): boolean {
+        // Lock all bank tokens once the turn can be finished.
+        if (this.canFinishTurn) return true;
+
         // If no bank value, disable
         const bankValue = this.gameBankHexagons[color];
         if (bankValue === undefined || bankValue <= 0) return true;
@@ -255,6 +260,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         const bankValue = this.modalTokenBankHexagons[color] ?? 0;
         if (bankValue <= 0) return;
 
+        this._animateTokenTransfer(color, 'bank', 'hand');
+
         this.modalTokenBankHexagons[color] = bankValue - 1;
         this.modalHandHexagons[color] = (this.modalHandHexagons[color] ?? 0) + 1;
 
@@ -270,6 +277,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.tokensToDiscard <= 0) {
             return;
         }
+
+        this._animateTokenTransfer(color, 'hand', 'discard');
 
         this.modalHandHexagons[color] = handValue - 1;
         this.modalDiscardHexagons[color] = (this.modalDiscardHexagons[color] ?? 0) + 1;
@@ -433,6 +442,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
+        for (let i = 0; i < count; i++) {
+            this._animateTokenTransfer('purple', 'bank', 'hand', i * 90);
+        }
+
         this.modalTokenBankHexagons['purple'] = purpleBankCount - count;
         this.modalHandHexagons['purple'] = (this.modalHandHexagons['purple'] ?? 0) + count;
 
@@ -454,6 +467,48 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         return true;
+    }
+
+    private _animateTokenTransfer(color: Color, fromRole: 'bank' | 'hand', toRole: 'hand' | 'discard', delayMs: number = 0): void {
+        window.setTimeout(() => {
+            const sourceSelector = `.tokens-by-dice-item[data-token-role="${fromRole}"][data-color="${color}"] .coin`;
+            const targetSelector = `.tokens-by-dice-item[data-token-role="${toRole}"][data-color="${color}"] .coin`;
+            const sourceCoin = document.querySelector(sourceSelector) as HTMLElement | null;
+            const targetCoin = document.querySelector(targetSelector) as HTMLElement | null;
+
+            if (!sourceCoin || !targetCoin) {
+                return;
+            }
+
+            const sourceRect = sourceCoin.getBoundingClientRect();
+            const targetRect = targetCoin.getBoundingClientRect();
+            const flightNode = sourceCoin.cloneNode(true) as HTMLElement;
+            const numberNode = flightNode.querySelector('.number-wrapper');
+            if (numberNode) {
+                numberNode.remove();
+            }
+
+            flightNode.classList.add('token-flight-clone');
+            flightNode.style.left = `${sourceRect.left}px`;
+            flightNode.style.top = `${sourceRect.top}px`;
+            flightNode.style.width = `${sourceRect.width}px`;
+            flightNode.style.height = `${sourceRect.height}px`;
+            flightNode.style.transform = 'translate(0, 0) scale(1)';
+            flightNode.style.opacity = '0.95';
+
+            document.body.appendChild(flightNode);
+
+            requestAnimationFrame(() => {
+                const deltaX = targetRect.left - sourceRect.left;
+                const deltaY = targetRect.top - sourceRect.top;
+                flightNode.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.92)`;
+                flightNode.style.opacity = '0';
+            });
+
+            window.setTimeout(() => {
+                flightNode.remove();
+            }, 760);
+        }, delayMs);
     }
 
     public isTokenToDiscardModalDisabled(color: Color): boolean {
@@ -552,6 +607,35 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             color => color !== 'purple'
         ).length;
         return regularTokensCount >= 2;
+    }
+
+    public isRollButtonDisabled(rollCount: number): boolean {
+        if (this.canFinishTurn) {
+            return true;
+        }
+
+        if (this.isDiceRollDisabled) {
+            return true;
+        }
+
+        const regularTokensCount = this.pickedTokensThisTurn.filter(
+            color => color !== 'purple'
+        ).length;
+
+        if (rollCount === 4) {
+            return regularTokensCount > 0;
+        }
+
+        if (rollCount === 2) {
+            return regularTokensCount >= 2;
+        }
+
+        return false;
+    }
+
+    public openBonusMarket(): void {
+        // Placeholder until bonus market flow is implemented.
+        console.log('Bonus market is not implemented yet.');
     }
 
     public rollDice(count: number): void {
@@ -1140,11 +1224,15 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _loadPlayerCount() {
         const stored = this._localStorageService.getItem(this._playerCountKey);
-        if (!stored) return;
+        if (!stored) {
+            this._setBlackTokensByPlayerCount(undefined);
+            return;
+        }
         const parsed = Number(stored);
         if (Number.isInteger(parsed) && parsed >= 2 && parsed <= 6) {
             this.playerCount = parsed;
             this._updatePlayerSlots();
+            this._setBlackTokensByPlayerCount(parsed);
         }
     }
 
@@ -1153,6 +1241,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.playerCount = count;
         this._localStorageService.setItem(this._playerCountKey, count.toString());
         this._updatePlayerSlots();
+        this._setBlackTokensByPlayerCount(count);
         this._scheduleScaleUpdate();
     }
 
@@ -1162,7 +1251,24 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.playerCount = count;
         this._localStorageService.setItem(this._playerCountKey, count.toString());
         this._updatePlayerSlots();
+        this._setBlackTokensByPlayerCount(count);
         this._scheduleScaleUpdate();
+    }
+
+    private _setBlackTokensByPlayerCount(count: number | undefined): void {
+        this.gameBankHexagons['black'] = this._getBlackTokensByPlayerCount(count);
+    }
+
+    private _getBlackTokensByPlayerCount(count: number | undefined): number {
+        if (count === 3) {
+            return 30;
+        }
+
+        if (count && count >= 4) {
+            return 40;
+        }
+
+        return 20;
     }
 
     /** Set which player (1..6) is active/highlighted. */

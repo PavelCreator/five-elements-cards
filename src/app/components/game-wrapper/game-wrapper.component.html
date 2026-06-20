@@ -50,32 +50,49 @@
                 </div>
             </div>
             <div class="game-row game-row--hex">
-                    <div class="game-hex-row">
-                        <button class="roll-wrapper" type="button" aria-label="Roll dice" [disabled]="isDiceRollDisabled" (click)="rollDice(diceCount)">
-                            <div class="roll-label">Roll</div>
-                            <app-hexagon [color]="'dice'" [number]="diceCount" [type]="'gameBank'"></app-hexagon>
+                <div class="game-toolbar">
+                    <div class="game-toolbar__row game-toolbar__row--actions game-hex-row" style="flex-wrap: wrap;">
+
+											<div class="roll-label">Roll</div>
+                        <button class="roll-wrapper" type="button" aria-label="Roll 4" (click)="rollDice(4)" [disabled]="isRollButtonDisabled(4)">
+
+                            <app-hexagon [color]="'dice'" [number]="4" [type]="'gameBank'"></app-hexagon>
                         </button>
-                    <button class="roll-wrapper" type="button" aria-label="Red bank" (click)="onHexagonClick('red')" [disabled]="isHexagonDisabled('red')">
-                        <app-hexagon [color]="'red'" [number]="gameBankHexagons['red']" [type]="'gameBank'"></app-hexagon>
-                    </button>
-                    <button class="roll-wrapper" type="button" aria-label="Blue bank" (click)="onHexagonClick('blue')" [disabled]="isHexagonDisabled('blue')">
-                        <app-hexagon [color]="'blue'" [number]="gameBankHexagons['blue']" [type]="'gameBank'"></app-hexagon>
-                    </button>
-                    <button class="roll-wrapper" type="button" aria-label="White bank" (click)="onHexagonClick('white')" [disabled]="isHexagonDisabled('white')">
-                        <app-hexagon [color]="'white'" [number]="gameBankHexagons['white']" [type]="'gameBank'"></app-hexagon>
-                    </button>
-                    <button class="roll-wrapper" type="button" aria-label="Green bank" (click)="onHexagonClick('green')" [disabled]="isHexagonDisabled('green')">
-                        <app-hexagon [color]="'green'" [number]="gameBankHexagons['green']" [type]="'gameBank'"></app-hexagon>
-                    </button>
-                    <button class="roll-wrapper" type="button" aria-label="Purple bank" (click)="onHexagonClick('purple')" [disabled]="isHexagonDisabled('purple')">
-                        <app-hexagon [color]="'purple'" [number]="gameBankHexagons['purple']" [type]="'gameBank'"></app-hexagon>
-                    </button>
-                    <button class="game-button finish-turn-button" type="button" (click)="finishTurn()" [disabled]="!canFinishTurn">
-                        Finish Turn
-                    </button>
-                    <button class="game-button cancel-tokens-button" type="button" (click)="cancelTokens()" [disabled]="!canCancelTokens">
-                        Cancel Tokens
-                    </button>
+                        <button class="roll-wrapper" type="button" aria-label="Roll 2" (click)="rollDice(2)" [disabled]="isRollButtonDisabled(2)">
+                            <div class="roll-label">Roll</div>
+                            <app-hexagon [color]="'dice'" [number]="2" [type]="'gameBank'"></app-hexagon>
+                        </button>
+                        <button class="game-button bonus-market-button" type="button" (click)="openBonusMarket()">
+                            Bonus <br>Market
+                        </button>
+                        <button class="game-button finish-turn-button" type="button" (click)="finishTurn()" [disabled]="!canFinishTurn">
+                            Finish <br>Turn
+                        </button>
+                        <button class="game-button cancel-tokens-button" type="button" (click)="cancelTokens()" [disabled]="!canCancelTokens">
+                            Cancel <br>Tokens
+                        </button>
+                    </div>
+
+                    <div class="game-toolbar__row game-hex-row">
+                        <button class="roll-wrapper" type="button" aria-label="Red bank" (click)="onHexagonClick('red')" [disabled]="isHexagonDisabled('red')">
+                            <app-hexagon [color]="'red'" [number]="gameBankHexagons['red']" [type]="'gameBank'"></app-hexagon>
+                        </button>
+                        <button class="roll-wrapper" type="button" aria-label="Blue bank" (click)="onHexagonClick('blue')" [disabled]="isHexagonDisabled('blue')">
+                            <app-hexagon [color]="'blue'" [number]="gameBankHexagons['blue']" [type]="'gameBank'"></app-hexagon>
+                        </button>
+                        <button class="roll-wrapper" type="button" aria-label="White bank" (click)="onHexagonClick('white')" [disabled]="isHexagonDisabled('white')">
+                            <app-hexagon [color]="'white'" [number]="gameBankHexagons['white']" [type]="'gameBank'"></app-hexagon>
+                        </button>
+                        <button class="roll-wrapper" type="button" aria-label="Green bank" (click)="onHexagonClick('green')" [disabled]="isHexagonDisabled('green')">
+                            <app-hexagon [color]="'green'" [number]="gameBankHexagons['green']" [type]="'gameBank'"></app-hexagon>
+                        </button>
+                        <button class="roll-wrapper" type="button" aria-label="Purple bank" (click)="onHexagonClick('purple')" [disabled]="isHexagonDisabled('purple')">
+                            <app-hexagon [color]="'purple'" [number]="gameBankHexagons['purple']" [type]="'gameBank'"></app-hexagon>
+                        </button>
+                        <button class="roll-wrapper" type="button" aria-label="Black bank" (click)="onHexagonClick('black')" [disabled]="isHexagonDisabled('black')">
+                            <app-hexagon [color]="'black'" [number]="gameBankHexagons['black']" [type]="'gameBank'"></app-hexagon>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -131,19 +148,19 @@
 									<div class="tokens-by-dice-warning-small" *ngIf="luckyPurple">Lucky Purple: {{ luckyPurple }}</div>
 								</div>
                 <div class="tokens-by-dice-options tokens-by-dice-options--bank">
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token" (click)="onTokenBankModalClick('red')" [class.tokens-by-dice-item--disabled]="isTokenBankModalDisabled('red')" [attr.aria-disabled]="isTokenBankModalDisabled('red')">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token" data-token-role="bank" data-color="red" (click)="onTokenBankModalClick('red')" [class.tokens-by-dice-item--disabled]="isTokenBankModalDisabled('red')" [attr.aria-disabled]="isTokenBankModalDisabled('red')">
                         <app-hexagon [color]="'red'" [number]="modalTokenBankHexagons['red']" [type]="'gameBank'"></app-hexagon>
                     </div>
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token" (click)="onTokenBankModalClick('blue')" [class.tokens-by-dice-item--disabled]="isTokenBankModalDisabled('blue')" [attr.aria-disabled]="isTokenBankModalDisabled('blue')">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token" data-token-role="bank" data-color="blue" (click)="onTokenBankModalClick('blue')" [class.tokens-by-dice-item--disabled]="isTokenBankModalDisabled('blue')" [attr.aria-disabled]="isTokenBankModalDisabled('blue')">
                         <app-hexagon [color]="'blue'" [number]="modalTokenBankHexagons['blue']" [type]="'gameBank'"></app-hexagon>
                     </div>
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token" (click)="onTokenBankModalClick('white')" [class.tokens-by-dice-item--disabled]="isTokenBankModalDisabled('white')" [attr.aria-disabled]="isTokenBankModalDisabled('white')">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token" data-token-role="bank" data-color="white" (click)="onTokenBankModalClick('white')" [class.tokens-by-dice-item--disabled]="isTokenBankModalDisabled('white')" [attr.aria-disabled]="isTokenBankModalDisabled('white')">
                         <app-hexagon [color]="'white'" [number]="modalTokenBankHexagons['white']" [type]="'gameBank'"></app-hexagon>
                     </div>
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token" (click)="onTokenBankModalClick('green')" [class.tokens-by-dice-item--disabled]="isTokenBankModalDisabled('green')" [attr.aria-disabled]="isTokenBankModalDisabled('green')">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token" data-token-role="bank" data-color="green" (click)="onTokenBankModalClick('green')" [class.tokens-by-dice-item--disabled]="isTokenBankModalDisabled('green')" [attr.aria-disabled]="isTokenBankModalDisabled('green')">
                         <app-hexagon [color]="'green'" [number]="modalTokenBankHexagons['green']" [type]="'gameBank'"></app-hexagon>
                     </div>
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token" (click)="onTokenBankModalClick('purple')" [class.tokens-by-dice-item--disabled]="isTokenBankModalDisabled('purple')" [attr.aria-disabled]="isTokenBankModalDisabled('purple')">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token" data-token-role="bank" data-color="purple" (click)="onTokenBankModalClick('purple')" [class.tokens-by-dice-item--disabled]="isTokenBankModalDisabled('purple')" [attr.aria-disabled]="isTokenBankModalDisabled('purple')">
                         <app-hexagon [color]="'purple'" [number]="modalTokenBankHexagons['purple']" [type]="'gameBank'"></app-hexagon>
                     </div>
                 </div>
@@ -157,19 +174,19 @@
                         <div class="tokens-by-dice-block">
 													<div class="tokens-by-dice-warning">Tokens <p>in Hand</p></div>
                             <div class="tokens-by-dice-options tokens-by-dice-options--hand">
-                                <div class="tokens-by-dice-item tokens-by-dice-item--token" (click)="onTokensInHandClick('red')" [class.tokens-by-dice-item--disabled]="isTokenInHandDisabled('red')" [attr.aria-disabled]="isTokenInHandDisabled('red')">
+                                <div class="tokens-by-dice-item tokens-by-dice-item--token" data-token-role="hand" data-color="red" (click)="onTokensInHandClick('red')" [class.tokens-by-dice-item--disabled]="isTokenInHandDisabled('red')" [attr.aria-disabled]="isTokenInHandDisabled('red')">
                                     <app-hexagon [color]="'red'" [number]="modalHandHexagons['red'] ?? 0" [type]="'playerBank'"></app-hexagon>
                                 </div>
-                                <div class="tokens-by-dice-item tokens-by-dice-item--token" (click)="onTokensInHandClick('blue')" [class.tokens-by-dice-item--disabled]="isTokenInHandDisabled('blue')" [attr.aria-disabled]="isTokenInHandDisabled('blue')">
+                                <div class="tokens-by-dice-item tokens-by-dice-item--token" data-token-role="hand" data-color="blue" (click)="onTokensInHandClick('blue')" [class.tokens-by-dice-item--disabled]="isTokenInHandDisabled('blue')" [attr.aria-disabled]="isTokenInHandDisabled('blue')">
                                     <app-hexagon [color]="'blue'" [number]="modalHandHexagons['blue'] ?? 0" [type]="'playerBank'"></app-hexagon>
                                 </div>
-                                <div class="tokens-by-dice-item tokens-by-dice-item--token" (click)="onTokensInHandClick('white')" [class.tokens-by-dice-item--disabled]="isTokenInHandDisabled('white')" [attr.aria-disabled]="isTokenInHandDisabled('white')">
+                                <div class="tokens-by-dice-item tokens-by-dice-item--token" data-token-role="hand" data-color="white" (click)="onTokensInHandClick('white')" [class.tokens-by-dice-item--disabled]="isTokenInHandDisabled('white')" [attr.aria-disabled]="isTokenInHandDisabled('white')">
                                     <app-hexagon [color]="'white'" [number]="modalHandHexagons['white'] ?? 0" [type]="'playerBank'"></app-hexagon>
                                 </div>
-                                <div class="tokens-by-dice-item tokens-by-dice-item--token" (click)="onTokensInHandClick('green')" [class.tokens-by-dice-item--disabled]="isTokenInHandDisabled('green')" [attr.aria-disabled]="isTokenInHandDisabled('green')">
+                                <div class="tokens-by-dice-item tokens-by-dice-item--token" data-token-role="hand" data-color="green" (click)="onTokensInHandClick('green')" [class.tokens-by-dice-item--disabled]="isTokenInHandDisabled('green')" [attr.aria-disabled]="isTokenInHandDisabled('green')">
                                     <app-hexagon [color]="'green'" [number]="modalHandHexagons['green'] ?? 0" [type]="'playerBank'"></app-hexagon>
                                 </div>
-                                <div class="tokens-by-dice-item tokens-by-dice-item--token" (click)="onTokensInHandClick('purple')" [class.tokens-by-dice-item--disabled]="isTokenInHandDisabled('purple')" [attr.aria-disabled]="isTokenInHandDisabled('purple')">
+                                <div class="tokens-by-dice-item tokens-by-dice-item--token" data-token-role="hand" data-color="purple" (click)="onTokensInHandClick('purple')" [class.tokens-by-dice-item--disabled]="isTokenInHandDisabled('purple')" [attr.aria-disabled]="isTokenInHandDisabled('purple')">
                                     <app-hexagon [color]="'purple'" [number]="modalHandHexagons['purple'] ?? 0" [type]="'playerBank'"></app-hexagon>
                                 </div>
                             </div>
@@ -182,19 +199,19 @@
             <div class="tokens-by-dice-block" *ngIf="showTokensToDiscardBlock">
                 <div class="tokens-by-dice-warning">Tokens to <p>Discard: {{ tokensToDiscard }}</p></div>
                 <div class="tokens-by-dice-options tokens-by-dice-options--discard">
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled" data-token-role="discard" data-color="red">
                         <app-hexagon [color]="'red'" [number]="modalDiscardHexagons['red'] ?? 0" [type]="'playerBank'"></app-hexagon>
                     </div>
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled" data-token-role="discard" data-color="blue">
                         <app-hexagon [color]="'blue'" [number]="modalDiscardHexagons['blue'] ?? 0" [type]="'playerBank'"></app-hexagon>
                     </div>
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled" data-token-role="discard" data-color="white">
                         <app-hexagon [color]="'white'" [number]="modalDiscardHexagons['white'] ?? 0" [type]="'playerBank'"></app-hexagon>
                     </div>
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled" data-token-role="discard" data-color="green">
                         <app-hexagon [color]="'green'" [number]="modalDiscardHexagons['green'] ?? 0" [type]="'playerBank'"></app-hexagon>
                     </div>
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled" data-token-role="discard" data-color="purple">
                         <app-hexagon [color]="'purple'" [number]="modalDiscardHexagons['purple'] ?? 0" [type]="'playerBank'"></app-hexagon>
                     </div>
                 </div>
