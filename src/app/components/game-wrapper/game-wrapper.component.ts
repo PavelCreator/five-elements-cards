@@ -237,6 +237,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         // Lock all bank tokens once the turn can be finished.
         if (this.canFinishTurn) return true;
 
+        // Black tokens in bank are always locked.
+        if (color === 'black') return true;
+
         // Roll 2 + token rule: after closing a 2-dice roll without a token,
         // only one non-purple token can be selected.
         if (this.isWaitingForPostRoll2Token) {

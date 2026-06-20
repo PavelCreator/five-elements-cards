@@ -9,11 +9,18 @@ import { Art } from "../models/art.interface";
 export class ImageService {
 
   private readonly midjourneyUrlRegex = /^https:\/\/cdn\.midjourney\.com\/([0-9a-fA-F-]+)\/(\d+_\d+\.[a-zA-Z0-9]+)(\?[^\s'"`)]*)?$/;
+  private readonly brokenZombieUuid = '985c8044-ae4e-4e9a-b287-d4a56e63781f';
+  private readonly validZombieUuid = '985c8044-ae4e-4e9a-b287-d4a56e61441f';
 
   constructor() { }
 
   public normalizeMidjourneyUrl(url: string | undefined): string | undefined {
       if (!url) return url;
+
+      // Repair legacy typo in Zombie image UUID in both CDN and local asset paths.
+      if (url.includes(this.brokenZombieUuid)) {
+        return url.replaceAll(this.brokenZombieUuid, this.validZombieUuid);
+      }
 
       const match = url.match(this.midjourneyUrlRegex);
       if (!match) return url;
