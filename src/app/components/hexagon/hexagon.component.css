@@ -120,6 +120,21 @@
     user-select: none;
 }
 
+:host-context(.player-hexagons) .coin-big-win .number-wrapper,
+:host-context(.player-hexagons) .coin-big-win2 .number-wrapper{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% + 3px));
+    padding-top: 0;
+    padding-right: 0;
+    font-size: 48px;
+    line-height: 1;
+    letter-spacing: 0;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+}
+
 .left-half, .right-half {
     position: absolute;
     top: 0;

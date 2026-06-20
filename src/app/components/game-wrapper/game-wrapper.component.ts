@@ -637,12 +637,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             const spendValue = paymentPlan.spend[color] ?? 0;
             if (spendValue > 0) {
                 playerHex[color] = Math.max((playerHex[color] ?? 0) - spendValue, 0);
+                this.gameBankHexagons[color] = (this.gameBankHexagons[color] ?? 0) + spendValue;
             }
         }
 
         const spentPurple = paymentPlan.spend['purple'] ?? 0;
         if (spentPurple > 0) {
             playerHex['purple'] = Math.max((playerHex['purple'] ?? 0) - spentPurple, 0);
+            this.gameBankHexagons['purple'] = (this.gameBankHexagons['purple'] ?? 0) + spentPurple;
         }
 
         for (const color of this._purchaseBonusColors) {
@@ -668,6 +670,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public get canCancelTokens(): boolean {
         return this._hasTurnStateChanges();
+    }
+
+    public get canUseBonusMarket(): boolean {
+        const activePlayerHexagons = this.playerHexagons[this.activePlayer];
+        const blackTokens = activePlayerHexagons?.['black'] ?? 0;
+        return blackTokens >= 1;
     }
 
     public get activePlayerTokensForPurchase(): { [key in Color]?: number } {
@@ -771,6 +779,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public openBonusMarket(): void {
+        if (!this.canUseBonusMarket) {
+            return;
+        }
+
         // Placeholder until bonus market flow is implemented.
         console.log('Bonus market is not implemented yet.');
     }

@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="left-bank-panel__row left-bank-panel__row--action">
-                    <button class="game-button bonus-market-button left-bank-panel__action-button" type="button" (click)="openBonusMarket()">
+                    <button class="game-button bonus-market-button left-bank-panel__action-button" type="button" (click)="openBonusMarket()" [disabled]="!canUseBonusMarket">
                         Bonus Market
                     </button>
                 </div>
