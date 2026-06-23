@@ -193,6 +193,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     private _turnStartPlayerSpecialStackPurchases: Set<SpecialStackKey> = new Set<SpecialStackKey>();
     private _lastClosedRollCount: number = 0;
+    private _lastClosedRollWasBonusAction: boolean = false;
     private _pendingPurchasedCardOrderNumbers: Set<number> = new Set<number>();
     private pickedTokensThisTurn: Color[] = [];
     public showDiceModal: boolean = false;
@@ -945,7 +946,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             || this.diceResults.length > 0
             || this.isFinishTurnUnlockedByDiceModal
             || this.isWaitingForPostRoll2Token
-            || this._lastClosedRollCount > 0
+            || (this._lastClosedRollCount > 0 && !this._lastClosedRollWasBonusAction)
             || this._pendingPurchasedCardOrderNumbers.size > 0;
     }
 
@@ -1048,6 +1049,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         playerHex['black'] = playerBlackTokens - cost;
         this.gameBankHexagons['black'] = (this.gameBankHexagons['black'] ?? 0) + cost;
         this.hasBonusShopActionStarted = true;
+        this._lastClosedRollWasBonusAction = true;
         this.rollDice(rollCount);
     }
 
@@ -1058,6 +1060,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.hasBonusShopActionStarted = false;
         this.showBonusShopModal = false;
+        this._lastClosedRollCount = 0;
+        this._lastClosedRollWasBonusAction = false;
     }
 
     public rollDice(count: number): void {
@@ -1554,6 +1558,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public closeDiceModal(): void {
         if (!this.canCloseDiceModal) return;
 
+        const isBonusRollAction = this.hasBonusShopActionStarted;
         const rolledDiceCount = this.modalRollResultsSnapshot.length || this.diceResults.length;
         const regularPickedTokensCount = this.pickedTokensThisTurn.filter((color) => color !== 'purple').length;
 
@@ -1568,15 +1573,17 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         }
 
-        this._lastClosedRollCount = rolledDiceCount;
+        if (!isBonusRollAction) {
+            this._lastClosedRollCount = rolledDiceCount;
 
-        if (rolledDiceCount === 2) {
-            const hasRegularTokenForRoll2Rule = regularPickedTokensCount >= 1;
-            this.isFinishTurnUnlockedByDiceModal = hasRegularTokenForRoll2Rule;
-            this.isWaitingForPostRoll2Token = !hasRegularTokenForRoll2Rule;
-        } else {
-            this.isFinishTurnUnlockedByDiceModal = true;
-            this.isWaitingForPostRoll2Token = false;
+            if (rolledDiceCount === 2) {
+                const hasRegularTokenForRoll2Rule = regularPickedTokensCount >= 1;
+                this.isFinishTurnUnlockedByDiceModal = hasRegularTokenForRoll2Rule;
+                this.isWaitingForPostRoll2Token = !hasRegularTokenForRoll2Rule;
+            } else {
+                this.isFinishTurnUnlockedByDiceModal = true;
+                this.isWaitingForPostRoll2Token = false;
+            }
         }
         
         // Apply joker exchanges
