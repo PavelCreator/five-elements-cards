@@ -32,6 +32,7 @@ interface BonusShopReward {
     color?: Color;
     imageSrc?: string;
     number?: number;
+    rollCount?: number;
     alt: string;
 }
 
@@ -88,18 +89,19 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public modalConsumedDiceIndexes: number[] = [];
     public showLuckyPurpleChoiceModal: boolean = false;
     public showBonusShopModal: boolean = false;
+    public hasBonusShopActionStarted: boolean = false;
     public readonly bonusShopRules: BonusShopRule[] = [
         {
             blackCost: 1,
             rewards: [
-                { kind: 'hex', color: 'dice', alt: 'Dice reward' }
+                { kind: 'hex', color: 'dice', rollCount: 1, alt: 'Roll one dice reward' }
             ]
         },
         {
             blackCost: 2,
             rewards: [
                 { kind: 'hex', color: 'mix', alt: 'Mixed hex reward' },
-                { kind: 'hex', color: 'dice', number: 2, alt: 'Dice reward with value 2' }
+                { kind: 'hex', color: 'dice', number: 2, rollCount: 2, alt: 'Roll two dice reward' }
             ]
         },
         {
@@ -749,7 +751,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public get canCancelTokens(): boolean {
-        return this._hasTurnStateChanges();
+        return this._hasTurnStateChanges() && !this.hasBonusShopActionStarted;
     }
 
     public get canUseBonusMarket(): boolean {
@@ -871,10 +873,55 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
+        this.hasBonusShopActionStarted = false;
         this.showBonusShopModal = true;
     }
 
     public closeBonusShopModal(): void {
+        if (this.hasBonusShopActionStarted) {
+            return;
+        }
+
+        this.showBonusShopModal = false;
+    }
+
+    public onBonusShopRewardClick(reward: BonusShopReward, blackCost: number): void {
+        if (!reward || reward.kind !== 'hex' || reward.color !== 'dice') {
+            return;
+        }
+
+        const cost = Math.max(0, Math.floor(blackCost));
+        if (cost <= 0) {
+            return;
+        }
+
+        const playerHex = this.playerHexagons[this.activePlayer];
+        if (!playerHex) {
+            return;
+        }
+
+        const playerBlackTokens = playerHex['black'] ?? 0;
+        if (playerBlackTokens < cost) {
+            return;
+        }
+
+        const rollCount = reward.rollCount ?? 0;
+        if (rollCount <= 0) {
+            return;
+        }
+
+        playerHex['black'] = playerBlackTokens - cost;
+        this.gameBankHexagons['black'] = (this.gameBankHexagons['black'] ?? 0) + cost;
+        this.hasBonusShopActionStarted = true;
+        this.rollDice(rollCount);
+    }
+
+    public applyBonusShopBonuses(): void {
+        if (!this.hasBonusShopActionStarted) {
+            return;
+        }
+
+        this.hasBonusShopActionStarted = false;
         this.showBonusShopModal = false;
     }
 

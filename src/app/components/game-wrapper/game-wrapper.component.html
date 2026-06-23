@@ -148,9 +148,18 @@
                         <div class="bonus-shop-rule__rewards">
                             <ng-container *ngFor="let reward of rule.rewards; let isLast = last">
                                 <ng-container *ngIf="reward.kind === 'hex'; else imageReward">
-                                    <div class="bonus-shop-rule__reward-hex">
+                                    <button
+                                        type="button"
+                                        class="bonus-shop-rule__reward-hex bonus-shop-rule__reward-hex--clickable"
+                                        *ngIf="reward.color === 'dice'; else staticLeftHexReward"
+                                        (click)="onBonusShopRewardClick(reward, rule.blackCost)">
                                         <app-hexagon [color]="reward.color" [number]="reward.number" [type]="'gameBank'"></app-hexagon>
-                                    </div>
+                                    </button>
+                                    <ng-template #staticLeftHexReward>
+                                        <div class="bonus-shop-rule__reward-hex">
+                                            <app-hexagon [color]="reward.color" [number]="reward.number" [type]="'gameBank'"></app-hexagon>
+                                        </div>
+                                    </ng-template>
                                 </ng-container>
                                 <ng-template #imageReward>
                                     <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
@@ -172,9 +181,18 @@
                         <div class="bonus-shop-rule__rewards">
                             <ng-container *ngFor="let reward of rule.rewards; let isLast = last">
                                 <ng-container *ngIf="reward.kind === 'hex'; else imageRewardRight">
-                                    <div class="bonus-shop-rule__reward-hex">
+                                    <button
+                                        type="button"
+                                        class="bonus-shop-rule__reward-hex bonus-shop-rule__reward-hex--clickable"
+                                        *ngIf="reward.color === 'dice'; else staticRightHexReward"
+                                        (click)="onBonusShopRewardClick(reward, rule.blackCost)">
                                         <app-hexagon [color]="reward.color" [number]="reward.number" [type]="'gameBank'"></app-hexagon>
-                                    </div>
+                                    </button>
+                                    <ng-template #staticRightHexReward>
+                                        <div class="bonus-shop-rule__reward-hex">
+                                            <app-hexagon [color]="reward.color" [number]="reward.number" [type]="'gameBank'"></app-hexagon>
+                                        </div>
+                                    </ng-template>
                                 </ng-container>
                                 <ng-template #imageRewardRight>
                                     <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
@@ -186,7 +204,22 @@
                 </div>
             </div>
 
-            <button type="button" class="bonus-shop-modal__cancel" (click)="closeBonusShopModal()">Cancel</button>
+            <div class="bonus-shop-modal__actions">
+                <button
+                    type="button"
+                    class="bonus-shop-modal__apply"
+                    *ngIf="hasBonusShopActionStarted"
+                    (click)="applyBonusShopBonuses()">
+                    Apply bonuses
+                </button>
+                <button
+                    type="button"
+                    class="bonus-shop-modal__cancel"
+                    (click)="closeBonusShopModal()"
+                    [disabled]="hasBonusShopActionStarted">
+                    Cancel
+                </button>
+            </div>
         </div>
     </div>
 
