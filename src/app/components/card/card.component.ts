@@ -47,6 +47,8 @@ export class CardComponent implements OnInit {
     @Input() disableHoverUi: boolean = false;
     @Input() playerTokens?: { [key in Color]?: number };
     @Input() purchaseLockedThisTurn: boolean = false;
+    @Input() purchaseBlocked: boolean = false;
+    @Input() purchaseBlockedLabel: string = 'Already Have';
     @Input() soldPending: boolean = false;
     @Output() purchaseCard = new EventEmitter<Card>();
     @ViewChild('renameTextarea') renameTextarea: ElementRef | undefined;
@@ -103,11 +105,11 @@ export class CardComponent implements OnInit {
     }
 
     public get isAffordableNow(): boolean {
-        return this.isAffordableForPlayer && !this.purchaseLockedThisTurn && !this.soldPending;
+        return this.isAffordableForPlayer && !this.purchaseLockedThisTurn && !this.purchaseBlocked && !this.soldPending;
     }
 
     public get isAffordableNextTurnOnly(): boolean {
-        return this.isAffordableForPlayer && this.purchaseLockedThisTurn && !this.soldPending;
+        return this.isAffordableForPlayer && this.purchaseLockedThisTurn && !this.purchaseBlocked && !this.soldPending;
     }
 
     public get isCardPurchasable(): boolean {

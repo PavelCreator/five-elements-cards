@@ -96,7 +96,41 @@
                     <app-card *ngFor="let card of row.topCards" [card]="card" [disableHoverUi]="true" [playerTokens]="activePlayerTokensForPurchase" [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn" [soldPending]="isCardSoldPending(card)" (purchaseCard)="onPurchaseCard($event)"></app-card>
                     <ng-container *ngFor="let specialStack of row.specialStacks">
                         <div class="game-stack" *ngIf="specialStack.stack.length">
-                            <app-card [card]="specialStack.topCard" [disableHoverUi]="true" [playerTokens]="activePlayerTokensForPurchase" [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn" [soldPending]="isCardSoldPending(specialStack.topCard)" (purchaseCard)="onPurchaseCard($event)"></app-card>
+                            <ng-container *ngIf="isCardSoldPending(specialStack.topCard); else specialStackPendingCheckTemplate">
+                                <app-card
+                                    [card]="specialStack.topCard"
+                                    [disableHoverUi]="true"
+                                    [playerTokens]="activePlayerTokensForPurchase"
+                                    [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn"
+                                    [soldPending]="true"
+                                    (purchaseCard)="onPurchaseCard($event)">
+                                </app-card>
+                            </ng-container>
+                            <ng-template #specialStackPendingCheckTemplate>
+                                <ng-container *ngIf="isSpecialStackClosedForAllPlayers(row.level, specialStack.color); else specialStackTopCardTemplate">
+                                    <div class="card card--back" [ngClass]="{ 'card--view': !printModeEnabled, 'card--print': printModeEnabled }">
+                                        <div
+                                            class="card-overlay-wrap card-overlay-wrap-back card-overlay-wrap--no-reflection"
+                                            [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
+                                            [ngStyle]="{ '--card-bg': 'url(' + getSpecialStackBackUrl(row.backUrl, specialStack) + ')' }"
+                                        >
+                                            <div class="card-overlay card-overlay-back"></div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #specialStackTopCardTemplate>
+                                <app-card
+                                    [card]="specialStack.topCard"
+                                    [disableHoverUi]="true"
+                                    [playerTokens]="activePlayerTokensForPurchase"
+                                    [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn"
+                                    [purchaseBlocked]="isSpecialStackCardBlockedForActivePlayer(specialStack.topCard)"
+                                    [purchaseBlockedLabel]="'already purchased'"
+                                    [soldPending]="isCardSoldPending(specialStack.topCard)"
+                                    (purchaseCard)="onPurchaseCard($event)">
+                                </app-card>
+                            </ng-template>
                         </div>
                     </ng-container>
                 </div>

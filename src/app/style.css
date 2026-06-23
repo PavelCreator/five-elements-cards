@@ -259,6 +259,43 @@
     isolation: isolate;
 }
 
+.card--purchase-blocked{
+    isolation: isolate;
+}
+
+.card--purchase-blocked .card-overlay,
+.card--purchase-blocked .card-overlay-back,
+.card--purchase-blocked .card-overlay-mirror-topleft,
+.card--purchase-blocked .card-overlay-mirror-topright,
+.card--purchase-blocked .card-overlay-mirror-left,
+.card--purchase-blocked .card-overlay-mirror-right,
+.card--purchase-blocked .card-overlay-mirror-bottomleft,
+.card--purchase-blocked .card-overlay-mirror-bottomright{
+    filter: grayscale(1) brightness(0.62);
+}
+
+.card-rule-block-overlay{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: rgba(56, 56, 56, 0.56);
+    color: #ffffff;
+    font-family: "Skranji", serif;
+    font-size: 28px;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.85);
+    z-index: 998;
+    pointer-events: none;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
 .card-sold-overlay{
     position: absolute;
     inset: 0;

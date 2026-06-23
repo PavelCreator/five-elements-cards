@@ -15,6 +15,7 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { SettingsService } from '../../services/settings.service';
 
 type SpecialStackColor = 'purple' | 'black';
+type SpecialStackKey = `${number}-${SpecialStackColor}`;
 
 interface SpecialStack {
     color: SpecialStackColor;
@@ -182,6 +183,15 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private _turnStartGameBankHexagons: { [key in Color]?: number } = {};
     private _turnStartPlayerHexagons: { [key in Color]?: number } = {};
     private _turnStartPlayerCardHexagons: { [key in Color]?: number } = {};
+    private _playerSpecialStackPurchases: { [playerNumber: number]: Set<SpecialStackKey> } = {
+        1: new Set<SpecialStackKey>(),
+        2: new Set<SpecialStackKey>(),
+        3: new Set<SpecialStackKey>(),
+        4: new Set<SpecialStackKey>(),
+        5: new Set<SpecialStackKey>(),
+        6: new Set<SpecialStackKey>(),
+    };
+    private _turnStartPlayerSpecialStackPurchases: Set<SpecialStackKey> = new Set<SpecialStackKey>();
     private _lastClosedRollCount: number = 0;
     private _pendingPurchasedCardOrderNumbers: Set<number> = new Set<number>();
     private pickedTokensThisTurn: Color[] = [];
@@ -775,6 +785,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             playerCards[color] = this._turnStartPlayerCardHexagons[color] ?? 0;
         }
 
+        this._playerSpecialStackPurchases[this.activePlayer] = new Set<SpecialStackKey>(this._turnStartPlayerSpecialStackPurchases);
+
         // Reset counters
         this.hexagonsPickedThisTurn = 0;
         this.isFinishTurnUnlockedByDiceModal = false;
@@ -794,6 +806,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public onPurchaseCard(card: Card): void {
         if (!card || this.isCardPurchaseLockedThisTurn || this.isCardSoldPending(card)) {
             return;
+        }
+
+        const specialStackKey = this._getSpecialStackPurchaseKey(card);
+        if (specialStackKey) {
+            if (this._playerHasSpecialStackPurchase(this.activePlayer, specialStackKey)
+                || this._isSpecialStackClosedForAllPlayers(specialStackKey)) {
+                return;
+            }
         }
 
         const playerHex = this.playerHexagons[this.activePlayer];
@@ -832,8 +852,33 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.gameBankHexagons['black'] = Math.max(blackBankValue - 1, 0);
 
         this._pendingPurchasedCardOrderNumbers.add(card.orderNumber);
+        if (specialStackKey) {
+            this._playerSpecialStackPurchases[this.activePlayer].add(specialStackKey);
+        }
         this.isFinishTurnUnlockedByDiceModal = true;
         this._updateTokensByDiceState();
+    }
+
+    public isSpecialStackCardBlockedForActivePlayer(card: Card | undefined): boolean {
+        const specialStackKey = this._getSpecialStackPurchaseKey(card);
+        if (!specialStackKey) {
+            return false;
+        }
+
+        return this._playerHasSpecialStackPurchase(this.activePlayer, specialStackKey);
+    }
+
+    public isSpecialStackClosedForAllPlayers(level: number, color: SpecialStackColor): boolean {
+        const specialStackKey = this._buildSpecialStackKey(level, color);
+        return this._isSpecialStackClosedForAllPlayers(specialStackKey);
+    }
+
+    public getSpecialStackBackUrl(rowBackUrl: string, specialStack: SpecialStack): string {
+        if (specialStack.topCard) {
+            return this._imageService.generateCardBackUrl(specialStack.topCard);
+        }
+
+        return rowBackUrl;
     }
 
     public get canFinishTurn(): boolean {
@@ -1743,6 +1788,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             this._turnStartPlayerHexagons[color] = playerHex[color] ?? 0;
             this._turnStartPlayerCardHexagons[color] = playerCards[color] ?? 0;
         }
+
+        this._turnStartPlayerSpecialStackPurchases = new Set<SpecialStackKey>(
+            this._playerSpecialStackPurchases[this.activePlayer]
+        );
     }
 
     private _hasTurnStateChanges(): boolean {
@@ -1765,7 +1814,70 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         }
 
+        const currentSpecialPurchases = this._playerSpecialStackPurchases[this.activePlayer];
+        if (!this._areEqualSets(currentSpecialPurchases, this._turnStartPlayerSpecialStackPurchases)) {
+            return true;
+        }
+
         return false;
+    }
+
+    private _getSpecialStackPurchaseKey(card: Card | undefined): SpecialStackKey | null {
+        if (!card?.levelSpecial || card.levelBonus) {
+            return null;
+        }
+
+        if ((card.get?.purple ?? 0) > 0) {
+            return this._buildSpecialStackKey(card.level, 'purple');
+        }
+
+        if ((card.get?.black ?? 0) > 0) {
+            return this._buildSpecialStackKey(card.level, 'black');
+        }
+
+        return null;
+    }
+
+    private _buildSpecialStackKey(level: number, color: SpecialStackColor): SpecialStackKey {
+        return `${level}-${color}`;
+    }
+
+    private _playerHasSpecialStackPurchase(playerNumber: number, specialStackKey: SpecialStackKey): boolean {
+        const purchasedSpecialStacks = this._playerSpecialStackPurchases[playerNumber];
+        if (!purchasedSpecialStacks) {
+            return false;
+        }
+
+        return purchasedSpecialStacks.has(specialStackKey);
+    }
+
+    private _isSpecialStackClosedForAllPlayers(specialStackKey: SpecialStackKey): boolean {
+        const activePlayersCount = this.playerCount ?? 0;
+        if (activePlayersCount < 1) {
+            return false;
+        }
+
+        for (let playerNumber = 1; playerNumber <= activePlayersCount; playerNumber++) {
+            if (!this._playerHasSpecialStackPurchase(playerNumber, specialStackKey)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private _areEqualSets<T>(left: Set<T>, right: Set<T>): boolean {
+        if (left.size !== right.size) {
+            return false;
+        }
+
+        for (const item of left) {
+            if (!right.has(item)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private _updatePlayerSlots() {
