@@ -157,12 +157,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         },
     ];
     public playerHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {
-        1: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 10 },
-        2: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 10 },
-        3: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 10 },
-        4: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 10 },
-        5: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 10 },
-        6: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 10 },
+        1: { red: 10, blue: 10, white: 10, green: 10, purple: 10, black: 10 },
+        2: { red: 10, blue: 10, white: 10, green: 10, purple: 10, black: 10 },
+        3: { red: 10, blue: 10, white: 10, green: 10, purple: 10, black: 10 },
+        4: { red: 10, blue: 10, white: 10, green: 10, purple: 10, black: 10 },
+        5: { red: 10, blue: 10, white: 10, green: 10, purple: 10, black: 10 },
+        6: { red: 10, blue: 10, white: 10, green: 10, purple: 10, black: 10 },
     };
     public playerCardHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {
         1: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
@@ -271,6 +271,96 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     @HostListener('window:resize')
     onWindowResize() {
         this._scheduleScaleUpdate();
+    }
+
+    @HostListener('window:keydown', ['$event'])
+    onWindowKeyDown(event: KeyboardEvent): void {
+        const target = event.target as HTMLElement | null;
+        if (this._isEditableTarget(target)) {
+            return;
+        }
+
+        const key = event.key;
+        const lowerKey = key.toLowerCase();
+
+        if (key === 'Backspace' || key === 'Delete' || key === 'Escape' || key === 'Esc') {
+            event.preventDefault();
+            if (this.canCancelTokens) {
+                this.cancelTokens();
+            }
+            return;
+        }
+
+        if (key === 'Tab' || lowerKey === 'b') {
+            event.preventDefault();
+            if (this.canUseBonusMarket) {
+                this.openBonusMarket();
+            }
+            return;
+        }
+
+        if (event.code === 'Space' || key === 'Enter') {
+            event.preventDefault();
+            if (this.canFinishTurn) {
+                this.finishTurn();
+            }
+            return;
+        }
+
+        if (key === '1') {
+            event.preventDefault();
+            this.onHexagonClick('red');
+            return;
+        }
+
+        if (key === '2') {
+            event.preventDefault();
+            this.onHexagonClick('blue');
+            return;
+        }
+
+        if (key === '3') {
+            event.preventDefault();
+            this.onHexagonClick('white');
+            return;
+        }
+
+        if (key === '4') {
+            event.preventDefault();
+            this.onHexagonClick('green');
+            return;
+        }
+
+        if (key === '5') {
+            event.preventDefault();
+            this.onHexagonClick('purple');
+            return;
+        }
+
+        if (key === '0') {
+            event.preventDefault();
+            if (!this.isRollButtonDisabled(4)) {
+                this.rollDice(4);
+            }
+            return;
+        }
+
+        if (key === '9') {
+            event.preventDefault();
+            if (!this.isRollButtonDisabled(2)) {
+                this.rollDice(2);
+            }
+        }
+    }
+
+    private _isEditableTarget(target: HTMLElement | null): boolean {
+        if (!target) {
+            return false;
+        }
+
+        return target.tagName === 'INPUT'
+            || target.tagName === 'TEXTAREA'
+            || target.isContentEditable;
     }
 
     public startRename(playerNumber: number): void {
@@ -684,7 +774,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             playerHex[color] = this._turnStartPlayerHexagons[color] ?? 0;
             playerCards[color] = this._turnStartPlayerCardHexagons[color] ?? 0;
         }
-        
+
         // Reset counters
         this.hexagonsPickedThisTurn = 0;
         this.isFinishTurnUnlockedByDiceModal = false;
