@@ -185,7 +185,7 @@
                                     <button
                                         type="button"
                                         class="bonus-shop-rule__reward-hex bonus-shop-rule__reward-hex--clickable"
-                                        *ngIf="reward.color === 'dice'; else staticLeftHexReward"
+                                        *ngIf="reward.color === 'dice' || reward.color === 'mix'; else staticLeftHexReward"
                                         (click)="onBonusShopRewardClick(reward, rule.blackCost)">
                                         <app-hexagon [color]="reward.color" [number]="reward.number" [type]="'gameBank'"></app-hexagon>
                                     </button>
@@ -218,7 +218,7 @@
                                     <button
                                         type="button"
                                         class="bonus-shop-rule__reward-hex bonus-shop-rule__reward-hex--clickable"
-                                        *ngIf="reward.color === 'dice'; else staticRightHexReward"
+                                        *ngIf="reward.color === 'dice' || reward.color === 'mix'; else staticRightHexReward"
                                         (click)="onBonusShopRewardClick(reward, rule.blackCost)">
                                         <app-hexagon [color]="reward.color" [number]="reward.number" [type]="'gameBank'"></app-hexagon>
                                     </button>
@@ -251,6 +251,65 @@
                     class="bonus-shop-modal__cancel"
                     (click)="closeBonusShopModal()"
                     [disabled]="hasBonusShopActionStarted">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bonus-shop-mix-overlay" *ngIf="showBonusShopMixModal" (click)="cancelBonusShopMixSelection()">
+        <div class="bonus-shop-mix-modal" (click)="$event.stopPropagation()">
+            <div class="bonus-shop-mix-modal__title">Choose Mix Tokens</div>
+            <div class="bonus-shop-mix-modal__subtitle">
+                Select {{ bonusShopMixRequiredCount }} token{{ bonusShopMixRequiredCount === 1 ? '' : 's' }} from the bank.
+            </div>
+
+            <div class="bonus-shop-mix-grid">
+                <div class="bonus-shop-mix-column">
+                    <div class="bonus-shop-mix-column__title">Bank</div>
+                    <div class="bonus-shop-mix-options">
+                        <button
+                            type="button"
+                            class="bonus-shop-mix-token"
+                            *ngFor="let color of bonusShopMixColors"
+                            (click)="onBonusShopMixBankClick(color)"
+                            [disabled]="isBonusShopMixBankDisabled(color)">
+                            <app-hexagon [color]="color" [number]="bonusShopMixDraftBankHexagons[color]" [type]="'gameBank'"></app-hexagon>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bonus-shop-mix-column">
+                    <div class="bonus-shop-mix-column__title">Selected</div>
+                    <div class="bonus-shop-mix-options">
+                        <button
+                            type="button"
+                            class="bonus-shop-mix-token bonus-shop-mix-token--selected"
+                            *ngFor="let color of bonusShopMixColors"
+                            (click)="onBonusShopMixHandClick(color)"
+                            [disabled]="isBonusShopMixHandDisabled(color)">
+                            <app-hexagon [color]="color" [number]="bonusShopMixDraftHandHexagons[color]" [type]="'playerBank'"></app-hexagon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bonus-shop-mix-modal__status">
+                Selected: {{ bonusShopMixSelectedCount }}/{{ bonusShopMixRequiredCount }}
+            </div>
+
+            <div class="bonus-shop-mix-modal__actions">
+                <button
+                    type="button"
+                    class="bonus-shop-modal__apply"
+                    (click)="applyBonusShopMixSelection()"
+                    [disabled]="!canApplyBonusShopMix">
+                    Apply bonus
+                </button>
+                <button
+                    type="button"
+                    class="bonus-shop-modal__cancel"
+                    (click)="cancelBonusShopMixSelection()">
                     Cancel
                 </button>
             </div>

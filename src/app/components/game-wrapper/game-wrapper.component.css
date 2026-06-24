@@ -524,6 +524,117 @@
     background: #b8b8b8;
 }
 
+.bonus-shop-mix-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 20px;
+    z-index: 10;
+}
+
+.bonus-shop-mix-modal {
+    width: min(620px, 88vw);
+    background: #fffaf1;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    border-radius: 18px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.bonus-shop-mix-modal__title {
+    font-family: "Faculty Glyphic", sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: #1f2937;
+    text-align: center;
+    line-height: 1;
+}
+
+.bonus-shop-mix-modal__subtitle,
+.bonus-shop-mix-modal__status {
+    text-align: center;
+    color: #4b5563;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.bonus-shop-mix-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.bonus-shop-mix-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+.bonus-shop-mix-column__title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.bonus-shop-mix-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    justify-items: center;
+}
+
+.bonus-shop-mix-token {
+    width: 92px;
+    height: 86px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    cursor: pointer;
+    transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, opacity 0.12s ease-out;
+}
+
+.bonus-shop-mix-token:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.18);
+}
+
+.bonus-shop-mix-token:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    box-shadow: none;
+}
+
+.bonus-shop-mix-token--selected {
+    background: rgba(74, 144, 226, 0.08);
+}
+
+.bonus-shop-mix-token ::ng-deep app-hexagon {
+    display: block;
+    transform: scale(0.68);
+    transform-origin: center;
+}
+
+.bonus-shop-mix-modal__actions {
+    align-self: center;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 /* Dice Modal Styles */
 .dice-modal-overlay {
     position: fixed;

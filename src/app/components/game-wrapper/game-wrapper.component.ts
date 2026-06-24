@@ -16,6 +16,7 @@ import { SettingsService } from '../../services/settings.service';
 
 type SpecialStackColor = 'purple' | 'black';
 type SpecialStackKey = `${number}-${SpecialStackColor}`;
+type BonusShopMixColor = 'red' | 'blue' | 'white' | 'green';
 
 interface SpecialStack {
     color: SpecialStackColor;
@@ -90,7 +91,21 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public modalConsumedDiceIndexes: number[] = [];
     public showLuckyPurpleChoiceModal: boolean = false;
     public showBonusShopModal: boolean = false;
+    public showBonusShopMixModal: boolean = false;
     public hasBonusShopActionStarted: boolean = false;
+    public bonusShopMixSelectionLimit: number = 0;
+    public bonusShopMixDraftBankHexagons: Record<BonusShopMixColor, number> = {
+        red: 0,
+        blue: 0,
+        white: 0,
+        green: 0,
+    };
+    public bonusShopMixDraftHandHexagons: Record<BonusShopMixColor, number> = {
+        red: 0,
+        blue: 0,
+        white: 0,
+        green: 0,
+    };
     public readonly bonusShopRules: BonusShopRule[] = [
         {
             blackCost: 1,
@@ -180,6 +195,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly _turnTrackedColors: Color[] = ['red', 'blue', 'white', 'green', 'purple', 'black'];
     private readonly _purchasePayColors: Color[] = ['red', 'green', 'white', 'blue', 'black'];
     private readonly _purchaseBonusColors: Color[] = ['red', 'green', 'white', 'blue', 'purple', 'black'];
+    private readonly _bonusShopMixColors: BonusShopMixColor[] = ['red', 'blue', 'white', 'green'];
     private _turnStartGameBankHexagons: { [key in Color]?: number } = {};
     private _turnStartPlayerHexagons: { [key in Color]?: number } = {};
     private _turnStartPlayerCardHexagons: { [key in Color]?: number } = {};
@@ -195,6 +211,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private _lastClosedRollCount: number = 0;
     private _lastClosedRollWasBonusAction: boolean = false;
     private _pendingPurchasedCardOrderNumbers: Set<number> = new Set<number>();
+    private _pendingBonusShopMixBlackCost: number = 0;
     private pickedTokensThisTurn: Color[] = [];
     public showDiceModal: boolean = false;
     public diceResults: string[] = [];
@@ -1014,7 +1031,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public closeBonusShopModal(): void {
-        if (this.hasBonusShopActionStarted) {
+        if (this.hasBonusShopActionStarted || this.showBonusShopMixModal) {
             return;
         }
 
@@ -1022,7 +1039,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public onBonusShopRewardClick(reward: BonusShopReward, blackCost: number): void {
-        if (!reward || reward.kind !== 'hex' || reward.color !== 'dice') {
+        if (!reward || reward.kind !== 'hex' || this.hasBonusShopActionStarted || this.showBonusShopMixModal) {
             return;
         }
 
@@ -1041,16 +1058,111 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
+        if (reward.color === 'mix') {
+            this._openBonusShopMixModal(reward, cost);
+            return;
+        }
+
+        if (reward.color !== 'dice') {
+            return;
+        }
+
         const rollCount = reward.rollCount ?? 0;
         if (rollCount <= 0) {
             return;
         }
 
+        this.showBonusShopModal = false;
         playerHex['black'] = playerBlackTokens - cost;
         this.gameBankHexagons['black'] = (this.gameBankHexagons['black'] ?? 0) + cost;
         this.hasBonusShopActionStarted = true;
         this._lastClosedRollWasBonusAction = true;
         this.rollDice(rollCount);
+    }
+
+    public get bonusShopMixColors(): BonusShopMixColor[] {
+        return this._bonusShopMixColors;
+    }
+
+    public get bonusShopMixRequiredCount(): number {
+        const totalAvailable = this._bonusShopMixColors.reduce((total, color) => {
+            return total + (this.bonusShopMixDraftBankHexagons[color] ?? 0) + (this.bonusShopMixDraftHandHexagons[color] ?? 0);
+        }, 0);
+
+        return Math.min(this.bonusShopMixSelectionLimit, totalAvailable);
+    }
+
+    public get bonusShopMixSelectedCount(): number {
+        return this._bonusShopMixColors.reduce((total, color) => {
+            return total + (this.bonusShopMixDraftHandHexagons[color] ?? 0);
+        }, 0);
+    }
+
+    public get canApplyBonusShopMix(): boolean {
+        return this.bonusShopMixRequiredCount > 0 && this.bonusShopMixSelectedCount === this.bonusShopMixRequiredCount;
+    }
+
+    public isBonusShopMixBankDisabled(color: BonusShopMixColor): boolean {
+        const bankValue = this.bonusShopMixDraftBankHexagons[color] ?? 0;
+        return bankValue <= 0 || this.bonusShopMixSelectedCount >= this.bonusShopMixRequiredCount;
+    }
+
+    public isBonusShopMixHandDisabled(color: BonusShopMixColor): boolean {
+        return (this.bonusShopMixDraftHandHexagons[color] ?? 0) <= 0;
+    }
+
+    public onBonusShopMixBankClick(color: BonusShopMixColor): void {
+        if (this.isBonusShopMixBankDisabled(color)) {
+            return;
+        }
+
+        this.bonusShopMixDraftBankHexagons[color] = (this.bonusShopMixDraftBankHexagons[color] ?? 0) - 1;
+        this.bonusShopMixDraftHandHexagons[color] = (this.bonusShopMixDraftHandHexagons[color] ?? 0) + 1;
+    }
+
+    public onBonusShopMixHandClick(color: BonusShopMixColor): void {
+        if (this.isBonusShopMixHandDisabled(color)) {
+            return;
+        }
+
+        this.bonusShopMixDraftHandHexagons[color] = (this.bonusShopMixDraftHandHexagons[color] ?? 0) - 1;
+        this.bonusShopMixDraftBankHexagons[color] = (this.bonusShopMixDraftBankHexagons[color] ?? 0) + 1;
+    }
+
+    public applyBonusShopMixSelection(): void {
+        if (!this.canApplyBonusShopMix) {
+            return;
+        }
+
+        const playerHex = this.playerHexagons[this.activePlayer];
+        if (!playerHex) {
+            return;
+        }
+
+        const playerBlackTokens = playerHex['black'] ?? 0;
+        if (playerBlackTokens < this._pendingBonusShopMixBlackCost) {
+            return;
+        }
+
+        playerHex['black'] = playerBlackTokens - this._pendingBonusShopMixBlackCost;
+        this.gameBankHexagons['black'] = (this.gameBankHexagons['black'] ?? 0) + this._pendingBonusShopMixBlackCost;
+
+        for (const color of this._bonusShopMixColors) {
+            const selectedCount = this.bonusShopMixDraftHandHexagons[color] ?? 0;
+            if (selectedCount <= 0) {
+                continue;
+            }
+
+            this.gameBankHexagons[color] = Math.max((this.gameBankHexagons[color] ?? 0) - selectedCount, 0);
+            playerHex[color] = (playerHex[color] ?? 0) + selectedCount;
+        }
+
+        this.hasBonusShopActionStarted = true;
+        this._resetBonusShopMixDraft();
+    }
+
+    public cancelBonusShopMixSelection(): void {
+        this._resetBonusShopMixDraft();
     }
 
     public applyBonusShopBonuses(): void {
@@ -1062,6 +1174,32 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.showBonusShopModal = false;
         this._lastClosedRollCount = 0;
         this._lastClosedRollWasBonusAction = false;
+        this._resetBonusShopMixDraft();
+    }
+
+    private _openBonusShopMixModal(reward: BonusShopReward, blackCost: number): void {
+        const selectionLimit = Math.max(1, Math.floor(reward.number ?? 1));
+
+        for (const color of this._bonusShopMixColors) {
+            this.bonusShopMixDraftBankHexagons[color] = this.gameBankHexagons[color] ?? 0;
+            this.bonusShopMixDraftHandHexagons[color] = 0;
+        }
+
+        this._pendingBonusShopMixBlackCost = blackCost;
+        this.bonusShopMixSelectionLimit = selectionLimit;
+        this.showBonusShopModal = false;
+        this.showBonusShopMixModal = true;
+    }
+
+    private _resetBonusShopMixDraft(): void {
+        this.showBonusShopMixModal = false;
+        this.bonusShopMixSelectionLimit = 0;
+        this._pendingBonusShopMixBlackCost = 0;
+
+        for (const color of this._bonusShopMixColors) {
+            this.bonusShopMixDraftBankHexagons[color] = 0;
+            this.bonusShopMixDraftHandHexagons[color] = 0;
+        }
     }
 
     public rollDice(count: number): void {
@@ -1518,7 +1656,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
                 return true;
             }
 
-            return this.areAllTokensToDiscardModalDisabled;
+            if (this.areAllTokensToDiscardModalDisabled) {
+                return true;
+            }
+
+            return false;
         }
 
         // First, check if all jokers have been exchanged
@@ -1633,6 +1775,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.showLuckyPurpleChoiceModal = false;
         this.modalDiscardHexagons = { red: 0, blue: 0, white: 0, green: 0, purple: 0 };
         this._updateTokensByDiceState();
+
     }
 
     public toggleDiceAnimation(): void {
