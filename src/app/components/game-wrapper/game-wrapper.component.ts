@@ -1172,8 +1172,6 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.hasBonusShopActionStarted = false;
         this.showBonusShopModal = false;
-        this._lastClosedRollCount = 0;
-        this._lastClosedRollWasBonusAction = false;
         this._resetBonusShopMixDraft();
     }
 
