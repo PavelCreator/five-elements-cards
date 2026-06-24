@@ -314,6 +314,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         if (key === 'Backspace' || key === 'Delete' || key === 'Escape' || key === 'Esc') {
             event.preventDefault();
+
+            if (this._handleEscapeKey()) {
+                return;
+            }
+
             if (this.canCancelTokens) {
                 this.cancelTokens();
             }
@@ -390,6 +395,30 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return target.tagName === 'INPUT'
             || target.tagName === 'TEXTAREA'
             || target.isContentEditable;
+    }
+
+    private _handleEscapeKey(): boolean {
+        if (this.showBonusShopMixModal) {
+            this.cancelBonusShopMixSelection();
+            return true;
+        }
+
+        if (this.showLuckyPurpleChoiceModal) {
+            this.cancelLuckyPurpleSelection();
+            return true;
+        }
+
+        if (this.showDiceModal) {
+            this.closeDiceModal();
+            return true;
+        }
+
+        if (this.showBonusShopModal) {
+            this.closeBonusShopModal();
+            return true;
+        }
+
+        return false;
     }
 
     public startRename(playerNumber: number): void {
