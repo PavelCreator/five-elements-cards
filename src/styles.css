@@ -17,6 +17,12 @@ body {
   font-style: normal;*/
 
 
+
+  scrollbar-gutter: stable both-edges;
+}
+
+body.dice-modal-open {
+  overflow: hidden;
 }
 :root {
   --primary-color: #605DC8;

@@ -294,6 +294,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._cardsSubscription?.unsubscribe();
         this._printModeSubscription?.unsubscribe();
         if (this._resizeRaf) cancelAnimationFrame(this._resizeRaf);
+        this._setDiceModalScrollLock(false);
     }
 
     @HostListener('window:resize')
@@ -1258,6 +1259,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const reels = this._buildReelsFromResults(results);
         this._applyDiceRollResults(results, reels);
+        this._setDiceModalScrollLock(true);
     }
 
     public onMockRollScenario(type: 'joker' | 'cross', count: number): void {
@@ -1763,6 +1765,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         
         this.showDiceModal = false;
+        this._setDiceModalScrollLock(false);
         this.diceResults = [];
         this.diceReels = [];
         this.hasTwoNothings = false;
@@ -1779,6 +1782,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.modalDiscardHexagons = { red: 0, blue: 0, white: 0, green: 0, purple: 0 };
         this._updateTokensByDiceState();
 
+    }
+
+    private _setDiceModalScrollLock(locked: boolean): void {
+        document.body.classList.toggle('dice-modal-open', locked);
     }
 
     public toggleDiceAnimation(): void {
