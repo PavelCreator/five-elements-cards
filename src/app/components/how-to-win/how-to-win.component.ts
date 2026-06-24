@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, Input, OnInit, inject } from '@angular/core';
 import {NgClass, NgIf, NgStyle} from "@angular/common";
 import { InteractionService } from "../../services/interaction.service";
 import { FormsModule } from "@angular/forms";
@@ -8,11 +8,13 @@ import { SettingsService } from "../../services/settings.service";
 import { Lang } from "../../models/lang.type";
 import { HexagonComponent } from "../hexagon/hexagon.component";
 import { HowToWinCard } from "../../models/how-to-win-card.interface";
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-how-to-win',
     templateUrl: './how-to-win.component.html',
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         NgStyle,
         NgIf,
@@ -29,10 +31,10 @@ export class HowToWinComponent implements OnInit {
     public lang: Lang | undefined;
 
     public cardSide: CardSide = 'front';
-    public hovered: boolean = false;
     public chaosCardBackground: string = '';
     public textInverseColor: boolean = false;
     public printModeEnabled: boolean = true;
+    private readonly _destroyRef: DestroyRef = inject(DestroyRef);
 
     constructor(
         private _interactionService: InteractionService,
@@ -42,18 +44,22 @@ export class HowToWinComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._interactionService.cardsSide$.subscribe((inCardSide: CardSide) => {
+        this._interactionService.cardsSide$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((inCardSide: CardSide) => {
             setTimeout(() => {
                 this.cardSide = inCardSide;
             }, 150);
         })
 
-        this._interactionService.printMode$.subscribe((inPrintMode: boolean) => {
+        this._interactionService.printMode$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((inPrintMode: boolean) => {
             this.printModeEnabled = inPrintMode;
         })
 
         this.lang = this._settingsService.lang;
-        const type = this.card.type.toLowerCase();
+        const type = (this.card?.type ?? '').toLowerCase();
+        if (!type) {
+            return;
+        }
+
         if (type === 'grand') {
             this.chaosCardBackground = './assets/back_cards/how_to_win/how-to-win-rect-grand.jpg';
         } else if (type === 'blitz') {

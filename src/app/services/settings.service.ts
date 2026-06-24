@@ -4,12 +4,16 @@ import { Card } from "../models/card.interface";
 import { Art } from "../models/art.interface";
 import { Lang } from "../models/lang.type";
 import { LocalStorageService } from "./local-storage.service";
+import { HowToWinCardType } from "../models/how-to-win-card.interface";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SettingsService {
   public lang: Lang = 'en';
+  private readonly _winConditionModeKey = 'winConditionMode';
+  private readonly _winConditionOptionsKey = 'selectedWinConditionOptions';
+  private readonly _defaultWinConditionOptions: number[] = [1, 2, 3, 4];
   private _checkToCrossMode = new BehaviorSubject<boolean>(false);
   public checkToCrossMode$ = this._checkToCrossMode.asObservable();
   private _checkToThreeCrossMode = new BehaviorSubject<boolean>(false);
@@ -22,6 +26,10 @@ export class SettingsService {
   public check2to3JokersMode$ = this._check2to3JokersMode.asObservable();
   private _check2to4JokersMode = new BehaviorSubject<boolean>(false);
   public check2to4JokersMode$ = this._check2to4JokersMode.asObservable();
+  private _winConditionMode = new BehaviorSubject<HowToWinCardType>('Grand');
+  public winConditionMode$ = this._winConditionMode.asObservable();
+  private _selectedWinConditionOptions = new BehaviorSubject<number[]>(this._defaultWinConditionOptions);
+  public selectedWinConditionOptions$ = this._selectedWinConditionOptions.asObservable();
 
   constructor(
       private _localStorageService: LocalStorageService
@@ -57,6 +65,42 @@ export class SettingsService {
     const check2to4JokersMode = this._localStorageService.getItem('check2to4JokersMode');
     if (check2to4JokersMode === 'true') {
       this._check2to4JokersMode.next(true);
+    }
+
+    const winConditionMode = this._localStorageService.getItem(this._winConditionModeKey);
+    if (winConditionMode === 'Grand' || winConditionMode === 'Blitz') {
+      this._winConditionMode.next(winConditionMode);
+    }
+
+    const storedOptionsRaw = this._localStorageService.getItem(this._winConditionOptionsKey);
+    if (storedOptionsRaw) {
+      try {
+        const parsed = JSON.parse(storedOptionsRaw);
+        this.setSelectedWinConditionOptions(parsed, false);
+      } catch {
+        this.setSelectedWinConditionOptions(this._defaultWinConditionOptions, false);
+      }
+    }
+  }
+
+  public getWinConditionMode(): HowToWinCardType {
+    return this._winConditionMode.value;
+  }
+
+  public setWinConditionMode(mode: HowToWinCardType): void {
+    this._winConditionMode.next(mode);
+    this._localStorageService.setItem(this._winConditionModeKey, mode);
+  }
+
+  public getSelectedWinConditionOptions(): number[] {
+    return [...this._selectedWinConditionOptions.value];
+  }
+
+  public setSelectedWinConditionOptions(options: number[], persist: boolean = true): void {
+    const sanitized = this._sanitizeWinConditionOptions(options);
+    this._selectedWinConditionOptions.next(sanitized);
+    if (persist) {
+      this._localStorageService.setItem(this._winConditionOptionsKey, JSON.stringify(sanitized));
     }
   }
 
@@ -147,5 +191,23 @@ export class SettingsService {
 
   public isCheck2to4JokersModeEnabled(): boolean {
     return this._check2to4JokersMode.value;
+  }
+
+  private _sanitizeWinConditionOptions(options: number[]): number[] {
+    if (!Array.isArray(options)) {
+      return [...this._defaultWinConditionOptions];
+    }
+
+    const uniqueValid = Array.from(new Set(
+      options
+        .map((option) => Number(option))
+        .filter((option) => Number.isInteger(option) && option >= 1 && option <= 8)
+    ));
+
+    if (uniqueValid.length === 0) {
+      return [...this._defaultWinConditionOptions];
+    }
+
+    return uniqueValid.slice(0, 4);
   }
 }

@@ -11,7 +11,8 @@ export const howToWinCards: HowToWinCard[] = [
             blue: 3,
             green: 3,
             red: 3,
-        }
+        },
+        option: 1
     },
     {
         type: 'Blitz',
@@ -22,7 +23,8 @@ export const howToWinCards: HowToWinCard[] = [
             blue: 2,
             green: 2,
             red: 2,
-        }
+        },
+        option: 1
     },
     {
         type: 'Grand',
@@ -33,7 +35,8 @@ export const howToWinCards: HowToWinCard[] = [
             blue: 4,
             green: 4,
             red: 4
-        }
+        },
+        option: 2
     },
     {
         type: 'Blitz',
@@ -44,7 +47,8 @@ export const howToWinCards: HowToWinCard[] = [
             blue: 2,
             green: 2,
             red: 2
-        }
+        },
+        option: 2
     },
     {
         type: 'Grand',
@@ -54,7 +58,8 @@ export const howToWinCards: HowToWinCard[] = [
             blue: 7,
             green: 7,
             red: 7
-        }
+        },
+        option: 3
     },
     {
         type: 'Blitz',
@@ -64,64 +69,75 @@ export const howToWinCards: HowToWinCard[] = [
             blue: 4,
             green: 4,
             red: 4
-        }
+        },
+        option: 3
     },
     {
         type: 'Grand',
         numberOfElements: 2,
         pay: {
             twoOf4: 9,
-        }
+        },
+        option: 4
     },
     {
         type: 'Blitz',
         numberOfElements: 2,
         pay: {
             twoOf4: 6,
-        }
+        },
+        option: 4
     },
     {
         type: 'Grand',
         numberOfElements: 1,
         pay: {
             oneOf4: 14,
-        }
+        },
+        option: 5
     },
     {
         type: 'Blitz',
         numberOfElements: 1,
         pay: {
             oneOf4: 9,
-        }
+        },
+        option: 5
     },
     {
         type: 'Grand',
         numberOfElements: 2,
-        text: 'Dragons'
+        text: 'Dragons',
+        option: 6
     },
     {
         type: 'Blitz',
         numberOfElements: 1,
-        text: 'Dragon'
+        text: 'Dragon',
+        option: 6
     },
     {
         type: 'Grand',
         numberOfElements: 4,
         level: 3,
+        option: 7
     },
     {
         type: 'Blitz',
         numberOfElements: 4,
         level: 2,
+        option: 7
     },
     {
         type: 'Grand',
         numberOfElements: 2,
         level: 4,
+        option: 8
     },
     {
         type: 'Blitz',
         numberOfElements: 2,
         level: 3,
+        option: 8
     },
 ];

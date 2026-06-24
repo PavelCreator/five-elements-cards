@@ -125,7 +125,7 @@
 
 .settings-panel{
     min-width:280px;
-    max-width:420px;
+    max-width:1200px;
     width:100%;
     padding:28px 30px;
     border-radius:18px;
@@ -203,6 +203,145 @@
     color:#5a0000;
     font-weight:600;
     cursor:pointer;
+}
+
+.settings-subtitle--spaced{
+    margin-top:18px;
+}
+
+.settings-mode-buttons{
+    display:flex;
+    gap:10px;
+    margin-bottom:10px;
+}
+
+.settings-mode-button{
+    padding:10px 14px;
+    border-radius:10px;
+    border:1px solid rgba(0, 0, 0, 0.15);
+    background:#f7f7f7;
+    color:#1f2b3a;
+    font-family:"Faculty Glyphic", sans-serif;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    transition:transform 0.12s ease-out, box-shadow 0.12s ease-out, background-color 0.12s ease-out;
+}
+
+.settings-mode-button:hover{
+    transform:translateY(-1px);
+    box-shadow:0 5px 12px rgba(0, 0, 0, 0.14);
+}
+
+.settings-mode-button--active{
+    background:#fff7e6;
+    border-color:#333;
+    box-shadow:0 0 0 2px rgba(0, 0, 0, 0.12) inset;
+}
+
+.settings-win-conditions-meta{
+    font-size:16px;
+    font-weight:700;
+    color:#1f2b3a;
+    margin-bottom:10px;
+}
+
+.settings-win-conditions-grid{
+    display:grid;
+    grid-template-columns:repeat(8, minmax(0, 1fr));
+    gap:10px;
+    align-items:start;
+}
+
+.settings-win-condition{
+    --settings-win-card-scale: 0.72;
+    min-width:0;
+    height:calc(331.6px * var(--settings-win-card-scale));
+    border:none;
+    background:transparent;
+    padding:0;
+    cursor:pointer;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    overflow:visible;
+}
+
+.settings-win-condition-card-shell{
+    position:relative;
+    width:239px;
+    height:331.6px;
+    transform:scale(var(--settings-win-card-scale));
+    transform-origin:top center;
+    border-radius:12px;
+}
+
+.settings-win-condition--active .settings-win-condition-card-shell,
+.settings-win-condition.win-condition-active .settings-win-condition-card-shell,
+.settings-win-condition[data-selected='true'] .settings-win-condition-card-shell{
+    box-shadow:0 0 0 5px #47c3ff, 0 0 18px rgba(71, 195, 255, 0.9), 0 0 28px rgba(71, 195, 255, 0.6);
+}
+
+/* Route all nested clicks to the button, so clicks on icons also toggle the condition. */
+.settings-win-condition app-how-to-win,
+.settings-win-condition app-how-to-win *{
+    pointer-events:none;
+}
+
+.settings-win-condition,
+.settings-win-condition app-how-to-win,
+.settings-win-condition app-how-to-win *{
+    cursor:pointer !important;
+}
+
+.settings-win-condition:focus-visible{
+    outline:2px solid #47c3ff;
+    outline-offset:2px;
+    border-radius:8px;
+}
+
+@media (max-width: 1300px){
+    .settings-win-conditions-grid{
+        grid-template-columns:repeat(6, minmax(0, 1fr));
+    }
+
+    .settings-win-condition{
+        --settings-win-card-scale: 0.67;
+    }
+}
+
+@media (max-width: 1000px){
+    .settings-panel{
+        max-width:96vw;
+    }
+
+    .settings-win-conditions-grid{
+        grid-template-columns:repeat(5, minmax(0, 1fr));
+    }
+
+    .settings-win-condition{
+        --settings-win-card-scale: 0.62;
+    }
+}
+
+@media (max-width: 760px){
+    .settings-win-conditions-grid{
+        grid-template-columns:repeat(3, minmax(0, 1fr));
+    }
+
+    .settings-win-condition{
+        --settings-win-card-scale: 0.56;
+    }
+}
+
+@media (max-width: 620px){
+    .settings-win-conditions-grid{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+    }
+
+    .settings-win-condition{
+        --settings-win-card-scale: 0.52;
+    }
 }
 
 :host{

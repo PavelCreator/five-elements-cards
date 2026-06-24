@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgIf, NgStyle } from "@angular/common";
+import { NgFor, NgIf, NgStyle } from "@angular/common";
 import { ArtsComponent } from "./components/arts/arts.component";
 import { InteractionService } from "./services/interaction.service";
 import { MenuComponent } from "./components/menu/menu.component";
@@ -8,13 +8,16 @@ import { ArtToCardAnimationComponent } from "./components/art-to-card-animation/
 import { LocalStorageService } from "./services/local-storage.service";
 import { GameWrapperComponent } from "./components/game-wrapper/game-wrapper.component";
 import { SettingsService } from "./services/settings.service";
+import { howToWinCards } from "./data/how-to-win-cards";
+import { HowToWinCard, HowToWinCardType } from "./models/how-to-win-card.interface";
+import { HowToWinComponent } from "./components/how-to-win/how-to-win.component";
 
 type AppTab = 'collection' | 'game' | 'settings';
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [CardsComponent, ArtsComponent, MenuComponent, NgStyle, NgIf, ArtToCardAnimationComponent, GameWrapperComponent],
+    imports: [CardsComponent, ArtsComponent, MenuComponent, NgStyle, NgIf, NgFor, ArtToCardAnimationComponent, GameWrapperComponent, HowToWinComponent],
     templateUrl: 'app.component.html',
     styleUrls: ['style.css'],
 })
@@ -32,6 +35,15 @@ export class AppComponent implements OnInit{
     public check2toJokersMode: boolean = false;
     public check2to3JokersMode: boolean = false;
     public check2to4JokersMode: boolean = false;
+    public readonly winConditionModes: HowToWinCardType[] = ['Grand', 'Blitz'];
+    public winConditionMode: HowToWinCardType = 'Grand';
+    public selectedWinConditionOptions: number[] = [1, 2, 3, 4];
+    public selectedWinConditionMap: Record<number, boolean> = {};
+    public visibleWinConditionCards: HowToWinCard[] = [];
+    private readonly _maxSelectedWinConditions: number = 4;
+    private readonly _allHowToWinCards: HowToWinCard[] = [...howToWinCards];
+    private readonly _grandWinConditionCards: HowToWinCard[] = this._buildWinConditionCards('Grand');
+    private readonly _blitzWinConditionCards: HowToWinCard[] = this._buildWinConditionCards('Blitz');
 
     constructor(
         private _interactionService: InteractionService,
@@ -52,6 +64,7 @@ export class AppComponent implements OnInit{
         this._loadCheck2toJokersMode();
         this._loadCheck2to3JokersMode();
         this._loadCheck2to4JokersMode();
+        this._loadWinConditions();
 
         this._interactionService.selectedViewMode$.subscribe((inSelectedMenuItem: number | undefined) => {
             switch (inSelectedMenuItem) {
@@ -101,6 +114,48 @@ export class AppComponent implements OnInit{
     public clearPlayerCount(): void {
         this.playerCount = undefined;
         localStorage.removeItem(this.playerCountStorageKey);
+    }
+
+    public setWinConditionMode(mode: HowToWinCardType): void {
+        if (this.winConditionMode === mode) {
+            return;
+        }
+
+        this.winConditionMode = mode;
+        this._updateVisibleWinConditionCards();
+        this._settingsService.setWinConditionMode(mode);
+    }
+
+    public toggleWinCondition(option: number | undefined): void {
+        if (!option || option < 1 || option > 8) {
+            return;
+        }
+
+        const selectedIndex = this.selectedWinConditionOptions.indexOf(option);
+
+        if (selectedIndex !== -1) {
+            if (this.selectedWinConditionOptions.length === 1) {
+                return;
+            }
+
+            this.selectedWinConditionOptions = this.selectedWinConditionOptions.filter((value) => value !== option);
+            this._settingsService.setSelectedWinConditionOptions(this.selectedWinConditionOptions);
+            this._syncSelectedWinConditionMap();
+            return;
+        }
+
+        if (this.selectedWinConditionOptions.length >= this._maxSelectedWinConditions) {
+            this.selectedWinConditionOptions = [...this.selectedWinConditionOptions.slice(1), option];
+        } else {
+            this.selectedWinConditionOptions = [...this.selectedWinConditionOptions, option];
+        }
+
+        this._settingsService.setSelectedWinConditionOptions(this.selectedWinConditionOptions);
+        this._syncSelectedWinConditionMap();
+    }
+
+    public trackByWinCondition(index: number, condition: HowToWinCard): number {
+        return condition.option ?? (index + 1);
     }
 
     public toggleCheckToCrossMode(): void {
@@ -182,5 +237,36 @@ export class AppComponent implements OnInit{
 
     private _loadCheck2to4JokersMode(): void {
         this.check2to4JokersMode = this._settingsService.isCheck2to4JokersModeEnabled();
+    }
+
+    private _loadWinConditions(): void {
+        this.winConditionMode = this._settingsService.getWinConditionMode();
+        this.selectedWinConditionOptions = this._settingsService.getSelectedWinConditionOptions();
+        this._updateVisibleWinConditionCards();
+        this._syncSelectedWinConditionMap();
+    }
+
+    private _buildWinConditionCards(mode: HowToWinCardType): HowToWinCard[] {
+        return this._allHowToWinCards
+            .filter((card) => card.type === mode)
+            .sort((left, right) => {
+                const leftOption = left.option ?? 0;
+                const rightOption = right.option ?? 0;
+                return leftOption - rightOption;
+            });
+    }
+
+    private _updateVisibleWinConditionCards(): void {
+        this.visibleWinConditionCards = this.winConditionMode === 'Grand'
+            ? this._grandWinConditionCards
+            : this._blitzWinConditionCards;
+    }
+
+    private _syncSelectedWinConditionMap(): void {
+        const nextMap: Record<number, boolean> = {};
+        for (const option of this.selectedWinConditionOptions) {
+            nextMap[option] = true;
+        }
+        this.selectedWinConditionMap = nextMap;
     }
 }

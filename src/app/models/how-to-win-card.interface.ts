@@ -9,5 +9,6 @@ export interface HowToWinCard {
     pay?: Elements;
     image?: string;
     level?: number;
+    option?: number;
 }
 

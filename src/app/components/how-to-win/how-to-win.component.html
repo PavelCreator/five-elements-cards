@@ -1,7 +1,5 @@
 <div class="card card-win"
      [ngClass]="{ 'card--view': !printModeEnabled, 'card--print': printModeEnabled, 'card--rotated': printModeEnabled && cardSide === 'back' }"
-     (mouseenter)="hovered = true"
-     (mouseleave)="hovered = false"
 >
     <ng-container *ngIf="cardSide === 'front'">
 			<div
