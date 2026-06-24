@@ -1012,6 +1012,17 @@
     cursor: not-allowed;
 }
 
+.tokens-by-dice-item--no-interaction {
+    pointer-events: none;
+    cursor: default;
+}
+
+.tokens-by-dice-item--no-interaction:hover,
+.tokens-by-dice-item--no-interaction:active {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 .tokens-by-dice-image {
     width: 40px;
     height: 40px;

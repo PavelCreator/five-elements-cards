@@ -505,14 +505,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public onTokensInHandClick(color: Color): void {
-        const handValue = this.modalHandHexagons[color] ?? 0;
-        if (handValue <= 0) {
+        if (this.isTokenInHandInteractionDisabled(color)) {
             return;
         }
 
-        if (this.tokensToDiscard <= 0) {
-            return;
-        }
+        const handValue = this.modalHandHexagons[color] ?? 0;
 
         this._animateTokenTransfer(color, 'hand', 'discard');
 
@@ -755,6 +752,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public isTokenInHandDisabled(color: Color): boolean {
         const handValue = this.modalHandHexagons[color] ?? 0;
         return handValue <= 0 || this.tokensToDiscard <= 0;
+    }
+
+    public isTokenInHandInteractionDisabled(color: Color): boolean {
+        return this.canCloseDiceModal || this.isTokenInHandDisabled(color);
+    }
+
+    public isTokenInHandVisuallyDisabled(color: Color): boolean {
+        return !this.canCloseDiceModal && this.isTokenInHandDisabled(color);
     }
 
     public get areAllTokenBankModalDisabled(): boolean {
