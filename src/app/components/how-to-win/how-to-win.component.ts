@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import {NgClass, NgIf, NgStyle} from "@angular/common";
 import { InteractionService } from "../../services/interaction.service";
 import { FormsModule } from "@angular/forms";
@@ -24,7 +24,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     ],
     styleUrls: ['../../style.css']
 })
-export class HowToWinComponent implements OnInit {
+export class HowToWinComponent implements OnInit, OnChanges {
     // @ts-ignore
     @Input() card: HowToWinCard = {} as HowToWinCard;
 
@@ -55,6 +55,19 @@ export class HowToWinComponent implements OnInit {
         })
 
         this.lang = this._settingsService.lang;
+        this._updateCardVisuals();
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['card']) {
+            this._updateCardVisuals();
+        }
+    }
+
+    private _updateCardVisuals(): void {
+        this.textInverseColor = false;
+        this.chaosCardBackground = '';
+
         const type = (this.card?.type ?? '').toLowerCase();
         if (!type) {
             return;
