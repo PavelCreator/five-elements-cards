@@ -80,7 +80,7 @@
         </div>
 
         <div class="game-field">
-            <div class="game-row" *ngFor="let row of rows">
+            <div class="game-row" *ngFor="let row of rows; let rowIndex = index">
                 <div class="game-stack" *ngIf="row.stack.length">
                     <div class="card card--back" [ngClass]="{ 'card--view': !printModeEnabled, 'card--print': printModeEnabled }">
                         <div
@@ -94,6 +94,9 @@
                 </div>
                 <div class="game-row-cards">
                     <app-card *ngFor="let card of row.topCards" [card]="card" [disableHoverUi]="true" [playerTokens]="activePlayerTokensForPurchase" [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn" [soldPending]="isCardSoldPending(card)" (purchaseCard)="onPurchaseCard($event)"></app-card>
+                    <div class="game-win-condition-slot" *ngIf="rowWinConditionCards[rowIndex] as rowWinConditionCard">
+                        <app-how-to-win [card]="rowWinConditionCard"></app-how-to-win>
+                    </div>
                     <ng-container *ngFor="let specialStack of row.specialStacks">
                         <div class="game-stack" *ngIf="specialStack.stack.length">
                             <ng-container *ngIf="isCardSoldPending(specialStack.topCard); else specialStackPendingCheckTemplate">

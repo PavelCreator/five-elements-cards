@@ -227,6 +227,14 @@
     flex-wrap:nowrap;
 }
 
+.game-win-condition-slot{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 6px;
+    pointer-events:none;
+}
+
 .game-row--hex{
     justify-content:center;
     width:100%;

@@ -13,6 +13,9 @@ import { InteractionService } from '../../services/interaction.service';
 import { cards as initialCards } from '../../data/cards';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { SettingsService } from '../../services/settings.service';
+import { HowToWinComponent } from '../how-to-win/how-to-win.component';
+import { howToWinCards } from '../../data/how-to-win-cards';
+import { HowToWinCard, HowToWinCardType } from '../../models/how-to-win-card.interface';
 
 type SpecialStackColor = 'purple' | 'black';
 type SpecialStackKey = `${number}-${SpecialStackColor}`;
@@ -41,7 +44,7 @@ interface BonusShopReward {
 @Component({
     selector: 'app-game-wrapper',
     standalone: true,
-    imports: [NgClass, NgFor, NgIf, NgStyle, FormsModule, CardComponent, HexagonComponent, PlayerColumnComponent],
+    imports: [NgClass, NgFor, NgIf, NgStyle, FormsModule, CardComponent, HexagonComponent, PlayerColumnComponent, HowToWinComponent],
     templateUrl: 'game-wrapper.component.html',
     styleUrls: ['./game-wrapper.component.css', '../../style.css'],
 })
@@ -237,6 +240,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         backUrl: string;
         specialStacks: SpecialStack[];
     }> = [];
+    public rowWinConditionCards: Array<HowToWinCard | null> = [null, null, null, null];
     public printModeEnabled: boolean = true;
     private readonly _diceSides: string[] = [
         'dices-blue.png',
@@ -275,6 +279,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         this._captureTurnStartState();
+        this._loadRowWinConditionCards();
         
         this._cardsSubscription = this._cardsStoreService.cards$.subscribe((cards) => {
             const preparedCards = this._assignColors(cards);
@@ -2255,5 +2260,33 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             if (mixColorDetector > 1) card.color = 'mix';
         });
         return cards;
+    }
+
+    private _loadRowWinConditionCards(): void {
+        const selectedMode: HowToWinCardType = this._settingsService.getWinConditionMode();
+        const selectedOptions = this._settingsService.getSelectedWinConditionOptions().slice(0, 4);
+
+        const cardsByOption = new Map<number, HowToWinCard>();
+        for (const card of howToWinCards) {
+            if (card.type !== selectedMode) {
+                continue;
+            }
+
+            const option = card.option;
+            if (!option || cardsByOption.has(option)) {
+                continue;
+            }
+
+            cardsByOption.set(option, card);
+        }
+
+        this.rowWinConditionCards = [0, 1, 2, 3].map((rowIndex) => {
+            const selectedOption = selectedOptions[rowIndex];
+            if (!selectedOption) {
+                return null;
+            }
+
+            return cardsByOption.get(selectedOption) ?? null;
+        });
     }
 }
