@@ -41,6 +41,8 @@ interface BonusShopReward {
     alt: string;
 }
 
+type PlayerLevelPurchaseCounts = { [level: number]: number };
+
 @Component({
     selector: 'app-game-wrapper',
     standalone: true,
@@ -211,6 +213,15 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         6: new Set<SpecialStackKey>(),
     };
     private _turnStartPlayerSpecialStackPurchases: Set<SpecialStackKey> = new Set<SpecialStackKey>();
+    private _playerNormalCardLevelPurchases: { [playerNumber: number]: PlayerLevelPurchaseCounts } = {
+        1: { 1: 0, 2: 0, 3: 0, 4: 0 },
+        2: { 1: 0, 2: 0, 3: 0, 4: 0 },
+        3: { 1: 0, 2: 0, 3: 0, 4: 0 },
+        4: { 1: 0, 2: 0, 3: 0, 4: 0 },
+        5: { 1: 0, 2: 0, 3: 0, 4: 0 },
+        6: { 1: 0, 2: 0, 3: 0, 4: 0 },
+    };
+    private _turnStartPlayerNormalCardLevelPurchases: PlayerLevelPurchaseCounts = { 1: 0, 2: 0, 3: 0, 4: 0 };
     private _lastClosedRollCount: number = 0;
     private _lastClosedRollWasBonusAction: boolean = false;
     private _pendingPurchasedCardOrderNumbers: Set<number> = new Set<number>();
@@ -241,6 +252,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         specialStacks: SpecialStack[];
     }> = [];
     public rowWinConditionCards: Array<HowToWinCard | null> = [null, null, null, null];
+    public hasWinner: boolean = false;
+    public showVictoryModal: boolean = false;
+    public winnerName: string = '';
+    public winnerConditionLabel: string = '';
     public printModeEnabled: boolean = true;
     private readonly _diceSides: string[] = [
         'dices-blue.png',
@@ -309,6 +324,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @HostListener('window:keydown', ['$event'])
     onWindowKeyDown(event: KeyboardEvent): void {
+        if (this.hasWinner) {
+            if (this.showVictoryModal && (event.key === 'Escape' || event.key === 'Esc')) {
+                event.preventDefault();
+                this.closeVictoryModal();
+            }
+            return;
+        }
+
         const target = event.target as HTMLElement | null;
         if (this._isEditableTarget(target)) {
             return;
@@ -441,6 +464,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public onHexagonClick(color: Color): void {
+        if (this.hasWinner) {
+            return;
+        }
+
         // Check if hexagon is disabled
         if (this.isHexagonDisabled(color)) {
             return;
@@ -515,6 +542,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public onTokenBankModalClick(color: Color): void {
+        if (this.hasWinner) {
+            return;
+        }
+
         if (this.isTokenBankModalDisabled(color)) {
             return;
         }
@@ -540,6 +571,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public onTokensInHandClick(color: Color): void {
+        if (this.hasWinner) {
+            return;
+        }
+
         if (this.isTokenInHandInteractionDisabled(color)) {
             return;
         }
@@ -807,6 +842,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public finishTurn(): void {
+        if (this.hasWinner) {
+            return;
+        }
+
         this._commitPendingPurchasedCards();
 
         // Reset turn counter and picked tokens
@@ -832,6 +871,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public cancelTokens(): void {
+        if (this.hasWinner) {
+            return;
+        }
+
         // Restore bank and active player tokens to turn-start snapshot.
         const playerHex = this.playerHexagons[this.activePlayer];
         const playerCards = this.playerCardHexagons[this.activePlayer];
@@ -844,6 +887,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         this._playerSpecialStackPurchases[this.activePlayer] = new Set<SpecialStackKey>(this._turnStartPlayerSpecialStackPurchases);
+        this._playerNormalCardLevelPurchases[this.activePlayer] = { ...this._turnStartPlayerNormalCardLevelPurchases };
 
         // Reset counters
         this.hexagonsPickedThisTurn = 0;
@@ -862,6 +906,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public onPurchaseCard(card: Card): void {
+        if (this.hasWinner) {
+            return;
+        }
+
         if (!card || this.isCardPurchaseLockedThisTurn || this.isCardSoldPending(card)) {
             return;
         }
@@ -912,7 +960,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._pendingPurchasedCardOrderNumbers.add(card.orderNumber);
         if (specialStackKey) {
             this._playerSpecialStackPurchases[this.activePlayer].add(specialStackKey);
+        } else if (!card.levelBonus) {
+            const playerLevelPurchases = this._playerNormalCardLevelPurchases[this.activePlayer];
+            playerLevelPurchases[card.level] = (playerLevelPurchases[card.level] ?? 0) + 1;
         }
+
+        this._checkForWinnerAfterPurchase();
         this.isFinishTurnUnlockedByDiceModal = true;
         this._updateTokensByDiceState();
     }
@@ -1062,6 +1115,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public openBonusMarket(): void {
+        if (this.hasWinner) {
+            return;
+        }
+
         if (!this.canUseBonusMarket) {
             return;
         }
@@ -1241,6 +1298,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public rollDice(count: number): void {
+        if (this.hasWinner) {
+            return;
+        }
+
         // Reset modal draft roll state before generating a new roll to avoid stale calculations.
         this.modalRollResultsSnapshot = [];
         this.modalRemainingRollResults = [];
@@ -1986,6 +2047,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._turnStartPlayerSpecialStackPurchases = new Set<SpecialStackKey>(
             this._playerSpecialStackPurchases[this.activePlayer]
         );
+        this._turnStartPlayerNormalCardLevelPurchases = {
+            ...this._playerNormalCardLevelPurchases[this.activePlayer]
+        };
     }
 
     private _hasTurnStateChanges(): boolean {
@@ -2288,5 +2352,98 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
             return cardsByOption.get(selectedOption) ?? null;
         });
+    }
+
+    public closeVictoryModal(): void {
+        this.showVictoryModal = false;
+    }
+
+    private _checkForWinnerAfterPurchase(): void {
+        const activeConditions = this.rowWinConditionCards.filter((condition): condition is HowToWinCard => !!condition);
+
+        for (const condition of activeConditions) {
+            if (this._doesPlayerMeetWinCondition(this.activePlayer, condition)) {
+                this._declareWinner(this.activePlayer, condition);
+                return;
+            }
+        }
+    }
+
+    private _doesPlayerMeetWinCondition(playerNumber: number, condition: HowToWinCard): boolean {
+        const playerCardBonuses = this.playerCardHexagons[playerNumber] ?? {};
+        const playerSpecialPurchases = this._playerSpecialStackPurchases[playerNumber] ?? new Set<SpecialStackKey>();
+        const playerLevelPurchases = this._playerNormalCardLevelPurchases[playerNumber] ?? { 1: 0, 2: 0, 3: 0, 4: 0 };
+        const baseColorCounts = [
+            playerCardBonuses['red'] ?? 0,
+            playerCardBonuses['blue'] ?? 0,
+            playerCardBonuses['white'] ?? 0,
+            playerCardBonuses['green'] ?? 0,
+        ];
+
+        const oneOfFourTarget = condition.pay?.oneOf4 ?? 0;
+        if (oneOfFourTarget > 0) {
+            return baseColorCounts.some((count) => count >= oneOfFourTarget);
+        }
+
+        const twoOfFourTarget = condition.pay?.twoOf4 ?? 0;
+        if (twoOfFourTarget > 0) {
+            return baseColorCounts.filter((count) => count >= twoOfFourTarget).length >= 2;
+        }
+
+        if (condition.text === 'Dragon') {
+            return playerSpecialPurchases.has(this._buildSpecialStackKey(4, 'purple'))
+                || playerSpecialPurchases.has(this._buildSpecialStackKey(4, 'black'));
+        }
+
+        if (condition.text === 'Dragons') {
+            return playerSpecialPurchases.has(this._buildSpecialStackKey(4, 'purple'))
+                && playerSpecialPurchases.has(this._buildSpecialStackKey(4, 'black'));
+        }
+
+        if (condition.level) {
+            const requiredCount = condition.numberOfElements ?? 0;
+            return (playerLevelPurchases[condition.level] ?? 0) >= requiredCount;
+        }
+
+        const requiredBonuses = Object.entries(condition.pay ?? {}).filter(([, value]) => (value ?? 0) > 0);
+        if (requiredBonuses.length > 0) {
+            return requiredBonuses.every(([color, value]) => {
+                return (playerCardBonuses[color as Color] ?? 0) >= (value ?? 0);
+            });
+        }
+
+        return false;
+    }
+
+    private _declareWinner(playerNumber: number, condition: HowToWinCard): void {
+        this.hasWinner = true;
+        this.showVictoryModal = true;
+        this.winnerName = this.playerNames[playerNumber - 1] ?? `Player ${playerNumber}`;
+        this.winnerConditionLabel = this._getWinConditionLabel(condition);
+        this.showDiceModal = false;
+        this.showBonusShopModal = false;
+        this.showBonusShopMixModal = false;
+        this.showLuckyPurpleChoiceModal = false;
+        this._setDiceModalScrollLock(false);
+    }
+
+    private _getWinConditionLabel(condition: HowToWinCard): string {
+        if ((condition.pay?.oneOf4 ?? 0) > 0) {
+            return `${condition.pay?.oneOf4} of 1 color`;
+        }
+
+        if ((condition.pay?.twoOf4 ?? 0) > 0) {
+            return `${condition.pay?.twoOf4} of 2 colors`;
+        }
+
+        if (condition.text) {
+            return condition.text;
+        }
+
+        if (condition.level) {
+            return `${condition.numberOfElements ?? 0} of Level ${condition.level}`;
+        }
+
+        return 'Win condition completed';
     }
 }

@@ -680,6 +680,69 @@
     gap: 30px;
 }
 
+.victory-modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 1400;
+}
+
+.victory-modal {
+    width: min(520px, 88vw);
+    padding: 28px 32px;
+    border-radius: 20px;
+    background: #fffaf1;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+}
+
+.victory-modal__title {
+    font-family: "Faculty Glyphic", sans-serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: #1f2937;
+    line-height: 1;
+}
+
+.victory-modal__winner {
+    font-size: 34px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.victory-modal__condition {
+    font-size: 22px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.victory-modal__button {
+    margin-top: 6px;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 28px;
+    font-family: "Faculty Glyphic", sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #ffffff;
+    background: #4a90e2;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(74, 144, 226, 0.35);
+}
+
+.victory-modal__button:hover {
+    background: #357abd;
+}
+
 .dice-roll-debug-layout {
     display: flex;
     align-items: flex-start;

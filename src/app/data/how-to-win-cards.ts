@@ -130,13 +130,13 @@ export const howToWinCards: HowToWinCard[] = [
     },
     {
         type: 'Grand',
-        numberOfElements: 2,
+        numberOfElements: 3,
         level: 4,
         option: 8
     },
     {
         type: 'Blitz',
-        numberOfElements: 2,
+        numberOfElements: 3,
         level: 3,
         option: 8
     },
