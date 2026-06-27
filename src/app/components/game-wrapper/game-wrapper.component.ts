@@ -178,20 +178,20 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         },
     ];
     public playerHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {
-        1: { red: 10, blue: 10, white: 10, green: 10, purple: 10, black: 10 },
-        2: { red: 10, blue: 10, white: 10, green: 10, purple: 10, black: 10 },
-        3: { red: 10, blue: 10, white: 10, green: 10, purple: 10, black: 10 },
-        4: { red: 10, blue: 10, white: 10, green: 10, purple: 10, black: 10 },
-        5: { red: 10, blue: 10, white: 10, green: 10, purple: 10, black: 10 },
-        6: { red: 10, blue: 10, white: 10, green: 10, purple: 10, black: 10 },
+        1: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
+        2: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
+        3: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
+        4: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
+        5: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
+        6: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
     };
     public playerCardHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {
-        1: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
-        2: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
-        3: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
-        4: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
-        5: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
-        6: { red: 0, blue: 0, white: 0, green: 0, purple: 0, black: 0 },
+        1: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
+        2: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
+        3: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
+        4: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
+        5: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
+        6: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
     };
     public hexagonsPickedThisTurn: number = 0;
     public isFinishTurnUnlockedByDiceModal: boolean = false;
@@ -926,7 +926,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         const playerCards = this.playerCardHexagons[this.activePlayer];
         if (!playerHex || !playerCards) return;
 
-        const paymentPlan = this._buildCardPaymentPlan(card, playerHex);
+        const paymentPlan = this._buildCardPaymentPlan(card, playerHex, playerCards);
         if (!paymentPlan.isAffordable) {
             return;
         }
@@ -1008,6 +1008,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public get activePlayerTokensForPurchase(): { [key in Color]?: number } {
         return this.playerHexagons[this.activePlayer] ?? {};
+    }
+
+    public get activePlayerCardTokensForPurchase(): { [key in Color]?: number } {
+        return this.playerCardHexagons[this.activePlayer] ?? {};
     }
 
     public get totalSidebarPages(): number {
@@ -1642,7 +1646,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             green: 0,
             white: 0,
             blue: 0,
-            red: 0
+            red: 0,
         };
         
         for (const diceResult of this.diceResults) {
@@ -1978,7 +1982,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.rightSidebarPage = Math.min(this.rightSidebarPage, this.totalSidebarPages);
     }
 
-    private _buildCardPaymentPlan(card: Card, playerHex: { [key in Color]?: number }): { isAffordable: boolean; spend: { [key in Color]?: number } } {
+    private _buildCardPaymentPlan(
+        card: Card,
+        playerHex: { [key in Color]?: number },
+        playerCards: { [key in Color]?: number }
+    ): { isAffordable: boolean; spend: { [key in Color]?: number } } {
         const spend: { [key in Color]?: number } = {};
 
         for (const [key, value] of Object.entries(card.pay ?? {})) {
@@ -1987,18 +1995,21 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         }
 
-        let purpleNeeded = card.pay?.['purple'] ?? 0;
+        const purpleCardBonus = playerCards['purple'] ?? 0;
+        let purpleNeeded = Math.max((card.pay?.['purple'] ?? 0) - purpleCardBonus, 0);
 
         for (const color of this._purchasePayColors) {
             const required = card.pay?.[color] ?? 0;
+            const passiveBonus = playerCards[color] ?? 0;
+            const requiredAfterPassive = Math.max(required - passiveBonus, 0);
             const available = playerHex[color] ?? 0;
-            const directSpend = Math.min(required, available);
+            const directSpend = Math.min(requiredAfterPassive, available);
 
             if (directSpend > 0) {
                 spend[color] = directSpend;
             }
 
-            purpleNeeded += Math.max(required - available, 0);
+            purpleNeeded += Math.max(requiredAfterPassive - available, 0);
         }
 
         const availablePurple = playerHex['purple'] ?? 0;

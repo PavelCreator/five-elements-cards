@@ -46,6 +46,7 @@ export class CardComponent implements OnInit {
     @Input() card: Card = {} as Card;
     @Input() disableHoverUi: boolean = false;
     @Input() playerTokens?: { [key in Color]?: number };
+    @Input() playerCardTokens?: { [key in Color]?: number };
     @Input() purchaseLockedThisTurn: boolean = false;
     @Input() purchaseBlocked: boolean = false;
     @Input() purchaseBlockedLabel: string = 'Already Have';
@@ -92,13 +93,17 @@ export class CardComponent implements OnInit {
             }
         }
 
+        const playerCards = this.playerCardTokens ?? {};
         const availablePurple = this.playerTokens['purple'] ?? 0;
-        let purpleNeeded = pay['purple'] ?? 0;
+        const purpleCardBonus = playerCards['purple'] ?? 0;
+        let purpleNeeded = Math.max((pay['purple'] ?? 0) - purpleCardBonus, 0);
 
         for (const color of this._payColorsWithoutPurple) {
             const required = pay[color] ?? 0;
+            const passiveBonus = playerCards[color] ?? 0;
+            const requiredAfterPassive = Math.max(required - passiveBonus, 0);
             const available = this.playerTokens[color] ?? 0;
-            purpleNeeded += Math.max(required - available, 0);
+            purpleNeeded += Math.max(requiredAfterPassive - available, 0);
         }
 
         return availablePurple >= purpleNeeded;
