@@ -93,24 +93,20 @@ export class CardComponent implements OnInit {
             }
         }
 
-        const playerCards = this.playerCardTokens ?? {};
         const availablePurple = this.playerTokens['purple'] ?? 0;
-        const purpleCardBonus = playerCards['purple'] ?? 0;
-        let purpleNeeded = Math.max((pay['purple'] ?? 0) - purpleCardBonus, 0);
-
-        for (const color of this._payColorsWithoutPurple) {
-            const required = pay[color] ?? 0;
-            const passiveBonus = playerCards[color] ?? 0;
-            const requiredAfterPassive = Math.max(required - passiveBonus, 0);
-            const available = this.playerTokens[color] ?? 0;
-            purpleNeeded += Math.max(requiredAfterPassive - available, 0);
-        }
-
-        return availablePurple >= purpleNeeded;
+        return availablePurple >= this._getPurpleCoinsNeededForPurchase();
     }
 
     public get isAffordableNow(): boolean {
         return this.isAffordableForPlayer && !this.purchaseLockedThisTurn && !this.purchaseBlocked && !this.soldPending;
+    }
+
+    public get isAffordableNowWithPurpleSpend(): boolean {
+        return this.isAffordableNow && this._getPurpleCoinsNeededForPurchase() > 0;
+    }
+
+    public get isAffordableNowWithoutPurpleSpend(): boolean {
+        return this.isAffordableNow && this._getPurpleCoinsNeededForPurchase() === 0;
     }
 
     public get isAffordableNextTurnOnly(): boolean {
@@ -119,6 +115,27 @@ export class CardComponent implements OnInit {
 
     public get isCardPurchasable(): boolean {
         return this.disableHoverUi && this.isAffordableNow;
+    }
+
+    private _getPurpleCoinsNeededForPurchase(): number {
+        const pay = this.card?.pay;
+        if (!pay) {
+            return 0;
+        }
+
+        const playerCards = this.playerCardTokens ?? {};
+        const purpleCardBonus = playerCards['purple'] ?? 0;
+        let purpleNeeded = Math.max((pay['purple'] ?? 0) - purpleCardBonus, 0);
+
+        for (const color of this._payColorsWithoutPurple) {
+            const required = pay[color] ?? 0;
+            const passiveBonus = playerCards[color] ?? 0;
+            const requiredAfterPassive = Math.max(required - passiveBonus, 0);
+            const available = this.playerTokens?.[color] ?? 0;
+            purpleNeeded += Math.max(requiredAfterPassive - available, 0);
+        }
+
+        return purpleNeeded;
     }
 
     public trackByColor(index: number, color: string): string {

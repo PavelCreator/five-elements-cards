@@ -1,5 +1,5 @@
 <div class="card"
-         [ngClass]="{ 'card--view': !printModeEnabled, 'card--rotated': printModeEnabled && cardSide === 'back', 'card--print': printModeEnabled, 'card--no-edit': disableHoverUi, 'card--affordable-blue': isAffordableNow, 'card--affordable-yellow': isAffordableNextTurnOnly, 'card--purchasable': isCardPurchasable, 'card--sold-pending': soldPending, 'card--purchase-blocked': purchaseBlocked }"
+         [ngClass]="{ 'card--view': !printModeEnabled, 'card--rotated': printModeEnabled && cardSide === 'back', 'card--print': printModeEnabled, 'card--no-edit': disableHoverUi, 'card--affordable-blue': isAffordableNowWithoutPurpleSpend, 'card--affordable-purple': isAffordableNowWithPurpleSpend, 'card--affordable-yellow': isAffordableNextTurnOnly, 'card--purchasable': isCardPurchasable, 'card--sold-pending': soldPending, 'card--purchase-blocked': purchaseBlocked }"
 		 *ngIf="!card.hidden || (card.hidden && showDisabledCard)"
 		 (click)="handleCardClick()"
 		 (mouseenter) ="setHovered(true)"
