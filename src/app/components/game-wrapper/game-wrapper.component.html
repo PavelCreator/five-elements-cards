@@ -179,7 +179,7 @@
 
             <div class="bonus-shop-rules">
                 <div class="bonus-shop-rules__column">
-                    <div class="bonus-shop-rule" *ngFor="let rule of bonusShopRulesLeft">
+                    <div class="bonus-shop-rule" *ngFor="let rule of bonusShopRulesLeft" [class.bonus-shop-rule--disabled]="isBonusShopRuleDisabled(rule)">
                         <div class="bonus-shop-rule__cost">
                             <app-hexagon [color]="'black'" [number]="rule.blackCost" [type]="'playerBank'"></app-hexagon>
                         </div>
@@ -187,13 +187,14 @@
                         <div class="bonus-shop-rule__eq">=</div>
 
                         <div class="bonus-shop-rule__rewards">
-                            <ng-container *ngFor="let reward of rule.rewards; let isLast = last">
+                            <ng-container *ngFor="let reward of rule.rewards; let isLast = last; let rewardIndex = index">
                                 <ng-container *ngIf="reward.kind === 'hex'; else imageReward">
                                     <button
                                         type="button"
                                         class="bonus-shop-rule__reward-hex bonus-shop-rule__reward-hex--clickable"
-                                        *ngIf="reward.color === 'dice' || reward.color === 'mix'; else staticLeftHexReward"
-                                        (click)="onBonusShopRewardClick(reward, rule.blackCost)">
+                                        *ngIf="reward.color === 'dice' || reward.color === 'mix' || reward.color === 'purple'; else staticLeftHexReward"
+                                        [disabled]="isBonusShopRewardDisabled(rule, rewardIndex)"
+                                        (click)="onBonusShopRewardClick(reward, rule, rewardIndex)">
                                         <app-hexagon [color]="reward.color" [number]="reward.number" [type]="'gameBank'"></app-hexagon>
                                     </button>
                                     <ng-template #staticLeftHexReward>
@@ -203,7 +204,17 @@
                                     </ng-template>
                                 </ng-container>
                                 <ng-template #imageReward>
-                                    <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
+                                    <button
+                                        type="button"
+                                        class="bonus-shop-rule__reward-icon bonus-shop-rule__reward-icon--clickable"
+                                        *ngIf="reward.freeCardLevel; else staticLeftImageReward"
+                                        [disabled]="isBonusShopRewardDisabled(rule, rewardIndex)"
+                                        (click)="onBonusShopRewardClick(reward, rule, rewardIndex)">
+                                        <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
+                                    </button>
+                                    <ng-template #staticLeftImageReward>
+                                        <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
+                                    </ng-template>
                                 </ng-template>
                                 <span class="bonus-shop-rule__or" *ngIf="!isLast">OR</span>
                             </ng-container>
@@ -212,7 +223,7 @@
                 </div>
 
                 <div class="bonus-shop-rules__column">
-                    <div class="bonus-shop-rule" *ngFor="let rule of bonusShopRulesRight">
+                    <div class="bonus-shop-rule" *ngFor="let rule of bonusShopRulesRight" [class.bonus-shop-rule--disabled]="isBonusShopRuleDisabled(rule)">
                         <div class="bonus-shop-rule__cost">
                             <app-hexagon [color]="'black'" [number]="rule.blackCost" [type]="'playerBank'"></app-hexagon>
                         </div>
@@ -220,13 +231,14 @@
                         <div class="bonus-shop-rule__eq">=</div>
 
                         <div class="bonus-shop-rule__rewards">
-                            <ng-container *ngFor="let reward of rule.rewards; let isLast = last">
+                            <ng-container *ngFor="let reward of rule.rewards; let isLast = last; let rewardIndex = index">
                                 <ng-container *ngIf="reward.kind === 'hex'; else imageRewardRight">
                                     <button
                                         type="button"
                                         class="bonus-shop-rule__reward-hex bonus-shop-rule__reward-hex--clickable"
-                                        *ngIf="reward.color === 'dice' || reward.color === 'mix'; else staticRightHexReward"
-                                        (click)="onBonusShopRewardClick(reward, rule.blackCost)">
+                                        *ngIf="reward.color === 'dice' || reward.color === 'mix' || reward.color === 'purple'; else staticRightHexReward"
+                                        [disabled]="isBonusShopRewardDisabled(rule, rewardIndex)"
+                                        (click)="onBonusShopRewardClick(reward, rule, rewardIndex)">
                                         <app-hexagon [color]="reward.color" [number]="reward.number" [type]="'gameBank'"></app-hexagon>
                                     </button>
                                     <ng-template #staticRightHexReward>
@@ -236,7 +248,17 @@
                                     </ng-template>
                                 </ng-container>
                                 <ng-template #imageRewardRight>
-                                    <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
+                                    <button
+                                        type="button"
+                                        class="bonus-shop-rule__reward-icon bonus-shop-rule__reward-icon--clickable"
+                                        *ngIf="reward.freeCardLevel; else staticRightImageReward"
+                                        [disabled]="isBonusShopRewardDisabled(rule, rewardIndex)"
+                                        (click)="onBonusShopRewardClick(reward, rule, rewardIndex)">
+                                        <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
+                                    </button>
+                                    <ng-template #staticRightImageReward>
+                                        <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
+                                    </ng-template>
                                 </ng-template>
                                 <span class="bonus-shop-rule__or" *ngIf="!isLast">OR</span>
                             </ng-container>
@@ -257,7 +279,7 @@
                     type="button"
                     class="bonus-shop-modal__cancel"
                     (click)="closeBonusShopModal()"
-                    [disabled]="hasBonusShopActionStarted">
+                    [disabled]="!canCancelBonusShopModal">
                     Cancel
                 </button>
             </div>
@@ -317,6 +339,45 @@
                     type="button"
                     class="bonus-shop-modal__cancel"
                     (click)="cancelBonusShopMixSelection()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bonus-shop-free-card-overlay" *ngIf="showBonusShopFreeCardModal" (click)="cancelBonusShopFreeCardSelection()">
+        <div class="bonus-shop-free-card-modal" (click)="$event.stopPropagation()">
+            <div class="bonus-shop-free-card-modal__title">Choose Free Level {{ bonusShopFreeCardLevel }} Card</div>
+            <div class="bonus-shop-free-card-modal__subtitle">Select one open card from the regular level {{ bonusShopFreeCardLevel }} row.</div>
+
+            <div class="bonus-shop-free-card-grid" *ngIf="bonusShopFreeCardChoices.length > 0; else noBonusShopFreeCardChoices">
+                <button
+                    type="button"
+                    class="bonus-shop-free-card-option"
+                    *ngFor="let card of bonusShopFreeCardChoices"
+                    [class.bonus-shop-free-card-option--selected]="isBonusShopFreeCardSelected(card)"
+                    (click)="onBonusShopFreeCardClick(card)">
+                    <app-card [card]="card" [disableHoverUi]="true"></app-card>
+                </button>
+            </div>
+
+            <ng-template #noBonusShopFreeCardChoices>
+                <div class="bonus-shop-free-card-modal__empty">No available cards in this row.</div>
+            </ng-template>
+
+            <div class="bonus-shop-free-card-modal__actions">
+                <button
+                    type="button"
+                    class="bonus-shop-modal__apply"
+                    *ngIf="selectedBonusShopFreeCardOrderNumber !== null"
+                    (click)="applyBonusShopFreeCardSelection()"
+                    [disabled]="!canApplyBonusShopFreeCardSelection">
+                    Apply bonuses
+                </button>
+                <button
+                    type="button"
+                    class="bonus-shop-modal__cancel"
+                    (click)="cancelBonusShopFreeCardSelection()">
                     Cancel
                 </button>
             </div>
