@@ -265,7 +265,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public readonly previewPurpleWildcardTargets: Color[] = ['red', 'blue', 'white', 'green', 'purple'];
     public previewNeedToPayDraft: { [key in Color]?: number } = {};
     public previewTokenPoolDraft: { [key in Color]?: number } = {};
+    public previewTokenPoolBase: { [key in Color]?: number } = {};
     public previewPurpleCardUnitsDraft: number = 0;
+    public previewPurpleCardUnitsBase: number = 0;
     private _previewDragContext: { source: PreviewPaymentSource; color: Color } | null = null;
     private readonly _diceSides: string[] = [
         'dices-blue.png',
@@ -1000,8 +1002,20 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.purplePurchasePreviewCard = null;
         this.previewNeedToPayDraft = {};
         this.previewTokenPoolDraft = {};
+        this.previewTokenPoolBase = {};
         this.previewPurpleCardUnitsDraft = 0;
+        this.previewPurpleCardUnitsBase = 0;
         this._previewDragContext = null;
+    }
+
+    public applyPurplePurchasePreviewModal(): void {
+        if (!this.canApplyPurplePurchasePreview || !this.purplePurchasePreviewCard) {
+            return;
+        }
+
+        const targetCard = this.purplePurchasePreviewCard;
+        this.closePurplePurchasePreviewModal();
+        this.onPurchaseCard(targetCard);
     }
 
     public isSpecialStackCardBlockedForActivePlayer(card: Card | undefined): boolean {
@@ -1082,7 +1096,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             if (color === 'purple') {
                 return false;
             }
-            return (this.previewTokenPoolDraft[color] ?? 0) > 0;
+            return (this.previewTokenPoolBase[color] ?? 0) > 0;
         });
     }
 
@@ -1096,12 +1110,17 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public get previewPurpleTokenUnits(): number[] {
-        const count = this.previewTokenPoolDraft['purple'] ?? 0;
+        const count = this.previewTokenPoolBase['purple'] ?? 0;
         return Array.from({ length: count }, (_, index) => index);
     }
 
     public get previewPurplePassiveCardUnits(): number[] {
-        return Array.from({ length: this.previewPurpleCardUnitsDraft }, (_, index) => index);
+        return Array.from({ length: this.previewPurpleCardUnitsBase }, (_, index) => index);
+    }
+
+    public get canApplyPurplePurchasePreview(): boolean {
+        return this.purplePurchasePreviewCard !== null
+            && !this.previewModalColors.some((color) => (this.previewNeedToPayDraft[color] ?? 0) > 0);
     }
 
     public isPreviewTokenDisabled(color: Color): boolean {
@@ -1130,7 +1149,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return this.previewPurpleCardUnitsDraft <= 0 || !this._hasPreviewNeedForAny(this.previewPurpleWildcardTargets);
     }
 
-    public onPreviewDragStart(source: PreviewPaymentSource, color: Color, event: DragEvent): void {
+    public onPreviewDragStart(source: PreviewPaymentSource, color: Color, event: DragEvent, unitIndex?: number): void {
         if (source === 'token' && this.isPreviewTokenDisabled(color)) {
             event.preventDefault();
             return;
@@ -1139,6 +1158,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         if (source === 'card' && this.isPreviewPassiveCardDisabled(color)) {
             event.preventDefault();
             return;
+        }
+
+        if (color === 'purple' && typeof unitIndex === 'number') {
+            const availableCount = source === 'token' ? (this.previewTokenPoolDraft['purple'] ?? 0) : this.previewPurpleCardUnitsDraft;
+            if (unitIndex >= availableCount) {
+                event.preventDefault();
+                return;
+            }
         }
 
         this._previewDragContext = { source, color };
@@ -1188,7 +1215,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private _initPurplePurchasePreviewDraft(): void {
         this.previewNeedToPayDraft = { ...this.purplePreviewNeedToPayTokens };
         this.previewTokenPoolDraft = { ...this.purplePreviewPlayerHandTokens };
+        this.previewTokenPoolBase = { ...this.purplePreviewPlayerHandTokens };
         this.previewPurpleCardUnitsDraft = this.purplePreviewPlayerPassiveCards['purple'] ?? 0;
+        this.previewPurpleCardUnitsBase = this.previewPurpleCardUnitsDraft;
         this._previewDragContext = null;
     }
 

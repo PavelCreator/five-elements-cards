@@ -490,10 +490,10 @@
                             </div>
                             <div
                                 class="purple-payment-item"
-                                *ngFor="let _ of previewPurpleTokenUnits"
-                                [class.purple-payment-item--disabled]="isPreviewTokenDisabled('purple')"
-                                [draggable]="!isPreviewTokenDisabled('purple')"
-                                (dragstart)="onPreviewDragStart('token', 'purple', $event)">
+                                *ngFor="let _ of previewPurpleTokenUnits; let i = index"
+                                [class.purple-payment-item--disabled]="isPreviewTokenDisabled('purple') || i >= (previewTokenPoolDraft['purple'] ?? 0)"
+                                [draggable]="!isPreviewTokenDisabled('purple') && i < (previewTokenPoolDraft['purple'] ?? 0)"
+                                (dragstart)="onPreviewDragStart('token', 'purple', $event, i)">
                                 <app-hexagon [color]="'purple'" [number]="1" [type]="'playerBank'"></app-hexagon>
                             </div>
                         </div>
@@ -511,10 +511,10 @@
                             </div>
                             <div
                                 class="purple-payment-item"
-                                *ngFor="let _ of previewPurplePassiveCardUnits"
-                                [class.purple-payment-item--disabled]="isPreviewPassiveCardDisabled('purple')"
-                                [draggable]="!isPreviewPassiveCardDisabled('purple')"
-                                (dragstart)="onPreviewDragStart('card', 'purple', $event)">
+                                *ngFor="let _ of previewPurplePassiveCardUnits; let i = index"
+                                [class.purple-payment-item--disabled]="isPreviewPassiveCardDisabled('purple') || i >= previewPurpleCardUnitsDraft"
+                                [draggable]="!isPreviewPassiveCardDisabled('purple') && i < previewPurpleCardUnitsDraft"
+                                (dragstart)="onPreviewDragStart('card', 'purple', $event, i)">
                                 <app-hexagon [color]="'purple'" [number]="1" [type]="'getWin'"></app-hexagon>
                             </div>
                         </div>
@@ -548,7 +548,8 @@
             </div>
 
             <div class="purple-purchase-preview-modal__actions">
-                <button type="button" class="purple-purchase-preview-modal__close" (click)="closePurplePurchasePreviewModal()">Close</button>
+                <button type="button" class="purple-purchase-preview-modal__cancel" (click)="closePurplePurchasePreviewModal()">Cancel</button>
+                <button type="button" class="purple-purchase-preview-modal__apply" (click)="applyPurplePurchasePreviewModal()" [disabled]="!canApplyPurplePurchasePreview">Apply</button>
             </div>
         </div>
     </div>

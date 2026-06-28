@@ -397,6 +397,11 @@
     cursor: grab;
 }
 
+.purple-payment-item app-hexagon,
+.purple-payment-drop-target app-hexagon{
+    pointer-events: none;
+}
+
 .purple-payment-item:active{
     cursor: grabbing;
 }
@@ -419,10 +424,12 @@
 .purple-purchase-preview-modal__actions{
     display: flex;
     justify-content: flex-end;
+    gap: 10px;
     margin-top: 14px;
 }
 
-.purple-purchase-preview-modal__close{
+.purple-purchase-preview-modal__cancel,
+.purple-purchase-preview-modal__apply{
     border: 1px solid rgba(0, 0, 0, 0.2);
     background: #f3f4f6;
     color: #111827;
@@ -433,8 +440,15 @@
     cursor: pointer;
 }
 
-.purple-purchase-preview-modal__close:hover{
+.purple-purchase-preview-modal__cancel:hover,
+.purple-purchase-preview-modal__apply:hover{
     background: #e5e7eb;
+}
+
+.purple-purchase-preview-modal__apply:disabled{
+    opacity: 0.55;
+    cursor: not-allowed;
+    background: #f3f4f6;
 }
 
 @media (max-width: 900px){
