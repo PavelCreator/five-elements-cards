@@ -21,6 +21,7 @@ type SpecialStackColor = 'purple' | 'black';
 type SpecialStackKey = `${number}-${SpecialStackColor}`;
 type BonusShopMixColor = 'red' | 'blue' | 'white' | 'green';
 type PreviewPaymentSource = 'token' | 'card';
+type PreviewInteractionContext = { source: PreviewPaymentSource; color: Color; unitIndex?: number };
 
 interface SpecialStack {
     color: SpecialStackColor;
@@ -268,7 +269,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public previewTokenPoolBase: { [key in Color]?: number } = {};
     public previewPurpleCardUnitsDraft: number = 0;
     public previewPurpleCardUnitsBase: number = 0;
-    private _previewDragContext: { source: PreviewPaymentSource; color: Color } | null = null;
+    private _previewDragContext: PreviewInteractionContext | null = null;
+    private _previewHoverContext: PreviewInteractionContext | null = null;
     private readonly _diceSides: string[] = [
         'dices-blue.png',
         'dices-green.png',
@@ -1006,6 +1008,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.previewPurpleCardUnitsDraft = 0;
         this.previewPurpleCardUnitsBase = 0;
         this._previewDragContext = null;
+        this._previewHoverContext = null;
     }
 
     public applyPurplePurchasePreviewModal(): void {
@@ -1134,6 +1137,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             && !this.previewModalColors.some((color) => (this.previewNeedToPayDraft[color] ?? 0) > 0);
     }
 
+    public get isPreviewInteractionFocusActive(): boolean {
+        return this._resolvePreviewInteractionContext() !== null;
+    }
+
     public isPreviewTokenDisabled(color: Color): boolean {
         const amount = this.previewTokenPoolDraft[color] ?? 0;
         if (amount <= 0) {
@@ -1179,11 +1186,64 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         }
 
-        this._previewDragContext = { source, color };
+        this._previewDragContext = { source, color, unitIndex };
+        this._previewHoverContext = { source, color, unitIndex };
         if (event.dataTransfer) {
             event.dataTransfer.effectAllowed = 'move';
             event.dataTransfer.setData('text/plain', `${source}:${color}`);
         }
+    }
+
+    public onPreviewDragEnd(): void {
+        this._previewDragContext = null;
+    }
+
+    public onPreviewSourceHoverStart(source: PreviewPaymentSource, color: Color, unitIndex?: number): void {
+        if (source === 'token' && this.isPreviewTokenDisabled(color)) {
+            return;
+        }
+
+        if (source === 'card' && this.isPreviewPassiveCardDisabled(color)) {
+            return;
+        }
+
+        if (color === 'purple' && typeof unitIndex === 'number') {
+            const availableCount = source === 'token' ? (this.previewTokenPoolDraft['purple'] ?? 0) : this.previewPurpleCardUnitsDraft;
+            if (unitIndex >= availableCount) {
+                return;
+            }
+        }
+
+        this._previewHoverContext = { source, color, unitIndex };
+    }
+
+    public onPreviewSourceHoverEnd(): void {
+        if (this._previewDragContext) {
+            return;
+        }
+        this._previewHoverContext = null;
+    }
+
+    public isPreviewSourceFocused(source: PreviewPaymentSource, color: Color, unitIndex?: number): boolean {
+        const context = this._resolvePreviewInteractionContext();
+        if (!context || context.source !== source || context.color !== color) {
+            return false;
+        }
+
+        if (context.color === 'purple' && typeof context.unitIndex === 'number') {
+            return context.unitIndex === unitIndex;
+        }
+
+        return true;
+    }
+
+    public isPreviewNeedTargetFocused(color: Color): boolean {
+        const context = this._resolvePreviewInteractionContext();
+        if (!context) {
+            return false;
+        }
+
+        return this._canPreviewPayTarget(context.source, context.color, color);
     }
 
     public onPreviewNeedDragOver(targetColor: Color, event: DragEvent): void {
@@ -1205,6 +1265,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         event.preventDefault();
         const context = this._previewDragContext;
         this._previewDragContext = null;
+        this._previewHoverContext = null;
         if (!context) {
             return;
         }
@@ -1232,7 +1293,36 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             0
         );
         this.previewPurpleCardUnitsBase = this.purplePreviewPlayerPassiveCards['purple'] ?? 0;
+
+        // Auto-apply same-color tokens only when there are no draggable passive purple cards left.
+        if (this.previewPurpleCardUnitsDraft <= 0) {
+            this._autoApplyPreviewMatchingTokens();
+        }
+
         this._previewDragContext = null;
+        this._previewHoverContext = null;
+    }
+
+    private _resolvePreviewInteractionContext(): PreviewInteractionContext | null {
+        return this._previewDragContext ?? this._previewHoverContext;
+    }
+
+    private _autoApplyPreviewMatchingTokens(): void {
+        for (const color of this.previewModalColors) {
+            const need = this.previewNeedToPayDraft[color] ?? 0;
+            if (need <= 0) {
+                continue;
+            }
+
+            const available = this.previewTokenPoolDraft[color] ?? 0;
+            const applied = Math.min(need, available);
+            if (applied <= 0) {
+                continue;
+            }
+
+            this.previewNeedToPayDraft[color] = need - applied;
+            this.previewTokenPoolDraft[color] = available - applied;
+        }
     }
 
     private _hasPreviewNeedForAny(colors: Color[]): boolean {
