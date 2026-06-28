@@ -354,14 +354,29 @@
 
 .purple-purchase-preview-compare{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1px 1fr;
     gap: 14px;
+    align-items: stretch;
 }
 
 .purple-purchase-preview-column{
     display: flex;
     flex-direction: column;
     gap: 12px;
+}
+
+.purple-purchase-preview-column--cost{
+    height: 100%;
+}
+
+.purple-purchase-preview-column--cost .purple-purchase-preview-section{
+    flex: 1;
+}
+
+.purple-purchase-preview-divider{
+    width: 1px;
+    background: rgba(0, 0, 0, 0.18);
+    border-radius: 1px;
 }
 
 .purple-purchase-preview-section{
@@ -409,6 +424,10 @@
 @media (max-width: 900px){
     .purple-purchase-preview-compare{
         grid-template-columns: 1fr;
+    }
+
+    .purple-purchase-preview-divider{
+        display: none;
     }
 }
 

@@ -472,31 +472,34 @@
 
     <div class="purple-purchase-preview-overlay" *ngIf="showPurplePurchasePreviewModal" (click)="closePurplePurchasePreviewModal()">
         <div class="purple-purchase-preview-modal" (click)="$event.stopPropagation()">
-            <div class="purple-purchase-preview-modal__title">Purple Cost Preview</div>
-            <div class="purple-purchase-preview-modal__subtitle">Player {{ activePlayer }} hand vs card cost</div>
+            <div class="purple-purchase-preview-modal__title">Pay for cards</div>
+            <div class="purple-purchase-preview-modal__subtitle">Please select options to pay</div>
 
             <div class="purple-purchase-preview-compare">
                 <div class="purple-purchase-preview-column">
                     <div class="purple-purchase-preview-section">
                         <div class="purple-purchase-preview-section__label">Tokens in Hand</div>
                         <div class="purple-purchase-preview-section__row">
-                            <app-hexagon *ngFor="let color of previewModalColors" [color]="color" [number]="purplePreviewPlayerHandTokens[color] ?? 0" [type]="'playerBank'"></app-hexagon>
+                            <app-hexagon *ngFor="let color of previewModalColors" [color]="color" [number]="purplePreviewPlayerHandTokens[color] ?? 0" [type]="'playerBank'" [ngStyle]="{ display: (purplePreviewPlayerHandTokens[color] ?? 0) > 0 ? '' : 'none' }"></app-hexagon>
+                        </div>
+                    </div>
+
+                    <div class="purple-purchase-preview-section">
+                        <div class="purple-purchase-preview-section__label">Passive Cards</div>
+                        <div class="purple-purchase-preview-section__row">
+                            <app-hexagon *ngFor="let color of previewModalColors" [color]="color" [number]="purplePreviewPlayerPassiveCards[color] ?? 0" [type]="'getWin'" [ngStyle]="{ display: (purplePreviewPlayerPassiveCards[color] ?? 0) > 0 ? '' : 'none' }"></app-hexagon>
                         </div>
                     </div>
                 </div>
 
-                <div class="purple-purchase-preview-column">
-                    <div class="purple-purchase-preview-section">
-                        <div class="purple-purchase-preview-section__label">Passive Cards</div>
-                        <div class="purple-purchase-preview-section__row">
-                            <app-hexagon *ngFor="let color of previewModalColors" [color]="color" [number]="purplePreviewPlayerPassiveCards[color] ?? 0" [type]="'getWin'"></app-hexagon>
-                        </div>
-                    </div>
+                <div class="purple-purchase-preview-divider" aria-hidden="true"></div>
+
+                <div class="purple-purchase-preview-column purple-purchase-preview-column--cost">
 
                     <div class="purple-purchase-preview-section" *ngIf="purplePurchasePreviewCard">
                         <div class="purple-purchase-preview-section__label">Card Cost</div>
                         <div class="purple-purchase-preview-section__row">
-                            <app-hexagon *ngFor="let color of previewModalColors" [color]="color" [number]="purplePurchasePreviewCard.pay[color] ?? 0" [type]="'playerBank'"></app-hexagon>
+                            <app-hexagon *ngFor="let color of previewModalColors" [color]="color" [number]="purplePurchasePreviewCard.pay[color] ?? 0" [type]="'playerBank'" [ngStyle]="{ display: (purplePurchasePreviewCard.pay[color] ?? 0) > 0 ? '' : 'none' }"></app-hexagon>
                         </div>
                     </div>
                 </div>
