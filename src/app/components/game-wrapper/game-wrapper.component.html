@@ -480,14 +480,43 @@
                     <div class="purple-purchase-preview-section">
                         <div class="purple-purchase-preview-section__label">Tokens in Hand</div>
                         <div class="purple-purchase-preview-section__row">
-                            <app-hexagon *ngFor="let color of previewModalColors" [color]="color" [number]="purplePreviewPlayerHandTokens[color] ?? 0" [type]="'playerBank'" [ngStyle]="{ display: (purplePreviewPlayerHandTokens[color] ?? 0) > 0 ? '' : 'none' }"></app-hexagon>
+                            <div
+                                class="purple-payment-item"
+                                *ngFor="let color of purplePreviewVisibleTokenColors"
+                                [class.purple-payment-item--disabled]="isPreviewTokenDisabled(color)"
+                                [draggable]="!isPreviewTokenDisabled(color)"
+                                (dragstart)="onPreviewDragStart('token', color, $event)">
+                                <app-hexagon [color]="color" [number]="previewTokenPoolDraft[color] ?? 0" [type]="'playerBank'"></app-hexagon>
+                            </div>
+                            <div
+                                class="purple-payment-item"
+                                *ngFor="let _ of previewPurpleTokenUnits"
+                                [class.purple-payment-item--disabled]="isPreviewTokenDisabled('purple')"
+                                [draggable]="!isPreviewTokenDisabled('purple')"
+                                (dragstart)="onPreviewDragStart('token', 'purple', $event)">
+                                <app-hexagon [color]="'purple'" [number]="1" [type]="'playerBank'"></app-hexagon>
+                            </div>
                         </div>
                     </div>
 
                     <div class="purple-purchase-preview-section">
                         <div class="purple-purchase-preview-section__label">Passive Cards</div>
                         <div class="purple-purchase-preview-section__row">
-                            <app-hexagon *ngFor="let color of previewModalColors" [color]="color" [number]="purplePreviewPlayerPassiveCards[color] ?? 0" [type]="'getWin'" [ngStyle]="{ display: (purplePreviewPlayerPassiveCards[color] ?? 0) > 0 ? '' : 'none' }"></app-hexagon>
+                            <div
+                                class="purple-payment-item"
+                                *ngFor="let color of purplePreviewVisiblePassiveCardColors"
+                                [class.purple-payment-item--disabled]="true"
+                                [draggable]="false">
+                                <app-hexagon [color]="color" [number]="purplePreviewPlayerPassiveCards[color] ?? 0" [type]="'getWin'"></app-hexagon>
+                            </div>
+                            <div
+                                class="purple-payment-item"
+                                *ngFor="let _ of previewPurplePassiveCardUnits"
+                                [class.purple-payment-item--disabled]="isPreviewPassiveCardDisabled('purple')"
+                                [draggable]="!isPreviewPassiveCardDisabled('purple')"
+                                (dragstart)="onPreviewDragStart('card', 'purple', $event)">
+                                <app-hexagon [color]="'purple'" [number]="1" [type]="'getWin'"></app-hexagon>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -499,7 +528,13 @@
                     <div class="purple-purchase-preview-section" *ngIf="purplePurchasePreviewCard">
                         <div class="purple-purchase-preview-section__label">Need to Pay</div>
                         <div class="purple-purchase-preview-section__row">
-                            <app-hexagon *ngFor="let color of previewModalColors" [color]="color" [number]="purplePreviewNeedToPayTokens[color] ?? 0" [type]="'playerBank'" [ngStyle]="{ display: (purplePreviewNeedToPayTokens[color] ?? 0) > 0 ? '' : 'none' }"></app-hexagon>
+                            <div
+                                class="purple-payment-drop-target"
+                                *ngFor="let color of purplePreviewVisibleNeedToPayColors"
+                                (dragover)="onPreviewNeedDragOver(color, $event)"
+                                (drop)="onPreviewNeedDrop(color, $event)">
+                                <app-hexagon [color]="color" [number]="previewNeedToPayDraft[color] ?? 0" [type]="'playerBank'"></app-hexagon>
+                            </div>
                         </div>
                     </div>
 

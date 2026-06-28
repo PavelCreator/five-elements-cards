@@ -392,6 +392,30 @@
     gap: 8px;
 }
 
+.purple-payment-item{
+    display: inline-flex;
+    cursor: grab;
+}
+
+.purple-payment-item:active{
+    cursor: grabbing;
+}
+
+.purple-payment-item--disabled{
+    cursor: not-allowed;
+    opacity: 0.45;
+    filter: grayscale(0.35);
+}
+
+.purple-payment-item--disabled :is(.coin, .number-wrapper){
+    cursor: not-allowed;
+}
+
+.purple-payment-drop-target{
+    display: inline-flex;
+    border-radius: 8px;
+}
+
 .purple-purchase-preview-modal__actions{
     display: flex;
     justify-content: flex-end;

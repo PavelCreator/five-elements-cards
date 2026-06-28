@@ -20,6 +20,7 @@ import { HowToWinCard, HowToWinCardType } from '../../models/how-to-win-card.int
 type SpecialStackColor = 'purple' | 'black';
 type SpecialStackKey = `${number}-${SpecialStackColor}`;
 type BonusShopMixColor = 'red' | 'blue' | 'white' | 'green';
+type PreviewPaymentSource = 'token' | 'card';
 
 interface SpecialStack {
     color: SpecialStackColor;
@@ -261,6 +262,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public winnerConditionLabel: string = '';
     public printModeEnabled: boolean = true;
     public readonly previewModalColors: Color[] = ['red', 'blue', 'white', 'green', 'purple', 'black'];
+    public readonly previewPurpleWildcardTargets: Color[] = ['red', 'blue', 'white', 'green', 'purple'];
+    public previewNeedToPayDraft: { [key in Color]?: number } = {};
+    public previewTokenPoolDraft: { [key in Color]?: number } = {};
+    public previewPurpleCardUnitsDraft: number = 0;
+    private _previewDragContext: { source: PreviewPaymentSource; color: Color } | null = null;
     private readonly _diceSides: string[] = [
         'dices-blue.png',
         'dices-green.png',
@@ -985,12 +991,17 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         this.purplePurchasePreviewCard = card;
+        this._initPurplePurchasePreviewDraft();
         this.showPurplePurchasePreviewModal = true;
     }
 
     public closePurplePurchasePreviewModal(): void {
         this.showPurplePurchasePreviewModal = false;
         this.purplePurchasePreviewCard = null;
+        this.previewNeedToPayDraft = {};
+        this.previewTokenPoolDraft = {};
+        this.previewPurpleCardUnitsDraft = 0;
+        this._previewDragContext = null;
     }
 
     public isSpecialStackCardBlockedForActivePlayer(card: Card | undefined): boolean {
@@ -1060,6 +1071,157 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         return result;
+    }
+
+    public get purplePreviewVisibleNeedToPayColors(): Color[] {
+        return this.previewModalColors.filter((color) => (this.previewNeedToPayDraft[color] ?? 0) > 0);
+    }
+
+    public get purplePreviewVisibleTokenColors(): Color[] {
+        return this.previewModalColors.filter((color) => {
+            if (color === 'purple') {
+                return false;
+            }
+            return (this.previewTokenPoolDraft[color] ?? 0) > 0;
+        });
+    }
+
+    public get purplePreviewVisiblePassiveCardColors(): Color[] {
+        return this.previewModalColors.filter((color) => {
+            if (color === 'purple') {
+                return false;
+            }
+            return (this.purplePreviewPlayerPassiveCards[color] ?? 0) > 0;
+        });
+    }
+
+    public get previewPurpleTokenUnits(): number[] {
+        const count = this.previewTokenPoolDraft['purple'] ?? 0;
+        return Array.from({ length: count }, (_, index) => index);
+    }
+
+    public get previewPurplePassiveCardUnits(): number[] {
+        return Array.from({ length: this.previewPurpleCardUnitsDraft }, (_, index) => index);
+    }
+
+    public isPreviewTokenDisabled(color: Color): boolean {
+        const amount = this.previewTokenPoolDraft[color] ?? 0;
+        if (amount <= 0) {
+            return true;
+        }
+
+        if (color === 'purple') {
+            return !this._hasPreviewNeedForAny(this.previewPurpleWildcardTargets);
+        }
+
+        return (this.previewNeedToPayDraft[color] ?? 0) <= 0;
+    }
+
+    public isPreviewPassiveCardDisabled(color: Color): boolean {
+        const amount = this.purplePreviewPlayerPassiveCards[color] ?? 0;
+        if (amount <= 0) {
+            return true;
+        }
+
+        if (color !== 'purple') {
+            return true;
+        }
+
+        return this.previewPurpleCardUnitsDraft <= 0 || !this._hasPreviewNeedForAny(this.previewPurpleWildcardTargets);
+    }
+
+    public onPreviewDragStart(source: PreviewPaymentSource, color: Color, event: DragEvent): void {
+        if (source === 'token' && this.isPreviewTokenDisabled(color)) {
+            event.preventDefault();
+            return;
+        }
+
+        if (source === 'card' && this.isPreviewPassiveCardDisabled(color)) {
+            event.preventDefault();
+            return;
+        }
+
+        this._previewDragContext = { source, color };
+        if (event.dataTransfer) {
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('text/plain', `${source}:${color}`);
+        }
+    }
+
+    public onPreviewNeedDragOver(targetColor: Color, event: DragEvent): void {
+        if (!this._previewDragContext) {
+            return;
+        }
+
+        if (!this._canPreviewPayTarget(this._previewDragContext.source, this._previewDragContext.color, targetColor)) {
+            return;
+        }
+
+        event.preventDefault();
+        if (event.dataTransfer) {
+            event.dataTransfer.dropEffect = 'move';
+        }
+    }
+
+    public onPreviewNeedDrop(targetColor: Color, event: DragEvent): void {
+        event.preventDefault();
+        const context = this._previewDragContext;
+        this._previewDragContext = null;
+        if (!context) {
+            return;
+        }
+
+        if (!this._canPreviewPayTarget(context.source, context.color, targetColor)) {
+            return;
+        }
+
+        this.previewNeedToPayDraft[targetColor] = Math.max((this.previewNeedToPayDraft[targetColor] ?? 0) - 1, 0);
+
+        if (context.source === 'token') {
+            this.previewTokenPoolDraft[context.color] = Math.max((this.previewTokenPoolDraft[context.color] ?? 0) - 1, 0);
+            return;
+        }
+
+        this.previewPurpleCardUnitsDraft = Math.max(this.previewPurpleCardUnitsDraft - 1, 0);
+    }
+
+    private _initPurplePurchasePreviewDraft(): void {
+        this.previewNeedToPayDraft = { ...this.purplePreviewNeedToPayTokens };
+        this.previewTokenPoolDraft = { ...this.purplePreviewPlayerHandTokens };
+        this.previewPurpleCardUnitsDraft = this.purplePreviewPlayerPassiveCards['purple'] ?? 0;
+        this._previewDragContext = null;
+    }
+
+    private _hasPreviewNeedForAny(colors: Color[]): boolean {
+        return colors.some((color) => (this.previewNeedToPayDraft[color] ?? 0) > 0);
+    }
+
+    private _canPreviewPayTarget(source: PreviewPaymentSource, sourceColor: Color, targetColor: Color): boolean {
+        if ((this.previewNeedToPayDraft[targetColor] ?? 0) <= 0) {
+            return false;
+        }
+
+        if (source === 'token') {
+            if ((this.previewTokenPoolDraft[sourceColor] ?? 0) <= 0) {
+                return false;
+            }
+
+            if (sourceColor === 'purple') {
+                return this.previewPurpleWildcardTargets.includes(targetColor);
+            }
+
+            return sourceColor === targetColor;
+        }
+
+        if (sourceColor !== 'purple') {
+            return false;
+        }
+
+        if (this.previewPurpleCardUnitsDraft <= 0) {
+            return false;
+        }
+
+        return this.previewPurpleWildcardTargets.includes(targetColor);
     }
 
     public get totalSidebarPages(): number {
