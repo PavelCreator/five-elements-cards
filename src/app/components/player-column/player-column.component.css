@@ -32,8 +32,7 @@
 }
 
 .player-slot--active{
-    border:2px solid #4a90e2;
-    box-shadow:0 10px 25px rgba(74, 144, 226, 0.3);
+    border:2px solid #4a90e2;box-shadow: 0 0 0 6px #47c3ff, 0 0 18px rgba(71, 195, 255, 0.95), 0 0 30px rgba(71, 195, 255, 0.65);
 }
 
 .player-card{

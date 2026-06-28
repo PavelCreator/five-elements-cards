@@ -243,6 +243,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private _lastClosedRollCount: number = 0;
     private _lastClosedRollWasBonusAction: boolean = false;
     private _pendingPurchasedCardOrderNumbers: Set<number> = new Set<number>();
+    private _pendingBonusActionCardOrderNumbers: Set<number> = new Set<number>();
     private _pendingBonusShopMixBlackCost: number = 0;
     private _pendingBonusShopMixRewardKey: string = '';
     private _pendingBonusShopFreeCardBlackCost: number = 0;
@@ -954,6 +955,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._pendingCancelableBonusShopAction = null;
         this._resetBonusShopFreeCardDraft(false);
         this._pendingPurchasedCardOrderNumbers.clear();
+        this._pendingBonusActionCardOrderNumbers.clear();
         this.pickedTokensThisTurn = [];
 
         this._updateTokensByDiceState();
@@ -964,12 +966,25 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return this._pendingPurchasedCardOrderNumbers.has(card.orderNumber);
     }
 
+    public isCardBonusActionPending(card: Card | undefined): boolean {
+        if (!card) return false;
+        return this._pendingBonusActionCardOrderNumbers.has(card.orderNumber);
+    }
+
+    public isCardPending(card: Card | undefined): boolean {
+        return this.isCardSoldPending(card) || this.isCardBonusActionPending(card);
+    }
+
+    public getCardPendingLabel(card: Card | undefined): string {
+        return this.isCardBonusActionPending(card) ? 'BONUS ACTION' : 'SOLD';
+    }
+
     public onPurchaseCard(card: Card): void {
         if (this.hasWinner) {
             return;
         }
 
-        if (!card || this.isCardPurchaseLockedThisTurn || this.isCardSoldPending(card)) {
+        if (!card || this.isCardPurchaseLockedThisTurn || this.isCardPending(card)) {
             return;
         }
 
@@ -1222,7 +1237,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return [];
         }
 
-        return targetRow.topCards.filter((card) => !this.isCardSoldPending(card));
+        return targetRow.topCards.filter((card) => !this.isCardPending(card));
     }
 
     private _buildBonusShopRewardKey(blackCost: number, rewardIndex: number): string {
@@ -1909,7 +1924,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         const isCandidate = this.bonusShopFreeCardChoices.some((candidate) => candidate.orderNumber === card.orderNumber);
-        if (!isCandidate || this.isCardSoldPending(card)) {
+        if (!isCandidate || this.isCardPending(card)) {
             return;
         }
 
@@ -1965,7 +1980,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         playerHex['black'] = playerBlackTokens - this._pendingBonusShopFreeCardBlackCost;
         this.gameBankHexagons['black'] = (this.gameBankHexagons['black'] ?? 0) + this._pendingBonusShopFreeCardBlackCost;
 
-        const acquired = this._acquireCardForActivePlayer(selectedCard, false);
+        const acquired = this._acquireCardForActivePlayer(selectedCard, false, undefined, 'bonus-action', false);
         if (!acquired) {
             playerHex['black'] = playerBlackTokens;
             this.gameBankHexagons['black'] = Math.max((this.gameBankHexagons['black'] ?? 0) - this._pendingBonusShopFreeCardBlackCost, 0);
@@ -2084,7 +2099,13 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
-    private _acquireCardForActivePlayer(card: Card, grantBlackToken: boolean, specialStackKeyInput?: SpecialStackKey): boolean {
+    private _acquireCardForActivePlayer(
+        card: Card,
+        grantBlackToken: boolean,
+        specialStackKeyInput?: SpecialStackKey,
+        pendingKind: 'sold' | 'bonus-action' = 'sold',
+        lockCardPurchaseThisTurn: boolean = true
+    ): boolean {
         if (!card) {
             return false;
         }
@@ -2116,7 +2137,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             this.gameBankHexagons['black'] = Math.max(blackBankValue - 1, 0);
         }
 
-        this._pendingPurchasedCardOrderNumbers.add(card.orderNumber);
+        if (pendingKind === 'bonus-action') {
+            this._pendingBonusActionCardOrderNumbers.add(card.orderNumber);
+        } else {
+            this._pendingPurchasedCardOrderNumbers.add(card.orderNumber);
+        }
         if (specialStackKey) {
             this._playerSpecialStackPurchases[this.activePlayer].add(specialStackKey);
         } else if (!card.levelBonus) {
@@ -2125,7 +2150,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         this._checkForWinnerAfterPurchase();
-        this.isFinishTurnUnlockedByDiceModal = true;
+        if (lockCardPurchaseThisTurn) {
+            this.isFinishTurnUnlockedByDiceModal = true;
+        }
         this._updateTokensByDiceState();
         return true;
     }
@@ -2864,23 +2891,30 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     private _commitPendingPurchasedCards(): void {
-        if (this._pendingPurchasedCardOrderNumbers.size === 0) {
+        if (this._pendingPurchasedCardOrderNumbers.size === 0 && this._pendingBonusActionCardOrderNumbers.size === 0) {
             return;
         }
 
         const cardsPerRow = this._getCardsPerRow();
 
         for (const row of this.rows) {
-            row.stack = row.stack.filter((card) => !this._pendingPurchasedCardOrderNumbers.has(card.orderNumber));
+            row.stack = row.stack.filter(
+                (card) => !this._pendingPurchasedCardOrderNumbers.has(card.orderNumber)
+                    && !this._pendingBonusActionCardOrderNumbers.has(card.orderNumber)
+            );
             row.topCards = row.stack.slice(0, cardsPerRow);
 
             for (const specialStack of row.specialStacks) {
-                specialStack.stack = specialStack.stack.filter((card) => !this._pendingPurchasedCardOrderNumbers.has(card.orderNumber));
+                specialStack.stack = specialStack.stack.filter(
+                    (card) => !this._pendingPurchasedCardOrderNumbers.has(card.orderNumber)
+                        && !this._pendingBonusActionCardOrderNumbers.has(card.orderNumber)
+                );
                 specialStack.topCard = specialStack.stack[0];
             }
         }
 
         this._pendingPurchasedCardOrderNumbers.clear();
+        this._pendingBonusActionCardOrderNumbers.clear();
     }
 
     private _captureTurnStartState(): void {

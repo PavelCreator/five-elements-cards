@@ -51,6 +51,7 @@ export class CardComponent implements OnInit {
     @Input() purchaseBlocked: boolean = false;
     @Input() purchaseBlockedLabel: string = 'Already Have';
     @Input() soldPending: boolean = false;
+    @Input() soldPendingLabel: string = 'SOLD';
     @Output() purchaseCard = new EventEmitter<Card>();
     @Output() purplePurchasePreview = new EventEmitter<Card>();
     @ViewChild('renameTextarea') renameTextarea: ElementRef | undefined;

@@ -122,5 +122,5 @@
 
     </ng-container>
     <div class="card-rule-block-overlay" *ngIf="purchaseBlocked && !soldPending">{{ purchaseBlockedLabel }}</div>
-	<div class="card-sold-overlay" *ngIf="soldPending">SOLD</div>
+    <div class="card-sold-overlay" *ngIf="soldPending" [class.card-sold-overlay--bonus-action]="soldPendingLabel === 'BONUS ACTION'">{{ soldPendingLabel }}</div>
 </div>

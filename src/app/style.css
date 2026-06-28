@@ -468,6 +468,12 @@
     pointer-events: none;
 }
 
+.card-sold-overlay--bonus-action {
+    font-size: 48px;
+    text-align: center;
+    letter-spacing: 3px;
+}
+
 .card--no-edit,
 .card--no-edit * {
     user-select: none;

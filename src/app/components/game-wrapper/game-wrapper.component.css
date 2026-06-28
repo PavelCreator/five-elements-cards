@@ -1058,6 +1058,9 @@
 }
 
 .bonus-shop-free-card-option {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
     border: 1px solid rgba(148, 163, 184, 0.38);
     background: rgba(255, 255, 255, 0.85);
     border-radius: 14px;
@@ -1080,6 +1083,7 @@
 
 .bonus-shop-free-card-option app-card {
     display: block;
+    margin: 0 auto;
 }
 
 .bonus-shop-free-card-modal__actions {

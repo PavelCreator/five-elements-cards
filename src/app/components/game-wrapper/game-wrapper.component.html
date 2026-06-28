@@ -93,13 +93,13 @@
                     </div>
                 </div>
                 <div class="game-row-cards">
-                    <app-card *ngFor="let card of row.topCards" [card]="card" [disableHoverUi]="true" [playerTokens]="activePlayerTokensForPurchase" [playerCardTokens]="activePlayerCardTokensForPurchase" [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn" [soldPending]="isCardSoldPending(card)" (purchaseCard)="onPurchaseCard($event)" (purplePurchasePreview)="onPurplePurchasePreview($event)"></app-card>
+                    <app-card *ngFor="let card of row.topCards" [card]="card" [disableHoverUi]="true" [playerTokens]="activePlayerTokensForPurchase" [playerCardTokens]="activePlayerCardTokensForPurchase" [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn" [soldPending]="isCardPending(card)" [soldPendingLabel]="getCardPendingLabel(card)" (purchaseCard)="onPurchaseCard($event)" (purplePurchasePreview)="onPurplePurchasePreview($event)"></app-card>
                     <div class="game-win-condition-slot" *ngIf="rowWinConditionCards[rowIndex] as rowWinConditionCard">
                         <app-how-to-win [card]="rowWinConditionCard"></app-how-to-win>
                     </div>
                     <ng-container *ngFor="let specialStack of row.specialStacks">
                         <div class="game-stack" *ngIf="specialStack.stack.length">
-                            <ng-container *ngIf="isCardSoldPending(specialStack.topCard); else specialStackPendingCheckTemplate">
+                            <ng-container *ngIf="isCardPending(specialStack.topCard); else specialStackPendingCheckTemplate">
                                 <app-card
                                     [card]="specialStack.topCard"
                                     [disableHoverUi]="true"
@@ -107,6 +107,7 @@
                                     [playerCardTokens]="activePlayerCardTokensForPurchase"
                                     [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn"
                                     [soldPending]="true"
+                                    [soldPendingLabel]="getCardPendingLabel(specialStack.topCard)"
                                     (purchaseCard)="onPurchaseCard($event)"
                                     (purplePurchasePreview)="onPurplePurchasePreview($event)">
                                 </app-card>
@@ -133,7 +134,8 @@
                                     [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn"
                                     [purchaseBlocked]="isSpecialStackCardBlockedForActivePlayer(specialStack.topCard)"
                                     [purchaseBlockedLabel]="'already purchased'"
-                                    [soldPending]="isCardSoldPending(specialStack.topCard)"
+                                    [soldPending]="isCardPending(specialStack.topCard)"
+                                    [soldPendingLabel]="getCardPendingLabel(specialStack.topCard)"
                                     (purchaseCard)="onPurchaseCard($event)"
                                     (purplePurchasePreview)="onPurplePurchasePreview($event)">
                                 </app-card>
