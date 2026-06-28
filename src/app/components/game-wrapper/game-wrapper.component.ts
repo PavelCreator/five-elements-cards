@@ -375,6 +375,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
+        if (this.showPurplePurchasePreviewModal && (event.code === 'Space' || key === 'Enter')) {
+            event.preventDefault();
+            if (this.canApplyPurplePurchasePreview) {
+                this.applyPurplePurchasePreviewModal();
+            }
+            return;
+        }
+
         if (event.code === 'Space' || key === 'Enter') {
             event.preventDefault();
             if (this.canFinishTurn) {
@@ -996,6 +1004,16 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.purplePurchasePreviewCard = card;
         this._initPurplePurchasePreviewDraft();
+
+        if (this.canApplyPurplePurchasePreview) {
+            const targetCard = this.purplePurchasePreviewCard;
+            this.closePurplePurchasePreviewModal();
+            if (targetCard) {
+                this.onPurchaseCard(targetCard);
+            }
+            return;
+        }
+
         this.showPurplePurchasePreviewModal = true;
     }
 
