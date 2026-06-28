@@ -102,15 +102,20 @@ export class CardComponent implements OnInit {
     }
 
     public get isAffordableNowPassiveOnly(): boolean {
-        return this.isAffordableNow && this._hasAnyPaymentRequirement() && this._isCoveredByPassiveCardsOnly();
+        return this.isAffordableNow
+            && !this._hasPurplePaymentRequirement()
+            && this._hasAnyPaymentRequirement()
+            && this._isCoveredByPassiveCardsOnly();
     }
 
     public get isAffordableNowWithPurpleSpend(): boolean {
-        return this.isAffordableNow && this._getPurpleCoinsNeededForPurchase() > 0;
+        return this.isAffordableNow && this._hasPurplePaymentRequirement();
     }
 
     public get isAffordableNowWithoutPurpleSpend(): boolean {
-        return this.isAffordableNow && !this.isAffordableNowPassiveOnly && this._getPurpleCoinsNeededForPurchase() === 0;
+        return this.isAffordableNow
+            && !this.isAffordableNowPassiveOnly
+            && !this._hasPurplePaymentRequirement();
     }
 
     public get isAffordableNextTurnOnly(): boolean {
@@ -178,6 +183,15 @@ export class CardComponent implements OnInit {
         }
 
         return true;
+    }
+
+    private _hasPurplePaymentRequirement(): boolean {
+        const pay = this.card?.pay;
+        if (!pay) {
+            return false;
+        }
+
+        return (pay['purple'] ?? 0) > 0 || this._getPurpleCoinsNeededForPurchase() > 0;
     }
 
     public trackByColor(index: number, color: string): string {

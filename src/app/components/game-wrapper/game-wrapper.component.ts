@@ -178,20 +178,20 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         },
     ];
     public playerHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {
-        1: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
-        2: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
-        3: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
-        4: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
-        5: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
-        6: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
+        1: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
+        2: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
+        3: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
+        4: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
+        5: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
+        6: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
     };
     public playerCardHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {
-        1: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
-        2: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
-        3: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
-        4: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
-        5: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
-        6: { red: 1, blue: 1, white: 1, green: 1, purple: 0, black: 0 },
+        1: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
+        2: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
+        3: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
+        4: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
+        5: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
+        6: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
     };
     public hexagonsPickedThisTurn: number = 0;
     public isFinishTurnUnlockedByDiceModal: boolean = false;
