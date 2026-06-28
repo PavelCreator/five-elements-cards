@@ -1137,6 +1137,18 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             && !this.previewModalColors.some((color) => (this.previewNeedToPayDraft[color] ?? 0) > 0);
     }
 
+    public get showPreviewPaymentGuidance(): boolean {
+        return this._getPreviewGuidanceMode() !== null;
+    }
+
+    public get isPreviewClickToPayMode(): boolean {
+        return this._getPreviewGuidanceMode() === 'click';
+    }
+
+    public get previewPaymentGuidanceText(): string {
+        return this.isPreviewClickToPayMode ? 'Click to pay' : 'Drag and drop to pay';
+    }
+
     public get isPreviewInteractionFocusActive(): boolean {
         return this._resolvePreviewInteractionContext() !== null;
     }
@@ -1328,6 +1340,29 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _resolvePreviewInteractionContext(): PreviewInteractionContext | null {
         return this._previewDragContext ?? this._previewHoverContext;
+    }
+
+    private _getPreviewGuidanceMode(): 'click' | 'drag' | null {
+        const context = this._resolvePreviewInteractionContext();
+        if (!context) {
+            return null;
+        }
+
+        const targetCount = this._getPreviewPayTargetCount(context.source, context.color);
+        if (targetCount <= 0) {
+            return null;
+        }
+
+        return targetCount === 1 ? 'click' : 'drag';
+    }
+
+    private _getPreviewPayTargetCount(source: PreviewPaymentSource, sourceColor: Color): number {
+        return this.previewModalColors.reduce((acc, targetColor) => {
+            if (this._canPreviewPayTarget(source, sourceColor, targetColor)) {
+                return acc + 1;
+            }
+            return acc;
+        }, 0);
     }
 
     private _autoApplyPreviewMatchingTokens(): void {

@@ -476,6 +476,15 @@
             <div class="purple-purchase-preview-modal__subtitle">Please select options to pay</div>
 
             <div class="purple-purchase-preview-compare">
+                <div
+                    class="purple-purchase-preview-guidance"
+                    *ngIf="showPreviewPaymentGuidance"
+                    [class.purple-purchase-preview-guidance--click]="isPreviewClickToPayMode"
+                    [class.purple-purchase-preview-guidance--drag]="!isPreviewClickToPayMode">
+                    <span class="purple-purchase-preview-guidance__icon" aria-hidden="true"></span>
+                    <span class="purple-purchase-preview-guidance__text">{{ previewPaymentGuidanceText }}</span>
+                </div>
+
                 <div class="purple-purchase-preview-column">
                     <div class="purple-purchase-preview-section">
                         <div class="purple-purchase-preview-section__label">Tokens in Hand</div>
