@@ -1527,7 +1527,46 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     private _resolvePreviewInteractionContext(): PreviewInteractionContext | null {
-        return this._previewDragContext ?? this._previewHoverContext;
+        if (this._previewDragContext && this._isPreviewInteractionContextAvailable(this._previewDragContext)) {
+            return this._previewDragContext;
+        }
+
+        if (this._previewHoverContext && this._isPreviewInteractionContextAvailable(this._previewHoverContext)) {
+            return this._previewHoverContext;
+        }
+
+        return null;
+    }
+
+    private _isPreviewInteractionContextAvailable(context: PreviewInteractionContext): boolean {
+        if (!context) {
+            return false;
+        }
+
+        const { source, color, unitIndex } = context;
+
+        if (source === 'token') {
+            const amount = this.previewTokenPoolDraft[color] ?? 0;
+            if (amount <= 0) {
+                return false;
+            }
+
+            if (color === 'purple' && typeof unitIndex === 'number' && unitIndex >= amount) {
+                return false;
+            }
+        }
+
+        if (source === 'card') {
+            if (color !== 'purple' || this.previewPurpleCardUnitsDraft <= 0) {
+                return false;
+            }
+
+            if (typeof unitIndex === 'number' && unitIndex >= this.previewPurpleCardUnitsDraft) {
+                return false;
+            }
+        }
+
+        return this._getPreviewPayTargetCount(source, color) > 0;
     }
 
     private _getPreviewGuidanceMode(): 'click' | 'drag' | null {
@@ -1608,10 +1647,22 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         if (source === 'token') {
             this.previewTokenPoolDraft[sourceColor] = Math.max((this.previewTokenPoolDraft[sourceColor] ?? 0) - 1, 0);
+            if (this._previewHoverContext && !this._isPreviewInteractionContextAvailable(this._previewHoverContext)) {
+                this._previewHoverContext = null;
+            }
+            if (this._previewDragContext && !this._isPreviewInteractionContextAvailable(this._previewDragContext)) {
+                this._previewDragContext = null;
+            }
             return;
         }
 
         this.previewPurpleCardUnitsDraft = Math.max(this.previewPurpleCardUnitsDraft - 1, 0);
+        if (this._previewHoverContext && !this._isPreviewInteractionContextAvailable(this._previewHoverContext)) {
+            this._previewHoverContext = null;
+        }
+        if (this._previewDragContext && !this._isPreviewInteractionContextAvailable(this._previewDragContext)) {
+            this._previewDragContext = null;
+        }
     }
 
     public get totalSidebarPages(): number {
