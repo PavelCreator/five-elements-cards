@@ -1194,6 +1194,36 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
+    public onPreviewSourceClick(source: PreviewPaymentSource, color: Color, event: MouseEvent, unitIndex?: number): void {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (source === 'token' && this.isPreviewTokenDisabled(color)) {
+            return;
+        }
+
+        if (source === 'card' && this.isPreviewPassiveCardDisabled(color)) {
+            return;
+        }
+
+        if (color === 'purple' && typeof unitIndex === 'number') {
+            const availableCount = source === 'token' ? (this.previewTokenPoolDraft['purple'] ?? 0) : this.previewPurpleCardUnitsDraft;
+            if (unitIndex >= availableCount) {
+                return;
+            }
+        }
+
+        const availableTargets = this.previewModalColors.filter((targetColor) =>
+            this._canPreviewPayTarget(source, color, targetColor)
+        );
+
+        if (availableTargets.length !== 1) {
+            return;
+        }
+
+        this._applyPreviewPayment(source, color, availableTargets[0]);
+    }
+
     public onPreviewDragEnd(): void {
         this._previewDragContext = null;
     }
@@ -1274,14 +1304,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
-        this.previewNeedToPayDraft[targetColor] = Math.max((this.previewNeedToPayDraft[targetColor] ?? 0) - 1, 0);
-
-        if (context.source === 'token') {
-            this.previewTokenPoolDraft[context.color] = Math.max((this.previewTokenPoolDraft[context.color] ?? 0) - 1, 0);
-            return;
-        }
-
-        this.previewPurpleCardUnitsDraft = Math.max(this.previewPurpleCardUnitsDraft - 1, 0);
+        this._applyPreviewPayment(context.source, context.color, targetColor);
     }
 
     private _initPurplePurchasePreviewDraft(): void {
@@ -1355,6 +1378,17 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         return this.previewPurpleWildcardTargets.includes(targetColor);
+    }
+
+    private _applyPreviewPayment(source: PreviewPaymentSource, sourceColor: Color, targetColor: Color): void {
+        this.previewNeedToPayDraft[targetColor] = Math.max((this.previewNeedToPayDraft[targetColor] ?? 0) - 1, 0);
+
+        if (source === 'token') {
+            this.previewTokenPoolDraft[sourceColor] = Math.max((this.previewTokenPoolDraft[sourceColor] ?? 0) - 1, 0);
+            return;
+        }
+
+        this.previewPurpleCardUnitsDraft = Math.max(this.previewPurpleCardUnitsDraft - 1, 0);
     }
 
     public get totalSidebarPages(): number {
