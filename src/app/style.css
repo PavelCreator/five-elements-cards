@@ -378,6 +378,15 @@
     box-shadow: 0 0 0 6px #ffd24a, 0 0 18px rgba(255, 210, 74, 0.95), 0 0 30px rgba(255, 210, 74, 0.7);
 }
 
+.card--affordable-green::after{
+    content: '';
+    position: absolute;
+    inset: 1px 4px;
+    box-shadow: 0 0 0 6px #50cc71, 0 0 18px rgba(80, 204, 113, 0.9), 0 0 30px rgba(80, 204, 113, 0.6);
+    pointer-events: none;
+    z-index: 50;
+}
+
 .card--affordable-purple::after{
     content: '';
     position: absolute;

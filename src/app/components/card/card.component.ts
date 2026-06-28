@@ -101,12 +101,16 @@ export class CardComponent implements OnInit {
         return this.isAffordableForPlayer && !this.purchaseLockedThisTurn && !this.purchaseBlocked && !this.soldPending;
     }
 
+    public get isAffordableNowPassiveOnly(): boolean {
+        return this.isAffordableNow && this._hasAnyPaymentRequirement() && this._isCoveredByPassiveCardsOnly();
+    }
+
     public get isAffordableNowWithPurpleSpend(): boolean {
         return this.isAffordableNow && this._getPurpleCoinsNeededForPurchase() > 0;
     }
 
     public get isAffordableNowWithoutPurpleSpend(): boolean {
-        return this.isAffordableNow && this._getPurpleCoinsNeededForPurchase() === 0;
+        return this.isAffordableNow && !this.isAffordableNowPassiveOnly && this._getPurpleCoinsNeededForPurchase() === 0;
     }
 
     public get isAffordableNextTurnOnly(): boolean {
@@ -136,6 +140,44 @@ export class CardComponent implements OnInit {
         }
 
         return purpleNeeded;
+    }
+
+    private _hasAnyPaymentRequirement(): boolean {
+        const pay = this.card?.pay;
+        if (!pay) {
+            return false;
+        }
+
+        for (const key of this._supportedPayKeys) {
+            if ((pay[key as Color] ?? 0) > 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private _isCoveredByPassiveCardsOnly(): boolean {
+        const pay = this.card?.pay;
+        if (!pay) {
+            return false;
+        }
+
+        const playerCards = this.playerCardTokens ?? {};
+
+        if ((pay['purple'] ?? 0) > (playerCards['purple'] ?? 0)) {
+            return false;
+        }
+
+        for (const color of this._payColorsWithoutPurple) {
+            const required = pay[color] ?? 0;
+            const passiveBonus = playerCards[color] ?? 0;
+            if (required > passiveBonus) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public trackByColor(index: number, color: string): string {
