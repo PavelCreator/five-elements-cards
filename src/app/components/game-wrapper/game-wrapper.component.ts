@@ -181,20 +181,20 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         },
     ];
     public playerHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {
-        1: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
-        2: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
-        3: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
-        4: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
-        5: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
-        6: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
+        1: { red: 2, blue: 2, white: 2, green: 2, purple: 2, black: 0 },
+        2: { red: 2, blue: 2, white: 2, green: 2, purple: 2, black: 0 },
+        3: { red: 2, blue: 2, white: 2, green: 2, purple: 2, black: 0 },
+        4: { red: 2, blue: 2, white: 2, green: 2, purple: 2, black: 0 },
+        5: { red: 2, blue: 2, white: 2, green: 2, purple: 2, black: 0 },
+        6: { red: 2, blue: 2, white: 2, green: 2, purple: 2, black: 0 },
     };
     public playerCardHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {
-        1: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
-        2: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
-        3: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
-        4: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
-        5: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
-        6: { red: 1, blue: 1, white: 1, green: 1, purple: 1, black: 0 },
+        1: { red: 2, blue: 2, white: 2, green: 2, purple: 2, black: 0 },
+        2: { red: 2, blue: 2, white: 2, green: 2, purple: 2, black: 0 },
+        3: { red: 2, blue: 2, white: 2, green: 2, purple: 2, black: 0 },
+        4: { red: 2, blue: 2, white: 2, green: 2, purple: 2, black: 0 },
+        5: { red: 2, blue: 2, white: 2, green: 2, purple: 2, black: 0 },
+        6: { red: 2, blue: 2, white: 2, green: 2, purple: 2, black: 0 },
     };
     public hexagonsPickedThisTurn: number = 0;
     public isFinishTurnUnlockedByDiceModal: boolean = false;
@@ -1080,11 +1080,22 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         const passiveCards = this.purplePreviewPlayerPassiveCards;
         for (const color of this.previewModalColors) {
             const required = card.pay?.[color] ?? 0;
-            const passive = color === 'purple' ? 0 : (passiveCards[color] ?? 0);
+            const passive = passiveCards[color] ?? 0;
             result[color] = Math.max(required - passive, 0);
         }
 
         return result;
+    }
+
+    public get previewAutoAppliedPurplePassiveCards(): number {
+        const card = this.purplePurchasePreviewCard;
+        if (!card) {
+            return 0;
+        }
+
+        const requiredPurple = card.pay?.['purple'] ?? 0;
+        const passivePurple = this.purplePreviewPlayerPassiveCards['purple'] ?? 0;
+        return Math.min(requiredPurple, passivePurple);
     }
 
     public get purplePreviewVisibleNeedToPayColors(): Color[] {
@@ -1216,8 +1227,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.previewNeedToPayDraft = { ...this.purplePreviewNeedToPayTokens };
         this.previewTokenPoolDraft = { ...this.purplePreviewPlayerHandTokens };
         this.previewTokenPoolBase = { ...this.purplePreviewPlayerHandTokens };
-        this.previewPurpleCardUnitsDraft = this.purplePreviewPlayerPassiveCards['purple'] ?? 0;
-        this.previewPurpleCardUnitsBase = this.previewPurpleCardUnitsDraft;
+        this.previewPurpleCardUnitsDraft = Math.max(
+            (this.purplePreviewPlayerPassiveCards['purple'] ?? 0) - this.previewAutoAppliedPurplePassiveCards,
+            0
+        );
+        this.previewPurpleCardUnitsBase = this.purplePreviewPlayerPassiveCards['purple'] ?? 0;
         this._previewDragContext = null;
     }
 
