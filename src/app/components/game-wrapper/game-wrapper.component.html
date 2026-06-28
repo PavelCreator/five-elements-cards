@@ -452,10 +452,10 @@
             </div>
 
             <div class="dice-modal-buttons">
-                <button type="button" class="dice-modal-button dice-modal-button--secondary" (click)="toggleDiceAnimation()">
+                <button type="button" class="dice-modal-button dice-modal-button--neutral" (click)="toggleDiceAnimation()">
                     {{ isDiceAnimationEnabled ? 'Disable Animation' : 'Enable Animation' }}
                 </button>
-                <button type="button" class="dice-modal-button dice-modal-button--primary" (click)="closeDiceModal()" [disabled]="!canCloseDiceModal">Close</button>
+                <button type="button" class="dice-modal-button dice-modal-button--secondary" (click)="closeDiceModal()" [disabled]="!canCloseDiceModal">Close</button>
                 <button type="button" class="dice-modal-button dice-modal-button--primary" (click)="reRoll()">Reroll</button>
             </div>
         </div>

@@ -548,27 +548,94 @@
     margin-top: 14px;
 }
 
+/* Unified modal action buttons (size/typography aligned with bonus-shop modal). */
 .purple-purchase-preview-modal__cancel,
-.purple-purchase-preview-modal__apply{
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    background: #f3f4f6;
-    color: #111827;
+.purple-purchase-preview-modal__apply,
+.bonus-shop-modal__cancel,
+.bonus-shop-modal__apply,
+.victory-modal__button,
+.lucky-purple-modal__option,
+.lucky-purple-modal__cancel,
+.dice-modal-button{
+    border: none;
     border-radius: 10px;
-    padding: 8px 14px;
+    padding: 12px 26px;
+    min-width: 180px;
     font-family: "Faculty Glyphic", sans-serif;
-    font-size: 18px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #ffffff;
     cursor: pointer;
+    transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, background-color 0.12s ease-out;
+}
+
+.purple-purchase-preview-modal__cancel,
+.bonus-shop-modal__cancel,
+.lucky-purple-modal__cancel,
+.dice-modal-button--secondary,
+.victory-modal__button{
+    background: #e67e22;
+    box-shadow: 0 6px 16px rgba(230, 126, 34, 0.35);
 }
 
 .purple-purchase-preview-modal__cancel:hover,
-.purple-purchase-preview-modal__apply:hover{
-    background: #e5e7eb;
+.bonus-shop-modal__cancel:hover,
+.lucky-purple-modal__cancel:hover,
+.dice-modal-button--secondary:hover,
+.victory-modal__button:hover{
+    background: #d35400;
+    transform: translateY(-1px);
+}
+
+.purple-purchase-preview-modal__apply,
+.bonus-shop-modal__apply,
+.lucky-purple-modal__option,
+.dice-modal-button--primary{
+    background: #4a90e2;
+    box-shadow: 0 6px 16px rgba(74, 144, 226, 0.35);
+}
+
+.purple-purchase-preview-modal__apply:hover,
+.bonus-shop-modal__apply:hover,
+.lucky-purple-modal__option:hover,
+.dice-modal-button--primary:hover{
+    background: #357abd;
+    transform: translateY(-1px);
+}
+
+.dice-modal-button--neutral{
+    background: #6b7280;
+    box-shadow: 0 6px 16px rgba(107, 114, 128, 0.35);
+}
+
+.dice-modal-button--neutral:hover{
+    background: #4b5563;
+    transform: translateY(-1px);
+}
+
+.purple-purchase-preview-modal__cancel:active,
+.purple-purchase-preview-modal__apply:active,
+.bonus-shop-modal__cancel:active,
+.bonus-shop-modal__apply:active,
+.lucky-purple-modal__option:active,
+.lucky-purple-modal__cancel:active,
+.dice-modal-button:active,
+.victory-modal__button:active{
+    transform: translateY(0);
 }
 
 .purple-purchase-preview-modal__apply:disabled{
-    opacity: 0.55;
+    background: #b8b8b8;
+    box-shadow: none;
+    opacity: 0.75;
     cursor: not-allowed;
-    background: #f3f4f6;
+}
+
+.purple-purchase-preview-modal__apply:disabled:hover,
+.dice-modal-button:disabled:hover,
+.bonus-shop-modal__cancel:disabled:hover{
+    background: #b8b8b8;
+    transform: none;
 }
 
 @media (max-width: 900px){
@@ -756,24 +823,6 @@
     line-height: 1;
 }
 
-.bonus-shop-modal__cancel {
-    border: none;
-    border-radius: 10px;
-    padding: 12px 26px;
-    min-width: 180px;
-    font-family: "Faculty Glyphic", sans-serif;
-    font-size: 30px;
-    font-weight: 700;
-    color: #ffffff;
-    background: #e67e22;
-    cursor: pointer;
-    box-shadow: 0 6px 16px rgba(230, 126, 34, 0.35);
-}
-
-.bonus-shop-modal__cancel:hover {
-    background: #d35400;
-}
-
 .bonus-shop-modal__actions {
     align-self: center;
     display: flex;
@@ -782,21 +831,7 @@
 }
 
 .bonus-shop-modal__apply {
-    border: none;
-    border-radius: 10px;
-    padding: 12px 26px;
     min-width: 220px;
-    font-family: "Faculty Glyphic", sans-serif;
-    font-size: 30px;
-    font-weight: 700;
-    color: #ffffff;
-    background: #4a90e2;
-    cursor: pointer;
-    box-shadow: 0 6px 16px rgba(74, 144, 226, 0.35);
-}
-
-.bonus-shop-modal__apply:hover {
-    background: #357abd;
 }
 
 .bonus-shop-modal__cancel:disabled {
@@ -994,20 +1029,6 @@
 
 .victory-modal__button {
     margin-top: 6px;
-    border: none;
-    border-radius: 10px;
-    padding: 12px 28px;
-    font-family: "Faculty Glyphic", sans-serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: #ffffff;
-    background: #4a90e2;
-    cursor: pointer;
-    box-shadow: 0 6px 16px rgba(74, 144, 226, 0.35);
-}
-
-.victory-modal__button:hover {
-    background: #357abd;
 }
 
 .dice-roll-debug-layout {
@@ -1168,30 +1189,15 @@
 
 .lucky-purple-modal__option,
 .lucky-purple-modal__cancel {
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    min-width: 160px;
 }
 
 .lucky-purple-modal__option {
-    min-width: 54px;
-    padding: 10px 16px;
-    background: #7e22ce;
-    color: #fff;
-    box-shadow: 0 4px 10px rgba(126, 34, 206, 0.35);
-}
-
-.lucky-purple-modal__option:hover {
-    transform: translateY(-1px);
+    min-width: 140px;
 }
 
 .lucky-purple-modal__cancel {
-    padding: 10px 14px;
-    background: #e5e7eb;
-    color: #374151;
+    min-width: 180px;
 }
 
 .dice-modal-buttons {
@@ -1201,59 +1207,14 @@
 }
 
 .dice-modal-button {
-    padding: 12px 32px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    min-width: 220px;
 }
 
-.dice-modal-button--primary {
-    background: #4a90e2;
-    color: white;
-    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
-}
-
-.dice-modal-button--primary:hover {
-    background: #357abd;
-    box-shadow: 0 6px 16px rgba(74, 144, 226, 0.4);
-    transform: translateY(-2px);
-}
-
-.dice-modal-button--primary:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
-}
-
-.dice-modal-button--secondary {
-    background: #6c757d;
-    color: white;
-    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
-}
-
-.dice-modal-button--secondary:hover {
-    background: #5a6268;
-    box-shadow: 0 6px 16px rgba(108, 117, 125, 0.4);
-    transform: translateY(-2px);
-}
-
-.dice-modal-button--secondary:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
-}
-
-.dice-modal-button--primary:disabled {
+.dice-modal-button:disabled {
     background: #b0bcc9;
     cursor: not-allowed;
-    opacity: 0.6;
+    opacity: 0.75;
     box-shadow: none;
-}
-
-.dice-modal-button--primary:disabled:hover {
-    background: #b0bcc9;
-    transform: none;
 }
 
 /* Two Nothings Cancel Block */
