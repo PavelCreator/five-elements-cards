@@ -200,6 +200,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public isWaitingForPostRoll2Token: boolean = false;
     public readonly maxHexagonsPerTurn: number = 2;
     private readonly _turnTrackedColors: Color[] = ['red', 'blue', 'white', 'green', 'purple', 'black'];
+    private readonly _purpleWildcardPayColors: Color[] = ['red', 'green', 'white', 'blue'];
     private readonly _purchasePayColors: Color[] = ['red', 'green', 'white', 'blue', 'black'];
     private readonly _purchaseBonusColors: Color[] = ['red', 'green', 'white', 'blue', 'purple', 'black'];
     private readonly _bonusShopMixColors: BonusShopMixColor[] = ['red', 'blue', 'white', 'green'];
@@ -2034,12 +2035,22 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             const requiredAfterPassive = Math.max(required - passiveBonus, 0);
             const available = playerHex[color] ?? 0;
             const directSpend = Math.min(requiredAfterPassive, available);
+            const remainingAfterCoins = requiredAfterPassive - directSpend;
 
             if (directSpend > 0) {
                 spend[color] = directSpend;
             }
 
-            purpleNeeded += Math.max(requiredAfterPassive - available, 0);
+            if (remainingAfterCoins <= 0) {
+                continue;
+            }
+
+            if (this._purpleWildcardPayColors.includes(color)) {
+                purpleNeeded += remainingAfterCoins;
+                continue;
+            }
+
+            return { isAffordable: false, spend };
         }
 
         const availablePurple = playerHex['purple'] ?? 0;

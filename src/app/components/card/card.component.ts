@@ -76,6 +76,7 @@ export class CardComponent implements OnInit {
     public allColors: string[] = ['green', 'white', 'blue', 'red', 'purple', 'black'];
     public diceRollResults: string[] = [];
     private readonly _payColorsWithoutPurple: Color[] = ['red', 'green', 'white', 'blue', 'black'];
+    private readonly _purpleWildcardPayColors: Color[] = ['red', 'green', 'white', 'blue'];
     private readonly _supportedPayKeys: Set<string> = new Set(['red', 'green', 'white', 'blue', 'black', 'purple']);
 
     public get isAffordableForPlayer(): boolean {
@@ -92,6 +93,10 @@ export class CardComponent implements OnInit {
             if ((value ?? 0) > 0 && !this._supportedPayKeys.has(key)) {
                 return false;
             }
+        }
+
+        if (!this._isBlackRequirementCoveredByBlackResources()) {
+            return false;
         }
 
         const availablePurple = this.playerTokens['purple'] ?? 0;
@@ -137,7 +142,7 @@ export class CardComponent implements OnInit {
         const purpleCardBonus = playerCards['purple'] ?? 0;
         let purpleNeeded = Math.max((pay['purple'] ?? 0) - purpleCardBonus, 0);
 
-        for (const color of this._payColorsWithoutPurple) {
+        for (const color of this._purpleWildcardPayColors) {
             const required = pay[color] ?? 0;
             const passiveBonus = playerCards[color] ?? 0;
             const requiredAfterPassive = Math.max(required - passiveBonus, 0);
@@ -184,6 +189,22 @@ export class CardComponent implements OnInit {
         }
 
         return true;
+    }
+
+    private _isBlackRequirementCoveredByBlackResources(): boolean {
+        const pay = this.card?.pay;
+        if (!pay) {
+            return true;
+        }
+
+        const requiredBlack = pay['black'] ?? 0;
+        if (requiredBlack <= 0) {
+            return true;
+        }
+
+        const passiveBlack = this.playerCardTokens?.['black'] ?? 0;
+        const blackCoins = this.playerTokens?.['black'] ?? 0;
+        return blackCoins + passiveBlack >= requiredBlack;
     }
 
     private _hasPurplePaymentRequirement(): boolean {
