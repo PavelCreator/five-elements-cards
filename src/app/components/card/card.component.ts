@@ -52,6 +52,7 @@ export class CardComponent implements OnInit {
     @Input() purchaseBlockedLabel: string = 'Already Have';
     @Input() soldPending: boolean = false;
     @Output() purchaseCard = new EventEmitter<Card>();
+    @Output() purplePurchasePreview = new EventEmitter<Card>();
     @ViewChild('renameTextarea') renameTextarea: ElementRef | undefined;
 
     private onCompare(_left: KeyValue<any, any>, _right: KeyValue<any, any>): number {
@@ -201,6 +202,10 @@ export class CardComponent implements OnInit {
     public handleCardClick() {
         if (this.disableHoverUi) {
             if (this.isCardPurchasable) {
+                if (this.isAffordableNowWithPurpleSpend) {
+                    this.purplePurchasePreview.emit(this.card);
+                    return;
+                }
                 this.purchaseCard.emit(this.card);
             }
             return;

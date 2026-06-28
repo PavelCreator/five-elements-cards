@@ -95,6 +95,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public modalRemainingRollResults: string[] = [];
     public modalConsumedDiceIndexes: number[] = [];
     public showLuckyPurpleChoiceModal: boolean = false;
+    public showPurplePurchasePreviewModal: boolean = false;
+    public purplePurchasePreviewCard: Card | null = null;
     public showBonusShopModal: boolean = false;
     public showBonusShopMixModal: boolean = false;
     public hasBonusShopActionStarted: boolean = false;
@@ -257,6 +259,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public winnerName: string = '';
     public winnerConditionLabel: string = '';
     public printModeEnabled: boolean = true;
+    public readonly previewModalColors: Color[] = ['red', 'blue', 'white', 'green', 'purple', 'black'];
     private readonly _diceSides: string[] = [
         'dices-blue.png',
         'dices-green.png',
@@ -426,6 +429,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     private _handleEscapeKey(): boolean {
+        if (this.showPurplePurchasePreviewModal) {
+            this.closePurplePurchasePreviewModal();
+            return true;
+        }
+
         if (this.showBonusShopMixModal) {
             this.cancelBonusShopMixSelection();
             return true;
@@ -970,6 +978,20 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._updateTokensByDiceState();
     }
 
+    public onPurplePurchasePreview(card: Card): void {
+        if (!card || this.hasWinner) {
+            return;
+        }
+
+        this.purplePurchasePreviewCard = card;
+        this.showPurplePurchasePreviewModal = true;
+    }
+
+    public closePurplePurchasePreviewModal(): void {
+        this.showPurplePurchasePreviewModal = false;
+        this.purplePurchasePreviewCard = null;
+    }
+
     public isSpecialStackCardBlockedForActivePlayer(card: Card | undefined): boolean {
         const specialStackKey = this._getSpecialStackPurchaseKey(card);
         if (!specialStackKey) {
@@ -1011,6 +1033,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public get activePlayerCardTokensForPurchase(): { [key in Color]?: number } {
+        return this.playerCardHexagons[this.activePlayer] ?? {};
+    }
+
+    public get purplePreviewPlayerHandTokens(): { [key in Color]?: number } {
+        return this.playerHexagons[this.activePlayer] ?? {};
+    }
+
+    public get purplePreviewPlayerPassiveCards(): { [key in Color]?: number } {
         return this.playerCardHexagons[this.activePlayer] ?? {};
     }
 

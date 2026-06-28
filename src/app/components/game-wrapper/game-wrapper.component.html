@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 <div class="game-row-cards">
-                    <app-card *ngFor="let card of row.topCards" [card]="card" [disableHoverUi]="true" [playerTokens]="activePlayerTokensForPurchase" [playerCardTokens]="activePlayerCardTokensForPurchase" [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn" [soldPending]="isCardSoldPending(card)" (purchaseCard)="onPurchaseCard($event)"></app-card>
+                    <app-card *ngFor="let card of row.topCards" [card]="card" [disableHoverUi]="true" [playerTokens]="activePlayerTokensForPurchase" [playerCardTokens]="activePlayerCardTokensForPurchase" [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn" [soldPending]="isCardSoldPending(card)" (purchaseCard)="onPurchaseCard($event)" (purplePurchasePreview)="onPurplePurchasePreview($event)"></app-card>
                     <div class="game-win-condition-slot" *ngIf="rowWinConditionCards[rowIndex] as rowWinConditionCard">
                         <app-how-to-win [card]="rowWinConditionCard"></app-how-to-win>
                     </div>
@@ -107,7 +107,8 @@
                                     [playerCardTokens]="activePlayerCardTokensForPurchase"
                                     [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn"
                                     [soldPending]="true"
-                                    (purchaseCard)="onPurchaseCard($event)">
+                                    (purchaseCard)="onPurchaseCard($event)"
+                                    (purplePurchasePreview)="onPurplePurchasePreview($event)">
                                 </app-card>
                             </ng-container>
                             <ng-template #specialStackPendingCheckTemplate>
@@ -133,7 +134,8 @@
                                     [purchaseBlocked]="isSpecialStackCardBlockedForActivePlayer(specialStack.topCard)"
                                     [purchaseBlockedLabel]="'already purchased'"
                                     [soldPending]="isCardSoldPending(specialStack.topCard)"
-                                    (purchaseCard)="onPurchaseCard($event)">
+                                    (purchaseCard)="onPurchaseCard($event)"
+                                    (purplePurchasePreview)="onPurplePurchasePreview($event)">
                                 </app-card>
                             </ng-template>
                         </div>
@@ -465,6 +467,44 @@
             <div class="victory-modal__winner">{{ winnerName }} wins</div>
             <div class="victory-modal__condition">Condition: {{ winnerConditionLabel }}</div>
             <button type="button" class="victory-modal__button" (click)="closeVictoryModal()">Close</button>
+        </div>
+    </div>
+
+    <div class="purple-purchase-preview-overlay" *ngIf="showPurplePurchasePreviewModal" (click)="closePurplePurchasePreviewModal()">
+        <div class="purple-purchase-preview-modal" (click)="$event.stopPropagation()">
+            <div class="purple-purchase-preview-modal__title">Purple Cost Preview</div>
+            <div class="purple-purchase-preview-modal__subtitle">Player {{ activePlayer }} hand vs card cost</div>
+
+            <div class="purple-purchase-preview-compare">
+                <div class="purple-purchase-preview-column">
+                    <div class="purple-purchase-preview-section">
+                        <div class="purple-purchase-preview-section__label">Tokens in Hand</div>
+                        <div class="purple-purchase-preview-section__row">
+                            <app-hexagon *ngFor="let color of previewModalColors" [color]="color" [number]="purplePreviewPlayerHandTokens[color] ?? 0" [type]="'playerBank'"></app-hexagon>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="purple-purchase-preview-column">
+                    <div class="purple-purchase-preview-section">
+                        <div class="purple-purchase-preview-section__label">Passive Cards</div>
+                        <div class="purple-purchase-preview-section__row">
+                            <app-hexagon *ngFor="let color of previewModalColors" [color]="color" [number]="purplePreviewPlayerPassiveCards[color] ?? 0" [type]="'getWin'"></app-hexagon>
+                        </div>
+                    </div>
+
+                    <div class="purple-purchase-preview-section" *ngIf="purplePurchasePreviewCard">
+                        <div class="purple-purchase-preview-section__label">Card Cost</div>
+                        <div class="purple-purchase-preview-section__row">
+                            <app-hexagon *ngFor="let color of previewModalColors" [color]="color" [number]="purplePurchasePreviewCard.pay[color] ?? 0" [type]="'playerBank'"></app-hexagon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="purple-purchase-preview-modal__actions">
+                <button type="button" class="purple-purchase-preview-modal__close" (click)="closePurplePurchasePreviewModal()">Close</button>
+            </div>
         </div>
     </div>
 </div>

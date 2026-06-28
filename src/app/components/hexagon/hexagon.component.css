@@ -135,6 +135,21 @@
     text-align: center;
 }
 
+:host-context(.purple-purchase-preview-modal) .coin-big-win .number-wrapper,
+:host-context(.purple-purchase-preview-modal) .coin-big-win2 .number-wrapper{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding-top: 0;
+    padding-right: 0;
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: 0;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+}
+
 .left-half, .right-half {
     position: absolute;
     top: 0;
