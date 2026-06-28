@@ -365,14 +365,6 @@
     gap: 12px;
 }
 
-.purple-purchase-preview-column--cost{
-    height: 100%;
-}
-
-.purple-purchase-preview-column--cost .purple-purchase-preview-section{
-    flex: 1;
-}
-
 .purple-purchase-preview-divider{
     width: 1px;
     background: rgba(0, 0, 0, 0.18);

@@ -494,7 +494,14 @@
 
                 <div class="purple-purchase-preview-divider" aria-hidden="true"></div>
 
-                <div class="purple-purchase-preview-column purple-purchase-preview-column--cost">
+                <div class="purple-purchase-preview-column">
+
+                    <div class="purple-purchase-preview-section" *ngIf="purplePurchasePreviewCard">
+                        <div class="purple-purchase-preview-section__label">Need to Pay</div>
+                        <div class="purple-purchase-preview-section__row">
+                            <app-hexagon *ngFor="let color of previewModalColors" [color]="color" [number]="purplePreviewNeedToPayTokens[color] ?? 0" [type]="'playerBank'" [ngStyle]="{ display: (purplePreviewNeedToPayTokens[color] ?? 0) > 0 ? '' : 'none' }"></app-hexagon>
+                        </div>
+                    </div>
 
                     <div class="purple-purchase-preview-section" *ngIf="purplePurchasePreviewCard">
                         <div class="purple-purchase-preview-section__label">Card Cost</div>

@@ -1045,6 +1045,23 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return this.playerCardHexagons[this.activePlayer] ?? {};
     }
 
+    public get purplePreviewNeedToPayTokens(): { [key in Color]?: number } {
+        const result: { [key in Color]?: number } = {};
+        const card = this.purplePurchasePreviewCard;
+        if (!card) {
+            return result;
+        }
+
+        const passiveCards = this.purplePreviewPlayerPassiveCards;
+        for (const color of this.previewModalColors) {
+            const required = card.pay?.[color] ?? 0;
+            const passive = passiveCards[color] ?? 0;
+            result[color] = Math.max(required - passive, 0);
+        }
+
+        return result;
+    }
+
     public get totalSidebarPages(): number {
         const count = this.playerCount ?? 0;
         return Math.max(1, Math.ceil(count / this.playersPerSidebarPage));
