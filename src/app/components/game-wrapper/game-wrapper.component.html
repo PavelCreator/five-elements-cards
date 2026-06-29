@@ -99,43 +99,29 @@
                     </div>
                     <ng-container *ngFor="let specialStack of row.specialStacks">
                         <div class="game-stack" *ngIf="specialStack.stack.length">
-                            <ng-container *ngIf="isCardPending(specialStack.topCard); else specialStackPendingCheckTemplate">
-                                <app-card
-                                    [card]="specialStack.topCard"
-                                    [disableHoverUi]="true"
-                                    [playerTokens]="activePlayerTokensForPurchase"
-                                    [playerCardTokens]="activePlayerCardTokensForPurchase"
-                                    [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn"
-                                    [soldPending]="true"
-                                    [soldPendingLabel]="getCardPendingLabel(specialStack.topCard)"
-                                    (purchaseCard)="onPurchaseCard($event)"
-                                    (purplePurchasePreview)="onPurplePurchasePreview($event)">
-                                </app-card>
-                            </ng-container>
-                            <ng-template #specialStackPendingCheckTemplate>
-                                <ng-container *ngIf="isSpecialStackClosedForAllPlayers(row.level, specialStack.color); else specialStackTopCardTemplate">
-                                    <div class="card card--back" [ngClass]="{ 'card--view': !printModeEnabled, 'card--print': printModeEnabled }">
-                                        <div
-                                            class="card-overlay-wrap card-overlay-wrap-back card-overlay-wrap--no-reflection"
-                                            [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
-                                            [ngStyle]="{ '--card-bg': 'url(' + getSpecialStackBackUrl(row.backUrl, specialStack) + ')' }"
-                                        >
-                                            <div class="card-overlay card-overlay-back"></div>
-                                        </div>
+                            <ng-container *ngIf="isSpecialStackClosedForAllPlayers(row.level, specialStack.color); else specialStackCardsTemplate">
+                                <div class="card card--back" [ngClass]="{ 'card--view': !printModeEnabled, 'card--print': printModeEnabled }">
+                                    <div
+                                        class="card-overlay-wrap card-overlay-wrap-back card-overlay-wrap--no-reflection"
+                                        [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
+                                        [ngStyle]="{ '--card-bg': 'url(' + getSpecialStackBackUrl(row.backUrl, specialStack) + ')' }"
+                                    >
+                                        <div class="card-overlay card-overlay-back"></div>
                                     </div>
-                                </ng-container>
-                            </ng-template>
-                            <ng-template #specialStackTopCardTemplate>
+                                </div>
+                            </ng-container>
+                            <ng-template #specialStackCardsTemplate>
                                 <app-card
-                                    [card]="specialStack.topCard"
+                                    *ngFor="let specialCard of getSpecialStackVisibleCards(specialStack)"
+                                    [card]="specialCard"
                                     [disableHoverUi]="true"
                                     [playerTokens]="activePlayerTokensForPurchase"
                                     [playerCardTokens]="activePlayerCardTokensForPurchase"
                                     [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn"
-                                    [purchaseBlocked]="isSpecialStackCardBlockedForActivePlayer(specialStack.topCard)"
+                                    [purchaseBlocked]="isSpecialStackCardBlockedForActivePlayer(specialCard)"
                                     [purchaseBlockedLabel]="'already purchased'"
-                                    [soldPending]="isCardPending(specialStack.topCard)"
-                                    [soldPendingLabel]="getCardPendingLabel(specialStack.topCard)"
+                                    [soldPending]="isCardPending(specialCard)"
+                                    [soldPendingLabel]="getCardPendingLabel(specialCard)"
                                     (purchaseCard)="onPurchaseCard($event)"
                                     (purplePurchasePreview)="onPurplePurchasePreview($event)">
                                 </app-card>

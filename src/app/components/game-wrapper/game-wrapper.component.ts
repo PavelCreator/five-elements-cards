@@ -1142,11 +1142,17 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public getSpecialStackBackUrl(rowBackUrl: string, specialStack: SpecialStack): string {
-        if (specialStack.topCard) {
-            return this._imageService.generateCardBackUrl(specialStack.topCard);
+        const stackTopCard = specialStack.stack[0] ?? specialStack.topCard;
+        if (stackTopCard) {
+            return this._imageService.generateCardBackUrl(stackTopCard);
         }
 
         return rowBackUrl;
+    }
+
+    public getSpecialStackVisibleCards(specialStack: SpecialStack): Card[] {
+        const visibleCardsCount = this._getSpecialCardsPerStack();
+        return specialStack.stack.slice(0, visibleCardsCount);
     }
 
     public get canFinishTurn(): boolean {
@@ -3621,6 +3627,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.playerCount <= 2) return 3;
         if (this.playerCount <= 4) return 4;
         return 5;
+    }
+
+    private _getSpecialCardsPerStack(): number {
+        const players = this.playerCount ?? 0;
+        return players >= 5 ? 2 : 1;
     }
 
     private _buildSpecialStacks(cards: Card[], level: number): SpecialStack[] {
