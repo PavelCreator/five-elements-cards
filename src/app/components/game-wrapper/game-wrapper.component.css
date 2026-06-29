@@ -235,6 +235,19 @@
     pointer-events:none;
 }
 
+.card--placeholder{
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.game-win-placeholder{
+    width:146px;
+    height:332px;
+    margin:5px;
+    visibility:hidden;
+    pointer-events:none;
+}
+
 .game-row--hex{
     justify-content:center;
     width:100%;

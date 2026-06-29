@@ -81,24 +81,33 @@
 
         <div class="game-field">
             <div class="game-row" *ngFor="let row of rows; let rowIndex = index">
-                <div class="game-stack" *ngIf="row.stack.length">
-                    <div class="card card--back" [ngClass]="{ 'card--view': !printModeEnabled, 'card--print': printModeEnabled }">
-                        <div
-                            class="card-overlay-wrap card-overlay-wrap-back card-overlay-wrap--no-reflection"
-                            [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
-                            [ngStyle]="{ '--card-bg': 'url(' + row.backUrl + ')' }"
-                        >
-                            <div class="card-overlay card-overlay-back"></div>
+                <div class="game-stack">
+                    <ng-container *ngIf="row.stack.length; else mainDeckPlaceholder">
+                        <div class="card card--back" [ngClass]="{ 'card--view': !printModeEnabled, 'card--print': printModeEnabled }">
+                            <div
+                                class="card-overlay-wrap card-overlay-wrap-back card-overlay-wrap--no-reflection"
+                                [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled }"
+                                [ngStyle]="{ '--card-bg': 'url(' + row.backUrl + ')' }"
+                            >
+                                <div class="card-overlay card-overlay-back"></div>
+                            </div>
                         </div>
-                    </div>
+                    </ng-container>
+                    <ng-template #mainDeckPlaceholder>
+                        <div class="card card--placeholder"></div>
+                    </ng-template>
                 </div>
                 <div class="game-row-cards">
                     <app-card *ngFor="let card of row.topCards" [card]="card" [disableHoverUi]="true" [playerTokens]="activePlayerTokensForPurchase" [playerCardTokens]="activePlayerCardTokensForPurchase" [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn" [soldPending]="isCardPending(card)" [soldPendingLabel]="getCardPendingLabel(card)" (purchaseCard)="onPurchaseCard($event)" (purplePurchasePreview)="onPurplePurchasePreview($event)"></app-card>
-                    <div class="game-win-condition-slot" *ngIf="rowWinConditionCards[rowIndex] as rowWinConditionCard">
-                        <app-how-to-win [card]="rowWinConditionCard"></app-how-to-win>
+                    <div class="card card--placeholder" *ngFor="let _ of getMainRowMissingSlots(row)"></div>
+                    <div class="game-win-condition-slot">
+                        <app-how-to-win *ngIf="rowWinConditionCards[rowIndex] as rowWinConditionCard; else winConditionPlaceholder" [card]="rowWinConditionCard"></app-how-to-win>
+                        <ng-template #winConditionPlaceholder>
+                            <div class="game-win-placeholder"></div>
+                        </ng-template>
                     </div>
                     <ng-container *ngFor="let specialStack of row.specialStacks">
-                        <div class="game-stack" *ngIf="specialStack.stack.length">
+                        <div class="game-stack">
                             <ng-container *ngIf="isSpecialStackClosedForAllPlayers(row.level, specialStack.color); else specialStackCardsTemplate">
                                 <div class="card card--back" [ngClass]="{ 'card--view': !printModeEnabled, 'card--print': printModeEnabled }">
                                     <div
@@ -109,6 +118,7 @@
                                         <div class="card-overlay card-overlay-back"></div>
                                     </div>
                                 </div>
+                                <div class="card card--placeholder" *ngFor="let _ of getSpecialStackClosedPlaceholderSlots()"></div>
                             </ng-container>
                             <ng-template #specialStackCardsTemplate>
                                 <app-card
@@ -125,6 +135,7 @@
                                     (purchaseCard)="onPurchaseCard($event)"
                                     (purplePurchasePreview)="onPurplePurchasePreview($event)">
                                 </app-card>
+                                <div class="card card--placeholder" *ngFor="let _ of getSpecialStackMissingSlots(specialStack)"></div>
                             </ng-template>
                         </div>
                     </ng-container>

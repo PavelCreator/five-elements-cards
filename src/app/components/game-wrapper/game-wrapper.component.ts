@@ -1155,6 +1155,24 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return specialStack.stack.slice(0, visibleCardsCount);
     }
 
+    public getMainRowMissingSlots(row: { topCards: Card[] }): number[] {
+        const cardsPerRow = this._getCardsPerRow();
+        const missingCount = Math.max(cardsPerRow - row.topCards.length, 0);
+        return Array.from({ length: missingCount }, (_, index) => index);
+    }
+
+    public getSpecialStackMissingSlots(specialStack: SpecialStack): number[] {
+        const visibleCardsCount = this._getSpecialCardsPerStack();
+        const missingCount = Math.max(visibleCardsCount - specialStack.stack.length, 0);
+        return Array.from({ length: missingCount }, (_, index) => index);
+    }
+
+    public getSpecialStackClosedPlaceholderSlots(): number[] {
+        const visibleCardsCount = this._getSpecialCardsPerStack();
+        const placeholdersCount = Math.max(visibleCardsCount - 1, 0);
+        return Array.from({ length: placeholdersCount }, (_, index) => index);
+    }
+
     public get canFinishTurn(): boolean {
         return this.hexagonsPickedThisTurn >= this.maxHexagonsPerTurn || this.isFinishTurnUnlockedByDiceModal;
     }
