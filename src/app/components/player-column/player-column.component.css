@@ -156,6 +156,27 @@
     pointer-events: none;
 }
 
+.player-black-passive-cell{
+    position: relative;
+}
+
+.player-black-passive-stack{
+    position: relative;
+    z-index: 1;
+}
+
+.player-black-passive-stack--extra{
+    position: absolute;
+    top: 0;
+    left: 34px;
+    z-index: 2;
+}
+
+.player-black-passive-stack--tapped{
+    opacity:0.45;
+    filter:grayscale(0.8) saturate(0.55);
+}
+
 .player-master-cards {
     margin: 14px 29px 0 33px;
 }
@@ -237,3 +258,4 @@
 :host-context(.theme-dark) .player-master-card__name {
     color: #e2e8f0;
 }
+

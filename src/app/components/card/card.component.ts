@@ -48,6 +48,7 @@ export class CardComponent implements OnInit {
     @Input() playerTokens?: { [key in Color]?: number };
     @Input() playerCardTokens?: { [key in Color]?: number };
     @Input() playerMasterColors?: Color[];
+    @Input() passiveBlackTappedCount: number = 0;
     @Input() purchaseLockedThisTurn: boolean = false;
     @Input() purchaseBlocked: boolean = false;
     @Input() purchaseBlockedLabel: string = 'Already Have';
@@ -80,6 +81,7 @@ export class CardComponent implements OnInit {
     private readonly _payColorsWithoutPurple: Color[] = ['red', 'green', 'white', 'blue', 'black'];
     private readonly _elementalPayColors: Color[] = ['red', 'green', 'white', 'blue'];
     private readonly _purpleWildcardPayColors: Color[] = ['red', 'green', 'white', 'blue'];
+    private readonly _magicWildcardPayColors: Color[] = ['red', 'green', 'white', 'blue', 'purple'];
     private readonly _supportedPayKeys: Set<string> = new Set(['red', 'green', 'white', 'blue', 'black', 'purple']);
 
     public get isAffordableForPlayer(): boolean {
@@ -153,7 +155,9 @@ export class CardComponent implements OnInit {
 
         for (const color of this._payColorsWithoutPurple) {
             const required = pay[color] ?? 0;
-            const passiveBonus = playerCards[color] ?? 0;
+            const passiveBonus = color === 'black'
+                ? Math.max((playerCards['black'] ?? 0) - Math.max(0, this.passiveBlackTappedCount), 0)
+                : (playerCards[color] ?? 0);
             if (required > passiveBonus) {
                 return false;
             }
@@ -197,7 +201,7 @@ export class CardComponent implements OnInit {
             black: this.playerTokens['black'] ?? 0,
         };
 
-        const passiveBlack = playerCards['black'] ?? 0;
+        const passiveBlack = Math.max((playerCards['black'] ?? 0) - Math.max(0, this.passiveBlackTappedCount), 0);
         const requiredBlack = pay['black'] ?? 0;
         const requiredBlackAfterPassive = Math.max(requiredBlack - passiveBlack, 0);
         if ((tokenPool['black'] ?? 0) < requiredBlackAfterPassive) {
@@ -207,6 +211,26 @@ export class CardComponent implements OnInit {
 
         const purpleCardBonus = playerCards['purple'] ?? 0;
         let purpleNeeded = Math.max((pay['purple'] ?? 0) - purpleCardBonus, 0);
+
+        if (this._hasMagicMaster()) {
+            const nonBlackNeeds: Partial<Record<Color, number>> = {};
+            for (const color of this._magicWildcardPayColors) {
+                nonBlackNeeds[color] = Math.max(pay[color] ?? 0, 0);
+            }
+
+            const passivePool: Partial<Record<Color, number>> = {};
+            for (const color of this._magicWildcardPayColors) {
+                passivePool[color] = playerCards[color] ?? 0;
+            }
+
+            this._coverNeedsWithUniversalPool(nonBlackNeeds, passivePool);
+            this._coverNeedsWithUniversalPool(nonBlackNeeds, tokenPool);
+
+            return {
+                isAffordable: this._getTotalNeedForColors(nonBlackNeeds, this._magicWildcardPayColors) <= 0,
+                purpleNeeded: 0,
+            };
+        }
 
         const masteredColors = this._getMasteredElementalColors();
 
@@ -262,6 +286,55 @@ export class CardComponent implements OnInit {
             }
         }
         return mastered;
+    }
+
+    private _hasMagicMaster(): boolean {
+        return (this.playerMasterColors ?? []).includes('purple');
+    }
+
+    private _coverNeedsWithUniversalPool(
+        needs: Partial<Record<Color, number>>,
+        pool: Partial<Record<Color, number>>
+    ): void {
+        for (const targetColor of this._magicWildcardPayColors) {
+            let remaining = Math.max(needs[targetColor] ?? 0, 0);
+            if (remaining <= 0) {
+                needs[targetColor] = 0;
+                continue;
+            }
+
+            const directAvailable = pool[targetColor] ?? 0;
+            const directSpend = Math.min(remaining, directAvailable);
+            pool[targetColor] = Math.max(directAvailable - directSpend, 0);
+            remaining -= directSpend;
+
+            if (remaining > 0) {
+                for (const donorColor of this._magicWildcardPayColors) {
+                    if (donorColor === targetColor) {
+                        continue;
+                    }
+
+                    const donorAvailable = pool[donorColor] ?? 0;
+                    if (donorAvailable <= 0) {
+                        continue;
+                    }
+
+                    const donorSpend = Math.min(remaining, donorAvailable);
+                    pool[donorColor] = donorAvailable - donorSpend;
+                    remaining -= donorSpend;
+
+                    if (remaining <= 0) {
+                        break;
+                    }
+                }
+            }
+
+            needs[targetColor] = remaining;
+        }
+    }
+
+    private _getTotalNeedForColors(needs: Partial<Record<Color, number>>, colors: Color[]): number {
+        return colors.reduce((total, color) => total + Math.max(needs[color] ?? 0, 0), 0);
     }
 
     public trackByColor(index: number, color: string): string {

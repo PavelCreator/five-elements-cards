@@ -11,6 +11,11 @@ interface OwnedMasterCard {
     grand: boolean;
 }
 
+interface PassiveBlackDisplayGroup {
+    count: number;
+    tapped: boolean;
+}
+
 @Component({
     selector: 'app-player-column',
     standalone: true,
@@ -28,6 +33,7 @@ export class PlayerColumnComponent implements OnChanges, AfterViewChecked {
     @Input() visiblePlayerNumbers: number[] = [];
     @Input() playerHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {};
     @Input() playerCardHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {};
+    @Input() playerPassiveBlackTappedThisTurn: { [playerNumber: number]: number } = {};
     @Input() playerOwnedMasterCards: { [playerNumber: number]: OwnedMasterCard[] } = {};
 
     @Output() activePlayerChange = new EventEmitter<number>();
@@ -96,6 +102,39 @@ export class PlayerColumnComponent implements OnChanges, AfterViewChecked {
 
     public getOwnedMasterCards(playerNumber: number): OwnedMasterCard[] {
         return this.playerOwnedMasterCards[playerNumber] ?? [];
+    }
+
+    public getPassiveBlackDisplayGroups(playerNumber: number): PassiveBlackDisplayGroup[] {
+        const totalPassiveBlack = Math.max(0, Math.floor(this.getCardHexagonValue(playerNumber, 'black')));
+        const tappedCount = Math.max(0, Math.min(Math.floor(this.playerPassiveBlackTappedThisTurn[playerNumber] ?? 0), totalPassiveBlack));
+        const availableCount = Math.max(totalPassiveBlack - tappedCount, 0);
+
+        // Keep single-stack rendering when all cards are in the same state.
+        if (totalPassiveBlack <= 0) {
+            return [{ count: 0, tapped: false }];
+        }
+
+        if (tappedCount <= 0) {
+            return [{ count: availableCount, tapped: false }];
+        }
+
+        if (availableCount <= 0) {
+            return [{ count: tappedCount, tapped: true }];
+        }
+
+        // Mixed state: show enabled stack first, then disabled stack.
+        return [
+            { count: availableCount, tapped: false },
+            { count: tappedCount, tapped: true },
+        ];
+    }
+
+    public getPrimaryPassiveBlackDisplayGroup(playerNumber: number): PassiveBlackDisplayGroup {
+        return this.getPassiveBlackDisplayGroups(playerNumber)[0] ?? { count: 0, tapped: false };
+    }
+
+    public getSecondaryPassiveBlackDisplayGroup(playerNumber: number): PassiveBlackDisplayGroup | null {
+        return this.getPassiveBlackDisplayGroups(playerNumber)[1] ?? null;
     }
 
     /**

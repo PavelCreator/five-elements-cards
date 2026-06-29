@@ -244,6 +244,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public readonly maxHexagonsPerTurn: number = 2;
     private readonly _turnTrackedColors: Color[] = ['red', 'blue', 'white', 'green', 'purple', 'black'];
     private readonly _purpleWildcardPayColors: Color[] = ['red', 'green', 'white', 'blue'];
+    private readonly _magicWildcardPayColors: Color[] = ['red', 'green', 'white', 'blue', 'purple'];
     private readonly _purchasePayColors: Color[] = ['red', 'green', 'white', 'blue', 'black'];
     private readonly _purchaseBonusColors: Color[] = ['red', 'green', 'white', 'blue', 'purple', 'black'];
     private readonly _bonusShopMixColors: BonusShopMixColor[] = ['red', 'blue', 'white', 'green'];
@@ -1423,7 +1424,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public get activePlayerMasterColors(): Color[] {
-        return this._getActivePlayerMasterElementalColors();
+        return this._getActivePlayerMasterColors();
+    }
+
+    public get playerPassiveBlackTappedThisTurn(): { [playerNumber: number]: number } {
+        return this._playerPassiveBlackTappedThisTurn;
     }
 
     public get purplePreviewPlayerHandTokens(): { [key in Color]?: number } {
@@ -1442,6 +1447,32 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         const passiveCards = this.purplePreviewPlayerPassiveCards;
+        const hasMagicMaster = this._hasActivePlayerMagicMaster();
+
+        if (hasMagicMaster) {
+            const needs: Partial<Record<Color, number>> = {};
+            for (const color of this._magicWildcardPayColors) {
+                needs[color] = Math.max(card.pay?.[color] ?? 0, 0);
+            }
+
+            const passivePool: Partial<Record<Color, number>> = {};
+            for (const color of this._magicWildcardPayColors) {
+                passivePool[color] = passiveCards[color] ?? 0;
+            }
+
+            this._coverNeedsWithUniversalPool(needs, passivePool);
+
+            for (const color of this._magicWildcardPayColors) {
+                result[color] = needs[color] ?? 0;
+            }
+
+            const requiredBlack = card.pay?.['black'] ?? 0;
+            const passiveBlack = Math.max((passiveCards['black'] ?? 0) - this._getActivePlayerPassiveBlackTappedCount(), 0);
+            result['black'] = Math.max(requiredBlack - passiveBlack, 0);
+
+            return result;
+        }
+
         for (const color of this.previewModalColors) {
             const required = card.pay?.[color] ?? 0;
             const passive = passiveCards[color] ?? 0;
@@ -1841,6 +1872,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
                 return true;
             }
 
+            if (this._canMagicMasterPayFromColor(sourceColor, targetColor)) {
+                return true;
+            }
+
             if (this._canMasterPayFromColor(sourceColor, targetColor)) {
                 return true;
             }
@@ -1865,6 +1900,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         return this._getActivePlayerMasterElementalColors().includes(targetColor);
+    }
+
+    private _canMagicMasterPayFromColor(sourceColor: Color, targetColor: Color): boolean {
+        if (!this._hasActivePlayerMagicMaster()) {
+            return false;
+        }
+
+        return this._isMagicWildcardColor(sourceColor) && this._isMagicWildcardColor(targetColor);
     }
 
     private _resolveOwnedMasterColor(masterCard: OwnedMasterCard): Color | null {
@@ -3427,6 +3470,44 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             purple: playerHex['purple'] ?? 0,
             black: playerHex['black'] ?? 0,
         };
+
+        if (this._hasActivePlayerMagicMaster()) {
+            const requiredBlack = card.pay?.['black'] ?? 0;
+            const passiveBlack = Math.max((playerCards['black'] ?? 0) - this._getActivePlayerPassiveBlackTappedCount(), 0);
+            let remainingBlack = Math.max(requiredBlack - passiveBlack, 0);
+            spentPassiveBlack = Math.min(requiredBlack, passiveBlack);
+
+            const blackTokenSpend = Math.min(remainingBlack, tokenPool['black'] ?? 0);
+            remainingBlack -= blackTokenSpend;
+            tokenPool['black'] = Math.max((tokenPool['black'] ?? 0) - blackTokenSpend, 0);
+            if (blackTokenSpend > 0) {
+                spend['black'] = blackTokenSpend;
+            }
+
+            if (remainingBlack > 0) {
+                return { isAffordable: false, spend, spentPassiveBlack };
+            }
+
+            const nonBlackNeeds: Partial<Record<Color, number>> = {};
+            for (const color of this._magicWildcardPayColors) {
+                nonBlackNeeds[color] = Math.max(card.pay?.[color] ?? 0, 0);
+            }
+
+            const passivePool: Partial<Record<Color, number>> = {};
+            for (const color of this._magicWildcardPayColors) {
+                passivePool[color] = playerCards[color] ?? 0;
+            }
+
+            this._coverNeedsWithUniversalPool(nonBlackNeeds, passivePool);
+            this._coverNeedsWithUniversalPool(nonBlackNeeds, tokenPool, spend);
+
+            if (this._getTotalNeedForColors(nonBlackNeeds, this._magicWildcardPayColors) > 0) {
+                return { isAffordable: false, spend, spentPassiveBlack };
+            }
+
+            return { isAffordable: true, spend, spentPassiveBlack };
+        }
+
         const masteredColors = new Set<Color>(this._getActivePlayerMasterElementalColors());
 
         for (const color of this._purchasePayColors) {
@@ -3494,17 +3575,85 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return { isAffordable: true, spend, spentPassiveBlack };
     }
 
-    private _getActivePlayerMasterElementalColors(): Color[] {
+    private _coverNeedsWithUniversalPool(
+        needs: Partial<Record<Color, number>>,
+        pool: Partial<Record<Color, number>>,
+        spend?: Partial<Record<Color, number>>
+    ): void {
+        for (const targetColor of this._magicWildcardPayColors) {
+            let remaining = Math.max(needs[targetColor] ?? 0, 0);
+            if (remaining <= 0) {
+                needs[targetColor] = 0;
+                continue;
+            }
+
+            const directAvailable = pool[targetColor] ?? 0;
+            const directSpend = Math.min(remaining, directAvailable);
+            if (directSpend > 0) {
+                pool[targetColor] = directAvailable - directSpend;
+                remaining -= directSpend;
+                if (spend) {
+                    spend[targetColor] = (spend[targetColor] ?? 0) + directSpend;
+                }
+            }
+
+            if (remaining > 0) {
+                for (const donorColor of this._magicWildcardPayColors) {
+                    if (donorColor === targetColor) {
+                        continue;
+                    }
+
+                    const donorAvailable = pool[donorColor] ?? 0;
+                    if (donorAvailable <= 0) {
+                        continue;
+                    }
+
+                    const donorSpend = Math.min(remaining, donorAvailable);
+                    pool[donorColor] = donorAvailable - donorSpend;
+                    remaining -= donorSpend;
+                    if (spend) {
+                        spend[donorColor] = (spend[donorColor] ?? 0) + donorSpend;
+                    }
+
+                    if (remaining <= 0) {
+                        break;
+                    }
+                }
+            }
+
+            needs[targetColor] = remaining;
+        }
+    }
+
+    private _getTotalNeedForColors(needs: Partial<Record<Color, number>>, colors: Color[]): number {
+        return colors.reduce((total, color) => total + Math.max(needs[color] ?? 0, 0), 0);
+    }
+
+    private _isMagicWildcardColor(color: Color): boolean {
+        return this._magicWildcardPayColors.includes(color);
+    }
+
+    private _hasActivePlayerMagicMaster(): boolean {
+        return this._getActivePlayerMasterColors().includes('purple');
+    }
+
+    private _getActivePlayerMasterColors(): Color[] {
         const ownedMasters = this.playerOwnedMasterCards[this.activePlayer] ?? [];
-        const masterColorByOrderNumber = new Map<number, Color>(
-            masterCards.map((card) => [card.orderNumber, card.color as Color])
-        );
-
         const colors = new Set<Color>();
-        for (const ownedMaster of ownedMasters) {
-            const resolvedColor = (ownedMaster.color as Color | undefined)
-                ?? masterColorByOrderNumber.get(ownedMaster.orderNumber);
 
+        for (const ownedMaster of ownedMasters) {
+            const resolvedColor = this._resolveOwnedMasterColor(ownedMaster);
+            if (resolvedColor && this._turnTrackedColors.includes(resolvedColor)) {
+                colors.add(resolvedColor);
+            }
+        }
+
+        return Array.from(colors);
+    }
+
+    private _getActivePlayerMasterElementalColors(): Color[] {
+        const colors = new Set<Color>();
+        for (const resolvedColor of this._getActivePlayerMasterColors()) {
             if (resolvedColor === 'red' || resolvedColor === 'green' || resolvedColor === 'white' || resolvedColor === 'blue') {
                 colors.add(resolvedColor);
             }

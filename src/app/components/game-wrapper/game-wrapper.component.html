@@ -98,7 +98,7 @@
                     </ng-template>
                 </div>
                 <div class="game-row-cards">
-                    <app-card *ngFor="let card of row.topCards" [card]="card" [disableHoverUi]="true" [playerTokens]="activePlayerTokensForPurchase" [playerCardTokens]="activePlayerCardTokensForPurchase" [playerMasterColors]="activePlayerMasterColors" [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn" [soldPending]="isCardPending(card)" [soldPendingLabel]="getCardPendingLabel(card)" (purchaseCard)="onPurchaseCard($event)" (purplePurchasePreview)="onPurplePurchasePreview($event)"></app-card>
+                    <app-card *ngFor="let card of row.topCards" [card]="card" [disableHoverUi]="true" [playerTokens]="activePlayerTokensForPurchase" [playerCardTokens]="activePlayerCardTokensForPurchase" [playerMasterColors]="activePlayerMasterColors" [passiveBlackTappedCount]="playerPassiveBlackTappedThisTurn[activePlayer] ?? 0" [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn" [soldPending]="isCardPending(card)" [soldPendingLabel]="getCardPendingLabel(card)" (purchaseCard)="onPurchaseCard($event)" (purplePurchasePreview)="onPurplePurchasePreview($event)"></app-card>
                     <div class="card card--placeholder" *ngFor="let _ of getMainRowMissingSlots(row)"></div>
                     <div class="game-win-condition-slot">
                         <app-how-to-win *ngIf="rowWinConditionCards[rowIndex] as rowWinConditionCard; else winConditionPlaceholder" [card]="rowWinConditionCard"></app-how-to-win>
@@ -128,6 +128,7 @@
                                     [playerTokens]="activePlayerTokensForPurchase"
                                     [playerCardTokens]="activePlayerCardTokensForPurchase"
                                     [playerMasterColors]="activePlayerMasterColors"
+                                    [passiveBlackTappedCount]="playerPassiveBlackTappedThisTurn[activePlayer] ?? 0"
                                     [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn"
                                     [purchaseBlocked]="isSpecialStackCardBlockedForActivePlayer(specialCard)"
                                     [purchaseBlockedLabel]="'already purchased'"
@@ -154,6 +155,7 @@
                 [editingPlayerIndex]="editingPlayerIndex"
                 [playerHexagons]="playerHexagons"
                 [playerCardHexagons]="playerCardHexagons"
+                [playerPassiveBlackTappedThisTurn]="playerPassiveBlackTappedThisTurn"
                 [playerOwnedMasterCards]="playerOwnedMasterCards"
                 (activePlayerChange)="setActivePlayer($event)"
                 (startRenameEvent)="startRename($event)"

@@ -61,8 +61,25 @@
                 <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'purple') === 0">
                     <app-hexagon [color]="'purple'" [number]="getHexagonValue(getPlayerNumber(i), 'purple')" [type]="'playerBank'"></app-hexagon>
                 </div>
-                <div [class.hexagon-empty]="getCardHexagonValue(getPlayerNumber(i), 'black') === 0">
-                    <app-hexagon [color]="'black'" [number]="getCardHexagonValue(getPlayerNumber(i), 'black')" [type]="'getWin'"></app-hexagon>
+                <div class="player-black-passive-cell" [class.hexagon-empty]="getCardHexagonValue(getPlayerNumber(i), 'black') === 0">
+                    <div
+                        class="player-black-passive-stack"
+                        [class.player-black-passive-stack--tapped]="getPrimaryPassiveBlackDisplayGroup(getPlayerNumber(i)).tapped">
+                        <app-hexagon
+                            [color]="'black'"
+                            [number]="getPrimaryPassiveBlackDisplayGroup(getPlayerNumber(i)).count"
+                            [type]="'getWin'"></app-hexagon>
+                    </div>
+
+                    <div
+                        class="player-black-passive-stack player-black-passive-stack--extra"
+                        *ngIf="getSecondaryPassiveBlackDisplayGroup(getPlayerNumber(i)) as secondaryBlackGroup"
+                        [class.player-black-passive-stack--tapped]="secondaryBlackGroup.tapped">
+                        <app-hexagon
+                            [color]="'black'"
+                            [number]="secondaryBlackGroup.count"
+                            [type]="'getWin'"></app-hexagon>
+                    </div>
                 </div>
                 <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'black') === 0">
                     <app-hexagon [color]="'black'" [number]="getHexagonValue(getPlayerNumber(i), 'black')" [type]="'playerBank'"></app-hexagon>
