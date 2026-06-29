@@ -12,23 +12,12 @@ import { HowToWinCardType } from "../models/how-to-win-card.interface";
 export class SettingsService {
   public lang: Lang = 'en';
   private readonly _darkThemeKey = 'darkThemeEnabled';
+  private readonly _legacyModesCleanupDoneKey = 'legacyModesCleanupDone_v1';
   private readonly _winConditionModeKey = 'winConditionMode';
   private readonly _winConditionOptionsKey = 'selectedWinConditionOptions';
   private readonly _defaultWinConditionOptions: number[] = [1, 2, 3, 4];
   private _darkThemeEnabled = new BehaviorSubject<boolean>(false);
   public darkThemeEnabled$ = this._darkThemeEnabled.asObservable();
-  private _checkToCrossMode = new BehaviorSubject<boolean>(false);
-  public checkToCrossMode$ = this._checkToCrossMode.asObservable();
-  private _checkToThreeCrossMode = new BehaviorSubject<boolean>(false);
-  public checkToThreeCrossMode$ = this._checkToThreeCrossMode.asObservable();
-  private _checkToFourCrossMode = new BehaviorSubject<boolean>(false);
-  public checkToFourCrossMode$ = this._checkToFourCrossMode.asObservable();
-  private _check2toJokersMode = new BehaviorSubject<boolean>(false);
-  public check2toJokersMode$ = this._check2toJokersMode.asObservable();
-  private _check2to3JokersMode = new BehaviorSubject<boolean>(false);
-  public check2to3JokersMode$ = this._check2to3JokersMode.asObservable();
-  private _check2to4JokersMode = new BehaviorSubject<boolean>(false);
-  public check2to4JokersMode$ = this._check2to4JokersMode.asObservable();
   private _winConditionMode = new BehaviorSubject<HowToWinCardType>('Grand');
   public winConditionMode$ = this._winConditionMode.asObservable();
   private _selectedWinConditionOptions = new BehaviorSubject<number[]>(this._defaultWinConditionOptions);
@@ -37,38 +26,10 @@ export class SettingsService {
   constructor(
       private _localStorageService: LocalStorageService
   ) {
+    this._runLegacyModesCleanup();
+
     const lsLang: Lang = this._localStorageService.getItem('lang') as Lang;
     if (lsLang) this.lang = lsLang;
-    
-    const checkToCrossMode = this._localStorageService.getItem('checkToCrossMode');
-    if (checkToCrossMode === 'true') {
-      this._checkToCrossMode.next(true);
-    }
-    
-    const checkToThreeCrossMode = this._localStorageService.getItem('checkToThreeCrossMode');
-    if (checkToThreeCrossMode === 'true') {
-      this._checkToThreeCrossMode.next(true);
-    }
-    
-    const checkToFourCrossMode = this._localStorageService.getItem('checkToFourCrossMode');
-    if (checkToFourCrossMode === 'true') {
-      this._checkToFourCrossMode.next(true);
-    }
-    
-    const check2toJokersMode = this._localStorageService.getItem('check2toJokersMode');
-    if (check2toJokersMode === 'true') {
-      this._check2toJokersMode.next(true);
-    }
-    
-    const check2to3JokersMode = this._localStorageService.getItem('check2to3JokersMode');
-    if (check2to3JokersMode === 'true') {
-      this._check2to3JokersMode.next(true);
-    }
-    
-    const check2to4JokersMode = this._localStorageService.getItem('check2to4JokersMode');
-    if (check2to4JokersMode === 'true') {
-      this._check2to4JokersMode.next(true);
-    }
 
     const darkThemeEnabled = this._localStorageService.getItem(this._darkThemeKey);
     if (darkThemeEnabled === 'true') {
@@ -126,88 +87,26 @@ export class SettingsService {
     return this._darkThemeEnabled.value;
   }
 
-  public setCheckToCrossMode(enabled: boolean): void {
-    this._checkToCrossMode.next(enabled);
-    this._localStorageService.setItem('checkToCrossMode', enabled.toString());
-    // Disable other modes if two cross is enabled
-    if (enabled) {
-      if (this._checkToThreeCrossMode.value) this.setCheckToThreeCrossMode(false);
-      if (this._checkToFourCrossMode.value) this.setCheckToFourCrossMode(false);
+  private _runLegacyModesCleanup(): void {
+    const cleanupDone = this._localStorageService.getItem(this._legacyModesCleanupDoneKey);
+    if (cleanupDone === 'true') {
+      return;
     }
-  }
 
-  public isCheckToCrossModeEnabled(): boolean {
-    return this._checkToCrossMode.value;
-  }
+    const legacyKeys: string[] = [
+      'checkToCrossMode',
+      'checkToThreeCrossMode',
+      'checkToFourCrossMode',
+      'check2toJokersMode',
+      'check2to3JokersMode',
+      'check2to4JokersMode',
+    ];
 
-  public setCheckToThreeCrossMode(enabled: boolean): void {
-    this._checkToThreeCrossMode.next(enabled);
-    this._localStorageService.setItem('checkToThreeCrossMode', enabled.toString());
-    // Disable other modes if three cross is enabled
-    if (enabled) {
-      if (this._checkToCrossMode.value) this.setCheckToCrossMode(false);
-      if (this._checkToFourCrossMode.value) this.setCheckToFourCrossMode(false);
+    for (const key of legacyKeys) {
+      localStorage.removeItem(key);
     }
-  }
 
-  public isCheckToThreeCrossModeEnabled(): boolean {
-    return this._checkToThreeCrossMode.value;
-  }
-
-  public setCheckToFourCrossMode(enabled: boolean): void {
-    this._checkToFourCrossMode.next(enabled);
-    this._localStorageService.setItem('checkToFourCrossMode', enabled.toString());
-    // Disable other modes if four cross is enabled
-    if (enabled) {
-      if (this._checkToCrossMode.value) this.setCheckToCrossMode(false);
-      if (this._checkToThreeCrossMode.value) this.setCheckToThreeCrossMode(false);
-    }
-  }
-
-  public isCheckToFourCrossModeEnabled(): boolean {
-    return this._checkToFourCrossMode.value;
-  }
-
-  public setCheck2toJokersMode(enabled: boolean): void {
-    this._check2toJokersMode.next(enabled);
-    this._localStorageService.setItem('check2toJokersMode', enabled.toString());
-    // Disable other joker modes if 2 jokers is enabled
-    if (enabled) {
-      if (this._check2to3JokersMode.value) this.setCheck2to3JokersMode(false);
-      if (this._check2to4JokersMode.value) this.setCheck2to4JokersMode(false);
-    }
-  }
-
-  public isCheck2toJokersModeEnabled(): boolean {
-    return this._check2toJokersMode.value;
-  }
-
-  public setCheck2to3JokersMode(enabled: boolean): void {
-    this._check2to3JokersMode.next(enabled);
-    this._localStorageService.setItem('check2to3JokersMode', enabled.toString());
-    // Disable other joker modes if 3 jokers is enabled
-    if (enabled) {
-      if (this._check2toJokersMode.value) this.setCheck2toJokersMode(false);
-      if (this._check2to4JokersMode.value) this.setCheck2to4JokersMode(false);
-    }
-  }
-
-  public isCheck2to3JokersModeEnabled(): boolean {
-    return this._check2to3JokersMode.value;
-  }
-
-  public setCheck2to4JokersMode(enabled: boolean): void {
-    this._check2to4JokersMode.next(enabled);
-    this._localStorageService.setItem('check2to4JokersMode', enabled.toString());
-    // Disable other joker modes if 4 jokers is enabled
-    if (enabled) {
-      if (this._check2toJokersMode.value) this.setCheck2toJokersMode(false);
-      if (this._check2to3JokersMode.value) this.setCheck2to3JokersMode(false);
-    }
-  }
-
-  public isCheck2to4JokersModeEnabled(): boolean {
-    return this._check2to4JokersMode.value;
+    this._localStorageService.setItem(this._legacyModesCleanupDoneKey, 'true');
   }
 
   private _sanitizeWinConditionOptions(options: number[]): number[] {

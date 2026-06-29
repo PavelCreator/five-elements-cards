@@ -480,6 +480,7 @@
     <!-- Dice Roll Modal -->
     <div class="dice-modal-overlay" *ngIf="showDiceModal" (click)="closeDiceModal()">
         <div class="dice-modal" (click)="$event.stopPropagation()">
+            <div class="dice-modal__title">Roll Dice</div>
             <div class="dice-roll-debug-layout">
                 <div class="dice-roll-debug-panel">
                     <div class="dice-roll-debug-panel__title">Mock Roll (Temp)</div>

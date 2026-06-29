@@ -29,12 +29,6 @@ export class AppComponent implements OnInit{
     private readonly activeTabStorageKey: string = 'activeTab';
     public playerCount?: number;
     private readonly playerCountStorageKey: string = 'gamePlayerCount';
-    public checkToCrossMode: boolean = false;
-    public checkToThreeCrossMode: boolean = false;
-    public checkToFourCrossMode: boolean = false;
-    public check2toJokersMode: boolean = false;
-    public check2to3JokersMode: boolean = false;
-    public check2to4JokersMode: boolean = false;
     public darkThemeEnabled: boolean = false;
     public readonly winConditionModes: HowToWinCardType[] = ['Grand', 'Blitz'];
     public winConditionMode: HowToWinCardType = 'Grand';
@@ -59,12 +53,6 @@ export class AppComponent implements OnInit{
             this.activeTab = storedTab;
         }
         this._loadPlayerCount();
-        this._loadCheckToCrossMode();
-        this._loadCheckToThreeCrossMode();
-        this._loadCheckToFourCrossMode();
-        this._loadCheck2toJokersMode();
-        this._loadCheck2to3JokersMode();
-        this._loadCheck2to4JokersMode();
         this._loadDarkThemeMode();
         this._loadWinConditions();
 
@@ -99,8 +87,8 @@ export class AppComponent implements OnInit{
         })
     }
 
-    public toggleDarkTheme(): void {
-        this.darkThemeEnabled = !this.darkThemeEnabled;
+    public setDarkThemeEnabled(enabled: boolean): void {
+        this.darkThemeEnabled = enabled;
         this._settingsService.setDarkThemeEnabled(this.darkThemeEnabled);
         this._applyDarkThemeClass();
     }
@@ -166,54 +154,6 @@ export class AppComponent implements OnInit{
         return condition.option ?? (index + 1);
     }
 
-    public toggleCheckToCrossMode(): void {
-        this.checkToCrossMode = !this.checkToCrossMode;
-        this._settingsService.setCheckToCrossMode(this.checkToCrossMode);
-        // Update other modes state after service handles mutual exclusion
-        this.checkToThreeCrossMode = this._settingsService.isCheckToThreeCrossModeEnabled();
-        this.checkToFourCrossMode = this._settingsService.isCheckToFourCrossModeEnabled();
-    }
-
-    public toggleCheckToThreeCrossMode(): void {
-        this.checkToThreeCrossMode = !this.checkToThreeCrossMode;
-        this._settingsService.setCheckToThreeCrossMode(this.checkToThreeCrossMode);
-        // Update other modes state after service handles mutual exclusion
-        this.checkToCrossMode = this._settingsService.isCheckToCrossModeEnabled();
-        this.checkToFourCrossMode = this._settingsService.isCheckToFourCrossModeEnabled();
-    }
-
-    public toggleCheckToFourCrossMode(): void {
-        this.checkToFourCrossMode = !this.checkToFourCrossMode;
-        this._settingsService.setCheckToFourCrossMode(this.checkToFourCrossMode);
-        // Update other modes state after service handles mutual exclusion
-        this.checkToCrossMode = this._settingsService.isCheckToCrossModeEnabled();
-        this.checkToThreeCrossMode = this._settingsService.isCheckToThreeCrossModeEnabled();
-    }
-
-    public toggleCheck2toJokersMode(): void {
-        this.check2toJokersMode = !this.check2toJokersMode;
-        this._settingsService.setCheck2toJokersMode(this.check2toJokersMode);
-        // Update other joker modes state after service handles mutual exclusion
-        this.check2to3JokersMode = this._settingsService.isCheck2to3JokersModeEnabled();
-        this.check2to4JokersMode = this._settingsService.isCheck2to4JokersModeEnabled();
-    }
-
-    public toggleCheck2to3JokersMode(): void {
-        this.check2to3JokersMode = !this.check2to3JokersMode;
-        this._settingsService.setCheck2to3JokersMode(this.check2to3JokersMode);
-        // Update other joker modes state after service handles mutual exclusion
-        this.check2toJokersMode = this._settingsService.isCheck2toJokersModeEnabled();
-        this.check2to4JokersMode = this._settingsService.isCheck2to4JokersModeEnabled();
-    }
-
-    public toggleCheck2to4JokersMode(): void {
-        this.check2to4JokersMode = !this.check2to4JokersMode;
-        this._settingsService.setCheck2to4JokersMode(this.check2to4JokersMode);
-        // Update other joker modes state after service handles mutual exclusion
-        this.check2toJokersMode = this._settingsService.isCheck2toJokersModeEnabled();
-        this.check2to3JokersMode = this._settingsService.isCheck2to3JokersModeEnabled();
-    }
-
     private _loadPlayerCount(): void {
         const stored = this._localStorageService.getItem(this.playerCountStorageKey);
         if (!stored) return;
@@ -221,30 +161,6 @@ export class AppComponent implements OnInit{
         if (Number.isInteger(parsed) && parsed >= 2 && parsed <= 6) {
             this.playerCount = parsed;
         }
-    }
-
-    private _loadCheckToCrossMode(): void {
-        this.checkToCrossMode = this._settingsService.isCheckToCrossModeEnabled();
-    }
-
-    private _loadCheckToThreeCrossMode(): void {
-        this.checkToThreeCrossMode = this._settingsService.isCheckToThreeCrossModeEnabled();
-    }
-
-    private _loadCheckToFourCrossMode(): void {
-        this.checkToFourCrossMode = this._settingsService.isCheckToFourCrossModeEnabled();
-    }
-
-    private _loadCheck2toJokersMode(): void {
-        this.check2toJokersMode = this._settingsService.isCheck2toJokersModeEnabled();
-    }
-
-    private _loadCheck2to3JokersMode(): void {
-        this.check2to3JokersMode = this._settingsService.isCheck2to3JokersModeEnabled();
-    }
-
-    private _loadCheck2to4JokersMode(): void {
-        this.check2to4JokersMode = this._settingsService.isCheck2to4JokersModeEnabled();
     }
 
     private _loadDarkThemeMode(): void {

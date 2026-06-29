@@ -360,16 +360,6 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._loadPlayerNames();
         this._loadPlayerCount();
         this._setBlackTokensByPlayerCount(this.playerCount);
-        
-        // Initialize player hexagons based on any cross or joker mode
-        if (this._settingsService.isCheckToCrossModeEnabled() || 
-            this._settingsService.isCheckToThreeCrossModeEnabled() ||
-            this._settingsService.isCheckToFourCrossModeEnabled() ||
-            this._settingsService.isCheck2toJokersModeEnabled() ||
-            this._settingsService.isCheck2to3JokersModeEnabled() ||
-            this._settingsService.isCheck2to4JokersModeEnabled()) {
-            this._initPlayerHexagonsWithTestTokens();
-        }
 
         this._captureTurnStartState();
         this._loadRowWinConditionCards();
@@ -2682,46 +2672,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const rollsCount = Math.max(0, Math.floor(count));
         const results: string[] = [];
-        
-        const isCheckToCrossMode = this._settingsService.isCheckToCrossModeEnabled();
-        const isCheckToThreeCrossMode = this._settingsService.isCheckToThreeCrossModeEnabled();
-        const isCheckToFourCrossMode = this._settingsService.isCheckToFourCrossModeEnabled();
-        const isCheck2toJokersMode = this._settingsService.isCheck2toJokersModeEnabled();
-        const isCheck2to3JokersMode = this._settingsService.isCheck2to3JokersModeEnabled();
-        const isCheck2to4JokersMode = this._settingsService.isCheck2to4JokersModeEnabled();
 
         for (let i = 0; i < rollsCount; i++) {
-            // Force results based on active mode
-            let finalResult: string;
-            
-            // Cross modes
-            if (isCheckToFourCrossMode && i < 4) {
-                // Four cross mode: first 4 dice are crosses
-                finalResult = 'dices-nothing.png';
-            } else if (isCheckToThreeCrossMode && i < 3) {
-                // Three cross mode: first 3 dice are crosses
-                finalResult = 'dices-nothing.png';
-            } else if (isCheckToCrossMode && i < 2) {
-                // Two cross mode: first 2 dice are crosses
-                finalResult = 'dices-nothing.png';
-            }
-            // Joker modes
-            else if (isCheck2to4JokersMode && i < 4) {
-                // Four jokers mode: first 4 dice are jokers
-                finalResult = 'dices-joker.png';
-            } else if (isCheck2to3JokersMode && i < 3) {
-                // Three jokers mode: first 3 dice are jokers
-                finalResult = 'dices-joker.png';
-            } else if (isCheck2toJokersMode && i < 2) {
-                // Two jokers mode: first 2 dice are jokers
-                finalResult = 'dices-joker.png';
-            }
-            // Random roll
-            else {
-                const finalIndex = Math.floor(Math.random() * this._diceSides.length);
-                finalResult = this._diceSides[finalIndex];
-            }
-            
+            const finalIndex = Math.floor(Math.random() * this._diceSides.length);
+            const finalResult = this._diceSides[finalIndex];
             results.push(finalResult);
         }
 
@@ -3636,45 +3590,6 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         } catch {
             return;
-        }
-    }
-    private _initPlayerHexagonsWithTestTokens() {
-        const isThreeCrossMode = this._settingsService.isCheckToThreeCrossModeEnabled();
-        const isFourCrossMode = this._settingsService.isCheckToFourCrossModeEnabled();
-        
-        // Give each player tokens for testing
-        for (let playerNum = 1; playerNum <= 6; playerNum++) {
-            if (isThreeCrossMode) {
-                // In three cross mode, give 0 tokens for testing
-                this.playerHexagons[playerNum] = {
-                    red: 0,
-                    blue: 0,
-                    white: 0,
-                    green: 0,
-                    purple: 0,
-                    black: 10
-                };
-            } else if (isFourCrossMode) {
-                // In four cross mode, give 5 tokens of each color for testing (4+ scenario)
-                this.playerHexagons[playerNum] = {
-                    red: 5,
-                    blue: 0,
-                    white: 0,
-                    green: 0,
-                    purple: 0,
-                    black: 10
-                };
-            } else {
-                // In two cross mode, give 2 tokens of each color for testing
-                this.playerHexagons[playerNum] = {
-                    red: 2,
-                    blue: 2,
-                    white: 2,
-                    green: 2,
-                    purple: 2,
-                    black: 10
-                };
-            }
         }
     }
     private _persistPlayerNames() {
