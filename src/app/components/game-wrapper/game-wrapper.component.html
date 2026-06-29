@@ -98,7 +98,7 @@
                     </ng-template>
                 </div>
                 <div class="game-row-cards">
-                    <app-card *ngFor="let card of row.topCards" [card]="card" [disableHoverUi]="true" [playerTokens]="activePlayerTokensForPurchase" [playerCardTokens]="activePlayerCardTokensForPurchase" [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn" [soldPending]="isCardPending(card)" [soldPendingLabel]="getCardPendingLabel(card)" (purchaseCard)="onPurchaseCard($event)" (purplePurchasePreview)="onPurplePurchasePreview($event)"></app-card>
+                    <app-card *ngFor="let card of row.topCards" [card]="card" [disableHoverUi]="true" [playerTokens]="activePlayerTokensForPurchase" [playerCardTokens]="activePlayerCardTokensForPurchase" [playerMasterColors]="activePlayerMasterColors" [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn" [soldPending]="isCardPending(card)" [soldPendingLabel]="getCardPendingLabel(card)" (purchaseCard)="onPurchaseCard($event)" (purplePurchasePreview)="onPurplePurchasePreview($event)"></app-card>
                     <div class="card card--placeholder" *ngFor="let _ of getMainRowMissingSlots(row)"></div>
                     <div class="game-win-condition-slot">
                         <app-how-to-win *ngIf="rowWinConditionCards[rowIndex] as rowWinConditionCard; else winConditionPlaceholder" [card]="rowWinConditionCard"></app-how-to-win>
@@ -127,6 +127,7 @@
                                     [disableHoverUi]="true"
                                     [playerTokens]="activePlayerTokensForPurchase"
                                     [playerCardTokens]="activePlayerCardTokensForPurchase"
+                                    [playerMasterColors]="activePlayerMasterColors"
                                     [purchaseLockedThisTurn]="isCardPurchaseLockedThisTurn"
                                     [purchaseBlocked]="isSpecialStackCardBlockedForActivePlayer(specialCard)"
                                     [purchaseBlockedLabel]="'already purchased'"
@@ -720,6 +721,44 @@
                         <div class="purple-purchase-preview-section__row">
                             <app-hexagon *ngFor="let color of previewModalColors" [color]="color" [number]="purplePurchasePreviewCard.pay[color] ?? 0" [type]="'playerBank'" [ngStyle]="{ display: (purplePurchasePreviewCard.pay[color] ?? 0) > 0 ? '' : 'none' }"></app-hexagon>
                         </div>
+                    </div>
+
+                    <div class="purple-purchase-preview-section" *ngIf="purplePurchasePreviewCard">
+                        <div class="purple-purchase-preview-section__label">Special Conditions</div>
+                        <div class="purple-purchase-preview-special-conditions" *ngIf="purplePreviewSpecialConditionMasters.length > 0; else noSpecialConditions">
+                            <div class="purple-purchase-preview-master-card" *ngFor="let masterCard of purplePreviewSpecialConditionMasters">
+                                <div class="purple-purchase-preview-master-card__image-wrap">
+                                    <img class="purple-purchase-preview-master-card__image" [src]="masterCard.image" [alt]="masterCard.name" />
+                                </div>
+                                <div class="purple-purchase-preview-master-card__content">
+                                    <div class="purple-purchase-preview-master-card__name">{{ masterCard.name }}</div>
+                                    <div class="purple-purchase-preview-master-card__description" *ngIf="getSpecialConditionMasterTargetColor(masterCard) as targetColor">
+                                        <div class="description-master-line">
+                                            <div class="hexagons-chaos-wrapper hexagons-master-wrapper">
+                                                <app-hexagon
+                                                    class="hexagon-inline"
+                                                    *ngFor="let sourceColor of getSpecialConditionMasterSourceColors(masterCard)"
+                                                    [color]="sourceColor"
+                                                    [type]="'chaos'"></app-hexagon>
+                                            </div>
+                                            <span class="description-master-line-text">
+                                                can <br>
+                                                <span [class.description-master-line-text-black]="targetColor === 'black'">be used as</span>
+                                            </span>
+                                            <app-hexagon
+                                                class="hexagon-chaos-wrapper hexagon-master-wrapper"
+                                                [class.description-master-line-text-no-black]="targetColor !== 'black'"
+                                                [class.description-master-line-text-black]="targetColor === 'black'"
+                                                [color]="targetColor"
+                                                [type]="'chaos'"></app-hexagon>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ng-template #noSpecialConditions>
+                            <div class="purple-purchase-preview-special-conditions__empty">No special conditions</div>
+                        </ng-template>
                     </div>
                 </div>
             </div>

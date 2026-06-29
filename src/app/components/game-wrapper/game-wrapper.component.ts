@@ -65,6 +65,7 @@ interface OwnedMasterCard {
     name: string;
     image: string;
     grand: boolean;
+    color?: Color;
 }
 
 @Component({
@@ -1421,6 +1422,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return this.playerCardHexagons[this.activePlayer] ?? {};
     }
 
+    public get activePlayerMasterColors(): Color[] {
+        return this._getActivePlayerMasterElementalColors();
+    }
+
     public get purplePreviewPlayerHandTokens(): { [key in Color]?: number } {
         return this.playerHexagons[this.activePlayer] ?? {};
     }
@@ -1488,6 +1493,46 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return Array.from({ length: this.previewPurpleCardUnitsBase }, (_, index) => index);
     }
 
+    public get purplePreviewSpecialConditionMasters(): OwnedMasterCard[] {
+        return this.playerOwnedMasterCards[this.activePlayer] ?? [];
+    }
+
+    public getSpecialConditionMasterSourceColors(masterCard: OwnedMasterCard): Color[] {
+        const masterColor = this._resolveOwnedMasterColor(masterCard);
+        if (!masterColor) {
+            return [];
+        }
+
+        const elementalColors: Color[] = ['red', 'blue', 'white', 'green'];
+
+        if (masterColor === 'black') {
+            return [...elementalColors, 'purple'];
+        }
+
+        if (masterColor === 'purple') {
+            return elementalColors;
+        }
+
+        if (this._isElementalColor(masterColor)) {
+            return elementalColors.filter((color) => color !== masterColor);
+        }
+
+        return [];
+    }
+
+    public getSpecialConditionMasterTargetColor(masterCard: OwnedMasterCard): Color | null {
+        const masterColor = this._resolveOwnedMasterColor(masterCard);
+        if (!masterColor) {
+            return null;
+        }
+
+        if (this._isElementalColor(masterColor) || masterColor === 'purple' || masterColor === 'black') {
+            return masterColor;
+        }
+
+        return null;
+    }
+
     public get canApplyPurplePurchasePreview(): boolean {
         return this.purplePurchasePreviewCard !== null
             && !this.previewModalColors.some((color) => (this.previewNeedToPayDraft[color] ?? 0) > 0);
@@ -1515,11 +1560,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return true;
         }
 
-        if (color === 'purple') {
-            return !this._hasPreviewNeedForAny(this.previewPurpleWildcardTargets);
-        }
-
-        return (this.previewNeedToPayDraft[color] ?? 0) <= 0;
+        return this._getPreviewPayTargetCount('token', color) <= 0;
     }
 
     public isPreviewPassiveCardDisabled(color: Color): boolean {
@@ -1796,6 +1837,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
                 return this.previewPurpleWildcardTargets.includes(targetColor);
             }
 
+            if (sourceColor === targetColor) {
+                return true;
+            }
+
+            if (this._canMasterPayFromColor(sourceColor, targetColor)) {
+                return true;
+            }
+
             return sourceColor === targetColor;
         }
 
@@ -1808,6 +1857,27 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         return this.previewPurpleWildcardTargets.includes(targetColor);
+    }
+
+    private _canMasterPayFromColor(sourceColor: Color, targetColor: Color): boolean {
+        if (!this._isElementalColor(sourceColor) || !this._isElementalColor(targetColor)) {
+            return false;
+        }
+
+        return this._getActivePlayerMasterElementalColors().includes(targetColor);
+    }
+
+    private _resolveOwnedMasterColor(masterCard: OwnedMasterCard): Color | null {
+        if (masterCard.color) {
+            return masterCard.color;
+        }
+
+        const mappedCard = masterCards.find((card) => card.orderNumber === masterCard.orderNumber);
+        return (mappedCard?.color as Color | undefined) ?? null;
+    }
+
+    private _isElementalColor(color: Color): color is 'red' | 'green' | 'white' | 'blue' {
+        return color === 'red' || color === 'green' || color === 'white' || color === 'blue';
     }
 
     private _applyPreviewPayment(source: PreviewPaymentSource, sourceColor: Color, targetColor: Color): void {
@@ -2375,6 +2445,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             name: selectedCard.text.en,
             image: selectedCard.image ?? '',
             grand: selectedCard.grand === true,
+            color: selectedCard.color as Color,
         });
         this.playerOwnedMasterCards[this.activePlayer] = playerMasterCards;
         this._purchasedMasterCardOrderNumbers.add(selectedCard.orderNumber);
@@ -3348,16 +3419,26 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const purpleCardBonus = playerCards['purple'] ?? 0;
         let purpleNeeded = Math.max((card.pay?.['purple'] ?? 0) - purpleCardBonus, 0);
+        const tokenPool: Partial<Record<Color, number>> = {
+            red: playerHex['red'] ?? 0,
+            green: playerHex['green'] ?? 0,
+            white: playerHex['white'] ?? 0,
+            blue: playerHex['blue'] ?? 0,
+            purple: playerHex['purple'] ?? 0,
+            black: playerHex['black'] ?? 0,
+        };
+        const masteredColors = new Set<Color>(this._getActivePlayerMasterElementalColors());
 
         for (const color of this._purchasePayColors) {
             const required = card.pay?.[color] ?? 0;
             const passiveBonus = color === 'black'
                 ? Math.max((playerCards['black'] ?? 0) - this._getActivePlayerPassiveBlackTappedCount(), 0)
                 : (playerCards[color] ?? 0);
-            const requiredAfterPassive = Math.max(required - passiveBonus, 0);
-            const available = playerHex[color] ?? 0;
-            const directSpend = Math.min(requiredAfterPassive, available);
-            const remainingAfterCoins = requiredAfterPassive - directSpend;
+            let remainingAfterCoins = Math.max(required - passiveBonus, 0);
+
+            const directSpend = Math.min(remainingAfterCoins, tokenPool[color] ?? 0);
+            remainingAfterCoins -= directSpend;
+            tokenPool[color] = Math.max((tokenPool[color] ?? 0) - directSpend, 0);
 
             if (color === 'black') {
                 spentPassiveBlack = Math.min(required, passiveBonus);
@@ -3365,6 +3446,28 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
             if (directSpend > 0) {
                 spend[color] = directSpend;
+            }
+
+            if (remainingAfterCoins > 0 && this._purpleWildcardPayColors.includes(color) && masteredColors.has(color)) {
+                for (const donorColor of this._purpleWildcardPayColors) {
+                    if (donorColor === color) {
+                        continue;
+                    }
+
+                    const donorAvailable = tokenPool[donorColor] ?? 0;
+                    if (donorAvailable <= 0) {
+                        continue;
+                    }
+
+                    const donorSpend = Math.min(remainingAfterCoins, donorAvailable);
+                    tokenPool[donorColor] = donorAvailable - donorSpend;
+                    spend[donorColor] = (spend[donorColor] ?? 0) + donorSpend;
+                    remainingAfterCoins -= donorSpend;
+
+                    if (remainingAfterCoins <= 0) {
+                        break;
+                    }
+                }
             }
 
             if (remainingAfterCoins <= 0) {
@@ -3379,7 +3482,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return { isAffordable: false, spend, spentPassiveBlack };
         }
 
-        const availablePurple = playerHex['purple'] ?? 0;
+        const availablePurple = tokenPool['purple'] ?? 0;
         if (availablePurple < purpleNeeded) {
             return { isAffordable: false, spend, spentPassiveBlack };
         }
@@ -3389,6 +3492,25 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         return { isAffordable: true, spend, spentPassiveBlack };
+    }
+
+    private _getActivePlayerMasterElementalColors(): Color[] {
+        const ownedMasters = this.playerOwnedMasterCards[this.activePlayer] ?? [];
+        const masterColorByOrderNumber = new Map<number, Color>(
+            masterCards.map((card) => [card.orderNumber, card.color as Color])
+        );
+
+        const colors = new Set<Color>();
+        for (const ownedMaster of ownedMasters) {
+            const resolvedColor = (ownedMaster.color as Color | undefined)
+                ?? masterColorByOrderNumber.get(ownedMaster.orderNumber);
+
+            if (resolvedColor === 'red' || resolvedColor === 'green' || resolvedColor === 'white' || resolvedColor === 'blue') {
+                colors.add(resolvedColor);
+            }
+        }
+
+        return Array.from(colors);
     }
 
     private _commitPendingPurchasedCards(): void {

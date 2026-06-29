@@ -47,6 +47,7 @@ export class CardComponent implements OnInit {
     @Input() disableHoverUi: boolean = false;
     @Input() playerTokens?: { [key in Color]?: number };
     @Input() playerCardTokens?: { [key in Color]?: number };
+    @Input() playerMasterColors?: Color[];
     @Input() purchaseLockedThisTurn: boolean = false;
     @Input() purchaseBlocked: boolean = false;
     @Input() purchaseBlockedLabel: string = 'Already Have';
@@ -77,31 +78,16 @@ export class CardComponent implements OnInit {
     public allColors: string[] = ['green', 'white', 'blue', 'red', 'purple', 'black'];
     public diceRollResults: string[] = [];
     private readonly _payColorsWithoutPurple: Color[] = ['red', 'green', 'white', 'blue', 'black'];
+    private readonly _elementalPayColors: Color[] = ['red', 'green', 'white', 'blue'];
     private readonly _purpleWildcardPayColors: Color[] = ['red', 'green', 'white', 'blue'];
     private readonly _supportedPayKeys: Set<string> = new Set(['red', 'green', 'white', 'blue', 'black', 'purple']);
 
     public get isAffordableForPlayer(): boolean {
-        if (!this.disableHoverUi || !this.playerTokens) {
+        const plan = this._buildHoverPaymentPlan();
+        if (!plan) {
             return false;
         }
-
-        const pay = this.card?.pay;
-        if (!pay) {
-            return false;
-        }
-
-        for (const [key, value] of Object.entries(pay)) {
-            if ((value ?? 0) > 0 && !this._supportedPayKeys.has(key)) {
-                return false;
-            }
-        }
-
-        if (!this._isBlackRequirementCoveredByBlackResources()) {
-            return false;
-        }
-
-        const availablePurple = this.playerTokens['purple'] ?? 0;
-        return availablePurple >= this._getPurpleCoinsNeededForPurchase();
+        return plan.isAffordable;
     }
 
     public get isAffordableNow(): boolean {
@@ -134,24 +120,8 @@ export class CardComponent implements OnInit {
     }
 
     private _getPurpleCoinsNeededForPurchase(): number {
-        const pay = this.card?.pay;
-        if (!pay) {
-            return 0;
-        }
-
-        const playerCards = this.playerCardTokens ?? {};
-        const purpleCardBonus = playerCards['purple'] ?? 0;
-        let purpleNeeded = Math.max((pay['purple'] ?? 0) - purpleCardBonus, 0);
-
-        for (const color of this._purpleWildcardPayColors) {
-            const required = pay[color] ?? 0;
-            const passiveBonus = playerCards[color] ?? 0;
-            const requiredAfterPassive = Math.max(required - passiveBonus, 0);
-            const available = this.playerTokens?.[color] ?? 0;
-            purpleNeeded += Math.max(requiredAfterPassive - available, 0);
-        }
-
-        return purpleNeeded;
+        const plan = this._buildHoverPaymentPlan();
+        return plan?.purpleNeeded ?? 0;
     }
 
     private _hasAnyPaymentRequirement(): boolean {
@@ -192,22 +162,6 @@ export class CardComponent implements OnInit {
         return true;
     }
 
-    private _isBlackRequirementCoveredByBlackResources(): boolean {
-        const pay = this.card?.pay;
-        if (!pay) {
-            return true;
-        }
-
-        const requiredBlack = pay['black'] ?? 0;
-        if (requiredBlack <= 0) {
-            return true;
-        }
-
-        const passiveBlack = this.playerCardTokens?.['black'] ?? 0;
-        const blackCoins = this.playerTokens?.['black'] ?? 0;
-        return blackCoins + passiveBlack >= requiredBlack;
-    }
-
     private _hasPurplePaymentRequirement(): boolean {
         const pay = this.card?.pay;
         if (!pay) {
@@ -215,6 +169,99 @@ export class CardComponent implements OnInit {
         }
 
         return (pay['purple'] ?? 0) > 0 || this._getPurpleCoinsNeededForPurchase() > 0;
+    }
+
+    private _buildHoverPaymentPlan(): { isAffordable: boolean; purpleNeeded: number } | null {
+        if (!this.disableHoverUi || !this.playerTokens) {
+            return null;
+        }
+
+        const pay = this.card?.pay;
+        if (!pay) {
+            return null;
+        }
+
+        for (const [key, value] of Object.entries(pay)) {
+            if ((value ?? 0) > 0 && !this._supportedPayKeys.has(key)) {
+                return { isAffordable: false, purpleNeeded: 0 };
+            }
+        }
+
+        const playerCards = this.playerCardTokens ?? {};
+        const tokenPool: Partial<Record<Color, number>> = {
+            red: this.playerTokens['red'] ?? 0,
+            green: this.playerTokens['green'] ?? 0,
+            white: this.playerTokens['white'] ?? 0,
+            blue: this.playerTokens['blue'] ?? 0,
+            purple: this.playerTokens['purple'] ?? 0,
+            black: this.playerTokens['black'] ?? 0,
+        };
+
+        const passiveBlack = playerCards['black'] ?? 0;
+        const requiredBlack = pay['black'] ?? 0;
+        const requiredBlackAfterPassive = Math.max(requiredBlack - passiveBlack, 0);
+        if ((tokenPool['black'] ?? 0) < requiredBlackAfterPassive) {
+            return { isAffordable: false, purpleNeeded: 0 };
+        }
+        tokenPool['black'] = Math.max((tokenPool['black'] ?? 0) - requiredBlackAfterPassive, 0);
+
+        const purpleCardBonus = playerCards['purple'] ?? 0;
+        let purpleNeeded = Math.max((pay['purple'] ?? 0) - purpleCardBonus, 0);
+
+        const masteredColors = this._getMasteredElementalColors();
+
+        for (const color of this._purpleWildcardPayColors) {
+            const required = pay[color] ?? 0;
+            const passiveBonus = playerCards[color] ?? 0;
+            let remaining = Math.max(required - passiveBonus, 0);
+            if (remaining <= 0) {
+                continue;
+            }
+
+            const sameColorSpend = Math.min(remaining, tokenPool[color] ?? 0);
+            tokenPool[color] = Math.max((tokenPool[color] ?? 0) - sameColorSpend, 0);
+            remaining -= sameColorSpend;
+
+            if (remaining > 0 && masteredColors.has(color)) {
+                for (const donorColor of this._elementalPayColors) {
+                    if (donorColor === color) {
+                        continue;
+                    }
+
+                    const donorAvailable = tokenPool[donorColor] ?? 0;
+                    if (donorAvailable <= 0) {
+                        continue;
+                    }
+
+                    const donorSpend = Math.min(remaining, donorAvailable);
+                    tokenPool[donorColor] = donorAvailable - donorSpend;
+                    remaining -= donorSpend;
+
+                    if (remaining <= 0) {
+                        break;
+                    }
+                }
+            }
+
+            if (remaining > 0) {
+                purpleNeeded += remaining;
+            }
+        }
+
+        return {
+            isAffordable: (tokenPool['purple'] ?? 0) >= purpleNeeded,
+            purpleNeeded,
+        };
+    }
+
+    private _getMasteredElementalColors(): Set<Color> {
+        const mastered = new Set<Color>();
+        for (const color of this.playerMasterColors ?? []) {
+            if (this._elementalPayColors.includes(color)) {
+                mastered.add(color);
+            }
+        }
+        return mastered;
     }
 
     public trackByColor(index: number, color: string): string {
