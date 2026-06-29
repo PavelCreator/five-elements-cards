@@ -1860,11 +1860,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public get canCancelBonusShopModal(): boolean {
-        if (!this.hasBonusShopActionStarted) {
-            return true;
-        }
-
-        return this._pendingCancelableBonusShopAction !== null;
+        // Cancel should always close the modal. For rollback-capable actions
+        // rollback is handled in closeBonusShopModal(); for non-rollback actions,
+        // close simply dismisses the modal without resetting state.
+        return true;
     }
 
     public onBonusShopRewardClick(reward: BonusShopReward, rule: BonusShopRule, rewardIndex: number): void {

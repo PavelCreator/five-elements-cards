@@ -298,16 +298,8 @@
             <div class="bonus-shop-modal__actions">
                 <button
                     type="button"
-                    class="bonus-shop-modal__apply"
-                    *ngIf="hasBonusShopActionStarted"
-                    (click)="applyBonusShopBonuses()">
-                    Apply bonuses
-                </button>
-                <button
-                    type="button"
                     class="bonus-shop-modal__cancel"
-                    (click)="closeBonusShopModal()"
-                    [disabled]="!canCancelBonusShopModal">
+                    (click)="closeBonusShopModal()">
                     Cancel
                 </button>
             </div>
@@ -372,7 +364,7 @@
                             *ngFor="let color of bonusShopMixColors"
                             (click)="onBonusShopMixHandClick(color)"
                             [disabled]="isBonusShopMixHandDisabled(color)">
-                            <app-hexagon [color]="color" [number]="bonusShopMixDraftHandHexagons[color]" [type]="'playerBank'"></app-hexagon>
+                            <app-hexagon [color]="color" [number]="bonusShopMixDraftHandHexagons[color]" [type]="'gameBank'"></app-hexagon>
                         </button>
                     </div>
                 </div>
