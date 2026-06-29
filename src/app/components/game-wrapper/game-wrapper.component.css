@@ -1808,3 +1808,136 @@
     gap: 6px;
 }
 
+:host-context(.theme-dark) .game-wrapper {
+    background: radial-gradient(circle at 18% 8%, #1f2937 0%, #0b1220 65%);
+    color: #dbe7f5;
+}
+
+:host-context(.theme-dark) .game-field {
+    background: rgba(15, 23, 42, 0.88);
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.35);
+}
+
+:host-context(.theme-dark) .left-bank-panel {
+    background: rgba(15, 23, 42, 0.9);
+    border-color: rgba(148, 163, 184, 0.35);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+}
+
+:host-context(.theme-dark) .left-bank-panel__title,
+:host-context(.theme-dark) .roll-title {
+    color: #f8fafc;
+}
+
+:host-context(.theme-dark) .left-bank-panel .game-hex-row .roll-wrapper {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: rgba(148, 163, 184, 0.45);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+}
+
+:host-context(.theme-dark) .left-bank-panel .game-hex-row .roll-wrapper:hover {
+    background: rgba(51, 65, 85, 0.98);
+}
+
+:host-context(.theme-dark) .left-bank-panel .game-hex-row .roll-wrapper:focus {
+    box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.25), 0 8px 18px rgba(0, 0, 0, 0.35);
+}
+
+:host-context(.theme-dark) .left-bank-panel .game-hex-row .roll-wrapper:disabled {
+    opacity: 0.42;
+}
+
+:host-context(.theme-dark) .left-bank-panel .game-hex-row .roll-label {
+    color: #e2e8f0;
+}
+
+:host-context(.theme-dark) .right-sidebar__page-button {
+    background: rgba(15, 23, 42, 0.88);
+    border-color: rgba(148, 163, 184, 0.45);
+    color: #e2e8f0;
+}
+
+:host-context(.theme-dark) .right-sidebar__page-button--active {
+    background: #0b3b59;
+    border-color: #7dd3fc;
+    color: #f8fafc;
+}
+
+:host-context(.theme-dark) .game-setup {
+    background: radial-gradient(circle at 20% 20%, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.97));
+}
+
+:host-context(.theme-dark) .game-setup__panel {
+    background: rgba(15, 23, 42, 0.92);
+    border-color: rgba(148, 163, 184, 0.35);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+}
+
+:host-context(.theme-dark) .game-setup__title {
+    color: #f8fafc;
+}
+
+:host-context(.theme-dark) .game-setup__subtitle {
+    color: #cbd5e1;
+}
+
+:host-context(.theme-dark) .game-setup__button {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: rgba(148, 163, 184, 0.45);
+    color: #e2e8f0;
+}
+
+:host-context(.theme-dark) .bonus-shop-modal,
+:host-context(.theme-dark) .bonus-shop-mix-modal,
+:host-context(.theme-dark) .bonus-shop-extra-turn-modal,
+:host-context(.theme-dark) .bonus-shop-free-card-modal,
+:host-context(.theme-dark) .bonus-shop-master-modal,
+:host-context(.theme-dark) .purple-purchase-preview-modal,
+:host-context(.theme-dark) .dice-modal,
+:host-context(.theme-dark) .victory-modal,
+:host-context(.theme-dark) .lucky-purple-modal {
+    background: #0f172a;
+    border-color: rgba(148, 163, 184, 0.35);
+    color: #e2e8f0;
+}
+
+:host-context(.theme-dark) .bonus-shop-modal__title,
+:host-context(.theme-dark) .bonus-shop-mix-modal__title,
+:host-context(.theme-dark) .bonus-shop-extra-turn-modal__text,
+:host-context(.theme-dark) .bonus-shop-free-card-modal__title,
+:host-context(.theme-dark) .bonus-shop-master-modal__title,
+:host-context(.theme-dark) .purple-purchase-preview-modal__title,
+:host-context(.theme-dark) .purple-purchase-preview-modal__subtitle,
+:host-context(.theme-dark) .victory-modal__title,
+:host-context(.theme-dark) .victory-modal__winner,
+:host-context(.theme-dark) .victory-modal__condition,
+:host-context(.theme-dark) .lucky-purple-modal__title,
+:host-context(.theme-dark) .lucky-purple-modal__subtitle,
+:host-context(.theme-dark) .bonus-shop-master-modal__subtitle,
+:host-context(.theme-dark) .bonus-shop-master-modal__empty {
+    color: #f8fafc;
+}
+
+:host-context(.theme-dark) .purple-purchase-preview-section {
+    background: rgba(30, 41, 59, 0.9);
+    border-color: rgba(148, 163, 184, 0.42);
+}
+
+:host-context(.theme-dark) .purple-purchase-preview-section__label {
+    color: #f8fafc;
+}
+
+:host-context(.theme-dark) .purple-purchase-preview-divider {
+    background: rgba(148, 163, 184, 0.35);
+}
+
+:host-context(.theme-dark) .purple-purchase-preview-guidance {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: rgba(148, 163, 184, 0.45);
+}
+
+:host-context(.theme-dark) .purple-purchase-preview-guidance__text {
+    color: #f8fafc;
+}
+

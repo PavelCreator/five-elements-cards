@@ -49,6 +49,9 @@
 		<button type="button" class="settings-clear" [class.settings-button--active]="check2to4JokersMode" (click)="toggleCheck2to4JokersMode()">
 			Check 4 Jokers {{ check2to4JokersMode ? '[ON]' : '[OFF]' }}
 		</button>
+		<button type="button" class="settings-clear" [class.settings-button--active]="darkThemeEnabled" (click)="toggleDarkTheme()">
+			Dark Theme {{ darkThemeEnabled ? '[ON]' : '[OFF]' }}
+		</button>
 
 		<div class="settings-subtitle settings-subtitle--spaced">Win Conditions</div>
 		<div class="settings-mode-buttons">

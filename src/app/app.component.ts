@@ -35,6 +35,7 @@ export class AppComponent implements OnInit{
     public check2toJokersMode: boolean = false;
     public check2to3JokersMode: boolean = false;
     public check2to4JokersMode: boolean = false;
+    public darkThemeEnabled: boolean = false;
     public readonly winConditionModes: HowToWinCardType[] = ['Grand', 'Blitz'];
     public winConditionMode: HowToWinCardType = 'Grand';
     public selectedWinConditionOptions: number[] = [1, 2, 3, 4];
@@ -64,6 +65,7 @@ export class AppComponent implements OnInit{
         this._loadCheck2toJokersMode();
         this._loadCheck2to3JokersMode();
         this._loadCheck2to4JokersMode();
+        this._loadDarkThemeMode();
         this._loadWinConditions();
 
         this._interactionService.selectedViewMode$.subscribe((inSelectedMenuItem: number | undefined) => {
@@ -95,6 +97,12 @@ export class AppComponent implements OnInit{
         this._interactionService.showTabNav$.subscribe((show: boolean) => {
             this.showTabNav = show;
         })
+    }
+
+    public toggleDarkTheme(): void {
+        this.darkThemeEnabled = !this.darkThemeEnabled;
+        this._settingsService.setDarkThemeEnabled(this.darkThemeEnabled);
+        this._applyDarkThemeClass();
     }
 
     public setActiveTab(tab: AppTab): void {
@@ -237,6 +245,15 @@ export class AppComponent implements OnInit{
 
     private _loadCheck2to4JokersMode(): void {
         this.check2to4JokersMode = this._settingsService.isCheck2to4JokersModeEnabled();
+    }
+
+    private _loadDarkThemeMode(): void {
+        this.darkThemeEnabled = this._settingsService.isDarkThemeEnabled();
+        this._applyDarkThemeClass();
+    }
+
+    private _applyDarkThemeClass(): void {
+        document.body.classList.toggle('theme-dark', this.darkThemeEnabled);
     }
 
     private _loadWinConditions(): void {

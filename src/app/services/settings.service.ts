@@ -11,9 +11,12 @@ import { HowToWinCardType } from "../models/how-to-win-card.interface";
 })
 export class SettingsService {
   public lang: Lang = 'en';
+  private readonly _darkThemeKey = 'darkThemeEnabled';
   private readonly _winConditionModeKey = 'winConditionMode';
   private readonly _winConditionOptionsKey = 'selectedWinConditionOptions';
   private readonly _defaultWinConditionOptions: number[] = [1, 2, 3, 4];
+  private _darkThemeEnabled = new BehaviorSubject<boolean>(false);
+  public darkThemeEnabled$ = this._darkThemeEnabled.asObservable();
   private _checkToCrossMode = new BehaviorSubject<boolean>(false);
   public checkToCrossMode$ = this._checkToCrossMode.asObservable();
   private _checkToThreeCrossMode = new BehaviorSubject<boolean>(false);
@@ -67,6 +70,11 @@ export class SettingsService {
       this._check2to4JokersMode.next(true);
     }
 
+    const darkThemeEnabled = this._localStorageService.getItem(this._darkThemeKey);
+    if (darkThemeEnabled === 'true') {
+      this._darkThemeEnabled.next(true);
+    }
+
     const winConditionMode = this._localStorageService.getItem(this._winConditionModeKey);
     if (winConditionMode === 'Grand' || winConditionMode === 'Blitz') {
       this._winConditionMode.next(winConditionMode);
@@ -107,6 +115,15 @@ export class SettingsService {
   public setLang(inLang: Lang): void {
     this.lang = inLang;
     this._localStorageService.setItem('lang', inLang);
+  }
+
+  public setDarkThemeEnabled(enabled: boolean): void {
+    this._darkThemeEnabled.next(enabled);
+    this._localStorageService.setItem(this._darkThemeKey, enabled.toString());
+  }
+
+  public isDarkThemeEnabled(): boolean {
+    return this._darkThemeEnabled.value;
   }
 
   public setCheckToCrossMode(enabled: boolean): void {
