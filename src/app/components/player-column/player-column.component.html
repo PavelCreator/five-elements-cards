@@ -81,7 +81,10 @@
                             [type]="'getWin'"></app-hexagon>
                     </div>
                 </div>
-                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'black') === 0">
+                <div
+                    class="player-black-token-cell"
+                    [class.player-black-token-cell--with-secondary]="getSecondaryPassiveBlackDisplayGroup(getPlayerNumber(i)) !== null"
+                    [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'black') === 0">
                     <app-hexagon [color]="'black'" [number]="getHexagonValue(getPlayerNumber(i), 'black')" [type]="'playerBank'"></app-hexagon>
                 </div>
             </div>

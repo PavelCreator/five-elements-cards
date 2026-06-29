@@ -15,7 +15,7 @@
 }
 
 .player-slot{
-    width:360px;
+    width:374px;
     height:540px;
     display:flex;
     justify-content:center;
@@ -139,7 +139,7 @@
     margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
-    width: 323px;
+    width: 340px;
 }
 
 .player-hexagons > div:nth-child(even){
@@ -168,8 +168,12 @@
 .player-black-passive-stack--extra{
     position: absolute;
     top: 0;
-    left: 34px;
+    left: 30px;
     z-index: 2;
+}
+
+.player-black-token-cell.player-black-token-cell--with-secondary{
+    margin-left: -14px !important;
 }
 
 .player-black-passive-stack--tapped{
