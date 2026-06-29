@@ -8,6 +8,7 @@ import { Color } from '../../models/color.type';
 import { CardComponent } from '../card/card.component';
 import { HexagonComponent } from '../hexagon/hexagon.component';
 import { PlayerColumnComponent } from '../player-column/player-column.component';
+import { MasterCardComponent } from '../master-card/master-card.component';
 import { ImageService } from '../../services/image.service';
 import { InteractionService } from '../../services/interaction.service';
 import { cards as initialCards } from '../../data/cards';
@@ -16,6 +17,8 @@ import { SettingsService } from '../../services/settings.service';
 import { HowToWinComponent } from '../how-to-win/how-to-win.component';
 import { howToWinCards } from '../../data/how-to-win-cards';
 import { HowToWinCard, HowToWinCardType } from '../../models/how-to-win-card.interface';
+import { masterCards } from '../../data/master-cards';
+import { MasterCard } from '../../models/master-card.interface';
 
 type SpecialStackColor = 'purple' | 'black';
 type SpecialStackKey = `${number}-${SpecialStackColor}`;
@@ -55,11 +58,19 @@ interface PendingCancelableBonusShopAction {
 
 type PlayerLevelPurchaseCounts = { [level: number]: number };
 type PlayerPassiveBlackTapState = { [playerNumber: number]: number };
+type BonusShopMasterKind = 'master' | 'grand-master';
+
+interface OwnedMasterCard {
+    orderNumber: number;
+    name: string;
+    image: string;
+    grand: boolean;
+}
 
 @Component({
     selector: 'app-game-wrapper',
     standalone: true,
-    imports: [NgClass, NgFor, NgIf, NgStyle, FormsModule, CardComponent, HexagonComponent, PlayerColumnComponent, HowToWinComponent],
+    imports: [NgClass, NgFor, NgIf, NgStyle, FormsModule, CardComponent, HexagonComponent, PlayerColumnComponent, MasterCardComponent, HowToWinComponent],
     templateUrl: 'game-wrapper.component.html',
     styleUrls: ['./game-wrapper.component.css', '../../style.css'],
 })
@@ -114,6 +125,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public showBonusShopMixModal: boolean = false;
     public showBonusShopFreeCardModal: boolean = false;
     public showBonusShopExtraTurnModal: boolean = false;
+    public showBonusShopMasterModal: boolean = false;
     public hasBonusShopActionStarted: boolean = false;
     public usedBonusShopRewardKeysThisTurn: Set<string> = new Set<string>();
     public bonusShopMixSelectionLimit: number = 0;
@@ -132,6 +144,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public bonusShopFreeCardLevel: number = 0;
     public bonusShopFreeCardChoices: Card[] = [];
     public selectedBonusShopFreeCardOrderNumber: number | null = null;
+    public bonusShopMasterChoices: MasterCard[] = [];
+    public selectedBonusShopMasterOrderNumber: number | null = null;
+    public bonusShopMasterKind: BonusShopMasterKind = 'master';
     public readonly bonusShopRules: BonusShopRule[] = [
         {
             blackCost: 1,
@@ -214,6 +229,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         5: { red: 2, blue: 2, white: 2, green: 2, purple: 2, black: 2 },
         6: { red: 2, blue: 2, white: 2, green: 2, purple: 2, black: 2 },
     };
+    public playerOwnedMasterCards: { [playerNumber: number]: OwnedMasterCard[] } = {
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+        6: [],
+    };
     public hexagonsPickedThisTurn: number = 0;
     public isFinishTurnUnlockedByDiceModal: boolean = false;
     public isWaitingForPostRoll2Token: boolean = false;
@@ -226,6 +249,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private _turnStartGameBankHexagons: { [key in Color]?: number } = {};
     private _turnStartPlayerHexagons: { [key in Color]?: number } = {};
     private _turnStartPlayerCardHexagons: { [key in Color]?: number } = {};
+    private _turnStartPlayerOwnedMasterCards: OwnedMasterCard[] = [];
+    private _purchasedMasterCardOrderNumbers: Set<number> = new Set<number>();
+    private _turnStartPurchasedMasterCardOrderNumbers: Set<number> = new Set<number>();
+    private _mastersTakenThisTurn: number = 0;
+    private _turnStartMastersTakenThisTurn: number = 0;
     private _playerPassiveBlackTappedThisTurn: PlayerPassiveBlackTapState = {
         1: 0,
         2: 0,
@@ -263,6 +291,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private _pendingBonusShopFreeCardRewardKey: string = '';
     private _pendingBonusShopExtraTurnBlackCost: number = 0;
     private _pendingBonusShopExtraTurnRewardKey: string = '';
+    private _pendingBonusShopMasterBlackCost: number = 0;
+    private _pendingBonusShopMasterRewardKey: string = '';
     private _isActivePlayerExtraTurnInProgress: boolean = false;
     private _pendingCancelableBonusShopAction: PendingCancelableBonusShopAction | null = null;
     private pickedTokensThisTurn: Color[] = [];
@@ -494,6 +524,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         if (this.showBonusShopExtraTurnModal) {
             this.cancelBonusShopExtraTurnSelection();
+            return true;
+        }
+
+        if (this.showBonusShopMasterModal) {
+            this.cancelBonusShopMasterSelection();
             return true;
         }
 
@@ -929,9 +964,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.usedBonusShopRewardKeysThisTurn.clear();
         this._pendingCancelableBonusShopAction = null;
         this._setActivePlayerPassiveBlackTappedCount(0);
+        this._mastersTakenThisTurn = 0;
         this._isActivePlayerExtraTurnInProgress = false;
         this._resetBonusShopExtraTurnDraft(false);
         this._resetBonusShopFreeCardDraft(false);
+        this._resetBonusShopMasterDraft(false);
         this.pickedTokensThisTurn = [];
 
         this._updateTokensByDiceState();
@@ -978,7 +1015,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.usedBonusShopRewardKeysThisTurn.clear();
         this._pendingCancelableBonusShopAction = null;
         this._setActivePlayerPassiveBlackTappedCount(this._turnStartPassiveBlackTappedCount);
+        this.playerOwnedMasterCards[this.activePlayer] = this._turnStartPlayerOwnedMasterCards.map((card) => ({ ...card }));
+        this._purchasedMasterCardOrderNumbers = new Set<number>(this._turnStartPurchasedMasterCardOrderNumbers);
+        this._mastersTakenThisTurn = this._turnStartMastersTakenThisTurn;
         this._resetBonusShopFreeCardDraft(false);
+        this._resetBonusShopMasterDraft(false);
         this._pendingPurchasedCardOrderNumbers.clear();
         this._pendingBonusActionCardOrderNumbers.clear();
         this.pickedTokensThisTurn = [];
@@ -1139,7 +1180,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public isBonusShopImageRewardClickable(reward: BonusShopReward): boolean {
-        return this._getBonusShopFreeCardLevel(reward) > 0 || this._isBonusShopExtraTurnReward(reward);
+        return this._getBonusShopFreeCardLevel(reward) > 0
+            || this._isBonusShopExtraTurnReward(reward)
+            || this._getBonusShopMasterKind(reward) !== null;
     }
 
     public get activePlayerBlackPassiveCardSlots(): number[] {
@@ -1153,7 +1196,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public isBonusShopRuleDisabled(rule: BonusShopRule): boolean {
-        if (this.showBonusShopMixModal || this.showBonusShopFreeCardModal) {
+        if (this.showBonusShopMixModal || this.showBonusShopFreeCardModal || this.showBonusShopMasterModal) {
             return true;
         }
 
@@ -1227,6 +1270,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return this._getBonusShopFreeCardChoices(freeCardLevel).length <= 0;
         }
 
+        const masterKind = this._getBonusShopMasterKind(reward);
+        if (masterKind) {
+            return this._getBonusShopMasterChoices(masterKind).every((card) => this._isMasterCardUnavailable(card, masterKind));
+        }
+
         return false;
     }
 
@@ -1243,7 +1291,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return false;
         }
 
-        return this._getBonusShopFreeCardLevel(reward) > 0 || this._isBonusShopExtraTurnReward(reward);
+        return this._getBonusShopFreeCardLevel(reward) > 0
+            || this._isBonusShopExtraTurnReward(reward)
+            || this._getBonusShopMasterKind(reward) !== null;
     }
 
     private _isBonusShopExtraTurnBlocked(reward: BonusShopReward | undefined): boolean {
@@ -1260,6 +1310,23 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         return (reward.imageSrc ?? '').toLowerCase().endsWith('/extra_turn.png');
+    }
+
+    private _getBonusShopMasterKind(reward: BonusShopReward | undefined): BonusShopMasterKind | null {
+        if (!reward || reward.kind !== 'image') {
+            return null;
+        }
+
+        const imageSrc = (reward.imageSrc ?? '').toLowerCase();
+        if (imageSrc.endsWith('/card_master.png')) {
+            return 'master';
+        }
+
+        if (imageSrc.endsWith('/card_grand_master.png')) {
+            return 'grand-master';
+        }
+
+        return null;
     }
 
     private _getBonusShopPurpleRewardAmount(reward: BonusShopReward | undefined): number {
@@ -1302,6 +1369,29 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         return targetRow.topCards.filter((card) => !this.isCardPending(card));
+    }
+
+    private _getBonusShopMasterChoices(kind: BonusShopMasterKind): MasterCard[] {
+        return masterCards.filter((card) => {
+            const isGrand = card.grand === true;
+            return kind === 'master' ? !isGrand : isGrand;
+        });
+    }
+
+    private _isMasterCardUnavailable(card: MasterCard | undefined, kind: BonusShopMasterKind): boolean {
+        if (!card) {
+            return true;
+        }
+
+        if (this._purchasedMasterCardOrderNumbers.has(card.orderNumber)) {
+            return true;
+        }
+
+        if (kind === 'master' && this._mastersTakenThisTurn >= 1) {
+            return true;
+        }
+
+        return false;
     }
 
     private _buildBonusShopRewardKey(blackCost: number, rewardIndex: number): string {
@@ -1897,6 +1987,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
+        const masterKind = this._getBonusShopMasterKind(reward);
+        if (masterKind) {
+            this._openBonusShopMasterModal(masterKind, cost, rewardKey);
+            return;
+        }
+
         const freeCardLevel = this._getBonusShopFreeCardLevel(reward);
         if (freeCardLevel > 0) {
             this._openBonusShopFreeCardModal(freeCardLevel, cost, rewardKey);
@@ -2192,6 +2288,105 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._resetBonusShopFreeCardDraft(true);
     }
 
+    public onBonusShopMasterCardClick(card: MasterCard): void {
+        if (!this.showBonusShopMasterModal || this.hasBonusShopActionStarted) {
+            return;
+        }
+
+        if (!card || this._isMasterCardUnavailable(card, this.bonusShopMasterKind)) {
+            return;
+        }
+
+        this.selectedBonusShopMasterOrderNumber = card.orderNumber;
+    }
+
+    public isBonusShopMasterCardSelected(card: MasterCard): boolean {
+        if (!card || this.selectedBonusShopMasterOrderNumber === null) {
+            return false;
+        }
+
+        return card.orderNumber === this.selectedBonusShopMasterOrderNumber;
+    }
+
+    public isBonusShopMasterCardDisabled(card: MasterCard): boolean {
+        return this._isMasterCardUnavailable(card, this.bonusShopMasterKind);
+    }
+
+    public get canApplyBonusShopMasterSelection(): boolean {
+        if (this.hasBonusShopActionStarted) {
+            return false;
+        }
+
+        if (!this.showBonusShopMasterModal || this.selectedBonusShopMasterOrderNumber === null) {
+            return false;
+        }
+
+        if (this._getActivePlayerBonusShopBlackBalance() < this._pendingBonusShopMasterBlackCost) {
+            return false;
+        }
+
+        const selectedCard = this.bonusShopMasterChoices.find((card) => card.orderNumber === this.selectedBonusShopMasterOrderNumber);
+        if (!selectedCard) {
+            return false;
+        }
+
+        return !this._isMasterCardUnavailable(selectedCard, this.bonusShopMasterKind);
+    }
+
+    public applyBonusShopMasterSelection(): void {
+        if (!this.canApplyBonusShopMasterSelection) {
+            return;
+        }
+
+        const playerHex = this.playerHexagons[this.activePlayer];
+        if (!playerHex) {
+            return;
+        }
+
+        const selectedCard = this.bonusShopMasterChoices.find((card) => card.orderNumber === this.selectedBonusShopMasterOrderNumber);
+        if (!selectedCard || this._isMasterCardUnavailable(selectedCard, this.bonusShopMasterKind)) {
+            return;
+        }
+
+        const blackSpend = this._spendActivePlayerBlackForBonusMarket(this._pendingBonusShopMasterBlackCost);
+        if (!blackSpend) {
+            return;
+        }
+
+        this.gameBankHexagons['black'] = (this.gameBankHexagons['black'] ?? 0) + blackSpend.spentFromActive;
+
+        const playerMasterCards = this.playerOwnedMasterCards[this.activePlayer] ?? [];
+        playerMasterCards.push({
+            orderNumber: selectedCard.orderNumber,
+            name: selectedCard.text.en,
+            image: selectedCard.image ?? '',
+            grand: selectedCard.grand === true,
+        });
+        this.playerOwnedMasterCards[this.activePlayer] = playerMasterCards;
+        this._purchasedMasterCardOrderNumbers.add(selectedCard.orderNumber);
+
+        if (this.bonusShopMasterKind === 'master') {
+            this._mastersTakenThisTurn += 1;
+        }
+
+        if (this._pendingBonusShopMasterRewardKey) {
+            this.usedBonusShopRewardKeysThisTurn.add(this._pendingBonusShopMasterRewardKey);
+        }
+
+        this.hasBonusShopActionStarted = false;
+        this._pendingCancelableBonusShopAction = null;
+        this._resetBonusShopMasterDraft(false);
+        this.showBonusShopModal = false;
+    }
+
+    public cancelBonusShopMasterSelection(): void {
+        if (this.hasBonusShopActionStarted) {
+            return;
+        }
+
+        this._resetBonusShopMasterDraft(true);
+    }
+
     public applyBonusShopBonuses(): void {
         if (!this.hasBonusShopActionStarted) {
             return;
@@ -2203,6 +2398,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._resetBonusShopMixDraft();
         this._resetBonusShopExtraTurnDraft(false);
         this._resetBonusShopFreeCardDraft(false);
+        this._resetBonusShopMasterDraft(false);
     }
 
     private _rollbackCancelableBonusShopAction(): void {
@@ -2274,6 +2470,21 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.showBonusShopFreeCardModal = true;
     }
 
+    private _openBonusShopMasterModal(kind: BonusShopMasterKind, blackCost: number, rewardKey: string): void {
+        const choices = this._getBonusShopMasterChoices(kind);
+        if (choices.length <= 0) {
+            return;
+        }
+
+        this.bonusShopMasterKind = kind;
+        this.bonusShopMasterChoices = [...choices];
+        this.selectedBonusShopMasterOrderNumber = null;
+        this._pendingBonusShopMasterBlackCost = blackCost;
+        this._pendingBonusShopMasterRewardKey = rewardKey;
+        this.showBonusShopModal = false;
+        this.showBonusShopMasterModal = true;
+    }
+
     private _resetBonusShopMixDraft(): void {
         this.showBonusShopMixModal = false;
         this.bonusShopMixSelectionLimit = 0;
@@ -2306,12 +2517,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._lastClosedRollWasBonusAction = false;
         this.hasBonusShopActionStarted = false;
         this._setActivePlayerPassiveBlackTappedCount(0);
+        this._mastersTakenThisTurn = 0;
         this._isActivePlayerExtraTurnInProgress = true;
         this.usedBonusShopRewardKeysThisTurn.clear();
         this._pendingCancelableBonusShopAction = null;
         this._resetBonusShopMixDraft();
         this._resetBonusShopExtraTurnDraft(false);
         this._resetBonusShopFreeCardDraft(false);
+        this._resetBonusShopMasterDraft(false);
         this.pickedTokensThisTurn = [];
 
         this._updateTokensByDiceState();
@@ -2380,6 +2593,19 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.selectedBonusShopFreeCardOrderNumber = null;
         this._pendingBonusShopFreeCardBlackCost = 0;
         this._pendingBonusShopFreeCardRewardKey = '';
+
+        if (showBonusShopModalAfterReset) {
+            this.showBonusShopModal = true;
+        }
+    }
+
+    private _resetBonusShopMasterDraft(showBonusShopModalAfterReset: boolean): void {
+        this.showBonusShopMasterModal = false;
+        this.bonusShopMasterKind = 'master';
+        this.bonusShopMasterChoices = [];
+        this.selectedBonusShopMasterOrderNumber = null;
+        this._pendingBonusShopMasterBlackCost = 0;
+        this._pendingBonusShopMasterRewardKey = '';
 
         if (showBonusShopModalAfterReset) {
             this.showBonusShopModal = true;
@@ -3117,6 +3343,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!Number.isInteger(playerNumber) || playerNumber < 1 || playerNumber > 6) return;
         this.activePlayer = playerNumber;
         this._setActivePlayerPassiveBlackTappedCount(0);
+        this._mastersTakenThisTurn = 0;
         this._isActivePlayerExtraTurnInProgress = false;
         this._ensureActivePlayerPage();
         this._captureTurnStartState();
@@ -3231,6 +3458,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             ...this._playerNormalCardLevelPurchases[this.activePlayer]
         };
         this._turnStartPassiveBlackTappedCount = this._getActivePlayerPassiveBlackTappedCount();
+        this._turnStartPlayerOwnedMasterCards = (this.playerOwnedMasterCards[this.activePlayer] ?? []).map((card) => ({ ...card }));
+        this._turnStartPurchasedMasterCardOrderNumbers = new Set<number>(this._purchasedMasterCardOrderNumbers);
+        this._turnStartMastersTakenThisTurn = this._mastersTakenThisTurn;
     }
 
     private _hasTurnStateChanges(): boolean {
@@ -3262,7 +3492,37 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return true;
         }
 
+        const currentPlayerMasters = this.playerOwnedMasterCards[this.activePlayer] ?? [];
+        const currentMasterOrders = currentPlayerMasters.map((card) => card.orderNumber).sort((a, b) => a - b);
+        const startMasterOrders = this._turnStartPlayerOwnedMasterCards.map((card) => card.orderNumber).sort((a, b) => a - b);
+        if (currentMasterOrders.length !== startMasterOrders.length
+            || currentMasterOrders.some((value, index) => value !== startMasterOrders[index])) {
+            return true;
+        }
+
+        if (!this._areEqualNumberSets(this._purchasedMasterCardOrderNumbers, this._turnStartPurchasedMasterCardOrderNumbers)) {
+            return true;
+        }
+
+        if (this._mastersTakenThisTurn !== this._turnStartMastersTakenThisTurn) {
+            return true;
+        }
+
         return false;
+    }
+
+    private _areEqualNumberSets(left: Set<number>, right: Set<number>): boolean {
+        if (left.size !== right.size) {
+            return false;
+        }
+
+        for (const value of left) {
+            if (!right.has(value)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private _getSpecialStackPurchaseKey(card: Card | undefined): SpecialStackKey | null {
@@ -3610,6 +3870,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.showBonusShopMixModal = false;
         this.showBonusShopExtraTurnModal = false;
         this.showBonusShopFreeCardModal = false;
+        this.showBonusShopMasterModal = false;
         this.showLuckyPurpleChoiceModal = false;
         this._setDiceModalScrollLock(false);
     }

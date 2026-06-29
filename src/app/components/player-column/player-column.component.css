@@ -35,7 +35,7 @@
     border:2px solid #4a90e2;box-shadow: 0 0 0 6px #47c3ff, 0 0 18px rgba(71, 195, 255, 0.95), 0 0 30px rgba(71, 195, 255, 0.65);
 }
 
-.player-card{`
+.player-card{
     font-weight:600;
     padding-top:25px;
     font-size:2.5em;
@@ -135,7 +135,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0;
-    padding: 6px;
+    padding: 0 12px 0 0;
     margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
@@ -154,4 +154,45 @@
 .hexagon-empty{
     opacity: 0.5;
     pointer-events: none;
+}
+
+.player-master-cards {
+    margin: 14px 29px 0 33px;
+}
+
+.player-master-card {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.32);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.player-master-card__image-wrap {
+    width: 68px;
+    height: 96px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+}
+
+.player-master-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.player-master-card__name {
+    font-size: 1em;
+    line-height: 1.15;
+    font-weight: 700;
+    color: #1f2937;
+    text-align: center;
+    white-space: normal;
+    word-break: break-word;
+    flex: 1;
 }

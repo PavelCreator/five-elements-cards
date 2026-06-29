@@ -156,6 +156,7 @@
                 [editingPlayerIndex]="editingPlayerIndex"
                 [playerHexagons]="playerHexagons"
                 [playerCardHexagons]="playerCardHexagons"
+                [playerOwnedMasterCards]="playerOwnedMasterCards"
                 (activePlayerChange)="setActivePlayer($event)"
                 (startRenameEvent)="startRename($event)"
                 (saveRenameEvent)="saveRename($event.playerNumber, $event.name)"
@@ -425,6 +426,51 @@
                     type="button"
                     class="bonus-shop-modal__cancel"
                     (click)="cancelBonusShopFreeCardSelection()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bonus-shop-master-overlay" *ngIf="showBonusShopMasterModal" (click)="cancelBonusShopMasterSelection()">
+        <div class="bonus-shop-master-modal" (click)="$event.stopPropagation()">
+            <div class="bonus-shop-master-modal__title">
+                {{ bonusShopMasterKind === 'master' ? 'Choose Master' : 'Choose Grand Master' }}
+            </div>
+            <div class="bonus-shop-master-modal__subtitle">
+                Select one {{ bonusShopMasterKind === 'master' ? 'master' : 'grand master' }} card.
+            </div>
+
+            <div class="bonus-shop-master-grid" *ngIf="bonusShopMasterChoices.length > 0; else noBonusShopMasterChoices">
+                <button
+                    type="button"
+                    class="bonus-shop-master-option"
+                    *ngFor="let masterCard of bonusShopMasterChoices"
+                    [class.bonus-shop-master-option--selected]="isBonusShopMasterCardSelected(masterCard)"
+                    [class.bonus-shop-master-option--disabled]="isBonusShopMasterCardDisabled(masterCard)"
+                    [disabled]="isBonusShopMasterCardDisabled(masterCard)"
+                    (click)="onBonusShopMasterCardClick(masterCard)">
+                    <app-master-card [card]="masterCard"></app-master-card>
+                </button>
+            </div>
+
+            <ng-template #noBonusShopMasterChoices>
+                <div class="bonus-shop-master-modal__empty">No available cards for this reward.</div>
+            </ng-template>
+
+            <div class="bonus-shop-master-modal__actions">
+                <button
+                    type="button"
+                    class="bonus-shop-modal__apply"
+                    *ngIf="selectedBonusShopMasterOrderNumber !== null"
+                    (click)="applyBonusShopMasterSelection()"
+                    [disabled]="!canApplyBonusShopMasterSelection">
+                    Apply bonuses
+                </button>
+                <button
+                    type="button"
+                    class="bonus-shop-modal__cancel"
+                    (click)="cancelBonusShopMasterSelection()">
                     Cancel
                 </button>
             </div>

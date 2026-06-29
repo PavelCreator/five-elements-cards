@@ -4,6 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { HexagonComponent } from '../hexagon/hexagon.component';
 import { Color } from '../../models/color.type';
 
+interface OwnedMasterCard {
+    orderNumber: number;
+    name: string;
+    image: string;
+    grand: boolean;
+}
+
 @Component({
     selector: 'app-player-column',
     standalone: true,
@@ -21,6 +28,7 @@ export class PlayerColumnComponent implements OnChanges, AfterViewChecked {
     @Input() visiblePlayerNumbers: number[] = [];
     @Input() playerHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {};
     @Input() playerCardHexagons: { [playerNumber: number]: { [key in Color]?: number } } = {};
+    @Input() playerOwnedMasterCards: { [playerNumber: number]: OwnedMasterCard[] } = {};
 
     @Output() activePlayerChange = new EventEmitter<number>();
     @Output() startRenameEvent = new EventEmitter<number>();
@@ -84,6 +92,10 @@ export class PlayerColumnComponent implements OnChanges, AfterViewChecked {
      */
     public getCardHexagonValue(playerNumber: number, color: Color): number {
         return this.playerCardHexagons[playerNumber]?.[color] ?? 0;
+    }
+
+    public getOwnedMasterCards(playerNumber: number): OwnedMasterCard[] {
+        return this.playerOwnedMasterCards[playerNumber] ?? [];
     }
 
     /**

@@ -1391,6 +1391,99 @@
     pointer-events: none;
 }
 
+    .bonus-shop-master-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.35);
+        border-radius: 20px;
+        z-index: 11;
+    }
+
+    .bonus-shop-master-modal {
+        width: min(1240px, 96vw);
+        background: #fffaf1;
+        border: 1px solid rgba(0, 0, 0, 0.14);
+        border-radius: 18px;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .bonus-shop-master-modal__title {
+        font-family: "Faculty Glyphic", sans-serif;
+        font-size: 34px;
+        font-weight: 700;
+        color: #1f2937;
+        text-align: center;
+        line-height: 1;
+    }
+
+    .bonus-shop-master-modal__subtitle,
+    .bonus-shop-master-modal__empty {
+        text-align: center;
+        color: #4b5563;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .bonus-shop-master-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        align-items: start;
+    }
+
+    .bonus-shop-master-option {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid rgba(148, 163, 184, 0.38);
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 14px;
+        padding: 8px;
+        cursor: pointer;
+        transition: border-color 0.14s ease-out, box-shadow 0.14s ease-out, transform 0.14s ease-out, opacity 0.14s ease-out;
+    }
+
+    .bonus-shop-master-option:hover:not(:disabled) {
+        transform: translateY(-1px);
+        border-color: rgba(74, 144, 226, 0.65);
+        box-shadow: 0 8px 20px rgba(30, 64, 175, 0.14);
+    }
+
+    .bonus-shop-master-option--selected {
+        border-color: #4a90e2;
+        box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    }
+
+    .bonus-shop-master-option--disabled,
+    .bonus-shop-master-option:disabled {
+        cursor: not-allowed;
+        opacity: 0.48;
+        filter: grayscale(0.75) saturate(0.65);
+        box-shadow: none;
+        transform: none;
+    }
+
+    .bonus-shop-master-option app-master-card {
+        pointer-events: none;
+        display: block;
+        width: 239px;
+        max-width: 100%;
+    }
+
+    .bonus-shop-master-modal__actions {
+        align-self: center;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
 .dice-reel {
     display: flex;
     flex-direction: column;
