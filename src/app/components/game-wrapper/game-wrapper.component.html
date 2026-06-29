@@ -209,7 +209,7 @@
                                     <button
                                         type="button"
                                         class="bonus-shop-rule__reward-icon bonus-shop-rule__reward-icon--clickable"
-                                        *ngIf="reward.freeCardLevel; else staticLeftImageReward"
+                                        *ngIf="isBonusShopImageRewardClickable(reward); else staticLeftImageReward"
                                         [disabled]="isBonusShopRewardDisabled(rule, rewardIndex)"
                                         (click)="onBonusShopRewardClick(reward, rule, rewardIndex)">
                                         <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
@@ -253,7 +253,7 @@
                                     <button
                                         type="button"
                                         class="bonus-shop-rule__reward-icon bonus-shop-rule__reward-icon--clickable"
-                                        *ngIf="reward.freeCardLevel; else staticRightImageReward"
+                                        *ngIf="isBonusShopImageRewardClickable(reward); else staticRightImageReward"
                                         [disabled]="isBonusShopRewardDisabled(rule, rewardIndex)"
                                         (click)="onBonusShopRewardClick(reward, rule, rewardIndex)">
                                         <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
@@ -264,6 +264,32 @@
                                 </ng-template>
                                 <span class="bonus-shop-rule__or" *ngIf="!isLast">OR</span>
                             </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bonus-shop-balance" *ngIf="playerHexagons[activePlayer] && playerCardHexagons[activePlayer]">
+                <div class="bonus-shop-balance__title">User Balance:</div>
+                <div class="bonus-shop-balance__list">
+                    <div class="bonus-shop-balance__pair">
+                        <div
+                            class="bonus-shop-balance__hex bonus-shop-balance__hex--card"
+                            *ngFor="let slot of activePlayerBlackPassiveCardSlots"
+                            [class.bonus-shop-balance__hex--tapped]="isActivePlayerBlackPassiveCardTapped(slot)">
+                            <app-hexagon
+                                [color]="'black'"
+                                [number]="1"
+                                [type]="'getWin'">
+                            </app-hexagon>
+                        </div>
+                        <div class="bonus-shop-balance__separator"></div>
+                        <div class="bonus-shop-balance__hex bonus-shop-balance__hex--token">
+                            <app-hexagon
+                                [color]="'black'"
+                                [number]="playerHexagons[activePlayer]['black'] ?? 0"
+                                [type]="'playerBank'">
+                            </app-hexagon>
                         </div>
                     </div>
                 </div>
@@ -282,6 +308,33 @@
                     class="bonus-shop-modal__cancel"
                     (click)="closeBonusShopModal()"
                     [disabled]="!canCancelBonusShopModal">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bonus-shop-extra-turn-overlay" *ngIf="showBonusShopExtraTurnModal" (click)="cancelBonusShopExtraTurnSelection()">
+        <div class="bonus-shop-extra-turn-modal" (click)="$event.stopPropagation()">
+            <div class="bonus-shop-extra-turn-modal__icon-wrap">
+                <img class="bonus-shop-extra-turn-modal__icon" src="assets/hex/extra_turn.png" alt="Extra turn reward" />
+            </div>
+            <div class="bonus-shop-extra-turn-modal__text">
+                Please make sure you have spent all passive bonuses and completed the main action of the main turn before starting the extra turn.
+            </div>
+
+            <div class="bonus-shop-extra-turn-modal__actions">
+                <button
+                    type="button"
+                    class="bonus-shop-modal__apply"
+                    (click)="applyBonusShopExtraTurnSelection()"
+                    [disabled]="!canApplyBonusShopExtraTurn">
+                    Apply extra turn
+                </button>
+                <button
+                    type="button"
+                    class="bonus-shop-modal__cancel"
+                    (click)="cancelBonusShopExtraTurnSelection()">
                     Cancel
                 </button>
             </div>

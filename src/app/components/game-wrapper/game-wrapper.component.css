@@ -892,6 +892,78 @@
     line-height: 1;
 }
 
+.bonus-shop-balance {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 10px;
+    border-radius: 12px;
+    background: rgba(248, 250, 252, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.bonus-shop-balance__title {
+    font-family: "Faculty Glyphic", sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1f2937;
+    white-space: nowrap;
+}
+
+.bonus-shop-balance__list {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bonus-shop-balance__pair {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.bonus-shop-balance__separator {
+    font-family: "Faculty Glyphic", sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #1f2937;
+    line-height: 1;
+    margin-left:5px;
+}
+
+.bonus-shop-balance__hex {
+    width: 72px;
+    height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bonus-shop-balance__hex--tapped {
+    opacity: 0.45;
+    filter: grayscale(0.8) saturate(0.55);
+}
+
+.bonus-shop-balance__hex ::ng-deep app-hexagon {
+    display: block;
+    transform: scale(0.95);
+    transform-origin: center;
+}
+
+.bonus-shop-balance__hex--token ::ng-deep .coin-big-win .number-wrapper,
+.bonus-shop-balance__hex--token ::ng-deep .coin-big-win2 .number-wrapper,
+.bonus-shop-balance__hex--card ::ng-deep .coin-big-win .number-wrapper,
+.bonus-shop-balance__hex--card ::ng-deep .coin-big-win2 .number-wrapper {
+    top: 50%;
+    left: 50%;
+    transform: translate(0, 72%);
+    padding-top: 0;
+    padding-right: 0;
+    font-size: 40px;
+    line-height: 1;
+}
+
 .bonus-shop-modal__actions {
     align-self: center;
     display: flex;
@@ -912,6 +984,60 @@
 
 .bonus-shop-modal__cancel:disabled:hover {
     background: #b8b8b8;
+}
+
+.bonus-shop-extra-turn-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 20px;
+    z-index: 11;
+}
+
+.bonus-shop-extra-turn-modal {
+    width: min(680px, 92vw);
+    background: #fffaf1;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    border-radius: 18px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+}
+
+.bonus-shop-extra-turn-modal__icon-wrap {
+    width: 180px;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bonus-shop-extra-turn-modal__icon {
+    width: 150px;
+    height: 136px;
+    object-fit: contain;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.18));
+}
+
+.bonus-shop-extra-turn-modal__text {
+    color: #374151;
+    font-size: 24px;
+    line-height: 1.25;
+    font-weight: 600;
+}
+
+.bonus-shop-extra-turn-modal__actions {
+    align-self: center;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .bonus-shop-mix-overlay {
