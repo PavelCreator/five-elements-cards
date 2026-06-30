@@ -620,7 +620,7 @@
         <div class="victory-modal final-round-notice-modal" (click)="$event.stopPropagation()">
             <div class="victory-modal__title">Final Round Started</div>
             <div class="victory-modal__winner">{{ finalRoundTriggerName }} reached a win condition</div>
-            <div class="victory-modal__condition">Condition: {{ finalRoundTriggerConditionLabel }}</div>
+            <div class="victory-modal__condition" *ngIf="finalRoundTriggerConditionLabel">Condition: {{ finalRoundTriggerConditionLabel }}</div>
             <div class="victory-modal__condition">This is the last round. All remaining players should finish their turns.</div>
             <button type="button" class="victory-modal__button" (click)="closeFinalRoundNoticeModal()">Continue</button>
         </div>
@@ -630,7 +630,7 @@
         <div class="victory-modal">
             <div class="victory-modal__title">Victory</div>
             <div class="victory-modal__winner">{{ winnerName }} wins</div>
-            <div class="victory-modal__condition">Condition: {{ winnerConditionLabel }}</div>
+            <div class="victory-modal__condition" *ngIf="winnerConditionLabel">Condition: {{ winnerConditionLabel }}</div>
             <button type="button" class="victory-modal__button" (click)="closeVictoryModal()">Close</button>
         </div>
     </div>

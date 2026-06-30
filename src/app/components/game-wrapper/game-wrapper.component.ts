@@ -4250,6 +4250,6 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return `${condition.numberOfElements ?? 0} of Level ${condition.level}`;
         }
 
-        return 'Win condition completed';
+        return '';
     }
 }
