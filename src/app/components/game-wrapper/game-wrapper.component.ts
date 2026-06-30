@@ -51,7 +51,7 @@ interface BonusShopReward {
 interface PendingCancelableBonusShopAction {
     kind: 'purple';
     spentBlackFromPassive: number;
-    spentBlackFromActive: number;
+    spentActiveByColor: Partial<Record<Color, number>>;
     gainedPurple: number;
     rewardKey: string;
 }
@@ -1241,6 +1241,25 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return slotIndex < this._getActivePlayerPassiveBlackTappedCount();
     }
 
+    public get activePlayerBonusShopDarkMasterTokens(): Array<{ color: Color; amount: number }> {
+        if (!this._hasActivePlayerDarkMaster()) {
+            return [];
+        }
+
+        const playerHex = this.playerHexagons[this.activePlayer];
+        if (!playerHex) {
+            return [];
+        }
+
+        const spendableColors: Color[] = ['red', 'blue', 'white', 'green', 'purple'];
+        return spendableColors
+            .map((color) => ({
+                color,
+                amount: Math.max(0, Math.floor(playerHex[color] ?? 0)),
+            }))
+            .filter((token) => token.amount > 0);
+    }
+
     public isBonusShopRuleDisabled(rule: BonusShopRule): boolean {
         if (this.showBonusShopMixModal || this.showBonusShopFreeCardModal || this.showBonusShopMasterModal) {
             return true;
@@ -1895,10 +1914,15 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             }
 
             if (sourceColor === 'purple') {
-                return this.previewPurpleWildcardTargets.includes(targetColor);
+                return this.previewPurpleWildcardTargets.includes(targetColor)
+                    || (targetColor === 'black' && this._canDarkMasterPayFromColor(sourceColor));
             }
 
             if (sourceColor === targetColor) {
+                return true;
+            }
+
+            if (targetColor === 'black' && this._canDarkMasterPayFromColor(sourceColor)) {
                 return true;
             }
 
@@ -1938,6 +1962,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         return this._isMagicWildcardColor(sourceColor) && this._isMagicWildcardColor(targetColor);
+    }
+
+    private _canDarkMasterPayFromColor(sourceColor: Color): boolean {
+        if (!this._hasActivePlayerDarkMaster()) {
+            return false;
+        }
+
+        return sourceColor === 'black' || this._isMagicWildcardColor(sourceColor);
     }
 
     private _resolveOwnedMasterColor(masterCard: OwnedMasterCard): Color | null {
@@ -2168,7 +2200,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
                 return;
             }
 
-            this.gameBankHexagons['black'] = (this.gameBankHexagons['black'] ?? 0) + blackSpend.spentFromActive;
+            this._applyBonusShopActiveSpendToGameBank(blackSpend.spentFromActiveByColor);
             playerHex['purple'] = (playerHex['purple'] ?? 0) + purpleAmount;
             this.gameBankHexagons['purple'] = Math.max(purpleInBank - purpleAmount, 0);
             this.hasBonusShopActionStarted = true;
@@ -2176,7 +2208,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             this._pendingCancelableBonusShopAction = {
                 kind: 'purple',
                 spentBlackFromPassive: blackSpend.spentFromPassive,
-                spentBlackFromActive: blackSpend.spentFromActive,
+                spentActiveByColor: { ...blackSpend.spentFromActiveByColor },
                 gainedPurple: purpleAmount,
                 rewardKey,
             };
@@ -2198,7 +2230,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         this.showBonusShopModal = false;
-        this.gameBankHexagons['black'] = (this.gameBankHexagons['black'] ?? 0) + blackSpend.spentFromActive;
+        this._applyBonusShopActiveSpendToGameBank(blackSpend.spentFromActiveByColor);
         this.hasBonusShopActionStarted = true;
         this.usedBonusShopRewardKeysThisTurn.add(rewardKey);
         this._pendingCancelableBonusShopAction = null;
@@ -2276,7 +2308,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
-        this.gameBankHexagons['black'] = (this.gameBankHexagons['black'] ?? 0) + blackSpend.spentFromActive;
+        this._applyBonusShopActiveSpendToGameBank(blackSpend.spentFromActiveByColor);
 
         for (const color of this._bonusShopMixColors) {
             const selectedCount = this.bonusShopMixDraftHandHexagons[color] ?? 0;
@@ -2331,7 +2363,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
-        this.gameBankHexagons['black'] = (this.gameBankHexagons['black'] ?? 0) + blackSpend.spentFromActive;
+        this._applyBonusShopActiveSpendToGameBank(blackSpend.spentFromActiveByColor);
 
         if (this._pendingBonusShopExtraTurnRewardKey) {
             this.usedBonusShopRewardKeysThisTurn.add(this._pendingBonusShopExtraTurnRewardKey);
@@ -2417,13 +2449,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
-        this.gameBankHexagons['black'] = (this.gameBankHexagons['black'] ?? 0) + blackSpend.spentFromActive;
+        this._applyBonusShopActiveSpendToGameBank(blackSpend.spentFromActiveByColor);
 
         const acquired = this._acquireCardForActivePlayer(selectedCard, false, undefined, 'bonus-action', false);
         if (!acquired) {
             this._spendActivePlayerPassiveBlackForTurn(-blackSpend.spentFromPassive);
-            playerHex['black'] = (playerHex['black'] ?? 0) + blackSpend.spentFromActive;
-            this.gameBankHexagons['black'] = Math.max((this.gameBankHexagons['black'] ?? 0) - blackSpend.spentFromActive, 0);
+            this._rollbackBonusShopActiveSpendFromGameBank(blackSpend.spentFromActiveByColor, playerHex);
             return;
         }
 
@@ -2510,7 +2541,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
-        this.gameBankHexagons['black'] = (this.gameBankHexagons['black'] ?? 0) + blackSpend.spentFromActive;
+        this._applyBonusShopActiveSpendToGameBank(blackSpend.spentFromActiveByColor);
 
         const playerMasterCards = this.playerOwnedMasterCards[this.activePlayer] ?? [];
         playerMasterCards.push({
@@ -2574,8 +2605,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         if (pendingAction.kind === 'purple') {
             this._spendActivePlayerPassiveBlackForTurn(-pendingAction.spentBlackFromPassive);
-            playerHex['black'] = (playerHex['black'] ?? 0) + pendingAction.spentBlackFromActive;
-            this.gameBankHexagons['black'] = Math.max((this.gameBankHexagons['black'] ?? 0) - pendingAction.spentBlackFromActive, 0);
+            this._rollbackBonusShopActiveSpendFromGameBank(pendingAction.spentActiveByColor, playerHex);
 
             playerHex['purple'] = Math.max((playerHex['purple'] ?? 0) - pendingAction.gainedPurple, 0);
             this.gameBankHexagons['purple'] = (this.gameBankHexagons['purple'] ?? 0) + pendingAction.gainedPurple;
@@ -2695,13 +2725,21 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         const playerCards = this.playerCardHexagons[this.activePlayer];
         const totalPassiveBlack = Math.max(0, Math.floor(playerCards?.['black'] ?? 0));
         const availablePassiveBlack = Math.max(totalPassiveBlack - this._getActivePlayerPassiveBlackTappedCount(), 0);
-        return availablePassiveBlack + (playerHex?.['black'] ?? 0);
+        const activeBlack = Math.max(0, Math.floor(playerHex?.['black'] ?? 0));
+        if (!this._hasActivePlayerDarkMaster()) {
+            return availablePassiveBlack + activeBlack;
+        }
+
+        const convertedActive = this._sumActivePlayerTokens(['red', 'green', 'white', 'blue', 'purple']);
+        return availablePassiveBlack + activeBlack + convertedActive;
     }
 
-    private _spendActivePlayerBlackForBonusMarket(cost: number): { spentFromPassive: number; spentFromActive: number } | null {
+    private _spendActivePlayerBlackForBonusMarket(
+        cost: number
+    ): { spentFromPassive: number; spentFromActiveByColor: Partial<Record<Color, number>> } | null {
         const normalizedCost = Math.max(0, Math.floor(cost));
         if (normalizedCost <= 0) {
-            return { spentFromPassive: 0, spentFromActive: 0 };
+            return { spentFromPassive: 0, spentFromActiveByColor: {} };
         }
 
         const playerHex = this.playerHexagons[this.activePlayer];
@@ -2712,18 +2750,85 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const passiveBlack = Math.max((playerCards['black'] ?? 0) - this._getActivePlayerPassiveBlackTappedCount(), 0);
         const activeBlack = playerHex['black'] ?? 0;
-        if (passiveBlack + activeBlack < normalizedCost) {
+        const spentFromActiveByColor: Partial<Record<Color, number>> = {};
+        const convertedActiveTotal = this._hasActivePlayerDarkMaster()
+            ? this._sumActivePlayerTokens(['red', 'green', 'white', 'blue', 'purple'])
+            : 0;
+        if (passiveBlack + activeBlack + convertedActiveTotal < normalizedCost) {
             return null;
         }
 
         const spentFromPassive = Math.min(passiveBlack, normalizedCost);
-        const remaining = normalizedCost - spentFromPassive;
-        const spentFromActive = Math.min(activeBlack, remaining);
+        let remaining = normalizedCost - spentFromPassive;
+
+        const spentFromBlack = Math.min(activeBlack, remaining);
+        if (spentFromBlack > 0) {
+            playerHex['black'] = activeBlack - spentFromBlack;
+            spentFromActiveByColor['black'] = spentFromBlack;
+            remaining -= spentFromBlack;
+        }
+
+        if (remaining > 0 && this._hasActivePlayerDarkMaster()) {
+            const donorColors: Color[] = ['red', 'green', 'white', 'blue', 'purple'];
+            for (const donorColor of donorColors) {
+                const donorAvailable = Math.max(0, Math.floor(playerHex[donorColor] ?? 0));
+                if (donorAvailable <= 0) {
+                    continue;
+                }
+
+                const donorSpend = Math.min(donorAvailable, remaining);
+                playerHex[donorColor] = donorAvailable - donorSpend;
+                spentFromActiveByColor[donorColor] = (spentFromActiveByColor[donorColor] ?? 0) + donorSpend;
+                remaining -= donorSpend;
+
+                if (remaining <= 0) {
+                    break;
+                }
+            }
+        }
+
+        if (remaining > 0) {
+            return null;
+        }
 
         this._spendActivePlayerPassiveBlackForTurn(spentFromPassive);
-        playerHex['black'] = activeBlack - spentFromActive;
 
-        return { spentFromPassive, spentFromActive };
+        return { spentFromPassive, spentFromActiveByColor };
+    }
+
+    private _sumActivePlayerTokens(colors: Color[]): number {
+        const playerHex = this.playerHexagons[this.activePlayer];
+        if (!playerHex) {
+            return 0;
+        }
+
+        return colors.reduce((sum, color) => sum + Math.max(0, Math.floor(playerHex[color] ?? 0)), 0);
+    }
+
+    private _applyBonusShopActiveSpendToGameBank(spendByColor: Partial<Record<Color, number>>): void {
+        for (const color of this._turnTrackedColors) {
+            const spent = Math.max(0, Math.floor(spendByColor[color] ?? 0));
+            if (spent <= 0) {
+                continue;
+            }
+
+            this.gameBankHexagons[color] = (this.gameBankHexagons[color] ?? 0) + spent;
+        }
+    }
+
+    private _rollbackBonusShopActiveSpendFromGameBank(
+        spendByColor: Partial<Record<Color, number>>,
+        playerHex: { [key in Color]?: number }
+    ): void {
+        for (const color of this._turnTrackedColors) {
+            const spent = Math.max(0, Math.floor(spendByColor[color] ?? 0));
+            if (spent <= 0) {
+                continue;
+            }
+
+            playerHex[color] = (playerHex[color] ?? 0) + spent;
+            this.gameBankHexagons[color] = Math.max((this.gameBankHexagons[color] ?? 0) - spent, 0);
+        }
     }
 
     private _getActivePlayerPassiveBlackTappedCount(): number {
@@ -3492,6 +3597,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const purpleCardBonus = playerCards['purple'] ?? 0;
         let purpleNeeded = Math.max((card.pay?.['purple'] ?? 0) - purpleCardBonus, 0);
+        const hasDarkMaster = this._hasActivePlayerDarkMaster();
         const tokenPool: Partial<Record<Color, number>> = {
             red: playerHex['red'] ?? 0,
             green: playerHex['green'] ?? 0,
@@ -3512,6 +3618,24 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             tokenPool['black'] = Math.max((tokenPool['black'] ?? 0) - blackTokenSpend, 0);
             if (blackTokenSpend > 0) {
                 spend['black'] = blackTokenSpend;
+            }
+
+            if (remainingBlack > 0 && hasDarkMaster) {
+                for (const donorColor of this._magicWildcardPayColors) {
+                    const donorAvailable = tokenPool[donorColor] ?? 0;
+                    if (donorAvailable <= 0) {
+                        continue;
+                    }
+
+                    const donorSpend = Math.min(remainingBlack, donorAvailable);
+                    tokenPool[donorColor] = donorAvailable - donorSpend;
+                    spend[donorColor] = (spend[donorColor] ?? 0) + donorSpend;
+                    remainingBlack -= donorSpend;
+
+                    if (remainingBlack <= 0) {
+                        break;
+                    }
+                }
             }
 
             if (remainingBlack > 0) {
@@ -3540,26 +3664,20 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const masteredColors = new Set<Color>(this._getActivePlayerMasterElementalColors());
 
-        for (const color of this._purchasePayColors) {
+        for (const color of this._purpleWildcardPayColors) {
             const required = card.pay?.[color] ?? 0;
-            const passiveBonus = color === 'black'
-                ? Math.max((playerCards['black'] ?? 0) - this._getActivePlayerPassiveBlackTappedCount(), 0)
-                : (playerCards[color] ?? 0);
+            const passiveBonus = playerCards[color] ?? 0;
             let remainingAfterCoins = Math.max(required - passiveBonus, 0);
 
             const directSpend = Math.min(remainingAfterCoins, tokenPool[color] ?? 0);
             remainingAfterCoins -= directSpend;
             tokenPool[color] = Math.max((tokenPool[color] ?? 0) - directSpend, 0);
 
-            if (color === 'black') {
-                spentPassiveBlack = Math.min(required, passiveBonus);
-            }
-
             if (directSpend > 0) {
                 spend[color] = directSpend;
             }
 
-            if (remainingAfterCoins > 0 && this._purpleWildcardPayColors.includes(color) && masteredColors.has(color)) {
+            if (remainingAfterCoins > 0 && masteredColors.has(color)) {
                 for (const donorColor of this._purpleWildcardPayColors) {
                     if (donorColor === color) {
                         continue;
@@ -3585,12 +3703,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
                 continue;
             }
 
-            if (this._purpleWildcardPayColors.includes(color)) {
-                purpleNeeded += remainingAfterCoins;
-                continue;
-            }
-
-            return { isAffordable: false, spend, spentPassiveBlack };
+            purpleNeeded += remainingAfterCoins;
         }
 
         const availablePurple = tokenPool['purple'] ?? 0;
@@ -3600,6 +3713,42 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         if (purpleNeeded > 0) {
             spend['purple'] = purpleNeeded;
+            tokenPool['purple'] = Math.max(availablePurple - purpleNeeded, 0);
+        }
+
+        const requiredBlack = card.pay?.['black'] ?? 0;
+        const passiveBlack = Math.max((playerCards['black'] ?? 0) - this._getActivePlayerPassiveBlackTappedCount(), 0);
+        spentPassiveBlack = Math.min(requiredBlack, passiveBlack);
+        let remainingBlackNeed = Math.max(requiredBlack - passiveBlack, 0);
+
+        const directBlackSpend = Math.min(remainingBlackNeed, tokenPool['black'] ?? 0);
+        if (directBlackSpend > 0) {
+            spend['black'] = (spend['black'] ?? 0) + directBlackSpend;
+            tokenPool['black'] = Math.max((tokenPool['black'] ?? 0) - directBlackSpend, 0);
+            remainingBlackNeed -= directBlackSpend;
+        }
+
+        if (remainingBlackNeed > 0 && hasDarkMaster) {
+            const darkMasterDonorColors: Color[] = ['red', 'green', 'white', 'blue', 'purple'];
+            for (const donorColor of darkMasterDonorColors) {
+                const donorAvailable = tokenPool[donorColor] ?? 0;
+                if (donorAvailable <= 0) {
+                    continue;
+                }
+
+                const donorSpend = Math.min(remainingBlackNeed, donorAvailable);
+                tokenPool[donorColor] = donorAvailable - donorSpend;
+                spend[donorColor] = (spend[donorColor] ?? 0) + donorSpend;
+                remainingBlackNeed -= donorSpend;
+
+                if (remainingBlackNeed <= 0) {
+                    break;
+                }
+            }
+        }
+
+        if (remainingBlackNeed > 0) {
+            return { isAffordable: false, spend, spentPassiveBlack };
         }
 
         return { isAffordable: true, spend, spentPassiveBlack };
@@ -3665,6 +3814,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _hasActivePlayerMagicMaster(): boolean {
         return this._getActivePlayerMasterColors().includes('purple');
+    }
+
+    private _hasActivePlayerDarkMaster(): boolean {
+        return this._getActivePlayerMasterColors().includes('black');
     }
 
     private _getActivePlayerMasterColors(): Color[] {

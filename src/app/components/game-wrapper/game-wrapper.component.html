@@ -274,21 +274,31 @@
                 <div class="bonus-shop-balance__title">User Balance:</div>
                 <div class="bonus-shop-balance__list">
                     <div class="bonus-shop-balance__pair">
-                        <div
-                            class="bonus-shop-balance__hex bonus-shop-balance__hex--card"
-                            *ngFor="let slot of activePlayerBlackPassiveCardSlots"
-                            [class.bonus-shop-balance__hex--tapped]="isActivePlayerBlackPassiveCardTapped(slot)">
-                            <app-hexagon
-                                [color]="'black'"
-                                [number]="1"
-                                [type]="'getWin'">
-                            </app-hexagon>
+                        <div class="bonus-shop-balance__black-group">
+                            <div
+                                class="bonus-shop-balance__hex bonus-shop-balance__hex--card"
+                                *ngFor="let slot of activePlayerBlackPassiveCardSlots"
+                                [class.bonus-shop-balance__hex--tapped]="isActivePlayerBlackPassiveCardTapped(slot)">
+                                <app-hexagon
+                                    [color]="'black'"
+                                    [number]="1"
+                                    [type]="'getWin'">
+                                </app-hexagon>
+                            </div>
+                            <div class="bonus-shop-balance__separator bonus-shop-balance__separator--compact" *ngIf="(playerHexagons[activePlayer]['black'] ?? 0) > 0"></div>
+                            <div class="bonus-shop-balance__hex bonus-shop-balance__hex--token" *ngIf="(playerHexagons[activePlayer]['black'] ?? 0) > 0">
+                                <app-hexagon
+                                    [color]="'black'"
+                                    [number]="playerHexagons[activePlayer]['black'] ?? 0"
+                                    [type]="'playerBank'">
+                                </app-hexagon>
+                            </div>
                         </div>
-                        <div class="bonus-shop-balance__separator"></div>
-                        <div class="bonus-shop-balance__hex bonus-shop-balance__hex--token">
+                        <div class="bonus-shop-balance__separator bonus-shop-balance__separator--dark-master" *ngIf="activePlayerBonusShopDarkMasterTokens.length > 0">+</div>
+                        <div class="bonus-shop-balance__hex bonus-shop-balance__hex--token" *ngFor="let token of activePlayerBonusShopDarkMasterTokens">
                             <app-hexagon
-                                [color]="'black'"
-                                [number]="playerHexagons[activePlayer]['black'] ?? 0"
+                                [color]="token.color"
+                                [number]="token.amount"
                                 [type]="'playerBank'">
                             </app-hexagon>
                         </div>

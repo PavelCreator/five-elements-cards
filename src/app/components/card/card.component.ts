@@ -192,6 +192,7 @@ export class CardComponent implements OnInit {
         }
 
         const playerCards = this.playerCardTokens ?? {};
+        const hasDarkMaster = this._hasDarkMaster();
         const tokenPool: Partial<Record<Color, number>> = {
             red: this.playerTokens['red'] ?? 0,
             green: this.playerTokens['green'] ?? 0,
@@ -201,18 +202,39 @@ export class CardComponent implements OnInit {
             black: this.playerTokens['black'] ?? 0,
         };
 
-        const passiveBlack = Math.max((playerCards['black'] ?? 0) - Math.max(0, this.passiveBlackTappedCount), 0);
-        const requiredBlack = pay['black'] ?? 0;
-        const requiredBlackAfterPassive = Math.max(requiredBlack - passiveBlack, 0);
-        if ((tokenPool['black'] ?? 0) < requiredBlackAfterPassive) {
-            return { isAffordable: false, purpleNeeded: 0 };
-        }
-        tokenPool['black'] = Math.max((tokenPool['black'] ?? 0) - requiredBlackAfterPassive, 0);
-
         const purpleCardBonus = playerCards['purple'] ?? 0;
         let purpleNeeded = Math.max((pay['purple'] ?? 0) - purpleCardBonus, 0);
 
         if (this._hasMagicMaster()) {
+            const passiveBlack = Math.max((playerCards['black'] ?? 0) - Math.max(0, this.passiveBlackTappedCount), 0);
+            const requiredBlack = pay['black'] ?? 0;
+            let requiredBlackAfterPassive = Math.max(requiredBlack - passiveBlack, 0);
+
+            const blackDirectSpend = Math.min(requiredBlackAfterPassive, tokenPool['black'] ?? 0);
+            tokenPool['black'] = Math.max((tokenPool['black'] ?? 0) - blackDirectSpend, 0);
+            requiredBlackAfterPassive -= blackDirectSpend;
+
+            if (requiredBlackAfterPassive > 0 && hasDarkMaster) {
+                for (const donorColor of this._magicWildcardPayColors) {
+                    const donorAvailable = tokenPool[donorColor] ?? 0;
+                    if (donorAvailable <= 0) {
+                        continue;
+                    }
+
+                    const donorSpend = Math.min(requiredBlackAfterPassive, donorAvailable);
+                    tokenPool[donorColor] = donorAvailable - donorSpend;
+                    requiredBlackAfterPassive -= donorSpend;
+
+                    if (requiredBlackAfterPassive <= 0) {
+                        break;
+                    }
+                }
+            }
+
+            if (requiredBlackAfterPassive > 0) {
+                return { isAffordable: false, purpleNeeded: 0 };
+            }
+
             const nonBlackNeeds: Partial<Record<Color, number>> = {};
             for (const color of this._magicWildcardPayColors) {
                 nonBlackNeeds[color] = Math.max(pay[color] ?? 0, 0);
@@ -272,8 +294,44 @@ export class CardComponent implements OnInit {
             }
         }
 
+        const availablePurple = tokenPool['purple'] ?? 0;
+        if (availablePurple < purpleNeeded) {
+            return {
+                isAffordable: false,
+                purpleNeeded,
+            };
+        }
+
+        tokenPool['purple'] = Math.max(availablePurple - purpleNeeded, 0);
+
+        const passiveBlack = Math.max((playerCards['black'] ?? 0) - Math.max(0, this.passiveBlackTappedCount), 0);
+        const requiredBlack = pay['black'] ?? 0;
+        let remainingBlackNeed = Math.max(requiredBlack - passiveBlack, 0);
+
+        const directBlackSpend = Math.min(remainingBlackNeed, tokenPool['black'] ?? 0);
+        tokenPool['black'] = Math.max((tokenPool['black'] ?? 0) - directBlackSpend, 0);
+        remainingBlackNeed -= directBlackSpend;
+
+        if (remainingBlackNeed > 0 && hasDarkMaster) {
+            const darkMasterDonorColors: Color[] = ['red', 'green', 'white', 'blue', 'purple'];
+            for (const donorColor of darkMasterDonorColors) {
+                const donorAvailable = tokenPool[donorColor] ?? 0;
+                if (donorAvailable <= 0) {
+                    continue;
+                }
+
+                const donorSpend = Math.min(remainingBlackNeed, donorAvailable);
+                tokenPool[donorColor] = donorAvailable - donorSpend;
+                remainingBlackNeed -= donorSpend;
+
+                if (remainingBlackNeed <= 0) {
+                    break;
+                }
+            }
+        }
+
         return {
-            isAffordable: (tokenPool['purple'] ?? 0) >= purpleNeeded,
+            isAffordable: remainingBlackNeed <= 0,
             purpleNeeded,
         };
     }
@@ -290,6 +348,10 @@ export class CardComponent implements OnInit {
 
     private _hasMagicMaster(): boolean {
         return (this.playerMasterColors ?? []).includes('purple');
+    }
+
+    private _hasDarkMaster(): boolean {
+        return (this.playerMasterColors ?? []).includes('black');
     }
 
     private _coverNeedsWithUniversalPool(
