@@ -5,6 +5,7 @@ import { Art } from "../models/art.interface";
 import { Lang } from "../models/lang.type";
 import { LocalStorageService } from "./local-storage.service";
 import { HowToWinCardType } from "../models/how-to-win-card.interface";
+import { GameMode } from '../models/game-mode.type';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,13 @@ export class SettingsService {
   private readonly _darkThemeKey = 'darkThemeEnabled';
   private readonly _legacyModesCleanupDoneKey = 'legacyModesCleanupDone_v1';
   private readonly _winConditionModeKey = 'winConditionMode';
+  private readonly _gameModeKey = 'gameMode';
   private readonly _winConditionOptionsKey = 'selectedWinConditionOptions';
   private readonly _defaultWinConditionOptions: number[] = [1, 2, 3, 4];
   private _darkThemeEnabled = new BehaviorSubject<boolean>(false);
   public darkThemeEnabled$ = this._darkThemeEnabled.asObservable();
+  private _gameMode = new BehaviorSubject<GameMode>('normal');
+  public gameMode$ = this._gameMode.asObservable();
   private _winConditionMode = new BehaviorSubject<HowToWinCardType>('Grand');
   public winConditionMode$ = this._winConditionMode.asObservable();
   private _selectedWinConditionOptions = new BehaviorSubject<number[]>(this._defaultWinConditionOptions);
@@ -34,6 +38,11 @@ export class SettingsService {
     const darkThemeEnabled = this._localStorageService.getItem(this._darkThemeKey);
     if (darkThemeEnabled === 'true') {
       this._darkThemeEnabled.next(true);
+    }
+
+    const gameMode = this._localStorageService.getItem(this._gameModeKey);
+    if (gameMode === 'normal' || gameMode === 'hardcore') {
+      this._gameMode.next(gameMode);
     }
 
     const winConditionMode = this._localStorageService.getItem(this._winConditionModeKey);
@@ -54,6 +63,15 @@ export class SettingsService {
 
   public getWinConditionMode(): HowToWinCardType {
     return this._winConditionMode.value;
+  }
+
+  public getGameMode(): GameMode {
+    return this._gameMode.value;
+  }
+
+  public setGameMode(mode: GameMode): void {
+    this._gameMode.next(mode);
+    this._localStorageService.setItem(this._gameModeKey, mode);
   }
 
   public setWinConditionMode(mode: HowToWinCardType): void {

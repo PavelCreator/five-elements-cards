@@ -19,6 +19,7 @@ import { howToWinCards } from '../../data/how-to-win-cards';
 import { HowToWinCard, HowToWinCardType } from '../../models/how-to-win-card.interface';
 import { masterCards } from '../../data/master-cards';
 import { MasterCard } from '../../models/master-card.interface';
+import { GameMode } from '../../models/game-mode.type';
 
 type SpecialStackColor = 'purple' | 'black';
 type SpecialStackKey = `${number}-${SpecialStackColor}`;
@@ -3555,6 +3556,27 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _getBankHexagonsByPlayerCount(count: number | undefined): { [key in Color]?: number } {
         const normalizedCount = count ?? 2;
+        const gameMode = this._settingsService.getGameMode();
+
+        if (gameMode === 'hardcore') {
+            if (normalizedCount <= 2) {
+                return { red: 4, blue: 4, white: 4, green: 4, purple: 4, black: 8 };
+            }
+
+            if (normalizedCount === 3) {
+                return { red: 5, blue: 5, white: 5, green: 5, purple: 5, black: 12 };
+            }
+
+            if (normalizedCount === 4) {
+                return { red: 6, blue: 6, white: 6, green: 6, purple: 6, black: 15 };
+            }
+
+            if (normalizedCount === 5) {
+                return { red: 7, blue: 7, white: 7, green: 7, purple: 7, black: 18 };
+            }
+
+            return { red: 8, blue: 8, white: 8, green: 8, purple: 8, black: 21 };
+        }
 
         if (normalizedCount <= 2) {
             return { red: 5, blue: 5, white: 5, green: 5, purple: 5, black: 20 };
@@ -4105,8 +4127,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     private _getCardsPerRow(): number {
+        const gameMode: GameMode = this._settingsService.getGameMode();
         if (!this.playerCount) return 3;
-        if (this.playerCount <= 2) return 3;
+        if (this.playerCount <= 2) return gameMode === 'normal' ? 4 : 3;
         if (this.playerCount <= 4) return 4;
         return 5;
     }

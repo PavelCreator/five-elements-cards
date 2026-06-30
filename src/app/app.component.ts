@@ -11,6 +11,7 @@ import { SettingsService } from "./services/settings.service";
 import { howToWinCards } from "./data/how-to-win-cards";
 import { HowToWinCard, HowToWinCardType } from "./models/how-to-win-card.interface";
 import { HowToWinComponent } from "./components/how-to-win/how-to-win.component";
+import { GameMode } from './models/game-mode.type';
 
 type AppTab = 'collection' | 'game' | 'settings';
 
@@ -31,6 +32,7 @@ export class AppComponent implements OnInit{
     public playerCount?: number;
     private readonly playerCountStorageKey: string = 'gamePlayerCount';
     public darkThemeEnabled: boolean = false;
+    public gameMode: GameMode = 'normal';
     public readonly winConditionModes: HowToWinCardType[] = ['Grand', 'Blitz'];
     public winConditionMode: HowToWinCardType = 'Grand';
     public selectedWinConditionOptions: number[] = [1, 2, 3, 4];
@@ -55,6 +57,7 @@ export class AppComponent implements OnInit{
         }
         this._loadPlayerCount();
         this._loadDarkThemeMode();
+        this._loadGameMode();
         this._loadWinConditions();
 
         this._interactionService.selectedViewMode$.subscribe((inSelectedMenuItem: number | undefined) => {
@@ -92,6 +95,11 @@ export class AppComponent implements OnInit{
         this.darkThemeEnabled = enabled;
         this._settingsService.setDarkThemeEnabled(this.darkThemeEnabled);
         this._applyDarkThemeClass();
+    }
+
+    public setGameMode(mode: GameMode): void {
+        this.gameMode = mode;
+        this._settingsService.setGameMode(mode);
     }
 
     public setActiveTab(tab: AppTab): void {
@@ -180,6 +188,10 @@ export class AppComponent implements OnInit{
     private _loadDarkThemeMode(): void {
         this.darkThemeEnabled = this._settingsService.isDarkThemeEnabled();
         this._applyDarkThemeClass();
+    }
+
+    private _loadGameMode(): void {
+        this.gameMode = this._settingsService.getGameMode();
     }
 
     private _applyDarkThemeClass(): void {
