@@ -2098,6 +2098,27 @@
     color: #f8fafc;
 }
 
+:host-context(.theme-dark) .bonus-shop-free-card-modal__subtitle,
+:host-context(.theme-dark) .bonus-shop-free-card-modal__empty {
+    color: #cbd5e1;
+}
+
+:host-context(.theme-dark) .bonus-shop-free-card-option {
+    background: rgba(30, 41, 59, 0.88);
+    border-color: rgba(148, 163, 184, 0.42);
+}
+
+:host-context(.theme-dark) .bonus-shop-free-card-option:hover {
+    border-color: rgba(125, 211, 252, 0.78);
+    box-shadow: 0 0 0 2px rgba(125, 211, 252, 0.2);
+}
+
+:host-context(.theme-dark) .bonus-shop-free-card-option--selected {
+    background: rgba(30, 64, 175, 0.28);
+    border-color: rgba(125, 211, 252, 0.9);
+    box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.24);
+}
+
 :host-context(.theme-dark) .victory-tiebreak-row {
     background: rgba(30, 41, 59, 0.85);
     border-color: rgba(148, 163, 184, 0.42);

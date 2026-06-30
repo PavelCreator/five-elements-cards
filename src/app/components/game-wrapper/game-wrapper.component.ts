@@ -96,11 +96,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public playerNames: string[] = [];
     public editingPlayerIndex: number | null = null;
     public gameBankHexagons: { [key in Color]?: number } = {
-        red: 4,
-        blue: 4,
-        white: 4,
-        green: 4,
-        purple: 4,
+        red: 5,
+        blue: 5,
+        white: 5,
+        green: 5,
+        purple: 5,
         black: 20,
     };
     public modalTokenBankHexagons: { [key in Color]?: number } = {
@@ -378,7 +378,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._initPlayerNames();
         this._loadPlayerNames();
         this._loadPlayerCount();
-        this._setBlackTokensByPlayerCount(this.playerCount);
+        this._setBankHexagonsByPlayerCount(this.playerCount);
 
         this._captureTurnStartState();
         this._loadRowWinConditionCards();
@@ -3511,14 +3511,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private _loadPlayerCount() {
         const stored = this._localStorageService.getItem(this._playerCountKey);
         if (!stored) {
-            this._setBlackTokensByPlayerCount(undefined);
+            this._setBankHexagonsByPlayerCount(undefined);
             return;
         }
         const parsed = Number(stored);
         if (Number.isInteger(parsed) && parsed >= 2 && parsed <= 6) {
             this.playerCount = parsed;
             this._updatePlayerSlots();
-            this._setBlackTokensByPlayerCount(parsed);
+            this._setBankHexagonsByPlayerCount(parsed);
             this._ensureActivePlayerPage();
         }
     }
@@ -3528,7 +3528,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.playerCount = count;
         this._localStorageService.setItem(this._playerCountKey, count.toString());
         this._updatePlayerSlots();
-        this._setBlackTokensByPlayerCount(count);
+        this._setBankHexagonsByPlayerCount(count);
         this._ensureActivePlayerPage();
         this._captureTurnStartState();
         this._scheduleScaleUpdate();
@@ -3540,26 +3540,39 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.playerCount = count;
         this._localStorageService.setItem(this._playerCountKey, count.toString());
         this._updatePlayerSlots();
-        this._setBlackTokensByPlayerCount(count);
+        this._setBankHexagonsByPlayerCount(count);
         this._ensureActivePlayerPage();
         this._captureTurnStartState();
         this._scheduleScaleUpdate();
     }
 
-    private _setBlackTokensByPlayerCount(count: number | undefined): void {
-        this.gameBankHexagons['black'] = this._getBlackTokensByPlayerCount(count);
+    private _setBankHexagonsByPlayerCount(count: number | undefined): void {
+        const bankValues = this._getBankHexagonsByPlayerCount(count);
+        for (const color of this._turnTrackedColors) {
+            this.gameBankHexagons[color] = bankValues[color] ?? 0;
+        }
     }
 
-    private _getBlackTokensByPlayerCount(count: number | undefined): number {
-        if (count === 3) {
-            return 30;
+    private _getBankHexagonsByPlayerCount(count: number | undefined): { [key in Color]?: number } {
+        const normalizedCount = count ?? 2;
+
+        if (normalizedCount <= 2) {
+            return { red: 5, blue: 5, white: 5, green: 5, purple: 5, black: 20 };
         }
 
-        if (count && count >= 4) {
-            return 40;
+        if (normalizedCount === 3) {
+            return { red: 6, blue: 6, white: 6, green: 6, purple: 6, black: 30 };
         }
 
-        return 20;
+        if (normalizedCount === 4) {
+            return { red: 7, blue: 7, white: 7, green: 7, purple: 7, black: 40 };
+        }
+
+        if (normalizedCount === 5) {
+            return { red: 8, blue: 8, white: 8, green: 8, purple: 8, black: 40 };
+        }
+
+        return { red: 9, blue: 9, white: 9, green: 9, purple: 9, black: 40 };
     }
 
     /** Set which player (1..6) is active/highlighted. */
