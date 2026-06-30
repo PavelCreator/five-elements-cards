@@ -68,6 +68,13 @@ interface OwnedMasterCard {
     color?: Color;
 }
 
+interface FinalRoundStanding {
+    playerNumber: number;
+    playerName: string;
+    passiveBonusTotal: number;
+    isWinner: boolean;
+}
+
 @Component({
     selector: 'app-game-wrapper',
     standalone: true,
@@ -297,6 +304,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private _pendingBonusShopMasterRewardKey: string = '';
     private _isActivePlayerExtraTurnInProgress: boolean = false;
     private _pendingCancelableBonusShopAction: PendingCancelableBonusShopAction | null = null;
+    private _isFinalRoundActive: boolean = false;
+    private _finalRoundStartPlayer: number | null = null;
+    private _finalRoundQualifiedPlayers: Set<number> = new Set<number>();
     private pickedTokensThisTurn: Color[] = [];
     public showDiceModal: boolean = false;
     public diceResults: string[] = [];
@@ -325,8 +335,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public rowWinConditionCards: Array<HowToWinCard | null> = [null, null, null, null];
     public hasWinner: boolean = false;
     public showVictoryModal: boolean = false;
+    public showFinalRoundNoticeModal: boolean = false;
+    public showVictoryTiebreakModal: boolean = false;
     public winnerName: string = '';
     public winnerConditionLabel: string = '';
+    public finalRoundTriggerName: string = '';
+    public finalRoundTriggerConditionLabel: string = '';
+    public finalRoundStandings: FinalRoundStanding[] = [];
+    public finalRoundWinnerName: string = '';
     public printModeEnabled: boolean = true;
     public readonly previewModalColors: Color[] = ['red', 'blue', 'white', 'green', 'purple', 'black'];
     public readonly previewPurpleWildcardTargets: Color[] = ['red', 'blue', 'white', 'green', 'purple'];
@@ -395,7 +411,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     @HostListener('window:keydown', ['$event'])
     onWindowKeyDown(event: KeyboardEvent): void {
         if (this.hasWinner) {
-            if (this.showVictoryModal && (event.key === 'Escape' || event.key === 'Esc')) {
+            if ((this.showVictoryModal || this.showVictoryTiebreakModal) && (event.key === 'Escape' || event.key === 'Esc')) {
                 event.preventDefault();
                 this.closeVictoryModal();
             }
@@ -504,6 +520,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     private _handleEscapeKey(): boolean {
+        if (this.showFinalRoundNoticeModal) {
+            this.closeFinalRoundNoticeModal();
+            return true;
+        }
+
         if (this.showPurplePurchasePreviewModal) {
             this.closePurplePurchasePreviewModal();
             return true;
@@ -971,6 +992,15 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         let nextPlayer = this.activePlayer + 1;
         if (nextPlayer > this.playerCount) {
             nextPlayer = 1;
+        }
+
+        if (this._isFinalRoundActive && this._finalRoundStartPlayer !== null && nextPlayer === this._finalRoundStartPlayer) {
+            const winnerResolved = this._finalizeFinalRound();
+            if (winnerResolved) {
+                return;
+            }
+
+            this._resetFinalRoundState();
         }
         
         this.activePlayer = nextPlayer;
@@ -4016,17 +4046,40 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public closeVictoryModal(): void {
         this.showVictoryModal = false;
+        this.showVictoryTiebreakModal = false;
+    }
+
+    public closeFinalRoundNoticeModal(): void {
+        this.showFinalRoundNoticeModal = false;
     }
 
     private _checkForWinnerAfterPurchase(): void {
+        const metCondition = this._getFirstMetWinConditionForPlayer(this.activePlayer);
+        if (!metCondition) {
+            return;
+        }
+
+        this._finalRoundQualifiedPlayers.add(this.activePlayer);
+
+        if (!this._isFinalRoundActive) {
+            this._isFinalRoundActive = true;
+            this._finalRoundStartPlayer = this.activePlayer;
+            this.finalRoundTriggerName = this.playerNames[this.activePlayer - 1] ?? `Player ${this.activePlayer}`;
+            this.finalRoundTriggerConditionLabel = this._getWinConditionLabel(metCondition);
+            this.showFinalRoundNoticeModal = true;
+        }
+    }
+
+    private _getFirstMetWinConditionForPlayer(playerNumber: number): HowToWinCard | null {
         const activeConditions = this.rowWinConditionCards.filter((condition): condition is HowToWinCard => !!condition);
 
         for (const condition of activeConditions) {
-            if (this._doesPlayerMeetWinCondition(this.activePlayer, condition)) {
-                this._declareWinner(this.activePlayer, condition);
-                return;
+            if (this._doesPlayerMeetWinCondition(playerNumber, condition)) {
+                return condition;
             }
         }
+
+        return null;
     }
 
     private _doesPlayerMeetWinCondition(playerNumber: number, condition: HowToWinCard): boolean {
@@ -4078,8 +4131,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private _declareWinner(playerNumber: number, condition: HowToWinCard): void {
         this.hasWinner = true;
         this.showVictoryModal = true;
+        this.showVictoryTiebreakModal = false;
         this.winnerName = this.playerNames[playerNumber - 1] ?? `Player ${playerNumber}`;
+        this.finalRoundWinnerName = this.winnerName;
         this.winnerConditionLabel = this._getWinConditionLabel(condition);
+        this.showFinalRoundNoticeModal = false;
         this.showDiceModal = false;
         this.showBonusShopModal = false;
         this.showBonusShopMixModal = false;
@@ -4088,6 +4144,93 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.showBonusShopMasterModal = false;
         this.showLuckyPurpleChoiceModal = false;
         this._setDiceModalScrollLock(false);
+    }
+
+    private _finalizeFinalRound(): boolean {
+        const finalists = this._collectFinalRoundFinalists();
+        if (finalists.length <= 0) {
+            return false;
+        }
+
+        const standings = finalists.map((playerNumber) => ({
+            playerNumber,
+            playerName: this.playerNames[playerNumber - 1] ?? `Player ${playerNumber}`,
+            passiveBonusTotal: this._getPlayerPassiveBonusTotal(playerNumber),
+            isWinner: false,
+        }));
+
+        standings.sort((left, right) => {
+            if (right.passiveBonusTotal !== left.passiveBonusTotal) {
+                return right.passiveBonusTotal - left.passiveBonusTotal;
+            }
+
+            return left.playerNumber - right.playerNumber;
+        });
+
+        const winnerStanding = standings[0];
+        if (!winnerStanding) {
+            return false;
+        }
+
+        const topPassiveTotal = winnerStanding.passiveBonusTotal;
+        const winnerStandings = standings.filter((standing) => standing.passiveBonusTotal === topPassiveTotal);
+        const winnerNumbers = winnerStandings.map((standing) => standing.playerNumber);
+        const winnerNames = winnerStandings.map((standing) => standing.playerName);
+
+        const winnerCondition = this._getFirstMetWinConditionForPlayer(winnerStanding.playerNumber)
+            ?? this.rowWinConditionCards.find((condition): condition is HowToWinCard => !!condition)
+            ?? null;
+        if (!winnerCondition) {
+            return false;
+        }
+
+        this._declareWinner(winnerStanding.playerNumber, winnerCondition);
+
+        if (standings.length > 1) {
+            this.finalRoundStandings = standings.map((standing) => ({
+                ...standing,
+                isWinner: winnerNumbers.includes(standing.playerNumber),
+            }));
+            this.finalRoundWinnerName = winnerNames.join(', ');
+            this.showVictoryModal = false;
+            this.showVictoryTiebreakModal = true;
+        } else {
+            this.finalRoundStandings = [];
+        }
+
+        this._resetFinalRoundState();
+        return true;
+    }
+
+    private _collectFinalRoundFinalists(): number[] {
+        if (!this.playerCount || !this._isFinalRoundActive || this._finalRoundStartPlayer === null) {
+            return [];
+        }
+
+        const finalists: number[] = [];
+        for (let playerNumber = this._finalRoundStartPlayer; playerNumber <= this.playerCount; playerNumber++) {
+            if (this._getFirstMetWinConditionForPlayer(playerNumber)) {
+                finalists.push(playerNumber);
+            }
+        }
+
+        return finalists;
+    }
+
+    private _getPlayerPassiveBonusTotal(playerNumber: number): number {
+        const playerCardBonuses = this.playerCardHexagons[playerNumber] ?? {};
+        return this._purchaseBonusColors.reduce((sum, color) => {
+            return sum + (playerCardBonuses[color] ?? 0);
+        }, 0);
+    }
+
+    private _resetFinalRoundState(): void {
+        this._isFinalRoundActive = false;
+        this._finalRoundStartPlayer = null;
+        this._finalRoundQualifiedPlayers.clear();
+        this.showFinalRoundNoticeModal = false;
+        this.finalRoundTriggerName = '';
+        this.finalRoundTriggerConditionLabel = '';
     }
 
     private _getWinConditionLabel(condition: HowToWinCard): string {

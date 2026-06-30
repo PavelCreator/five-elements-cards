@@ -1402,6 +1402,48 @@
     margin-top: 6px;
 }
 
+.victory-modal--wide {
+    width: min(760px, 92vw);
+}
+
+.final-round-notice-modal {
+    width: min(640px, 90vw);
+}
+
+.victory-tiebreak-table {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.victory-tiebreak-row {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: rgba(241, 245, 249, 0.8);
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    color: #1f2937;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.victory-tiebreak-row--head {
+    font-size: 18px;
+    font-weight: 700;
+    background: rgba(226, 232, 240, 0.9);
+}
+
+.victory-tiebreak-row--winner {
+    border-color: rgba(56, 189, 248, 0.8);
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.24);
+    background: rgba(224, 242, 254, 0.85);
+}
+
 .dice-roll-debug-layout {
     display: flex;
     align-items: flex-start;
@@ -2013,6 +2055,22 @@
 :host-context(.theme-dark) .bonus-shop-master-modal__subtitle,
 :host-context(.theme-dark) .bonus-shop-master-modal__empty {
     color: #f8fafc;
+}
+
+:host-context(.theme-dark) .victory-tiebreak-row {
+    background: rgba(30, 41, 59, 0.85);
+    border-color: rgba(148, 163, 184, 0.42);
+    color: #e2e8f0;
+}
+
+:host-context(.theme-dark) .victory-tiebreak-row--head {
+    background: rgba(51, 65, 85, 0.92);
+}
+
+:host-context(.theme-dark) .victory-tiebreak-row--winner {
+    border-color: rgba(125, 211, 252, 0.85);
+    box-shadow: 0 0 0 2px rgba(125, 211, 252, 0.26);
+    background: rgba(15, 118, 110, 0.24);
 }
 
 :host-context(.theme-dark) .bonus-shop-master-option {

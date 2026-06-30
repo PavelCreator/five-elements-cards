@@ -616,11 +616,44 @@
         </div>
     </div>
 
+    <div class="victory-modal-overlay" *ngIf="showFinalRoundNoticeModal" (click)="closeFinalRoundNoticeModal()">
+        <div class="victory-modal final-round-notice-modal" (click)="$event.stopPropagation()">
+            <div class="victory-modal__title">Final Round Started</div>
+            <div class="victory-modal__winner">{{ finalRoundTriggerName }} reached a win condition</div>
+            <div class="victory-modal__condition">Condition: {{ finalRoundTriggerConditionLabel }}</div>
+            <div class="victory-modal__condition">This is the last round. All remaining players should finish their turns.</div>
+            <button type="button" class="victory-modal__button" (click)="closeFinalRoundNoticeModal()">Continue</button>
+        </div>
+    </div>
+
     <div class="victory-modal-overlay" *ngIf="showVictoryModal">
         <div class="victory-modal">
             <div class="victory-modal__title">Victory</div>
             <div class="victory-modal__winner">{{ winnerName }} wins</div>
             <div class="victory-modal__condition">Condition: {{ winnerConditionLabel }}</div>
+            <button type="button" class="victory-modal__button" (click)="closeVictoryModal()">Close</button>
+        </div>
+    </div>
+
+    <div class="victory-modal-overlay" *ngIf="showVictoryTiebreakModal">
+        <div class="victory-modal victory-modal--wide" (click)="$event.stopPropagation()">
+            <div class="victory-modal__title">Victory Tie-Break</div>
+            <div class="victory-modal__winner">Winners: {{ finalRoundWinnerName }}</div>
+            <div class="victory-modal__condition">Compared by total passive bonuses on cards.</div>
+
+            <div class="victory-tiebreak-table">
+                <div class="victory-tiebreak-row victory-tiebreak-row--head">
+                    <span>Player</span>
+                    <span>Passive Total</span>
+                    <span>Result</span>
+                </div>
+                <div class="victory-tiebreak-row" *ngFor="let row of finalRoundStandings" [class.victory-tiebreak-row--winner]="row.isWinner">
+                    <span>{{ row.playerName }}</span>
+                    <span>{{ row.passiveBonusTotal }}</span>
+                    <span>{{ row.isWinner ? 'Winner' : 'Finalist' }}</span>
+                </div>
+            </div>
+
             <button type="button" class="victory-modal__button" (click)="closeVictoryModal()">Close</button>
         </div>
     </div>
