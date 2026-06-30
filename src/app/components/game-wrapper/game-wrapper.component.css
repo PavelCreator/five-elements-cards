@@ -128,6 +128,147 @@
     border-color:#4a90e2;
 }
 
+.cards-collection-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(4px);
+    z-index: 1450;
+}
+
+.cards-collection-modal {
+    width: min(1680px, 96vw);
+    height: min(920px, 92vh);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 26px 28px;
+    border-radius: 24px;
+    background: #fffaf1;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.36);
+}
+
+.cards-collection-modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.cards-collection-modal__title {
+    font-family: "Faculty Glyphic", sans-serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: #1f2937;
+    line-height: 1;
+}
+
+.cards-collection-modal__subtitle {
+    margin-top: 4px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #475569;
+}
+
+.cards-collection-modal__close {
+    min-width: 160px;
+}
+
+.cards-collection-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(240px, 1fr));
+    gap: 14px;
+    column-gap: 24px;
+    align-items: start;
+    min-height: 0;
+    overflow: auto;
+    padding-right: 8px;
+}
+
+.cards-collection-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+}
+
+.cards-collection-column__title {
+    text-align: center;
+    font-family: "Faculty Glyphic", sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.cards-collection-column__stack {
+    position: relative;
+    min-height: 180px;
+    min-width: 240px;
+    padding: 0 8px;
+}
+
+.cards-collection-column__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 160px;
+    border-radius: 16px;
+    border: 1px dashed rgba(148, 163, 184, 0.45);
+    background: rgba(255, 255, 255, 0.72);
+    color: #64748b;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.cards-collection-card {
+    position: absolute;
+    left: 50%;
+    width: 260px;
+    max-height: 68px;
+    overflow: hidden;
+    transform: translateX(-50%);
+    transition: top 0.18s ease-out, transform 0.18s ease-out, filter 0.18s ease-out, z-index 0.18s ease-out, max-height 0.2s ease-out;
+    z-index: 1;
+}
+
+.cards-collection-card app-card {
+    display: block;
+}
+
+.cards-collection-card--hovered {
+    z-index: 30;
+    max-height: 400px;
+}
+
+.cards-collection-card--shifted {
+    transform: translate(-50%, 270px);
+}
+
+.cards-collection-card--hovered ::ng-deep .card {
+    filter: drop-shadow(0 18px 30px rgba(15, 23, 42, 0.3));
+}
+
+.cards-collection-empty {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.cards-collection-empty__text {
+    font-family: "Faculty Glyphic", sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-align: center;
+}
+
 .game-setup{
     position:fixed;
     inset:0;
@@ -640,6 +781,7 @@
 .victory-modal__button,
 .lucky-purple-modal__option,
 .lucky-purple-modal__cancel,
+.cards-collection-modal__close,
 .dice-modal-button{
     border: none;
     border-radius: 10px;
@@ -656,6 +798,7 @@
 .purple-purchase-preview-modal__cancel,
 .bonus-shop-modal__cancel,
 .lucky-purple-modal__cancel,
+.cards-collection-modal__close,
 .dice-modal-button--secondary,
 .victory-modal__button{
     background: #e67e22;
@@ -665,6 +808,7 @@
 .purple-purchase-preview-modal__cancel:hover,
 .bonus-shop-modal__cancel:hover,
 .lucky-purple-modal__cancel:hover,
+.cards-collection-modal__close:hover,
 .dice-modal-button--secondary:hover,
 .victory-modal__button:hover{
     background: #d35400;
@@ -2071,6 +2215,7 @@
 :host-context(.theme-dark) .bonus-shop-extra-turn-modal,
 :host-context(.theme-dark) .bonus-shop-free-card-modal,
 :host-context(.theme-dark) .bonus-shop-master-modal,
+:host-context(.theme-dark) .cards-collection-modal,
 :host-context(.theme-dark) .purple-purchase-preview-modal,
 :host-context(.theme-dark) .dice-modal,
 :host-context(.theme-dark) .victory-modal,
@@ -2086,6 +2231,9 @@
 :host-context(.theme-dark) .bonus-shop-extra-turn-modal__text,
 :host-context(.theme-dark) .bonus-shop-free-card-modal__title,
 :host-context(.theme-dark) .bonus-shop-master-modal__title,
+:host-context(.theme-dark) .cards-collection-modal__title,
+:host-context(.theme-dark) .cards-collection-modal__subtitle,
+:host-context(.theme-dark) .cards-collection-column__title,
 :host-context(.theme-dark) .purple-purchase-preview-modal__title,
 :host-context(.theme-dark) .purple-purchase-preview-modal__subtitle,
 :host-context(.theme-dark) .victory-modal__title,
@@ -2117,6 +2265,12 @@
     background: rgba(30, 64, 175, 0.28);
     border-color: rgba(125, 211, 252, 0.9);
     box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.24);
+}
+
+:host-context(.theme-dark) .cards-collection-column__empty {
+    background: rgba(30, 41, 59, 0.72);
+    border-color: rgba(148, 163, 184, 0.45);
+    color: #94a3b8;
 }
 
 :host-context(.theme-dark) .victory-tiebreak-row {

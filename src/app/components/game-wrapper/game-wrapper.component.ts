@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -76,12 +76,21 @@ interface FinalRoundStanding {
     isWinner: boolean;
 }
 
+type CollectionColumnKey = 'red' | 'blue' | 'white' | 'green' | 'purple' | 'black' | 'mixed';
+
+interface CollectionColumn {
+    key: CollectionColumnKey;
+    title: string;
+    cards: Card[];
+}
+
 @Component({
     selector: 'app-game-wrapper',
     standalone: true,
     imports: [NgClass, NgFor, NgIf, NgStyle, FormsModule, CardComponent, HexagonComponent, PlayerColumnComponent, MasterCardComponent, HowToWinComponent],
     templateUrl: 'game-wrapper.component.html',
     styleUrls: ['./game-wrapper.component.css', '../../style.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('gameLayout') gameLayout?: ElementRef<HTMLDivElement>;
@@ -260,6 +269,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private _turnStartGameBankHexagons: { [key in Color]?: number } = {};
     private _turnStartPlayerHexagons: { [key in Color]?: number } = {};
     private _turnStartPlayerCardHexagons: { [key in Color]?: number } = {};
+    private _turnStartPlayerCollectionCards: Card[] = [];
     private _turnStartPlayerOwnedMasterCards: OwnedMasterCard[] = [];
     private _purchasedMasterCardOrderNumbers: Set<number> = new Set<number>();
     private _turnStartPurchasedMasterCardOrderNumbers: Set<number> = new Set<number>();
@@ -291,6 +301,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         5: { 1: 0, 2: 0, 3: 0, 4: 0 },
         6: { 1: 0, 2: 0, 3: 0, 4: 0 },
     };
+    private _playerCollectionCards: { [playerNumber: number]: Card[] } = {
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+        6: [],
+    };
     private _turnStartPlayerNormalCardLevelPurchases: PlayerLevelPurchaseCounts = { 1: 0, 2: 0, 3: 0, 4: 0 };
     private _lastClosedRollCount: number = 0;
     private _lastClosedRollWasBonusAction: boolean = false;
@@ -309,6 +327,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private _isFinalRoundActive: boolean = false;
     private _finalRoundStartPlayer: number | null = null;
     private _finalRoundQualifiedPlayers: Set<number> = new Set<number>();
+    private _collectionHoveredCardIndex: Partial<Record<CollectionColumnKey, number>> = {};
+    private _collectionDefaultOpenCardIndex: Partial<Record<CollectionColumnKey, number>> = {};
     private pickedTokensThisTurn: Color[] = [];
     public showDiceModal: boolean = false;
     public diceResults: string[] = [];
@@ -345,6 +365,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public finalRoundTriggerConditionLabel: string = '';
     public finalRoundStandings: FinalRoundStanding[] = [];
     public finalRoundWinnerName: string = '';
+    public showCardsCollectionModal: boolean = false;
+    public cardsCollectionPlayerNumber: number | null = null;
     public printModeEnabled: boolean = true;
     public readonly previewModalColors: Color[] = ['red', 'blue', 'white', 'green', 'purple', 'black'];
     public readonly previewPurpleWildcardTargets: Color[] = ['red', 'blue', 'white', 'green', 'purple'];
@@ -1024,6 +1046,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this._playerSpecialStackPurchases[this.activePlayer] = new Set<SpecialStackKey>(this._turnStartPlayerSpecialStackPurchases);
         this._playerNormalCardLevelPurchases[this.activePlayer] = { ...this._turnStartPlayerNormalCardLevelPurchases };
+        this._playerCollectionCards[this.activePlayer] = this._turnStartPlayerCollectionCards.map((card) => ({ ...card }));
 
         // Reset counters
         this.hexagonsPickedThisTurn = 0;
@@ -2905,6 +2928,15 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         }
 
+        this._playerCollectionCards[this.activePlayer] = [
+            ...(this._playerCollectionCards[this.activePlayer] ?? []),
+            { ...card }
+        ];
+
+        if (this.showCardsCollectionModal) {
+            this.closeCardsCollectionModal();
+        }
+
         if (grantBlackToken) {
             playerHex['black'] = (playerHex['black'] ?? 0) + 1;
             const blackBankValue = this.gameBankHexagons['black'] ?? 0;
@@ -3921,6 +3953,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._turnStartPlayerNormalCardLevelPurchases = {
             ...this._playerNormalCardLevelPurchases[this.activePlayer]
         };
+        this._turnStartPlayerCollectionCards = (this._playerCollectionCards[this.activePlayer] ?? []).map((card) => ({ ...card }));
         this._turnStartPassiveBlackTappedCount = this._getActivePlayerPassiveBlackTappedCount();
         this._turnStartPlayerOwnedMasterCards = (this.playerOwnedMasterCards[this.activePlayer] ?? []).map((card) => ({ ...card }));
         this._turnStartPurchasedMasterCardOrderNumbers = new Set<number>(this._purchasedMasterCardOrderNumbers);
@@ -4235,6 +4268,108 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.showVictoryTiebreakModal = false;
     }
 
+    public openCardsCollection(playerNumber: number): void {
+        if (!Number.isInteger(playerNumber) || playerNumber < 1 || playerNumber > 6) {
+            return;
+        }
+
+        this.cardsCollectionPlayerNumber = playerNumber;
+        this.showCardsCollectionModal = true;
+
+        // Set last card in each column as hovered and default open
+        const columns = this.cardsCollectionColumns;
+        columns.forEach(column => {
+            if (column.cards.length > 0) {
+                const lastIndex = column.cards.length - 1;
+                this._collectionHoveredCardIndex[column.key] = lastIndex;
+                this._collectionDefaultOpenCardIndex[column.key] = lastIndex;
+            }
+        });
+    }
+
+    public closeCardsCollectionModal(): void {
+        this.showCardsCollectionModal = false;
+        this.cardsCollectionPlayerNumber = null;
+        this._collectionHoveredCardIndex = {};
+        this._collectionDefaultOpenCardIndex = {};
+    }
+
+    public get cardsCollectionPlayerName(): string {
+        if (!this.cardsCollectionPlayerNumber) {
+            return '';
+        }
+
+        return this.playerNames[this.cardsCollectionPlayerNumber - 1] ?? `Player ${this.cardsCollectionPlayerNumber}`;
+    }
+
+    public get cardsCollectionColumns(): CollectionColumn[] {
+        if (!this.cardsCollectionPlayerNumber) {
+            return this._buildCollectionColumns([]);
+        }
+
+        return this._buildCollectionColumns(this._playerCollectionCards[this.cardsCollectionPlayerNumber] ?? []);
+    }
+
+    public get cardsCollectionColumnsFiltered(): CollectionColumn[] {
+        return this.cardsCollectionColumns.filter(column => column.cards.length > 0);
+    }
+
+    public get hasCollectionCards(): boolean {
+        return this.cardsCollectionColumns.some(column => column.cards.length > 0);
+    }
+
+    public onCollectionCardHoverStart(columnKey: CollectionColumnKey, cardIndex: number): void {
+        this._collectionHoveredCardIndex[columnKey] = cardIndex;
+    }
+
+    public onCollectionCardHoverEnd(columnKey: CollectionColumnKey, cardIndex: number): void {
+        if (this._collectionHoveredCardIndex[columnKey] !== cardIndex) {
+            return;
+        }
+
+        // Restore the default open card for this column
+        const defaultOpenIndex = this._collectionDefaultOpenCardIndex[columnKey];
+        if (defaultOpenIndex !== undefined) {
+            this._collectionHoveredCardIndex[columnKey] = defaultOpenIndex;
+        } else {
+            delete this._collectionHoveredCardIndex[columnKey];
+        }
+    }
+
+    public isCollectionCardShifted(columnKey: CollectionColumnKey, cardIndex: number): boolean {
+        const hoveredIndex = this._collectionHoveredCardIndex[columnKey];
+        return hoveredIndex !== undefined && cardIndex > hoveredIndex;
+    }
+
+    public isCollectionCardHovered(columnKey: CollectionColumnKey, cardIndex: number): boolean {
+        return this._collectionHoveredCardIndex[columnKey] === cardIndex;
+    }
+
+    public trackByCollectionColumn(_index: number, column: CollectionColumn): string {
+        return column.key;
+    }
+
+    public trackByCard(_index: number, card: Card): string {
+        return `${card.orderNumber}-${card.level}`;
+    }
+
+    public getCollectionColumnHeight(columnKey: CollectionColumnKey, cardsCount: number): number {
+        const cardHeight = 338;
+        const collapsedVisibleHeight = 68;
+        const expandedExtraSpace = 270;
+
+        if (cardsCount <= 0) {
+            return 180;
+        }
+
+        let height = cardHeight + Math.max(cardsCount - 1, 0) * collapsedVisibleHeight;
+        if (this._collectionHoveredCardIndex[columnKey] !== undefined) {
+            height += expandedExtraSpace;
+        }
+
+        return height;
+    }
+
     public openGameSettingsAfterWin(): void {
         this.gameNavigationRequested.emit('settings');
     }
@@ -4445,5 +4580,61 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         return '';
+    }
+
+    private _buildCollectionColumns(cards: Card[]): CollectionColumn[] {
+        const columns: CollectionColumn[] = [
+            { key: 'red', title: 'Fire', cards: [] },
+            { key: 'blue', title: 'Water', cards: [] },
+            { key: 'white', title: 'Air', cards: [] },
+            { key: 'green', title: 'Earth', cards: [] },
+            { key: 'purple', title: 'Purple', cards: [] },
+            { key: 'black', title: 'Black Cards', cards: [] },
+            { key: 'mixed', title: 'Mixed Cards', cards: [] },
+        ];
+
+        const columnMap = new Map<CollectionColumnKey, CollectionColumn>(
+            columns.map((column) => [column.key, column])
+        );
+
+        for (const card of cards) {
+            const columnKey = this._getCollectionColumnKey(card);
+            columnMap.get(columnKey)?.cards.push(card);
+        }
+
+        for (const column of columns) {
+            column.cards.sort((left, right) => {
+                const bonusDelta = this._getCollectionCardBonusStrength(right) - this._getCollectionCardBonusStrength(left);
+                if (bonusDelta !== 0) {
+                    return bonusDelta;
+                }
+
+                return left.orderNumber - right.orderNumber;
+            });
+        }
+
+        return columns;
+    }
+
+    private _getCollectionColumnKey(card: Card): CollectionColumnKey {
+        const bonusColors = this._getCardBonusColors(card);
+        if (bonusColors.length !== 1) {
+            return 'mixed';
+        }
+
+        const color = bonusColors[0];
+        if (color === 'red' || color === 'blue' || color === 'white' || color === 'green' || color === 'purple' || color === 'black') {
+            return color;
+        }
+
+        return 'mixed';
+    }
+
+    private _getCardBonusColors(card: Card): Color[] {
+        return this._purchaseBonusColors.filter((color) => (card.get?.[color] ?? 0) > 0);
+    }
+
+    private _getCollectionCardBonusStrength(card: Card): number {
+        return this._purchaseBonusColors.reduce((sum, color) => sum + Math.max(card.get?.[color] ?? 0, 0), 0);
     }
 }

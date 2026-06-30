@@ -32,6 +32,7 @@ export class PlayerColumnComponent implements OnChanges, AfterViewChecked {
     @Input() playerOwnedMasterCards: { [playerNumber: number]: OwnedMasterCard[] } = {};
 
     @Output() activePlayerChange = new EventEmitter<number>();
+    @Output() openCardsCollectionEvent = new EventEmitter<number>();
     @Output() startRenameEvent = new EventEmitter<number>();
     @Output() saveRenameEvent = new EventEmitter<{ playerNumber: number; name: string }>();
     @Output() cancelRenameEvent = new EventEmitter<void>();
@@ -153,6 +154,10 @@ export class PlayerColumnComponent implements OnChanges, AfterViewChecked {
      */
     public setActivePlayer(playerNumber: number): void {
         this.activePlayerChange.emit(playerNumber);
+    }
+
+    public openCardsCollection(playerNumber: number): void {
+        this.openCardsCollectionEvent.emit(playerNumber);
     }
 
     /**

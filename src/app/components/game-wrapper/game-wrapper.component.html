@@ -158,6 +158,7 @@
                 [playerPassiveBlackTappedThisTurn]="playerPassiveBlackTappedThisTurn"
                 [playerOwnedMasterCards]="playerOwnedMasterCards"
                 (activePlayerChange)="setActivePlayer($event)"
+                (openCardsCollectionEvent)="openCardsCollection($event)"
                 (startRenameEvent)="startRename($event)"
                 (saveRenameEvent)="saveRename($event.playerNumber, $event.name)"
                 (cancelRenameEvent)="cancelRename()">
@@ -172,6 +173,42 @@
                     (click)="setRightSidebarPage(page)">
                     Page {{ page }}
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="cards-collection-overlay" *ngIf="showCardsCollectionModal" (click)="closeCardsCollectionModal()">
+        <div class="cards-collection-modal" (click)="$event.stopPropagation()">
+            <div class="cards-collection-modal__header">
+                <div>
+                    <div class="cards-collection-modal__title">Cards</div>
+                    <div class="cards-collection-modal__subtitle">{{ cardsCollectionPlayerName }}</div>
+                </div>
+                <button type="button" class="cards-collection-modal__close" (click)="closeCardsCollectionModal()">Close</button>
+            </div>
+
+            <div class="cards-collection-grid" *ngIf="hasCollectionCards">
+                <div class="cards-collection-column" *ngFor="let column of cardsCollectionColumnsFiltered; trackBy: trackByCollectionColumn">
+                    <div class="cards-collection-column__title">{{ column.title }}</div>
+                    <div class="cards-collection-column__stack" [style.height.px]="getCollectionColumnHeight(column.key, column.cards.length)">
+                        <div
+                            class="cards-collection-card"
+                            *ngFor="let card of column.cards; let cardIndex = index; trackBy: trackByCard"
+                            [class.cards-collection-card--hovered]="isCollectionCardHovered(column.key, cardIndex)"
+                            [class.cards-collection-card--shifted]="isCollectionCardShifted(column.key, cardIndex)"
+                            [style.top.px]="cardIndex * 68"
+                            (mouseenter)="onCollectionCardHoverStart(column.key, cardIndex)"
+                            (mouseleave)="onCollectionCardHoverEnd(column.key, cardIndex)">
+                            <app-card [card]="card" [disableHoverUi]="true"></app-card>
+                        </div>
+
+                        <div class="cards-collection-column__empty" *ngIf="column.cards.length === 0">No cards</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards-collection-empty" *ngIf="!hasCollectionCards">
+                <div class="cards-collection-empty__text">No Cards Yet</div>
             </div>
         </div>
     </div>

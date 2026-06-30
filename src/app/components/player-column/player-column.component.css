@@ -41,6 +41,7 @@
     font-size:2.5em;
     color:#2b2b2b;
     width:100%;
+    cursor:pointer;
 }
 
 .player-card__header{
@@ -106,26 +107,29 @@
     cursor:pointer;
 }
 
-.player-set-active{
+.player-cards-button{
     position:absolute;
     right:16px;
     top:50%;
     transform:translateY(-50%);
-    width:32px;
-    height:32px;
-    border-radius:50%;
+    min-width:72px;
+    height:36px;
+    padding:0 12px;
+    border-radius:12px;
     border:1px solid rgba(0, 0, 0, 0.12);
     background:#fff;
-    color:#999;
+    color:#475569;
     cursor:pointer;
-    font-size:0.6em;
+    font-size:0.34em;
+    font-family:"Faculty Glyphic", sans-serif;
+    font-weight:700;
     display:flex;
     align-items:center;
     justify-content:center;
     transition:all 0.15s ease-out;
 }
 
-.player-set-active:hover{
+.player-cards-button:hover{
     background:#4a90e2;
     color:#fff;
     border-color:#4a90e2;
@@ -273,14 +277,14 @@
     color: #e2e8f0;
 }
 
-:host-context(.theme-dark) .player-set-active,
+:host-context(.theme-dark) .player-cards-button,
 :host-context(.theme-dark) .player-card__save {
     background: rgba(30, 41, 59, 0.95);
     border-color: rgba(148, 163, 184, 0.45);
     color: #cbd5e1;
 }
 
-:host-context(.theme-dark) .player-set-active:hover {
+:host-context(.theme-dark) .player-cards-button:hover {
     background: #0b3b59;
     border-color: #7dd3fc;
     color: #f8fafc;
