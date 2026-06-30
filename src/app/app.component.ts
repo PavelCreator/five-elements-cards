@@ -26,6 +26,7 @@ export class AppComponent implements OnInit{
     public cardsWrapperHeight: string = '50vh';
     public activeTab: AppTab = 'collection';
     public showTabNav: boolean = true;
+    public showGameWrapper: boolean = true;
     private readonly activeTabStorageKey: string = 'activeTab';
     public playerCount?: number;
     private readonly playerCountStorageKey: string = 'gamePlayerCount';
@@ -99,6 +100,19 @@ export class AppComponent implements OnInit{
         if (tab === 'settings') {
             this._loadPlayerCount();
         }
+    }
+
+    public onGameNavigationRequested(action: 'settings' | 'new-game'): void {
+        if (action === 'settings') {
+            this.setActiveTab('settings');
+            return;
+        }
+
+        this.setActiveTab('game');
+        this.showGameWrapper = false;
+        setTimeout(() => {
+            this.showGameWrapper = true;
+        });
     }
 
     public setPlayerCount(count: number): void {

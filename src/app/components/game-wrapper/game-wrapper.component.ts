@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -84,6 +84,7 @@ interface FinalRoundStanding {
 })
 export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('gameLayout') gameLayout?: ElementRef<HTMLDivElement>;
+    @Output() gameNavigationRequested = new EventEmitter<'settings' | 'new-game'>();
     public playerCount?: number;
     private _playerCountKey = 'gamePlayerCount';
     private _playerNamesKey = 'gamePlayerNames';
@@ -411,10 +412,6 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     @HostListener('window:keydown', ['$event'])
     onWindowKeyDown(event: KeyboardEvent): void {
         if (this.hasWinner) {
-            if ((this.showVictoryModal || this.showVictoryTiebreakModal) && (event.key === 'Escape' || event.key === 'Esc')) {
-                event.preventDefault();
-                this.closeVictoryModal();
-            }
             return;
         }
 
@@ -4200,6 +4197,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public closeVictoryModal(): void {
         this.showVictoryModal = false;
         this.showVictoryTiebreakModal = false;
+    }
+
+    public openGameSettingsAfterWin(): void {
+        this.gameNavigationRequested.emit('settings');
+    }
+
+    public startNewGameAfterWin(): void {
+        this.gameNavigationRequested.emit('new-game');
     }
 
     public closeFinalRoundNoticeModal(): void {

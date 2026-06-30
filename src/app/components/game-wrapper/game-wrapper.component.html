@@ -641,7 +641,11 @@
             <div class="victory-modal__title">Victory</div>
             <div class="victory-modal__winner">{{ winnerName }} wins</div>
             <div class="victory-modal__condition" *ngIf="winnerConditionLabel">Condition: {{ winnerConditionLabel }}</div>
-            <button type="button" class="victory-modal__button" (click)="closeVictoryModal()">Close</button>
+            <div class="victory-modal__condition">Do you want to start a new game?</div>
+            <div class="victory-modal__actions">
+                <button type="button" class="victory-modal__button victory-modal__button--secondary" (click)="openGameSettingsAfterWin()">Game settings</button>
+                <button type="button" class="victory-modal__button" (click)="startNewGameAfterWin()">Start new game</button>
+            </div>
         </div>
     </div>
 
@@ -664,7 +668,11 @@
                 </div>
             </div>
 
-            <button type="button" class="victory-modal__button" (click)="closeVictoryModal()">Close</button>
+            <div class="victory-modal__condition">Do you want to start a new game?</div>
+            <div class="victory-modal__actions">
+                <button type="button" class="victory-modal__button victory-modal__button--secondary" (click)="openGameSettingsAfterWin()">Game settings</button>
+                <button type="button" class="victory-modal__button" (click)="startNewGameAfterWin()">Start new game</button>
+            </div>
         </div>
     </div>
 

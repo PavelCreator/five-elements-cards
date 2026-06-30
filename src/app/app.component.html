@@ -17,7 +17,9 @@
 	<app-art-to-card-animation></app-art-to-card-animation>
 </div>
 
-<app-game-wrapper *ngIf="activeTab === 'game'"></app-game-wrapper>
+<app-game-wrapper
+	*ngIf="activeTab === 'game' && showGameWrapper"
+	(gameNavigationRequested)="onGameNavigationRequested($event)"></app-game-wrapper>
 
 <div class="settings-wrapper" *ngIf="activeTab === 'settings'">
 	<div class="settings-panel">
