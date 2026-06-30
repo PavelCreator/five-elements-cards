@@ -11,11 +11,6 @@ interface OwnedMasterCard {
     grand: boolean;
 }
 
-interface PassiveBlackDisplayGroup {
-    count: number;
-    tapped: boolean;
-}
-
 @Component({
     selector: 'app-player-column',
     standalone: true,
@@ -104,37 +99,53 @@ export class PlayerColumnComponent implements OnChanges, AfterViewChecked {
         return this.playerOwnedMasterCards[playerNumber] ?? [];
     }
 
-    public getPassiveBlackDisplayGroups(playerNumber: number): PassiveBlackDisplayGroup[] {
+    public getPassiveBlackTotalCount(playerNumber: number): number {
         const totalPassiveBlack = Math.max(0, Math.floor(this.getCardHexagonValue(playerNumber, 'black')));
+        return totalPassiveBlack;
+    }
+
+    public getPassiveBlackTappedCount(playerNumber: number): number {
+        const totalPassiveBlack = this.getPassiveBlackTotalCount(playerNumber);
         const tappedCount = Math.max(0, Math.min(Math.floor(this.playerPassiveBlackTappedThisTurn[playerNumber] ?? 0), totalPassiveBlack));
+        return tappedCount;
+    }
+
+    public getPassiveBlackAvailableCount(playerNumber: number): number {
+        const totalPassiveBlack = this.getPassiveBlackTotalCount(playerNumber);
+        const tappedCount = this.getPassiveBlackTappedCount(playerNumber);
         const availableCount = Math.max(totalPassiveBlack - tappedCount, 0);
-
-        // Keep single-stack rendering when all cards are in the same state.
-        if (totalPassiveBlack <= 0) {
-            return [{ count: 0, tapped: false }];
-        }
-
-        if (tappedCount <= 0) {
-            return [{ count: availableCount, tapped: false }];
-        }
-
-        if (availableCount <= 0) {
-            return [{ count: tappedCount, tapped: true }];
-        }
-
-        // Mixed state: show enabled stack first, then disabled stack.
-        return [
-            { count: availableCount, tapped: false },
-            { count: tappedCount, tapped: true },
-        ];
+        return availableCount;
     }
 
-    public getPrimaryPassiveBlackDisplayGroup(playerNumber: number): PassiveBlackDisplayGroup {
-        return this.getPassiveBlackDisplayGroups(playerNumber)[0] ?? { count: 0, tapped: false };
+    public isPassiveBlackMixed(playerNumber: number): boolean {
+        const totalPassiveBlack = this.getPassiveBlackTotalCount(playerNumber);
+        const tappedCount = this.getPassiveBlackTappedCount(playerNumber);
+        const availableCount = this.getPassiveBlackAvailableCount(playerNumber);
+        return totalPassiveBlack > 0 && tappedCount > 0 && availableCount > 0;
     }
 
-    public getSecondaryPassiveBlackDisplayGroup(playerNumber: number): PassiveBlackDisplayGroup | null {
-        return this.getPassiveBlackDisplayGroups(playerNumber)[1] ?? null;
+    public isPassiveBlackFullyTapped(playerNumber: number): boolean {
+        const totalPassiveBlack = this.getPassiveBlackTotalCount(playerNumber);
+        return totalPassiveBlack > 0 && this.getPassiveBlackTappedCount(playerNumber) >= totalPassiveBlack;
+    }
+
+    public getPassiveBlackStackNumber(playerNumber: number): number {
+        if (this.isPassiveBlackMixed(playerNumber)) {
+            // Mixed state is rendered as ratio text overlay (e.g. 1/2), so hide built-in number.
+            return 0;
+        }
+
+        if (this.isPassiveBlackFullyTapped(playerNumber)) {
+            return this.getPassiveBlackTotalCount(playerNumber);
+        }
+
+        return this.getPassiveBlackAvailableCount(playerNumber);
+    }
+
+    public getPassiveBlackMixedRatio(playerNumber: number): string {
+        const available = this.getPassiveBlackAvailableCount(playerNumber);
+        const total = this.getPassiveBlackTotalCount(playerNumber);
+        return `${available}/${total}`;
     }
 
     /**

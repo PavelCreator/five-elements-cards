@@ -1,6 +1,6 @@
 <div class="game-players" [ngClass]="'game-players--' + side">
-    <div class="player-slot" *ngFor="let isVisible of playerSlots; let i = index" 
-         [class.player-slot--hidden]="!isVisible" 
+    <div class="player-slot" *ngFor="let isVisible of playerSlots; let i = index"
+         [class.player-slot--hidden]="!isVisible"
          [class.player-slot--active]="getPlayerNumber(i) === activePlayer">
         <div class="player-card" *ngIf="isVisible">
             <div class="player-card__header">
@@ -9,8 +9,8 @@
                         {{ getPlayerName(getPlayerNumber(i)) }}
                         <span class="player-card__tooltip">Rename</span>
                     </span>
-                    <button class="player-set-active" type="button" 
-                            (click)="$event.stopPropagation(); setActivePlayer(getPlayerNumber(i))" 
+                    <button class="player-set-active" type="button"
+                            (click)="$event.stopPropagation(); setActivePlayer(getPlayerNumber(i))"
                             title="Set active player">●</button>
                 </ng-container>
                 <ng-template #editTemplate>
@@ -24,12 +24,13 @@
                         (keydown.escape)="$event.preventDefault(); cancelRename()"
                         (blur)="onRenameBlur(getPlayerNumber(i))"
                     />
-                    <button class="player-card__save" type="button" 
+                    <button class="player-card__save" type="button"
                             (mousedown)="saveRename(getPlayerNumber(i))">
                         Save
                     </button>
                 </ng-template>
             </div>
+
             <div class="player-hexagons">
                 <div [class.hexagon-empty]="getCardHexagonValue(getPlayerNumber(i), 'red') === 0">
                     <app-hexagon [color]="'red'" [number]="getCardHexagonValue(getPlayerNumber(i), 'red')" [type]="'getWin'"></app-hexagon>
@@ -61,30 +62,24 @@
                 <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'purple') === 0">
                     <app-hexagon [color]="'purple'" [number]="getHexagonValue(getPlayerNumber(i), 'purple')" [type]="'playerBank'"></app-hexagon>
                 </div>
-                <div class="player-black-passive-cell" [class.hexagon-empty]="getCardHexagonValue(getPlayerNumber(i), 'black') === 0">
+
+                <div class="player-black-passive-cell" [class.hexagon-empty]="getPassiveBlackTotalCount(getPlayerNumber(i)) === 0">
                     <div
                         class="player-black-passive-stack"
-                        [class.player-black-passive-stack--tapped]="getPrimaryPassiveBlackDisplayGroup(getPlayerNumber(i)).tapped">
+                        [class.player-black-passive-stack--tapped]="isPassiveBlackFullyTapped(getPlayerNumber(i))"
+                        [class.player-black-passive-stack--mixed]="isPassiveBlackMixed(getPlayerNumber(i))">
                         <app-hexagon
                             [color]="'black'"
-                            [number]="getPrimaryPassiveBlackDisplayGroup(getPlayerNumber(i)).count"
+                            [number]="getPassiveBlackStackNumber(getPlayerNumber(i))"
                             [type]="'getWin'"></app-hexagon>
-                    </div>
-
-                    <div
-                        class="player-black-passive-stack player-black-passive-stack--extra"
-                        *ngIf="getSecondaryPassiveBlackDisplayGroup(getPlayerNumber(i)) as secondaryBlackGroup"
-                        [class.player-black-passive-stack--tapped]="secondaryBlackGroup.tapped">
-                        <app-hexagon
-                            [color]="'black'"
-                            [number]="secondaryBlackGroup.count"
-                            [type]="'getWin'"></app-hexagon>
+                        <span class="player-black-passive-stack__ratio" *ngIf="isPassiveBlackMixed(getPlayerNumber(i))">
+                            <span class="player-black-passive-stack__ratio-available">{{ getPassiveBlackAvailableCount(getPlayerNumber(i)) }}</span>
+                            <span class="player-black-passive-stack__ratio-slash">/</span>
+                            <span class="player-black-passive-stack__ratio-total">{{ getPassiveBlackTotalCount(getPlayerNumber(i)) }}</span>
+                        </span>
                     </div>
                 </div>
-                <div
-                    class="player-black-token-cell"
-                    [class.player-black-token-cell--with-secondary]="getSecondaryPassiveBlackDisplayGroup(getPlayerNumber(i)) !== null"
-                    [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'black') === 0">
+                <div class="player-black-token-cell" [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'black') === 0">
                     <app-hexagon [color]="'black'" [number]="getHexagonValue(getPlayerNumber(i), 'black')" [type]="'playerBank'"></app-hexagon>
                 </div>
             </div>
@@ -97,7 +92,6 @@
                     <div class="player-master-card__name">{{ masterCard.name }}</div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
