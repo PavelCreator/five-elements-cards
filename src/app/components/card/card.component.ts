@@ -10,6 +10,7 @@ import { ImageService } from "../../services/image.service";
 import { CardSide } from "../../models/card-side.type";
 import { ChaosCard } from "../../models/chaos-card.interface";
 import { Color } from '../../models/color.type';
+import { SettingsService } from '../../services/settings.service';
 
 @Pipe({
     name: 'keys',
@@ -45,6 +46,7 @@ export class CardComponent implements OnInit {
     // @ts-ignore
     @Input() card: Card = {} as Card;
     @Input() disableHoverUi: boolean = false;
+    @Input() forceNormalTokenSize: boolean = false;
     @Input() playerTokens?: { [key in Color]?: number };
     @Input() playerCardTokens?: { [key in Color]?: number };
     @Input() playerMasterColors?: Color[];
@@ -430,9 +432,14 @@ export class CardComponent implements OnInit {
         this.hovered = isHovered;
     }
 
+    public get isBigTokenMode(): boolean {
+        return !this.forceNormalTokenSize && this._settingsService.getCardTokenDisplayMode() === 'big';
+    }
+
     constructor(
         private _interactionService: InteractionService,
         private _imageService: ImageService,
+        private _settingsService: SettingsService,
         private el: ElementRef,
         private render: Renderer2
     ) {

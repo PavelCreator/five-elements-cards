@@ -200,6 +200,14 @@
                             (mouseenter)="onCollectionCardHoverStart(column.key, cardIndex)"
                             (mouseleave)="onCollectionCardHoverEnd(column.key, cardIndex)">
                             <app-card [card]="card" [disableHoverUi]="true"></app-card>
+                            <button 
+                                *ngIf="column.key === 'reserved' && cardsCollectionPlayerNumber === activePlayer"
+                                type="button"
+                                class="cards-collection-card__buy-button"
+                                (click)="buyReservedCard(card)"
+                                [disabled]="!canBuyReservedCard">
+                                Buy Card
+                            </button>
                         </div>
 
                         <div class="cards-collection-column__empty" *ngIf="column.cards.length === 0">No cards</div>
@@ -228,7 +236,7 @@
 
                         <div class="bonus-shop-rule__rewards">
                             <ng-container *ngFor="let reward of rule.rewards; let isLast = last; let rewardIndex = index">
-                                <ng-container *ngIf="reward.kind === 'hex'; else imageReward">
+                                <ng-container *ngIf="reward.kind === 'hex'; else imageRewardCheck">
                                     <button
                                         type="button"
                                         class="bonus-shop-rule__reward-hex bonus-shop-rule__reward-hex--clickable"
@@ -243,17 +251,56 @@
                                         </div>
                                     </ng-template>
                                 </ng-container>
-                                <ng-template #imageReward>
-                                    <button
-                                        type="button"
-                                        class="bonus-shop-rule__reward-icon bonus-shop-rule__reward-icon--clickable"
-                                        *ngIf="isBonusShopImageRewardClickable(reward); else staticLeftImageReward"
-                                        [disabled]="isBonusShopRewardDisabled(rule, rewardIndex)"
-                                        (click)="onBonusShopRewardClick(reward, rule, rewardIndex)">
-                                        <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
-                                    </button>
-                                    <ng-template #staticLeftImageReward>
-                                        <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
+                                <ng-template #imageRewardCheck>
+                                    <ng-container *ngIf="reward.kind === 'image'; else hardcoreReward">
+                                        <button
+                                            type="button"
+                                            class="bonus-shop-rule__reward-icon bonus-shop-rule__reward-icon--clickable"
+                                            *ngIf="isBonusShopImageRewardClickable(reward); else staticLeftImageReward"
+                                            [disabled]="isBonusShopRewardDisabled(rule, rewardIndex)"
+                                            (click)="onBonusShopRewardClick(reward, rule, rewardIndex)">
+                                            <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
+                                        </button>
+                                        <ng-template #staticLeftImageReward>
+                                            <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
+                                        </ng-template>
+                                    </ng-container>
+                                    <ng-template #hardcoreReward>
+                                        <button
+                                            type="button"
+                                            class="bonus-shop-rule__reward-hardcore bonus-shop-rule__reward-hex--clickable"
+                                            [style.color]="reward.hardcoreColor"
+                                            [disabled]="isBonusShopRewardDisabled(rule, rewardIndex)"
+                                            (click)="onBonusShopRewardClick(reward, rule, rewardIndex)">
+                                            <div class="bonus-shop-rule__reward-hardcore-text">
+                                                <ng-container [ngSwitch]="reward.hardcoreKind">
+                                                    <ng-container *ngSwitchCase="'refreshCardRow'">
+                                                        <span>Refresh</span>
+                                                        <span>Card</span>
+                                                        <span>Row</span>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="'reserveCard'">
+                                                        <span>Reserve</span>
+                                                        <span>Card</span>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="'buryRivalsCard'">
+                                                        <span>Bury</span>
+                                                        <span>Rival's</span>
+                                                        <span>Card</span>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="'stealRivalsCard'">
+                                                        <span>Steal</span>
+                                                        <span>Rival's</span>
+                                                        <span>Card</span>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="'buryRivalCard'">
+                                                        <span>Bury</span>
+                                                        <span>Rival</span>
+                                                        <span>Card</span>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </div>
+                                        </button>
                                     </ng-template>
                                 </ng-template>
                                 <span class="bonus-shop-rule__or" *ngIf="!isLast">OR</span>
@@ -272,7 +319,7 @@
 
                         <div class="bonus-shop-rule__rewards">
                             <ng-container *ngFor="let reward of rule.rewards; let isLast = last; let rewardIndex = index">
-                                <ng-container *ngIf="reward.kind === 'hex'; else imageRewardRight">
+                                <ng-container *ngIf="reward.kind === 'hex'; else imageRewardCheckRight">
                                     <button
                                         type="button"
                                         class="bonus-shop-rule__reward-hex bonus-shop-rule__reward-hex--clickable"
@@ -287,17 +334,56 @@
                                         </div>
                                     </ng-template>
                                 </ng-container>
-                                <ng-template #imageRewardRight>
-                                    <button
-                                        type="button"
-                                        class="bonus-shop-rule__reward-icon bonus-shop-rule__reward-icon--clickable"
-                                        *ngIf="isBonusShopImageRewardClickable(reward); else staticRightImageReward"
-                                        [disabled]="isBonusShopRewardDisabled(rule, rewardIndex)"
-                                        (click)="onBonusShopRewardClick(reward, rule, rewardIndex)">
-                                        <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
-                                    </button>
-                                    <ng-template #staticRightImageReward>
-                                        <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
+                                <ng-template #imageRewardCheckRight>
+                                    <ng-container *ngIf="reward.kind === 'image'; else hardcoreRewardRight">
+                                        <button
+                                            type="button"
+                                            class="bonus-shop-rule__reward-icon bonus-shop-rule__reward-icon--clickable"
+                                            *ngIf="isBonusShopImageRewardClickable(reward); else staticRightImageReward"
+                                            [disabled]="isBonusShopRewardDisabled(rule, rewardIndex)"
+                                            (click)="onBonusShopRewardClick(reward, rule, rewardIndex)">
+                                            <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
+                                        </button>
+                                        <ng-template #staticRightImageReward>
+                                            <img class="bonus-shop-rule__icon" [src]="reward.imageSrc" [alt]="reward.alt" />
+                                        </ng-template>
+                                    </ng-container>
+                                    <ng-template #hardcoreRewardRight>
+                                        <button
+                                            type="button"
+                                            class="bonus-shop-rule__reward-hardcore bonus-shop-rule__reward-hex--clickable"
+                                            [style.color]="reward.hardcoreColor"
+                                            [disabled]="isBonusShopRewardDisabled(rule, rewardIndex)"
+                                            (click)="onBonusShopRewardClick(reward, rule, rewardIndex)">
+                                            <div class="bonus-shop-rule__reward-hardcore-text">
+                                                <ng-container [ngSwitch]="reward.hardcoreKind">
+                                                    <ng-container *ngSwitchCase="'refreshCardRow'">
+                                                        <span>Refresh</span>
+                                                        <span>Card</span>
+                                                        <span>Row</span>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="'reserveCard'">
+                                                        <span>Reserve</span>
+                                                        <span>Card</span>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="'buryRivalsCard'">
+                                                        <span>Bury</span>
+                                                        <span>Rival's</span>
+                                                        <span>Card</span>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="'stealRivalsCard'">
+                                                        <span>Steal</span>
+                                                        <span>Rival's</span>
+                                                        <span>Card</span>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="'buryRivalCard'">
+                                                        <span>Bury</span>
+                                                        <span>Rival</span>
+                                                        <span>Card</span>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </div>
+                                        </button>
                                     </ng-template>
                                 </ng-template>
                                 <span class="bonus-shop-rule__or" *ngIf="!isLast">OR</span>
@@ -473,6 +559,204 @@
                     type="button"
                     class="bonus-shop-modal__cancel"
                     (click)="cancelBonusShopFreeCardSelection()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bonus-shop-free-card-overlay" *ngIf="showReserveCardModal" (click)="cancelReserveCardBonus()">
+        <div class="bonus-shop-free-card-modal" (click)="$event.stopPropagation()">
+            <div class="bonus-shop-free-card-modal__title">Choose Card to Reserve</div>
+            <div class="bonus-shop-free-card-modal__subtitle">Select one open card to reserve. It will be hidden and only you can buy it later.</div>
+
+            <div class="bonus-shop-free-card-grid" *ngIf="reserveCardChoices.length > 0; else noReserveCardChoices">
+                <button
+                    type="button"
+                    class="bonus-shop-free-card-option"
+                    *ngFor="let card of reserveCardChoices"
+                    [class.bonus-shop-free-card-option--selected]="isReserveCardSelected(card)"
+                    (click)="onReserveCardClick(card)">
+                    <app-card [card]="card" [disableHoverUi]="true"></app-card>
+                </button>
+            </div>
+
+            <ng-template #noReserveCardChoices>
+                <div class="bonus-shop-free-card-modal__empty">No available cards to reserve.</div>
+            </ng-template>
+
+            <div class="bonus-shop-free-card-modal__actions">
+                <button
+                    type="button"
+                    class="bonus-shop-modal__apply"
+                    *ngIf="selectedReserveCardOrderNumber !== null"
+                    (click)="applyReserveCardBonus()">
+                    Reserve Card
+                </button>
+                <button
+                    type="button"
+                    class="bonus-shop-modal__cancel"
+                    (click)="cancelReserveCardBonus()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bury Rival Card: Select Player Modal -->
+    <div class="bonus-shop-free-card-overlay" *ngIf="showBuryRivalCardModal && buryRivalCardSelectedPlayer === null" (click)="cancelBuryRivalCardBonus()">
+        <div class="bonus-shop-free-card-modal" (click)="$event.stopPropagation()">
+            <div class="bonus-shop-free-card-modal__title">Choose Rival</div>
+            <div class="bonus-shop-free-card-modal__subtitle">Select a rival to choose a card to bury.</div>
+
+            <div class="bonus-shop-free-card-grid">
+                <button
+                    type="button"
+                    class="bonus-shop-free-card-option"
+                    *ngFor="let player of buryRivalCardPlayerChoices"
+                    (click)="onBuryRivalCardPlayerSelect(player.playerNumber)">
+                    <div class="rival-player-block">
+                        <div class="rival-player-name">{{ player.name }}</div>
+                    </div>
+                </button>
+            </div>
+
+            <div class="bonus-shop-free-card-modal__actions">
+                <button
+                    type="button"
+                    class="bonus-shop-modal__cancel"
+                    (click)="cancelBuryRivalCardBonus()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bury Rival Card: View Player Cards Modal -->
+    <div class="bonus-shop-free-card-overlay" *ngIf="showBuryRivalCardModal && buryRivalCardSelectedPlayer !== null" (click)="cancelBuryRivalCardBonus()">
+        <div class="bonus-shop-free-card-modal" (click)="$event.stopPropagation()">
+            <div class="bonus-shop-free-card-modal__title">Choose Card to Bury</div>
+            <div class="bonus-shop-free-card-modal__subtitle">Select a card to bury at the bottom of the deck.</div>
+
+            <div class="bonus-shop-free-card-grid" *ngIf="buryRivalCardPlayerCards.length > 0; else noBuryRivalCards">
+                <button
+                    type="button"
+                    class="bonus-shop-free-card-option"
+                    *ngFor="let card of buryRivalCardPlayerCards"
+                    (click)="onBuryRivalCardCardSelect(card)">
+                    <app-card [card]="card" [disableHoverUi]="true"></app-card>
+                </button>
+            </div>
+
+            <ng-template #noBuryRivalCards>
+                <div class="bonus-shop-free-card-modal__empty">This player has no cards to bury.</div>
+            </ng-template>
+
+            <div class="bonus-shop-free-card-modal__actions">
+                <button
+                    type="button"
+                    class="bonus-shop-modal__apply"
+                    *ngIf="buryRivalCardPlayerChoices.length > 1"
+                    (click)="selectAnotherBuryRivalCardPlayer()">
+                    Select Another Rival
+                </button>
+                <button
+                    type="button"
+                    class="bonus-shop-modal__cancel"
+                    (click)="cancelBuryRivalCardBonus()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bury Rival Card: Confirmation Modal -->
+    <div class="bonus-shop-free-card-overlay" *ngIf="buryRivalCardConfirmModalOpen" (click)="cancelBuryRivalCardConfirm()">
+        <div class="bonus-shop-free-card-modal" (click)="$event.stopPropagation()">
+            <div class="bonus-shop-free-card-modal__title">Confirm Bury</div>
+            <div class="bonus-shop-free-card-modal__subtitle">Are you sure that you want to bury this card?</div>
+
+            <div class="bonus-shop-free-card-grid" *ngIf="buryRivalCardSelectedCard">
+                <div class="bonus-shop-free-card-option--disabled-view">
+                    <app-card [card]="buryRivalCardSelectedCard" [disableHoverUi]="true"></app-card>
+                </div>
+            </div>
+
+            <div class="bonus-shop-free-card-modal__actions">
+                <button
+                    type="button"
+                    class="bonus-shop-modal__apply"
+                    (click)="confirmBuryRivalCard()">
+                    Yes
+                </button>
+                <button
+                    type="button"
+                    class="bonus-shop-modal__cancel"
+                    (click)="cancelBuryRivalCardConfirm()">
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bonus-shop-free-card-overlay" *ngIf="showRefreshCardRowModal" (click)="cancelRefreshCardRowBonus()">
+        <div class="bonus-shop-free-card-modal" (click)="$event.stopPropagation()">
+            <div class="bonus-shop-free-card-modal__title">Choose Card Row to Refresh</div>
+            <div class="bonus-shop-free-card-modal__subtitle">Select one row to refresh. Current cards will return to bottom of deck.</div>
+
+            <div class="refresh-row-selector">
+                <div class="refresh-row-selector__row">
+                    <button
+                        type="button"
+                        class="refresh-row-selector__option"
+                        *ngFor="let option of refreshCardRowRegularOptions"
+                        [class.refresh-row-selector__option--selected]="selectedRefreshCardRowIndex === option.index"
+                        [attr.aria-label]="option.label"
+                        [title]="option.label"
+                        (click)="onRefreshCardRowSelect(option.index)">
+                        <img class="refresh-row-selector__image" [src]="option.imageSrc" [alt]="option.label" />
+                    </button>
+                </div>
+
+                <div class="refresh-row-selector__row">
+                    <button
+                        type="button"
+                        class="refresh-row-selector__option"
+                        *ngFor="let option of refreshCardRowPurpleOptions"
+                        [class.refresh-row-selector__option--selected]="selectedRefreshCardRowIndex === option.index"
+                        [attr.aria-label]="option.label"
+                        [title]="option.label"
+                        (click)="onRefreshCardRowSelect(option.index)">
+                        <img class="refresh-row-selector__image" [src]="option.imageSrc" [alt]="option.label" />
+                    </button>
+                </div>
+
+                <div class="refresh-row-selector__row">
+                    <button
+                        type="button"
+                        class="refresh-row-selector__option"
+                        *ngFor="let option of refreshCardRowBlackOptions"
+                        [class.refresh-row-selector__option--selected]="selectedRefreshCardRowIndex === option.index"
+                        [attr.aria-label]="option.label"
+                        [title]="option.label"
+                        (click)="onRefreshCardRowSelect(option.index)">
+                        <img class="refresh-row-selector__image" [src]="option.imageSrc" [alt]="option.label" />
+                    </button>
+                </div>
+            </div>
+
+            <div class="bonus-shop-free-card-modal__actions">
+                <button
+                    type="button"
+                    class="bonus-shop-modal__apply"
+                    *ngIf="selectedRefreshCardRowIndex !== null"
+                    (click)="applyRefreshCardRowBonus()">
+                    Refresh Row
+                </button>
+                <button
+                    type="button"
+                    class="bonus-shop-modal__cancel"
+                    (click)="cancelRefreshCardRowBonus()">
                     Cancel
                 </button>
             </div>
@@ -875,7 +1159,7 @@
         <div class="card-acquisition-animation-container">
             <div class="card-acquisition-animation-card" *ngFor="let item of cardAcquisitionAnimationCardsToShow; let i = index" [style.--animation-delay]="'0ms'">
                 <div class="card-acquisition-animation-card-inner">
-                    <app-card [card]="item.card" [disableHoverUi]="true"></app-card>
+                    <app-card [card]="item.card" [disableHoverUi]="true" [forceNormalTokenSize]="true"></app-card>
                 </div>
                 <div class="card-acquisition-animation-label">Add to Collection</div>
             </div>

@@ -163,6 +163,13 @@
     cursor: default;
 }
 
+:host-context(.card--purchasable) .left-half,
+:host-context(.card--purchasable) .right-half,
+:host-context(.card--purchasable) .coin,
+:host-context(.card--purchasable) .number-wrapper {
+    cursor: pointer !important;
+}
+
 .left-half {
     left: 0;
 }

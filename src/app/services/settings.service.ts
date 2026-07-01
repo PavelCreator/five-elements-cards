@@ -7,6 +7,8 @@ import { LocalStorageService } from "./local-storage.service";
 import { HowToWinCardType } from "../models/how-to-win-card.interface";
 import { GameMode } from '../models/game-mode.type';
 
+export type CardTokenDisplayMode = 'normal' | 'big';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,6 +19,7 @@ export class SettingsService {
   private readonly _winConditionModeKey = 'winConditionMode';
   private readonly _gameModeKey = 'gameMode';
   private readonly _cardAcquisitionAnimationEnabledKey = 'cardAcquisitionAnimationEnabled';
+  private readonly _cardTokenDisplayModeKey = 'cardTokenDisplayMode';
   private readonly _winConditionOptionsKey = 'selectedWinConditionOptions';
   private readonly _defaultWinConditionOptions: number[] = [1, 2, 3, 4];
   private _darkThemeEnabled = new BehaviorSubject<boolean>(false);
@@ -25,6 +28,8 @@ export class SettingsService {
   public gameMode$ = this._gameMode.asObservable();
   private _cardAcquisitionAnimationEnabled = new BehaviorSubject<boolean>(false);
   public cardAcquisitionAnimationEnabled$ = this._cardAcquisitionAnimationEnabled.asObservable();
+  private _cardTokenDisplayMode = new BehaviorSubject<CardTokenDisplayMode>('normal');
+  public cardTokenDisplayMode$ = this._cardTokenDisplayMode.asObservable();
   private _winConditionMode = new BehaviorSubject<HowToWinCardType>('Grand');
   public winConditionMode$ = this._winConditionMode.asObservable();
   private _selectedWinConditionOptions = new BehaviorSubject<number[]>(this._defaultWinConditionOptions);
@@ -51,6 +56,11 @@ export class SettingsService {
     const cardAcquisitionAnimationEnabled = this._localStorageService.getItem(this._cardAcquisitionAnimationEnabledKey);
     if (cardAcquisitionAnimationEnabled === 'true') {
       this._cardAcquisitionAnimationEnabled.next(true);
+    }
+
+    const cardTokenDisplayMode = this._localStorageService.getItem(this._cardTokenDisplayModeKey);
+    if (cardTokenDisplayMode === 'normal' || cardTokenDisplayMode === 'big') {
+      this._cardTokenDisplayMode.next(cardTokenDisplayMode);
     }
 
     const winConditionMode = this._localStorageService.getItem(this._winConditionModeKey);
@@ -89,6 +99,15 @@ export class SettingsService {
   public setCardAcquisitionAnimationEnabled(enabled: boolean): void {
     this._cardAcquisitionAnimationEnabled.next(enabled);
     this._localStorageService.setItem(this._cardAcquisitionAnimationEnabledKey, enabled ? 'true' : 'false');
+  }
+
+  public getCardTokenDisplayMode(): CardTokenDisplayMode {
+    return this._cardTokenDisplayMode.value;
+  }
+
+  public setCardTokenDisplayMode(mode: CardTokenDisplayMode): void {
+    this._cardTokenDisplayMode.next(mode);
+    this._localStorageService.setItem(this._cardTokenDisplayModeKey, mode);
   }
 
   public setWinConditionMode(mode: HowToWinCardType): void {

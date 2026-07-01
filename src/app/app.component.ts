@@ -12,6 +12,7 @@ import { howToWinCards } from "./data/how-to-win-cards";
 import { HowToWinCard, HowToWinCardType } from "./models/how-to-win-card.interface";
 import { HowToWinComponent } from "./components/how-to-win/how-to-win.component";
 import { GameMode } from './models/game-mode.type';
+import { CardTokenDisplayMode } from './services/settings.service';
 
 type AppTab = 'collection' | 'game' | 'settings';
 
@@ -34,6 +35,7 @@ export class AppComponent implements OnInit{
     public darkThemeEnabled: boolean = false;
     public gameMode: GameMode = 'normal';
     public cardAcquisitionAnimationEnabled: boolean = false;
+    public cardTokenDisplayMode: CardTokenDisplayMode = 'normal';
     public readonly winConditionModes: HowToWinCardType[] = ['Grand', 'Blitz'];
     public winConditionMode: HowToWinCardType = 'Grand';
     public selectedWinConditionOptions: number[] = [1, 2, 3, 4];
@@ -60,6 +62,7 @@ export class AppComponent implements OnInit{
         this._loadDarkThemeMode();
         this._loadGameMode();
         this._loadCardAcquisitionAnimation();
+        this._loadCardTokenDisplayMode();
         this._loadWinConditions();
 
         this._interactionService.selectedViewMode$.subscribe((inSelectedMenuItem: number | undefined) => {
@@ -107,6 +110,12 @@ export class AppComponent implements OnInit{
     public setCardAcquisitionAnimationEnabled(enabled: boolean): void {
         this.cardAcquisitionAnimationEnabled = enabled;
         this._settingsService.setCardAcquisitionAnimationEnabled(enabled);
+    }
+
+    public setCardTokenDisplayMode(mode: CardTokenDisplayMode): void {
+        this.cardTokenDisplayMode = mode;
+        this._settingsService.setCardTokenDisplayMode(mode);
+        this._applyCardTokenDisplayModeClass();
     }
 
     public setActiveTab(tab: AppTab): void {
@@ -205,8 +214,17 @@ export class AppComponent implements OnInit{
         this.cardAcquisitionAnimationEnabled = this._settingsService.isCardAcquisitionAnimationEnabled();
     }
 
+    private _loadCardTokenDisplayMode(): void {
+        this.cardTokenDisplayMode = this._settingsService.getCardTokenDisplayMode();
+        this._applyCardTokenDisplayModeClass();
+    }
+
     private _applyDarkThemeClass(): void {
         document.body.classList.toggle('theme-dark', this.darkThemeEnabled);
+    }
+
+    private _applyCardTokenDisplayModeClass(): void {
+        document.body.classList.toggle('card-tokens-big', this.cardTokenDisplayMode === 'big');
     }
 
     private _loadWinConditions(): void {

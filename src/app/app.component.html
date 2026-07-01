@@ -88,6 +88,24 @@
 			</button>
 		</div>
 
+		<div class="settings-subtitle settings-subtitle--spaced">Card Token Display</div>
+		<div class="settings-mode-buttons">
+			<button
+				type="button"
+				class="settings-mode-button"
+				[class.settings-mode-button--active]="cardTokenDisplayMode === 'normal'"
+				(click)="setCardTokenDisplayMode('normal')">
+				Normal
+			</button>
+			<button
+				type="button"
+				class="settings-mode-button"
+				[class.settings-mode-button--active]="cardTokenDisplayMode === 'big'"
+				(click)="setCardTokenDisplayMode('big')">
+				Big
+			</button>
+		</div>
+
 		<div class="settings-subtitle settings-subtitle--spaced">Win Conditions</div>
 		<div class="settings-mode-buttons">
 			<button

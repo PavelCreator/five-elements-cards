@@ -472,16 +472,8 @@ body.theme-dark .settings-win-condition {
     z-index: 50;
 }
 
-.card--purchasable{
-    cursor: pointer;
-}
-
-.card--purchasable *{
-    cursor: pointer;
-}
-
-.card--no-edit.card--purchasable,
-.card--no-edit.card--purchasable *{
+.card.card--purchasable,
+.card.card--purchasable * {
     cursor: pointer !important;
 }
 
@@ -1184,6 +1176,37 @@ body.theme-dark .settings-win-condition {
     left:1px;
     top:10px;
     z-index:10;
+}
+
+/* Big card token display mode (settings): physically enlarge app-hexagon inside card wrappers. */
+.card--big-token-mode .pay-wrapper app-hexagon {
+    transform: scale(1.4);
+    transform-origin: bottom right;
+    display: block;
+    margin-top: 0;
+}
+
+.card--big-token-mode .get-wrapper app-hexagon {
+    transform: scale(1.4);
+    transform-origin: top left;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.card--big-token-mode .pay-wrapper,
+.card--big-token-mode .get-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.card--big-token-mode .pay-wrapper {
+    bottom: 3px;
+    align-items: flex-end;
+}
+
+.card--big-token-mode .get-wrapper {
+    align-items: flex-start;
 }
 .temp-flying-art{
     position:absolute;

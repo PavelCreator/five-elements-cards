@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
+import { NgClass, NgFor, NgIf, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CardsStoreService } from '../../services/cards-store.service';
@@ -39,13 +39,15 @@ interface BonusShopRule {
 }
 
 interface BonusShopReward {
-    kind: 'hex' | 'image';
+    kind: 'hex' | 'image' | 'hardcore';
     color?: Color;
     imageSrc?: string;
     number?: number;
     rollCount?: number;
     freeCardLevel?: number;
     extraTurn?: boolean;
+    hardcoreKind?: 'refreshCardRow' | 'reserveCard' | 'buryRivalsCard' | 'buryRivalCard' | 'stealRivalsCard';
+    hardcoreColor?: string;
     alt: string;
 }
 
@@ -76,7 +78,7 @@ interface FinalRoundStanding {
     isWinner: boolean;
 }
 
-type CollectionColumnKey = 'red' | 'blue' | 'white' | 'green' | 'purple' | 'black' | 'mixed';
+type CollectionColumnKey = 'red' | 'blue' | 'white' | 'green' | 'purple' | 'black' | 'mixed' | 'reserved';
 
 interface CollectionColumn {
     key: CollectionColumnKey;
@@ -87,7 +89,7 @@ interface CollectionColumn {
 @Component({
     selector: 'app-game-wrapper',
     standalone: true,
-    imports: [NgClass, NgFor, NgIf, NgStyle, FormsModule, CardComponent, HexagonComponent, PlayerColumnComponent, MasterCardComponent, HowToWinComponent],
+    imports: [NgClass, NgFor, NgIf, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault, FormsModule, CardComponent, HexagonComponent, PlayerColumnComponent, MasterCardComponent, HowToWinComponent],
     templateUrl: 'game-wrapper.component.html',
     styleUrls: ['./game-wrapper.component.css', '../../style.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -146,7 +148,16 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public showBonusShopFreeCardModal: boolean = false;
     public showBonusShopExtraTurnModal: boolean = false;
     public showBonusShopMasterModal: boolean = false;
+    public showRefreshCardRowModal: boolean = false;
+    public selectedRefreshCardRowIndex: number | null = null;
+    public showReserveCardModal: boolean = false;
+    public selectedReserveCardOrderNumber: number | null = null;
+    public showBuryRivalCardModal: boolean = false;
+    public buryRivalCardSelectedPlayer: number | null = null;
+    public buryRivalCardSelectedCard: Card | null = null;
+    public buryRivalCardConfirmModalOpen: boolean = false;
     public hasBonusShopActionStarted: boolean = false;
+    public mainActionUsedThisTurn: boolean = false;
     public usedBonusShopRewardKeysThisTurn: Set<string> = new Set<string>();
     public bonusShopMixSelectionLimit: number = 0;
     public bonusShopMixDraftBankHexagons: Record<BonusShopMixColor, number> = {
@@ -178,14 +189,16 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             blackCost: 2,
             rewards: [
                 { kind: 'hex', color: 'mix', alt: 'Mixed hex reward' },
-                { kind: 'hex', color: 'dice', number: 2, rollCount: 2, alt: 'Roll two dice reward' }
+                { kind: 'hex', color: 'dice', number: 2, rollCount: 2, alt: 'Roll two dice reward' },
+                { kind: 'hardcore', hardcoreKind: 'refreshCardRow', hardcoreColor: '#87CEEB', alt: 'Refresh Card Row bonus' }
             ]
         },
         {
             blackCost: 3,
             rewards: [
                 { kind: 'hex', color: 'purple', alt: 'Purple hex reward' },
-                { kind: 'image', imageSrc: 'assets/hex/card_1_lvl.png', freeCardLevel: 1, alt: 'Free level 1 card' }
+                { kind: 'image', imageSrc: 'assets/hex/card_1_lvl.png', freeCardLevel: 1, alt: 'Free level 1 card' },
+                { kind: 'hardcore', hardcoreKind: 'reserveCard', hardcoreColor: '#90EE90', alt: 'Reserve Card bonus' }
             ]
         },
         {
@@ -205,7 +218,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         {
             blackCost: 6,
             rewards: [
-                { kind: 'image', imageSrc: 'assets/hex/card_master.png', alt: 'Master card reward' }
+                { kind: 'image', imageSrc: 'assets/hex/card_master.png', alt: 'Master card reward' },
+                { kind: 'hardcore', hardcoreKind: 'buryRivalsCard', hardcoreColor: '#ADD8E6', alt: 'Bury Rivals Card bonus' }
             ]
         },
         {
@@ -217,7 +231,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         {
             blackCost: 8,
             rewards: [
-                { kind: 'hex', color: 'purple', number: 4, alt: 'Purple hex reward with value 4' }
+                { kind: 'hex', color: 'purple', number: 4, alt: 'Purple hex reward with value 4' },
+                { kind: 'hardcore', hardcoreKind: 'stealRivalsCard', hardcoreColor: '#DDA0DD', alt: 'Steal Rivals Card bonus' }
             ]
         },
         {
@@ -303,6 +318,14 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         6: { 1: 0, 2: 0, 3: 0, 4: 0 },
     };
     private _playerCollectionCards: { [playerNumber: number]: Card[] } = {
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+        6: [],
+    };
+    private _playerReservedCards: { [playerNumber: number]: Card[] } = {
         1: [],
         2: [],
         3: [],
@@ -1066,6 +1089,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._lastClosedRollCount = 0;
         this._lastClosedRollWasBonusAction = false;
         this.hasBonusShopActionStarted = false;
+        this.mainActionUsedThisTurn = false;
         this.usedBonusShopRewardKeysThisTurn.clear();
         this._pendingCancelableBonusShopAction = null;
         this._setActivePlayerPassiveBlackTappedCount(0);
@@ -1534,6 +1558,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return reward.color === 'dice' || reward.color === 'mix' || reward.color === 'purple';
         }
 
+        if (reward.kind === 'hardcore') {
+            return true; // Hardcore bonuses are selectable
+        }
+
         if (this._isBonusShopExtraTurnBlocked(reward)) {
             return false;
         }
@@ -1541,6 +1569,422 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return this._getBonusShopFreeCardLevel(reward) > 0
             || this._isBonusShopExtraTurnReward(reward)
             || this._getBonusShopMasterKind(reward) !== null;
+    }
+
+    private _handleHardcoreBonusReward(reward: BonusShopReward, cost: number, rewardKey: string): void {
+        const hardcoreKind = reward.hardcoreKind;
+        if (!hardcoreKind) {
+            return;
+        }
+
+        const blackSpend = this._spendActivePlayerBlackForBonusMarket(cost);
+        if (!blackSpend) {
+            return;
+        }
+
+        this._applyBonusShopActiveSpendToGameBank(blackSpend.spentFromActiveByColor);
+        this.hasBonusShopActionStarted = true;
+        this.usedBonusShopRewardKeysThisTurn.add(rewardKey);
+
+        // TODO: Implement specific logic for each hardcore bonus
+        switch (hardcoreKind) {
+            case 'refreshCardRow':
+                this._applyRefreshCardRowBonus();
+                break;
+            case 'reserveCard':
+                this._applyReserveCardBonus();
+                break;
+            case 'buryRivalsCard':
+                this._applyBuryRivalsCardBonus();
+                break;
+            case 'stealRivalsCard':
+                this._applyStealRivalsCardBonus();
+                break;
+            case 'buryRivalCard':
+                this._applyBuryRivalCardBonus();
+                break;
+        }
+
+        this.showBonusShopModal = false;
+    }
+
+    private _applyRefreshCardRowBonus(): void {
+        this.showRefreshCardRowModal = true;
+        this.selectedRefreshCardRowIndex = null;
+    }
+
+    public onRefreshCardRowSelect(rowIndex: number, isSpecialStack: boolean = false): void {
+        this.selectedRefreshCardRowIndex = rowIndex;
+    }
+
+    public applyRefreshCardRowBonus(): void {
+        if (this.selectedRefreshCardRowIndex === null || this.selectedRefreshCardRowIndex < 0) {
+            return;
+        }
+
+        const selectedIndex = this.selectedRefreshCardRowIndex;
+        
+        // Determine if this is a regular row or special stack
+        const regularRowCount = this.rows.length; // 4
+        const isSpecialStack = selectedIndex >= regularRowCount;
+
+        if (isSpecialStack) {
+            // Handle special stack refresh
+            const specialIndex = selectedIndex - regularRowCount;
+            if (specialIndex < 0) return;
+
+            let currentStackIndex = 0;
+            for (let rowIdx = 0; rowIdx < this.rows.length; rowIdx++) {
+                const row = this.rows[rowIdx];
+                for (let stackIdx = 0; stackIdx < row.specialStacks.length; stackIdx++) {
+                    if (currentStackIndex === specialIndex) {
+                        this._refreshSpecialStack(row, stackIdx);
+                        this.showRefreshCardRowModal = false;
+                        this.selectedRefreshCardRowIndex = null;
+                        return;
+                    }
+                    currentStackIndex++;
+                }
+            }
+        } else {
+            // Handle regular row refresh
+            if (selectedIndex < 0 || selectedIndex >= this.rows.length) {
+                return;
+            }
+
+            const row = this.rows[selectedIndex];
+            const cardsPerRow = this._getCardsPerRow();
+            const visibleCount = Math.min(cardsPerRow, row.stack.length);
+
+            if (visibleCount > 0) {
+                // Move currently visible cards to the bottom of the same deck,
+                // then reveal the next cards from the top.
+                const rotatedStack = [
+                    ...row.stack.slice(visibleCount),
+                    ...row.stack.slice(0, visibleCount)
+                ];
+
+                row.stack = rotatedStack;
+                row.topCards = rotatedStack.slice(0, cardsPerRow);
+            }
+        }
+
+        this.showRefreshCardRowModal = false;
+        this.selectedRefreshCardRowIndex = null;
+    }
+
+    private _refreshSpecialStack(row: { specialStacks: SpecialStack[] }, stackIndex: number): void {
+        const stack = row.specialStacks[stackIndex];
+        if (!stack) return;
+
+        if (stack.stack.length <= 1) {
+            stack.topCard = stack.stack[0];
+            return;
+        }
+
+        // Special stack always has one visible top card.
+        const rotatedStack = [...stack.stack.slice(1), stack.stack[0]];
+        stack.stack = rotatedStack;
+        stack.topCard = rotatedStack[0];
+    }
+
+    public cancelRefreshCardRowBonus(): void {
+        this.showRefreshCardRowModal = false;
+        this.selectedRefreshCardRowIndex = null;
+    }
+
+    public get refreshCardRowOptions(): Array<{ index: number; label: string; imageSrc: string; rowKind: 'regular' | 'purple' | 'black'; level: number; }> {
+        const regularOptionsByLevel = new Map<number, { index: number; label: string; imageSrc: string; rowKind: 'regular' | 'purple' | 'black'; level: number; }>();
+        const purpleOptionsByLevel = new Map<number, { index: number; label: string; imageSrc: string; rowKind: 'regular' | 'purple' | 'black'; level: number; }>();
+        const blackOptionsByLevel = new Map<number, { index: number; label: string; imageSrc: string; rowKind: 'regular' | 'purple' | 'black'; level: number; }>();
+
+        // Regular card rows (keep original row index for selection logic).
+        this.rows.forEach((row, rowIndex) => {
+            regularOptionsByLevel.set(row.level, {
+                index: rowIndex,
+                label: `Level ${row.level} Cards`,
+                imageSrc: `./assets/back_cards/${row.level}.jpg`,
+                rowKind: 'regular',
+                level: row.level
+            });
+        });
+
+        // Special stacks use the same index mapping as applyRefreshCardRowBonus (regular rows first, then flattened stacks).
+        let specialStackIndex = this.rows.length;
+        this.rows.forEach((row) => {
+            row.specialStacks.forEach((stack) => {
+                const isPurple = stack.color === 'purple';
+                const option = {
+                    index: specialStackIndex,
+                    label: `Level ${row.level} ${isPurple ? 'Purple' : 'Black'} Cards`,
+                    imageSrc: isPurple
+                        ? `./assets/back_cards/${row.level}_white.jpg`
+                        : `./assets/back_cards/${row.level}_black.jpg`,
+                    rowKind: isPurple ? 'purple' as const : 'black' as const,
+                    level: row.level
+                };
+
+                if (isPurple) {
+                    purpleOptionsByLevel.set(row.level, option);
+                } else {
+                    blackOptionsByLevel.set(row.level, option);
+                }
+
+                specialStackIndex++;
+            });
+        });
+
+        const orderedLevels = [1, 2, 3, 4];
+
+        return [
+            ...orderedLevels.map((level) => regularOptionsByLevel.get(level)).filter((option): option is NonNullable<typeof option> => !!option),
+            ...orderedLevels.map((level) => purpleOptionsByLevel.get(level)).filter((option): option is NonNullable<typeof option> => !!option),
+            ...orderedLevels.map((level) => blackOptionsByLevel.get(level)).filter((option): option is NonNullable<typeof option> => !!option),
+        ];
+    }
+
+    public get refreshCardRowRegularOptions(): Array<{ index: number; label: string; imageSrc: string; rowKind: 'regular' | 'purple' | 'black'; level: number; }> {
+        return this.refreshCardRowOptions.filter((option) => option.rowKind === 'regular');
+    }
+
+    public get refreshCardRowPurpleOptions(): Array<{ index: number; label: string; imageSrc: string; rowKind: 'regular' | 'purple' | 'black'; level: number; }> {
+        return this.refreshCardRowOptions.filter((option) => option.rowKind === 'purple');
+    }
+
+    public get refreshCardRowBlackOptions(): Array<{ index: number; label: string; imageSrc: string; rowKind: 'regular' | 'purple' | 'black'; level: number; }> {
+        return this.refreshCardRowOptions.filter((option) => option.rowKind === 'black');
+    }
+
+    private _applyReserveCardBonus(): void {
+        this.showReserveCardModal = true;
+        this.selectedReserveCardOrderNumber = null;
+    }
+
+    public get reserveCardChoices(): Card[] {
+        const availableCards: Card[] = [];
+
+        // Collect all open cards from regular rows
+        this.rows.forEach((row) => {
+            availableCards.push(...row.topCards);
+            // Also add cards from special stacks
+            row.specialStacks.forEach((stack) => {
+                if (stack.topCard) {
+                    availableCards.push(stack.topCard);
+                }
+            });
+        });
+
+        return availableCards;
+    }
+
+    public isReserveCardSelected(card: Card): boolean {
+        return this.selectedReserveCardOrderNumber === card.orderNumber;
+    }
+
+    public onReserveCardClick(card: Card): void {
+        this.selectedReserveCardOrderNumber = card.orderNumber;
+    }
+
+    public applyReserveCardBonus(): void {
+        if (this.selectedReserveCardOrderNumber === null) {
+            return;
+        }
+
+        // Find the card to reserve
+        let cardToReserve: Card | null = null;
+        let foundInRow: number | null = null;
+        let foundInStack: number | null = null;
+
+        for (let i = 0; i < this.rows.length; i++) {
+            const row = this.rows[i];
+
+            // Check regular cards
+            const cardIdx = row.topCards.findIndex(c => c.orderNumber === this.selectedReserveCardOrderNumber);
+            if (cardIdx >= 0) {
+                cardToReserve = row.topCards[cardIdx];
+                foundInRow = i;
+                break;
+            }
+
+            // Check special stacks
+            for (let j = 0; j < row.specialStacks.length; j++) {
+                const stack = row.specialStacks[j];
+                if (stack.topCard?.orderNumber === this.selectedReserveCardOrderNumber) {
+                    cardToReserve = stack.topCard;
+                    foundInRow = i;
+                    foundInStack = j;
+                    break;
+                }
+            }
+
+            if (cardToReserve) break;
+        }
+
+        if (!cardToReserve || foundInRow === null) {
+            return;
+        }
+
+        // Add card to player's reserved cards
+        this._playerReservedCards[this.activePlayer].push(cardToReserve);
+
+        // Remove card from board
+        if (foundInStack === null) {
+            // Regular row
+            const row = this.rows[foundInRow];
+            const cardIdx = row.topCards.findIndex(c => c.orderNumber === this.selectedReserveCardOrderNumber);
+            if (cardIdx >= 0) {
+                row.topCards.splice(cardIdx, 1);
+                // Draw new card if available
+                if (row.stack.length > 0) {
+                    const newCard = row.stack.shift();
+                    if (newCard) {
+                        row.topCards.push(newCard);
+                    }
+                }
+            }
+        } else {
+            // Special stack
+            const row = this.rows[foundInRow];
+            const stack = row.specialStacks[foundInStack];
+            if (stack.topCard?.orderNumber === this.selectedReserveCardOrderNumber) {
+                // Remove top card and draw next one
+                if (stack.stack.length > 0) {
+                    stack.topCard = stack.stack.shift();
+                } else {
+                    stack.topCard = undefined;
+                }
+            }
+        }
+
+        this.showReserveCardModal = false;
+        this.selectedReserveCardOrderNumber = null;
+    }
+
+    public cancelReserveCardBonus(): void {
+        this.showReserveCardModal = false;
+        this.selectedReserveCardOrderNumber = null;
+    }
+
+    public get canBuyReservedCard(): boolean {
+        // Can only buy if this is the active player's reserved card and they haven't used main action yet
+        return this.cardsCollectionPlayerNumber === this.activePlayer && !this.mainActionUsedThisTurn;
+    }
+
+    public buyReservedCard(card: Card): void {
+        if (!this.canBuyReservedCard) {
+            return;
+        }
+
+        if (!this.cardsCollectionPlayerNumber) {
+            return;
+        }
+
+        // Remove card from reserved cards
+        const reservedCards = this._playerReservedCards[this.cardsCollectionPlayerNumber];
+        const cardIndex = reservedCards.findIndex(c => c.orderNumber === card.orderNumber);
+        if (cardIndex >= 0) {
+            reservedCards.splice(cardIndex, 1);
+        }
+
+        // Add card to collection
+        this._playerCollectionCards[this.cardsCollectionPlayerNumber].push(card);
+
+        // Mark as main action used
+        this.mainActionUsedThisTurn = true;
+    }
+
+    private _applyBuryRivalsCardBonus(): void {
+        // TODO: Implement bury rivals card logic
+        console.log('Bury Rivals Card bonus applied');
+    }
+
+    private _applyStealRivalsCardBonus(): void {
+        // TODO: Implement steal rivals card logic
+        console.log('Steal Rivals Card bonus applied');
+    }
+
+    private _applyBuryRivalCardBonus(): void {
+        this.showBuryRivalCardModal = true;
+        this.buryRivalCardSelectedPlayer = null;
+        this.buryRivalCardSelectedCard = null;
+    }
+
+    public get buryRivalCardPlayerChoices(): Array<{ playerNumber: number; name: string; }> {
+        const choices: Array<{ playerNumber: number; name: string; }> = [];
+        
+        for (let i = 1; i <= (this.playerCount ?? 0); i++) {
+            if (i !== this.activePlayer) {
+                choices.push({
+                    playerNumber: i,
+                    name: this.playerNames[i - 1] ?? `Player ${i}`
+                });
+            }
+        }
+
+        return choices;
+    }
+
+    public onBuryRivalCardPlayerSelect(playerNumber: number): void {
+        this.buryRivalCardSelectedPlayer = playerNumber;
+    }
+
+    public get buryRivalCardPlayerCards(): Card[] {
+        if (this.buryRivalCardSelectedPlayer === null) {
+            return [];
+        }
+
+        return this._playerCollectionCards[this.buryRivalCardSelectedPlayer] ?? [];
+    }
+
+    public onBuryRivalCardCardSelect(card: Card): void {
+        this.buryRivalCardSelectedCard = card;
+        this.buryRivalCardConfirmModalOpen = true;
+    }
+
+    public confirmBuryRivalCard(): void {
+        if (!this.buryRivalCardSelectedCard || this.buryRivalCardSelectedPlayer === null) {
+            return;
+        }
+
+        const card = this.buryRivalCardSelectedCard;
+        const playerNumber = this.buryRivalCardSelectedPlayer;
+
+        // Remove card from collection
+        const playerCards = this._playerCollectionCards[playerNumber];
+        const cardIndex = playerCards.findIndex(c => c.orderNumber === card.orderNumber);
+        if (cardIndex >= 0) {
+            playerCards.splice(cardIndex, 1);
+        }
+
+        // Bury card at bottom of deck (find the appropriate row and move card to bottom)
+        const level = card.level;
+        const rows = this.rows.filter(r => r.level === level && !r.stack.some(s => s.orderNumber === card.orderNumber));
+
+        if (rows.length > 0) {
+            const row = rows[0];
+            row.stack.push(card);
+        }
+
+        this.buryRivalCardConfirmModalOpen = false;
+        this.buryRivalCardSelectedCard = null;
+    }
+
+    public cancelBuryRivalCardConfirm(): void {
+        this.buryRivalCardConfirmModalOpen = false;
+        this.buryRivalCardSelectedCard = null;
+    }
+
+    public selectAnotherBuryRivalCardPlayer(): void {
+        this.buryRivalCardSelectedPlayer = null;
+        this.buryRivalCardSelectedCard = null;
+        this.buryRivalCardConfirmModalOpen = false;
+    }
+
+    public cancelBuryRivalCardBonus(): void {
+        this.showBuryRivalCardModal = false;
+        this.buryRivalCardSelectedPlayer = null;
+        this.buryRivalCardSelectedCard = null;
+        this.buryRivalCardConfirmModalOpen = false;
     }
 
     private _isBonusShopExtraTurnBlocked(reward: BonusShopReward | undefined): boolean {
@@ -2345,6 +2789,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         if (this._getActivePlayerBonusShopBlackBalance() < cost) {
+            return;
+        }
+
+        // Handle hardcore bonus rewards
+        if (reward.kind === 'hardcore') {
+            this._handleHardcoreBonusReward(reward, cost, rewardKey);
             return;
         }
 
@@ -4476,10 +4926,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public get cardsCollectionColumns(): CollectionColumn[] {
         if (!this.cardsCollectionPlayerNumber) {
-            return this._buildCollectionColumns([]);
+            return this._buildCollectionColumns([], []);
         }
 
-        return this._buildCollectionColumns(this._playerCollectionCards[this.cardsCollectionPlayerNumber] ?? []);
+        const playerCards = this._playerCollectionCards[this.cardsCollectionPlayerNumber] ?? [];
+        const reservedCards = this._playerReservedCards[this.cardsCollectionPlayerNumber] ?? [];
+        return this._buildCollectionColumns(playerCards, reservedCards);
     }
 
     public get cardsCollectionColumnsFiltered(): CollectionColumn[] {
@@ -4754,8 +5206,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         return '';
     }
 
-    private _buildCollectionColumns(cards: Card[]): CollectionColumn[] {
+    private _buildCollectionColumns(cards: Card[], reservedCards: Card[]): CollectionColumn[] {
         const columns: CollectionColumn[] = [
+            { key: 'reserved', title: 'Reserved Cards', cards: [...reservedCards] },
             { key: 'red', title: 'Fire', cards: [] },
             { key: 'blue', title: 'Water', cards: [] },
             { key: 'white', title: 'Air', cards: [] },
@@ -4775,14 +5228,16 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         for (const column of columns) {
-            column.cards.sort((left, right) => {
-                const bonusDelta = this._getCollectionCardBonusStrength(right) - this._getCollectionCardBonusStrength(left);
-                if (bonusDelta !== 0) {
-                    return bonusDelta;
-                }
+            if (column.key !== 'reserved') {
+                column.cards.sort((left, right) => {
+                    const bonusDelta = this._getCollectionCardBonusStrength(right) - this._getCollectionCardBonusStrength(left);
+                    if (bonusDelta !== 0) {
+                        return bonusDelta;
+                    }
 
-                return left.orderNumber - right.orderNumber;
-            });
+                    return left.orderNumber - right.orderNumber;
+                });
+            }
         }
 
         return columns;
