@@ -157,6 +157,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public buryRivalCardSelectedPlayer: number | null = null;
     public buryRivalCardSelectedCard: Card | null = null;
     public buryRivalCardConfirmModalOpen: boolean = false;
+    public showStealRivalCardModal: boolean = false;
+    public stealRivalCardSelectedPlayer: number | null = null;
+    public stealRivalCardSelectedCard: Card | null = null;
+    public stealRivalCardConfirmModalOpen: boolean = false;
     public hasBonusShopActionStarted: boolean = false;
     public mainActionUsedThisTurn: boolean = false;
     public usedBonusShopRewardKeysThisTurn: Set<string> = new Set<string>();
@@ -347,6 +351,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private _pendingBonusShopExtraTurnRewardKey: string = '';
     private _pendingBonusShopMasterBlackCost: number = 0;
     private _pendingBonusShopMasterRewardKey: string = '';
+    private _pendingStealRivalBlackCost: number = 0;
+    private _pendingStealRivalRewardKey: string = '';
     private _isActivePlayerExtraTurnInProgress: boolean = false;
     private _pendingCancelableBonusShopAction: PendingCancelableBonusShopAction | null = null;
     private _isFinalRoundActive: boolean = false;
@@ -625,6 +631,16 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return true;
         }
 
+        if (this.stealRivalCardConfirmModalOpen) {
+            this.cancelStealRivalCardConfirm();
+            return true;
+        }
+
+        if (this.showStealRivalCardModal) {
+            this.cancelStealRivalCardBonus();
+            return true;
+        }
+
         if (this.showBonusShopModal) {
             this.closeBonusShopModal();
             return true;
@@ -642,14 +658,18 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             || this.showPurplePurchasePreviewModal
             || this.showCardsCollectionModal
             || this.showDiceModal
-            || this.showLuckyPurpleChoiceModal;
+            || this.showLuckyPurpleChoiceModal
+            || this.showStealRivalCardModal
+            || this.stealRivalCardConfirmModalOpen;
     }
 
     private _isAnyBonusModalOpen(): boolean {
         return this.showBonusShopMixModal
             || this.showBonusShopFreeCardModal
             || this.showBonusShopExtraTurnModal
-            || this.showBonusShopMasterModal;
+            || this.showBonusShopMasterModal
+            || this.showStealRivalCardModal
+            || this.stealRivalCardConfirmModalOpen;
     }
 
     private _applyActiveBonusModal(): void {
@@ -1579,6 +1599,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
+        if (hardcoreKind === 'stealRivalsCard') {
+            this._openStealRivalCardModal(cost, rewardKey);
+            this.showBonusShopModal = false;
+            return;
+        }
+
         const blackSpend = this._spendActivePlayerBlackForBonusMarket(cost);
         if (!blackSpend) {
             return;
@@ -1598,9 +1624,6 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
                 break;
             case 'buryRivalsCard':
                 this._applyBuryRivalsCardBonus();
-                break;
-            case 'stealRivalsCard':
-                this._applyStealRivalsCardBonus();
                 break;
             case 'buryRivalCard':
                 this._applyBuryRivalCardBonus();
@@ -1886,13 +1909,39 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         const cardIndex = reservedCards.findIndex(c => c.orderNumber === card.orderNumber);
         if (cardIndex >= 0) {
             reservedCards.splice(cardIndex, 1);
+        } else {
+            return;
         }
 
-        // Add card to collection
-        this._playerCollectionCards[this.cardsCollectionPlayerNumber].push(card);
+        const purchasedCard: Card = { ...card };
+        const specialStackKey = this._getSpecialStackPurchaseKey(purchasedCard);
+
+        if (specialStackKey && this._playerHasSpecialStackPurchase(this.activePlayer, specialStackKey)) {
+            // Return card back to reserved list if special card is already purchased by this player.
+            reservedCards.push(card);
+            return;
+        }
+
+        // Add card to collection and apply passive bonuses.
+        this._playerCollectionCards[this.cardsCollectionPlayerNumber].push(purchasedCard);
+        this._updatePlayerPassiveBonusesByCard(this.activePlayer, purchasedCard, 1);
+
+        if (specialStackKey) {
+            this._playerSpecialStackPurchases[this.activePlayer].add(specialStackKey);
+        } else if (!purchasedCard.levelBonus) {
+            const playerLevelPurchases = this._playerNormalCardLevelPurchases[this.activePlayer];
+            playerLevelPurchases[purchasedCard.level] = (playerLevelPurchases[purchasedCard.level] ?? 0) + 1;
+        }
+
+        this._pendingPurchasedCardOrderNumbers.add(purchasedCard.orderNumber);
+        this._turnAcquiredCards.push({ ...purchasedCard });
+        this._checkForWinnerAfterPurchase();
 
         // Mark as main action used
         this.mainActionUsedThisTurn = true;
+        this.isFinishTurnUnlockedByDiceModal = true;
+        this.isWaitingForPostRoll2Token = false;
+        this._updateTokensByDiceState();
     }
 
     private _applyBuryRivalsCardBonus(): void {
@@ -1900,8 +1949,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     private _applyStealRivalsCardBonus(): void {
-        // TODO: Implement steal rivals card logic
-        console.log('Steal Rivals Card bonus applied');
+        this.showStealRivalCardModal = true;
+        this.stealRivalCardSelectedPlayer = null;
+        this.stealRivalCardSelectedCard = null;
+        this.stealRivalCardConfirmModalOpen = false;
     }
 
     private _applyBuryRivalCardBonus(): void {
@@ -1992,6 +2043,123 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.buryRivalCardConfirmModalOpen = false;
     }
 
+    public get stealRivalCardPlayerChoices(): Array<{ playerNumber: number; name: string; }> {
+        return this.buryRivalCardPlayerChoices;
+    }
+
+    public onStealRivalCardPlayerSelect(playerNumber: number): void {
+        this.stealRivalCardSelectedPlayer = playerNumber;
+        this.stealRivalCardSelectedCard = null;
+        this.stealRivalCardConfirmModalOpen = false;
+    }
+
+    public get stealRivalCardPlayerCards(): Card[] {
+        if (this.stealRivalCardSelectedPlayer === null) {
+            return [];
+        }
+
+        return this._playerCollectionCards[this.stealRivalCardSelectedPlayer] ?? [];
+    }
+
+    public isStealRivalCardBlockedForActivePlayer(card: Card | undefined): boolean {
+        const specialStackKey = this._getSpecialStackPurchaseKey(card);
+        if (!specialStackKey) {
+            return false;
+        }
+
+        return this._playerHasSpecialStackPurchase(this.activePlayer, specialStackKey);
+    }
+
+    public onStealRivalCardCardSelect(card: Card): void {
+        if (this.isStealRivalCardBlockedForActivePlayer(card)) {
+            return;
+        }
+
+        this.stealRivalCardSelectedCard = card;
+        this.stealRivalCardConfirmModalOpen = true;
+    }
+
+    public confirmStealRivalCard(): void {
+        if (!this.stealRivalCardSelectedCard || this.stealRivalCardSelectedPlayer === null) {
+            return;
+        }
+
+        if (this._getActivePlayerBonusShopBlackBalance() < this._pendingStealRivalBlackCost) {
+            return;
+        }
+
+        const blackSpend = this._spendActivePlayerBlackForBonusMarket(this._pendingStealRivalBlackCost);
+        if (!blackSpend) {
+            return;
+        }
+
+        this._applyBonusShopActiveSpendToGameBank(blackSpend.spentFromActiveByColor);
+
+        const card = this.stealRivalCardSelectedCard;
+        const rivalPlayerNumber = this.stealRivalCardSelectedPlayer;
+        const specialStackKey = this._getSpecialStackPurchaseKey(card);
+        if (specialStackKey && this._playerHasSpecialStackPurchase(this.activePlayer, specialStackKey)) {
+            this._spendActivePlayerPassiveBlackForTurn(-blackSpend.spentFromPassive);
+            const playerHex = this.playerHexagons[this.activePlayer];
+            if (playerHex) {
+                this._rollbackBonusShopActiveSpendFromGameBank(blackSpend.spentFromActiveByColor, playerHex);
+            }
+            return;
+        }
+
+        const rivalCards = this._playerCollectionCards[rivalPlayerNumber];
+        const cardIndex = rivalCards.findIndex((item) => item.orderNumber === card.orderNumber);
+        if (cardIndex < 0) {
+            this._spendActivePlayerPassiveBlackForTurn(-blackSpend.spentFromPassive);
+            const playerHex = this.playerHexagons[this.activePlayer];
+            if (playerHex) {
+                this._rollbackBonusShopActiveSpendFromGameBank(blackSpend.spentFromActiveByColor, playerHex);
+            }
+            return;
+        }
+
+        rivalCards.splice(cardIndex, 1);
+
+        const stolenCard: Card = { ...card };
+        this._playerCollectionCards[this.activePlayer].push(stolenCard);
+
+        this._updatePlayerPassiveBonusesByCard(rivalPlayerNumber, card, -1);
+        this._updatePlayerPassiveBonusesByCard(this.activePlayer, stolenCard, 1);
+
+        if (specialStackKey) {
+            this._playerSpecialStackPurchases[this.activePlayer].add(specialStackKey);
+        }
+
+        if (this._pendingStealRivalRewardKey) {
+            this.usedBonusShopRewardKeysThisTurn.add(this._pendingStealRivalRewardKey);
+        }
+
+        this.hasBonusShopActionStarted = true;
+
+        this._checkForWinnerAfterPurchase();
+        this.cancelStealRivalCardBonus();
+    }
+
+    public cancelStealRivalCardConfirm(): void {
+        this.stealRivalCardConfirmModalOpen = false;
+        this.stealRivalCardSelectedCard = null;
+    }
+
+    public selectAnotherStealRivalCardPlayer(): void {
+        this.stealRivalCardSelectedPlayer = null;
+        this.stealRivalCardSelectedCard = null;
+        this.stealRivalCardConfirmModalOpen = false;
+    }
+
+    public cancelStealRivalCardBonus(): void {
+        this.showStealRivalCardModal = false;
+        this.stealRivalCardSelectedPlayer = null;
+        this.stealRivalCardSelectedCard = null;
+        this.stealRivalCardConfirmModalOpen = false;
+        this._pendingStealRivalBlackCost = 0;
+        this._pendingStealRivalRewardKey = '';
+    }
+
     private _buryCardToDeckBottom(card: Card): void {
         const targetRow = this.rows.find((row) => row.level === card.level);
         if (!targetRow) {
@@ -2024,6 +2192,33 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!targetRow.backUrl && targetRow.stack.length > 0) {
             targetRow.backUrl = this._imageService.generateCardBackUrl(targetRow.stack[0]);
         }
+    }
+
+    private _updatePlayerPassiveBonusesByCard(playerNumber: number, card: Card, direction: -1 | 1): void {
+        const playerPassiveCards = this.playerCardHexagons[playerNumber];
+        if (!playerPassiveCards) {
+            return;
+        }
+
+        for (const color of this._purchaseBonusColors) {
+            const bonusValue = Math.max(0, card.get?.[color] ?? 0);
+            if (bonusValue <= 0) {
+                continue;
+            }
+
+            const currentValue = playerPassiveCards[color] ?? 0;
+            const nextValue = direction > 0
+                ? currentValue + bonusValue
+                : Math.max(currentValue - bonusValue, 0);
+
+            playerPassiveCards[color] = nextValue;
+        }
+    }
+
+    private _openStealRivalCardModal(blackCost: number, rewardKey: string): void {
+        this._pendingStealRivalBlackCost = Math.max(0, Math.floor(blackCost));
+        this._pendingStealRivalRewardKey = rewardKey;
+        this._applyStealRivalsCardBonus();
     }
 
     private _isBonusShopExtraTurnBlocked(reward: BonusShopReward | undefined): boolean {

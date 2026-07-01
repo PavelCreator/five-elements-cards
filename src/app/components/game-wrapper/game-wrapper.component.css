@@ -1605,6 +1605,22 @@
     background: rgba(219, 234, 254, 0.55);
 }
 
+.bonus-shop-free-card-option--disabled,
+.bonus-shop-free-card-option:disabled {
+    cursor: not-allowed;
+    opacity: 0.72;
+    transform: none;
+    border-color: rgba(148, 163, 184, 0.46);
+    box-shadow: none;
+}
+
+.bonus-shop-free-card-option--disabled:hover,
+.bonus-shop-free-card-option:disabled:hover {
+    transform: none;
+    border-color: rgba(148, 163, 184, 0.46);
+    box-shadow: none;
+}
+
 .bonus-shop-free-card-option app-card {
     display: block;
     margin: 0 auto;

@@ -699,6 +699,109 @@
         </div>
     </div>
 
+    <!-- Steal Rival Card: Select Player Modal -->
+    <div class="bonus-shop-free-card-overlay" *ngIf="showStealRivalCardModal && stealRivalCardSelectedPlayer === null" (click)="cancelStealRivalCardBonus()">
+        <div class="bonus-shop-free-card-modal" (click)="$event.stopPropagation()">
+            <div class="bonus-shop-free-card-modal__title">Choose Rival</div>
+            <div class="bonus-shop-free-card-modal__subtitle">Select a rival to choose a card to steal.</div>
+
+            <div class="bonus-shop-free-card-grid">
+                <button
+                    type="button"
+                    class="bonus-shop-free-card-option"
+                    *ngFor="let player of stealRivalCardPlayerChoices"
+                    (click)="onStealRivalCardPlayerSelect(player.playerNumber)">
+                    <div class="rival-player-block">
+                        <div class="rival-player-name">{{ player.name }}</div>
+                    </div>
+                </button>
+            </div>
+
+            <div class="bonus-shop-free-card-modal__actions">
+                <button
+                    type="button"
+                    class="bonus-shop-modal__cancel"
+                    (click)="cancelStealRivalCardBonus()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Steal Rival Card: View Player Cards Modal -->
+    <div class="bonus-shop-free-card-overlay" *ngIf="showStealRivalCardModal && stealRivalCardSelectedPlayer !== null" (click)="cancelStealRivalCardBonus()">
+        <div class="bonus-shop-free-card-modal" (click)="$event.stopPropagation()">
+            <div class="bonus-shop-free-card-modal__title">Choose Card to Steal</div>
+            <div class="bonus-shop-free-card-modal__subtitle">Select a card to steal and add to your collection.</div>
+
+            <div class="bonus-shop-free-card-grid" *ngIf="stealRivalCardPlayerCards.length > 0; else noStealRivalCards">
+                <button
+                    type="button"
+                    class="bonus-shop-free-card-option"
+                    *ngFor="let card of stealRivalCardPlayerCards"
+                    [class.bonus-shop-free-card-option--disabled]="isStealRivalCardBlockedForActivePlayer(card)"
+                    [disabled]="isStealRivalCardBlockedForActivePlayer(card)"
+                    (click)="onStealRivalCardCardSelect(card)">
+                    <app-card
+                        [card]="card"
+                        [disableHoverUi]="true"
+                        [purchaseBlocked]="isStealRivalCardBlockedForActivePlayer(card)"
+                        [purchaseBlockedLabel]="'Already Purchased'">
+                    </app-card>
+                </button>
+            </div>
+
+            <ng-template #noStealRivalCards>
+                <div class="bonus-shop-free-card-modal__empty">This player has no cards to steal.</div>
+            </ng-template>
+
+            <div class="bonus-shop-free-card-modal__actions">
+                <button
+                    type="button"
+                    class="bonus-shop-modal__apply"
+                    *ngIf="stealRivalCardPlayerChoices.length > 1"
+                    (click)="selectAnotherStealRivalCardPlayer()">
+                    Select Another Rivals
+                </button>
+                <button
+                    type="button"
+                    class="bonus-shop-modal__cancel"
+                    (click)="cancelStealRivalCardBonus()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Steal Rival Card: Confirmation Modal -->
+    <div class="bonus-shop-free-card-overlay" *ngIf="stealRivalCardConfirmModalOpen" (click)="cancelStealRivalCardConfirm()">
+        <div class="bonus-shop-free-card-modal" (click)="$event.stopPropagation()">
+            <div class="bonus-shop-free-card-modal__title">Confirm Steal</div>
+            <div class="bonus-shop-free-card-modal__subtitle">Are you sure that you want to steal this card?</div>
+
+            <div class="bonus-shop-free-card-grid" *ngIf="stealRivalCardSelectedCard">
+                <div class="bonus-shop-free-card-option--disabled-view">
+                    <app-card [card]="stealRivalCardSelectedCard" [disableHoverUi]="true"></app-card>
+                </div>
+            </div>
+
+            <div class="bonus-shop-free-card-modal__actions">
+                <button
+                    type="button"
+                    class="bonus-shop-modal__apply"
+                    (click)="confirmStealRivalCard()">
+                    Yes
+                </button>
+                <button
+                    type="button"
+                    class="bonus-shop-modal__cancel"
+                    (click)="cancelStealRivalCardConfirm()">
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="bonus-shop-free-card-overlay" *ngIf="showRefreshCardRowModal" (click)="cancelRefreshCardRowBonus()">
         <div class="bonus-shop-free-card-modal" (click)="$event.stopPropagation()">
             <div class="bonus-shop-free-card-modal__title">Choose Card Row to Refresh</div>
