@@ -2105,6 +2105,21 @@
     pointer-events: none;
 }
 
+/* Locked state for discard tokens (when all tokens have been discarded) */
+.tokens-by-dice-item--locked {
+    opacity: 0.4;
+    filter: grayscale(1) brightness(0.8);
+}
+
+.tokens-by-dice-options--discard-locked {
+    opacity: 0.6;
+}
+
+.tokens-by-dice-options--discard-locked .tokens-by-dice-item--locked {
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+}
+
 /* Override number hiding for joker exchange tokens */
 .tokens-by-dice-item--joker ::ng-deep .number-wrapper {
     display: flex !important;
@@ -2448,20 +2463,20 @@
 
 @keyframes cardScaleInAndFly {
     0% {
-        left: 50%;
-        top: 50%;
+        left: var(--card-start-left, 50%);
+        top: var(--card-start-top, 50%);
         transform: translate(-50%, -50%) scale(0);
         opacity: 0;
     }
     20% {
-        left: 50%;
-        top: 50%;
+        left: var(--card-start-left, 50%);
+        top: var(--card-start-top, 50%);
         transform: translate(-50%, -50%) scale(3);
         opacity: 1;
     }
     85% {
-        left: 50%;
-        top: 50%;
+        left: var(--card-start-left, 50%);
+        top: var(--card-start-top, 50%);
         transform: translate(-50%, -50%) scale(3);
         opacity: 1;
     }

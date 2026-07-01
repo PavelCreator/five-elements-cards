@@ -483,7 +483,19 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
+        // Block space/enter if any modal with "Apply" action is open
+        if (this._isAnyBonusModalOpen() && (event.code === 'Space' || key === 'Enter')) {
+            event.preventDefault();
+            this._applyActiveBonusModal();
+            return;
+        }
+
         if (event.code === 'Space' || key === 'Enter') {
+            // Don't allow finish turn if any modal is open
+            if (this._isAnyModalOpen()) {
+                return;
+            }
+            
             event.preventDefault();
             if (this.canFinishTurn) {
                 this.finishTurn();
@@ -594,6 +606,47 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         return false;
+    }
+
+    private _isAnyModalOpen(): boolean {
+        return this.showBonusShopModal
+            || this.showBonusShopMixModal
+            || this.showBonusShopFreeCardModal
+            || this.showBonusShopExtraTurnModal
+            || this.showBonusShopMasterModal
+            || this.showPurplePurchasePreviewModal
+            || this.showCardsCollectionModal
+            || this.showDiceModal
+            || this.showLuckyPurpleChoiceModal;
+    }
+
+    private _isAnyBonusModalOpen(): boolean {
+        return this.showBonusShopMixModal
+            || this.showBonusShopFreeCardModal
+            || this.showBonusShopExtraTurnModal
+            || this.showBonusShopMasterModal;
+    }
+
+    private _applyActiveBonusModal(): void {
+        if (this.showBonusShopMixModal && this.canApplyBonusShopMix) {
+            this.applyBonusShopMixSelection();
+            return;
+        }
+
+        if (this.showBonusShopFreeCardModal && this.canApplyBonusShopFreeCardSelection) {
+            this.applyBonusShopFreeCardSelection();
+            return;
+        }
+
+        if (this.showBonusShopExtraTurnModal && this.canApplyBonusShopExtraTurn) {
+            this.applyBonusShopExtraTurnSelection();
+            return;
+        }
+
+        if (this.showBonusShopMasterModal && this.canApplyBonusShopMasterSelection) {
+            this.applyBonusShopMasterSelection();
+            return;
+        }
     }
 
     public startRename(playerNumber: number): void {
@@ -1101,17 +1154,35 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         const offsetX = buttonCenterX - viewportCenterX;
         const offsetY = buttonCenterY - viewportCenterY;
         
-        console.log('Button position:', { buttonCenterX, buttonCenterY, viewportCenterX, viewportCenterY, offsetX, offsetY });
-        
         // Set CSS custom properties on each card
         const animationContainer = this.cardAcquisitionAnimationContainer?.nativeElement;
         if (animationContainer) {
             const cards = animationContainer.querySelectorAll('.card-acquisition-animation-card');
-            cards.forEach((card: Element) => {
+            const cardCount = cards.length;
+            
+            // Calculate horizontal spread for multiple cards
+            let horizontalSpacing = 0;
+            if (cardCount === 2) {
+                horizontalSpacing = 800; // Distance between left and right card centers
+            }
+            
+            cards.forEach((card: Element, index: number) => {
+                // Calculate starting position (left or right if multiple cards)
+                let startOffsetX = 0;
+                if (cardCount === 2) {
+                    startOffsetX = index === 0 ? -horizontalSpacing / 2 : horizontalSpacing / 2;
+                }
+                
+                // Set starting position
+                (card as HTMLElement).style.setProperty('--card-start-left', `calc(50% + ${startOffsetX}px)`);
+                (card as HTMLElement).style.setProperty('--card-start-top', '50%');
+                
+                // Set ending position (button location)
                 (card as HTMLElement).style.setProperty('--card-target-left', `calc(50% + ${offsetX}px)`);
                 (card as HTMLElement).style.setProperty('--card-target-top', `calc(50% + ${offsetY}px)`);
             });
-            console.log('Set CSS variables on', cards.length, 'cards');
+            
+            console.log('Set positions for', cardCount, 'cards. Button offset:', { offsetX, offsetY });
         }
     }
 
@@ -3488,6 +3559,11 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         // First, check if all jokers have been exchanged
         if (!this.isJokerExchangeComplete) return false;
+        
+        // Check if we need to discard tokens (when there are crosses)
+        if (this.showTokensToDiscardBlock && this.tokensToDiscard > 0) {
+            return false;
+        }
         
         if (!this.hasTwoNothings && !this.hasThreeNothings && !this.hasFourNothings) return true;
         

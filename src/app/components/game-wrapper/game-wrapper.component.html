@@ -612,20 +612,30 @@
 
             <div class="tokens-by-dice-block" *ngIf="showTokensToDiscardBlock">
                 <div class="tokens-by-dice-warning">Tokens to <p>Discard: {{ tokensToDiscard }}</p></div>
-                <div class="tokens-by-dice-options tokens-by-dice-options--discard">
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled" data-token-role="discard" data-color="red">
+                <div class="tokens-by-dice-options tokens-by-dice-options--discard" [ngClass]="{ 'tokens-by-dice-options--discard-locked': tokensToDiscard === 0 }">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled" 
+                         [ngClass]="{ 'tokens-by-dice-item--locked': tokensToDiscard === 0 }"
+                         data-token-role="discard" data-color="red">
                         <app-hexagon [color]="'red'" [number]="modalDiscardHexagons['red'] ?? 0" [type]="'playerBank'"></app-hexagon>
                     </div>
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled" data-token-role="discard" data-color="blue">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled" 
+                         [ngClass]="{ 'tokens-by-dice-item--locked': tokensToDiscard === 0 }"
+                         data-token-role="discard" data-color="blue">
                         <app-hexagon [color]="'blue'" [number]="modalDiscardHexagons['blue'] ?? 0" [type]="'playerBank'"></app-hexagon>
                     </div>
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled" data-token-role="discard" data-color="white">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled" 
+                         [ngClass]="{ 'tokens-by-dice-item--locked': tokensToDiscard === 0 }"
+                         data-token-role="discard" data-color="white">
                         <app-hexagon [color]="'white'" [number]="modalDiscardHexagons['white'] ?? 0" [type]="'playerBank'"></app-hexagon>
                     </div>
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled" data-token-role="discard" data-color="green">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled" 
+                         [ngClass]="{ 'tokens-by-dice-item--locked': tokensToDiscard === 0 }"
+                         data-token-role="discard" data-color="green">
                         <app-hexagon [color]="'green'" [number]="modalDiscardHexagons['green'] ?? 0" [type]="'playerBank'"></app-hexagon>
                     </div>
-                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled" data-token-role="discard" data-color="purple">
+                    <div class="tokens-by-dice-item tokens-by-dice-item--token tokens-by-dice-item--disabled" 
+                         [ngClass]="{ 'tokens-by-dice-item--locked': tokensToDiscard === 0 }"
+                         data-token-role="discard" data-color="purple">
                         <app-hexagon [color]="'purple'" [number]="modalDiscardHexagons['purple'] ?? 0" [type]="'playerBank'"></app-hexagon>
                     </div>
                 </div>
