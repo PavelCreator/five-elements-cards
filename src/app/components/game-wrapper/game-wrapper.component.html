@@ -658,7 +658,7 @@
                     class="bonus-shop-modal__apply"
                     *ngIf="buryRivalCardPlayerChoices.length > 1"
                     (click)="selectAnotherBuryRivalCardPlayer()">
-                    Select Another Rival
+                    Select Another Rivals
                 </button>
                 <button
                     type="button"
@@ -951,7 +951,15 @@
                 <button type="button" class="dice-modal-button dice-modal-button--neutral" (click)="toggleDiceAnimation()">
                     {{ isDiceAnimationEnabled ? 'Disable Animation' : 'Enable Animation' }}
                 </button>
-                <button type="button" class="dice-modal-button dice-modal-button--secondary" (click)="closeDiceModal()" [disabled]="!canCloseDiceModal">Close</button>
+                <button
+                    #diceModalApplyButton
+                    type="button"
+                    class="dice-modal-button dice-modal-button--primary"
+                    [class.dice-modal-button--disabled]="!canCloseDiceModal"
+                    [attr.aria-disabled]="!canCloseDiceModal"
+                    (click)="onDiceModalApplyClick()">
+                    Apply
+                </button>
                 <button type="button" class="dice-modal-button dice-modal-button--primary" (click)="reRoll()">Reroll</button>
             </div>
         </div>

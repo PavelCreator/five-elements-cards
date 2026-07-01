@@ -97,6 +97,7 @@ interface CollectionColumn {
 export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('gameLayout') gameLayout?: ElementRef<HTMLDivElement>;
     @ViewChild('cardAcquisitionAnimation') cardAcquisitionAnimationContainer?: ElementRef<HTMLDivElement>;
+    @ViewChild('diceModalApplyButton') diceModalApplyButton?: ElementRef<HTMLButtonElement>;
     @Output() gameNavigationRequested = new EventEmitter<'settings' | 'new-game'>();
     public playerCount?: number;
     private _playerCountKey = 'gamePlayerCount';
@@ -513,6 +514,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
+        if (this.showDiceModal && (event.code === 'Space' || key === 'Enter')) {
+            event.preventDefault();
+            this._triggerDiceModalApplyClick();
+            return;
+        }
+
         if (event.code === 'Space' || key === 'Enter') {
             // Don't allow finish turn if any modal is open
             if (this._isAnyModalOpen()) {
@@ -615,11 +622,6 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         if (this.showLuckyPurpleChoiceModal) {
             this.cancelLuckyPurpleSelection();
-            return true;
-        }
-
-        if (this.showDiceModal) {
-            this.closeDiceModal();
             return true;
         }
 
@@ -1894,8 +1896,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     private _applyBuryRivalsCardBonus(): void {
-        // TODO: Implement bury rivals card logic
-        console.log('Bury Rivals Card bonus applied');
+        this._applyBuryRivalCardBonus();
     }
 
     private _applyStealRivalsCardBonus(): void {
@@ -1956,17 +1957,21 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             playerCards.splice(cardIndex, 1);
         }
 
-        // Bury card at bottom of deck (find the appropriate row and move card to bottom)
-        const level = card.level;
-        const rows = this.rows.filter(r => r.level === level && !r.stack.some(s => s.orderNumber === card.orderNumber));
+        const playerPassiveCards = this.playerCardHexagons[playerNumber];
+        if (playerPassiveCards) {
+            for (const color of this._purchaseBonusColors) {
+                const bonusValue = Math.max(0, card.get?.[color] ?? 0);
+                if (bonusValue <= 0) {
+                    continue;
+                }
 
-        if (rows.length > 0) {
-            const row = rows[0];
-            row.stack.push(card);
+                const currentValue = playerPassiveCards[color] ?? 0;
+                playerPassiveCards[color] = Math.max(currentValue - bonusValue, 0);
+            }
         }
 
-        this.buryRivalCardConfirmModalOpen = false;
-        this.buryRivalCardSelectedCard = null;
+        this._buryCardToDeckBottom(card);
+        this.cancelBuryRivalCardBonus();
     }
 
     public cancelBuryRivalCardConfirm(): void {
@@ -1985,6 +1990,40 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.buryRivalCardSelectedPlayer = null;
         this.buryRivalCardSelectedCard = null;
         this.buryRivalCardConfirmModalOpen = false;
+    }
+
+    private _buryCardToDeckBottom(card: Card): void {
+        const targetRow = this.rows.find((row) => row.level === card.level);
+        if (!targetRow) {
+            return;
+        }
+
+        // Special cards return to their corresponding special stack by color.
+        if (card.levelSpecial) {
+            const targetColor: SpecialStackColor = (card.get?.purple ?? 0) > 0 ? 'purple' : 'black';
+            const targetStack = targetRow.specialStacks.find((stack) => stack.color === targetColor);
+            if (!targetStack || targetStack.stack.some((stackCard) => stackCard.orderNumber === card.orderNumber)) {
+                return;
+            }
+
+            targetStack.stack.push({ ...card });
+            if (!targetStack.topCard) {
+                targetStack.topCard = targetStack.stack[0];
+            }
+            return;
+        }
+
+        if (targetRow.stack.some((stackCard) => stackCard.orderNumber === card.orderNumber)) {
+            return;
+        }
+
+        targetRow.stack.push({ ...card });
+
+        const cardsPerRow = this._getCardsPerRow();
+        targetRow.topCards = targetRow.stack.slice(0, cardsPerRow);
+        if (!targetRow.backUrl && targetRow.stack.length > 0) {
+            targetRow.backUrl = this._imageService.generateCardBackUrl(targetRow.stack[0]);
+        }
     }
 
     private _isBonusShopExtraTurnBlocked(reward: BonusShopReward | undefined): boolean {
@@ -4044,6 +4083,19 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public reRoll() {
         this.rollDice(4);
+    }
+
+    public onDiceModalApplyClick(): void {
+        this.closeDiceModal();
+    }
+
+    private _triggerDiceModalApplyClick(): void {
+        if (this.diceModalApplyButton?.nativeElement) {
+            this.diceModalApplyButton.nativeElement.click();
+            return;
+        }
+
+        this.onDiceModalApplyClick();
     }
 
     public closeDiceModal(): void {
