@@ -951,6 +951,7 @@
 }
 
 .bonus-shop-modal {
+    overflow-x: auto !important;
     max-width: 98vw;
     max-height: 95vh;
     overflow: visible;
@@ -985,6 +986,28 @@
     min-width: 0;
 }
 
+@media (max-width: 1250px) {
+    .bonus-shop-rules {
+        grid-template-columns: 1fr;
+    }
+
+    .bonus-shop-rule {
+        min-height: clamp(60px, 12vw, 100px);
+    }
+
+    .bonus-shop-rules__column {
+        min-height: auto;
+    }
+
+    .bonus-shop-rule {
+        min-height: auto;
+    }
+
+    .bonus-shop-rules {
+        min-height: auto;
+    }
+}
+
 .bonus-shop-rules__column {
     display: flex;
     flex-direction: column;
@@ -1000,8 +1023,8 @@
     grid-template-columns: auto auto 1fr;
     align-items: center;
     gap: clamp(4px, 1.5vw, 12px);
-    height: clamp(45px, 10vw, 100px);
-    padding: clamp(0px, 1vw, 5px) clamp(0px, 0.5vw, 6px);
+    min-height: clamp(45px, 10vw, 100px);
+    padding: clamp(4px, 1.5vw, 8px) clamp(4px, 1.5vw, 10px);
     border-radius: 12px;
     background: rgba(248, 250, 252, 0.9);
     border: 1px solid rgba(148, 163, 184, 0.25);
