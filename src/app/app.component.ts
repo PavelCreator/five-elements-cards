@@ -33,6 +33,7 @@ export class AppComponent implements OnInit{
     private readonly playerCountStorageKey: string = 'gamePlayerCount';
     public darkThemeEnabled: boolean = false;
     public gameMode: GameMode = 'normal';
+    public cardAcquisitionAnimationEnabled: boolean = false;
     public readonly winConditionModes: HowToWinCardType[] = ['Grand', 'Blitz'];
     public winConditionMode: HowToWinCardType = 'Grand';
     public selectedWinConditionOptions: number[] = [1, 2, 3, 4];
@@ -58,6 +59,7 @@ export class AppComponent implements OnInit{
         this._loadPlayerCount();
         this._loadDarkThemeMode();
         this._loadGameMode();
+        this._loadCardAcquisitionAnimation();
         this._loadWinConditions();
 
         this._interactionService.selectedViewMode$.subscribe((inSelectedMenuItem: number | undefined) => {
@@ -100,6 +102,11 @@ export class AppComponent implements OnInit{
     public setGameMode(mode: GameMode): void {
         this.gameMode = mode;
         this._settingsService.setGameMode(mode);
+    }
+
+    public setCardAcquisitionAnimationEnabled(enabled: boolean): void {
+        this.cardAcquisitionAnimationEnabled = enabled;
+        this._settingsService.setCardAcquisitionAnimationEnabled(enabled);
     }
 
     public setActiveTab(tab: AppTab): void {
@@ -192,6 +199,10 @@ export class AppComponent implements OnInit{
 
     private _loadGameMode(): void {
         this.gameMode = this._settingsService.getGameMode();
+    }
+
+    private _loadCardAcquisitionAnimation(): void {
+        this.cardAcquisitionAnimationEnabled = this._settingsService.isCardAcquisitionAnimationEnabled();
     }
 
     private _applyDarkThemeClass(): void {

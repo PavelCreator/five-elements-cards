@@ -16,12 +16,15 @@ export class SettingsService {
   private readonly _legacyModesCleanupDoneKey = 'legacyModesCleanupDone_v1';
   private readonly _winConditionModeKey = 'winConditionMode';
   private readonly _gameModeKey = 'gameMode';
+  private readonly _cardAcquisitionAnimationEnabledKey = 'cardAcquisitionAnimationEnabled';
   private readonly _winConditionOptionsKey = 'selectedWinConditionOptions';
   private readonly _defaultWinConditionOptions: number[] = [1, 2, 3, 4];
   private _darkThemeEnabled = new BehaviorSubject<boolean>(false);
   public darkThemeEnabled$ = this._darkThemeEnabled.asObservable();
   private _gameMode = new BehaviorSubject<GameMode>('normal');
   public gameMode$ = this._gameMode.asObservable();
+  private _cardAcquisitionAnimationEnabled = new BehaviorSubject<boolean>(false);
+  public cardAcquisitionAnimationEnabled$ = this._cardAcquisitionAnimationEnabled.asObservable();
   private _winConditionMode = new BehaviorSubject<HowToWinCardType>('Grand');
   public winConditionMode$ = this._winConditionMode.asObservable();
   private _selectedWinConditionOptions = new BehaviorSubject<number[]>(this._defaultWinConditionOptions);
@@ -43,6 +46,11 @@ export class SettingsService {
     const gameMode = this._localStorageService.getItem(this._gameModeKey);
     if (gameMode === 'normal' || gameMode === 'hardcore') {
       this._gameMode.next(gameMode);
+    }
+
+    const cardAcquisitionAnimationEnabled = this._localStorageService.getItem(this._cardAcquisitionAnimationEnabledKey);
+    if (cardAcquisitionAnimationEnabled === 'true') {
+      this._cardAcquisitionAnimationEnabled.next(true);
     }
 
     const winConditionMode = this._localStorageService.getItem(this._winConditionModeKey);
@@ -72,6 +80,15 @@ export class SettingsService {
   public setGameMode(mode: GameMode): void {
     this._gameMode.next(mode);
     this._localStorageService.setItem(this._gameModeKey, mode);
+  }
+
+  public isCardAcquisitionAnimationEnabled(): boolean {
+    return this._cardAcquisitionAnimationEnabled.value;
+  }
+
+  public setCardAcquisitionAnimationEnabled(enabled: boolean): void {
+    this._cardAcquisitionAnimationEnabled.next(enabled);
+    this._localStorageService.setItem(this._cardAcquisitionAnimationEnabledKey, enabled ? 'true' : 'false');
   }
 
   public setWinConditionMode(mode: HowToWinCardType): void {

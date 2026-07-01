@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -94,6 +94,7 @@ interface CollectionColumn {
 })
 export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('gameLayout') gameLayout?: ElementRef<HTMLDivElement>;
+    @ViewChild('cardAcquisitionAnimation') cardAcquisitionAnimationContainer?: ElementRef<HTMLDivElement>;
     @Output() gameNavigationRequested = new EventEmitter<'settings' | 'new-game'>();
     public playerCount?: number;
     private _playerCountKey = 'gamePlayerCount';
@@ -329,6 +330,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private _finalRoundQualifiedPlayers: Set<number> = new Set<number>();
     private _collectionHoveredCardIndex: Partial<Record<CollectionColumnKey, number>> = {};
     private _collectionDefaultOpenCardIndex: Partial<Record<CollectionColumnKey, number>> = {};
+    private _turnAcquiredCards: Card[] = [];
+    public showCardAcquisitionAnimation: boolean = false;
+    public cardAcquisitionAnimationCards: Card[] = [];
+    public cardAcquisitionAnimationCardsToShow: { card: Card; position: number }[] = [];
+    private _cardAcquisitionAnimationEndResolver: (() => void) | null = null;
+    public cardAcquisitionButtonElement: HTMLElement | null = null;
     private pickedTokensThisTurn: Color[] = [];
     public showDiceModal: boolean = false;
     public diceResults: string[] = [];
@@ -394,7 +401,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         private _imageService: ImageService,
         private _interactionService: InteractionService,
         private _localStorageService: LocalStorageService,
-        private _settingsService: SettingsService
+        private _settingsService: SettingsService,
+        private _cdr: ChangeDetectorRef
     ) {}
 
     ngOnInit() {
@@ -987,6 +995,17 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this._commitPendingPurchasedCards();
 
+        // Check if there are acquired cards and animation is enabled
+        if (this._turnAcquiredCards.length > 0 && this._settingsService.isCardAcquisitionAnimationEnabled()) {
+            this._showCardAcquisitionAnimationAndContinue();
+            return;
+        }
+
+        // No animation needed, continue directly
+        this._continueFinishTurn();
+    }
+
+    private _continueFinishTurn(): void {
         // Reset turn counter and picked tokens
         this.hexagonsPickedThisTurn = 0;
         this.isFinishTurnUnlockedByDiceModal = false;
@@ -1003,6 +1022,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._resetBonusShopFreeCardDraft(false);
         this._resetBonusShopMasterDraft(false);
         this.pickedTokensThisTurn = [];
+
+        // Clear acquired cards
+        this._turnAcquiredCards = [];
 
         this._updateTokensByDiceState();
         
@@ -1026,6 +1048,71 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this.activePlayer = nextPlayer;
         this._ensureActivePlayerPage();
         this._captureTurnStartState();
+    }
+
+    private _showCardAcquisitionAnimationAndContinue(): void {
+        this.cardAcquisitionAnimationCards = [...this._turnAcquiredCards];
+        this.cardAcquisitionAnimationCardsToShow = this.cardAcquisitionAnimationCards.map((card, index) => ({
+            card,
+            position: index
+        }));
+        
+        this.showCardAcquisitionAnimation = true;
+        this._cdr.detectChanges();
+        
+        // Calculate target button position after view updates
+        // Use setTimeout to ensure DOM is fully rendered
+        setTimeout(() => {
+            this._calculateCardAnimationTargetPosition();
+        }, 50);
+
+        // Wait for animation to complete (1.5 seconds)
+        setTimeout(() => {
+            this.showCardAcquisitionAnimation = false;
+            this._cdr.detectChanges();
+            this._continueFinishTurn();
+        }, 1500);
+    }
+
+    private _calculateCardAnimationTargetPosition(): void {
+        // Find the active player's Cards button
+        const activePlayerSlot = document.querySelector('.player-slot--active');
+        if (!activePlayerSlot) {
+            console.warn('Active player slot not found');
+            return;
+        }
+        
+        const cardsButton = activePlayerSlot.querySelector('.player-cards-button') as HTMLElement;
+        if (!cardsButton) {
+            console.warn('Cards button not found');
+            return;
+        }
+        
+        // Get button center position in viewport
+        const buttonRect = cardsButton.getBoundingClientRect();
+        const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+        const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+        
+        // Get viewport center
+        const viewportCenterX = window.innerWidth / 2;
+        const viewportCenterY = window.innerHeight / 2;
+        
+        // Calculate offset from viewport center to button
+        const offsetX = buttonCenterX - viewportCenterX;
+        const offsetY = buttonCenterY - viewportCenterY;
+        
+        console.log('Button position:', { buttonCenterX, buttonCenterY, viewportCenterX, viewportCenterY, offsetX, offsetY });
+        
+        // Set CSS custom properties on each card
+        const animationContainer = this.cardAcquisitionAnimationContainer?.nativeElement;
+        if (animationContainer) {
+            const cards = animationContainer.querySelectorAll('.card-acquisition-animation-card');
+            cards.forEach((card: Element) => {
+                (card as HTMLElement).style.setProperty('--card-target-left', `calc(50% + ${offsetX}px)`);
+                (card as HTMLElement).style.setProperty('--card-target-top', `calc(50% + ${offsetY}px)`);
+            });
+            console.log('Set CSS variables on', cards.length, 'cards');
+        }
     }
 
     public cancelTokens(): void {
@@ -1066,6 +1153,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._pendingPurchasedCardOrderNumbers.clear();
         this._pendingBonusActionCardOrderNumbers.clear();
         this.pickedTokensThisTurn = [];
+
+        // Reset acquired cards tracking on cancel
+        this._turnAcquiredCards = [];
 
         this._updateTokensByDiceState();
     }
@@ -2933,6 +3023,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             { ...card }
         ];
 
+        // Track acquired card for animation
+        this._turnAcquiredCards.push({ ...card });
+
         if (this.showCardsCollectionModal) {
             this.closeCardsCollectionModal();
         }
@@ -3940,6 +4033,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         const playerHex = this.playerHexagons[this.activePlayer];
         const playerCards = this.playerCardHexagons[this.activePlayer];
         if (!playerHex || !playerCards) return;
+
+        // Reset acquired cards tracking for new turn
+        this._turnAcquiredCards = [];
 
         for (const color of this._turnTrackedColors) {
             this._turnStartGameBankHexagons[color] = this.gameBankHexagons[color] ?? 0;

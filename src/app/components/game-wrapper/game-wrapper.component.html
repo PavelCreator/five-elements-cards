@@ -859,4 +859,16 @@
             </div>
         </div>
     </div>
+
+    <!-- Card Acquisition Animation Overlay -->
+    <div class="card-acquisition-animation-overlay" *ngIf="showCardAcquisitionAnimation" #cardAcquisitionAnimation>
+        <div class="card-acquisition-animation-container">
+            <div class="card-acquisition-animation-card" *ngFor="let item of cardAcquisitionAnimationCardsToShow; let i = index" [style.--animation-delay]="'0ms'">
+                <div class="card-acquisition-animation-card-inner">
+                    <app-card [card]="item.card"></app-card>
+                </div>
+                <div class="card-acquisition-animation-label">Add to Collection</div>
+            </div>
+        </div>
+    </div>
 </div>
