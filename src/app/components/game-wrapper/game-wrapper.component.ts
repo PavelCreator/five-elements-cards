@@ -2896,11 +2896,23 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public get bonusShopRulesLeft(): BonusShopRule[] {
-        return this.bonusShopRules.slice(0, 5);
+        return this._getVisibleBonusShopRules().slice(0, 5);
     }
 
     public get bonusShopRulesRight(): BonusShopRule[] {
-        return this.bonusShopRules.slice(5, 10);
+        return this._getVisibleBonusShopRules().slice(5, 10);
+    }
+
+    private _getVisibleBonusShopRules(): BonusShopRule[] {
+        const gameMode = this._settingsService.getGameMode();
+        if (gameMode === 'hardcore') {
+            return this.bonusShopRules;
+        }
+
+        return this.bonusShopRules.map((rule) => ({
+            ...rule,
+            rewards: rule.rewards.filter((reward) => reward.kind !== 'hardcore'),
+        }));
     }
 
     public setRightSidebarPage(page: number): void {

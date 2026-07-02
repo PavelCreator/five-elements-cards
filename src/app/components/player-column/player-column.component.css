@@ -49,13 +49,18 @@
     width:100%;
     display:flex;
     align-items:center;
-    justify-content:center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    font-size:0.9em;
 }
 
 .player-card__name{
     position:relative;
     cursor:text;
     user-select:text;
+    flex:1 1 auto;
+    min-width:0;
+    margin-left: 32px;
 }
 
 .player-card__tooltip{
@@ -108,25 +113,24 @@
 }
 
 .player-cards-button{
-    position:absolute;
-    right:16px;
-    top:50%;
-    transform:translateY(-50%);
-    min-width:72px;
-    height:36px;
-    padding:0 12px;
-    border-radius:12px;
-    border:1px solid rgba(0, 0, 0, 0.12);
-    background:#fff;
-    color:#475569;
-    cursor:pointer;
-    font-size:0.34em;
-    font-family:"Faculty Glyphic", sans-serif;
-    font-weight:700;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:all 0.15s ease-out;
+    margin-right: 32px;
+    position: static;
+    font-size: 0.8em;
+    margin-left: auto;
+    flex: 0 0 auto;
+    min-width: 72px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: #fff;
+    color: #475569;
+    cursor: pointer;
+    font-family: "Faculty Glyphic", sans-serif;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease-out;
 }
 
 .player-cards-button:hover{

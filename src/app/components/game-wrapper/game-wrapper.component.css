@@ -1029,7 +1029,7 @@
     background: rgba(248, 250, 252, 0.9);
     border: 1px solid rgba(148, 163, 184, 0.25);
     flex-shrink: 1;
-    min-height: 0;
+    min-height: 102px;
     min-width: 0;
 }
 
