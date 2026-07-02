@@ -4229,51 +4229,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public get canCloseDiceModal(): boolean {
-        if (this.areAllTokenBankModalDisabled) {
-            if (!this.showTokensToDiscardBlock) {
-                return true;
-            }
-
-            if (this.areAllTokensToDiscardModalDisabled) {
-                return true;
-            }
-
-            return false;
-        }
-
-        // First, check if all jokers have been exchanged
-        if (!this.isJokerExchangeComplete) return false;
-        
-        // Check if we need to discard tokens (when there are crosses)
-        if (this.showTokensToDiscardBlock && this.tokensToDiscard > 0) {
-            return false;
-        }
-        
-        if (!this.hasTwoNothings && !this.hasThreeNothings && !this.hasFourNothings) return true;
-        
-        if (this.hasTwoNothings) {
-            // Two crosses: always need exactly 1 selection
-            return this.selectedCancelChoices.length === 1;
-        }
-        
-        if (this.hasThreeNothings) {
-            // Three crosses: depends on whether player has tokens
-            if (!this.activePlayerHasTokens) {
-                // No tokens: need exactly 1 dice selection
-                return this.selectedCancelChoices.length === 1;
-            } else {
-                // Has tokens: need exactly 2 selections
-                return this.selectedCancelChoices.length === 2;
-            }
-        }
-        
-        if (this.hasFourNothings) {
-            // Four crosses: need exactly 3 token selections, or all tokens if player has <= 3
-            const requiredSelections = Math.min(3, this.activePlayerTokens.length);
-            return this.selectedCancelChoices.length === requiredSelections;
-        }
-        
-        return false;
+        return this.areAllTokenBankModalDisabled && this.tokensToDiscard === 0;
     }
 
     public reRoll() {
