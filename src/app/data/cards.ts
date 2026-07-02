@@ -1408,6 +1408,7 @@ export const cards: Card[] = [
         "isSelected": false,
         "artData": {
             "picturePath": "assets/images/7913eccb-be34-461a-97e9-76b7a38296b4/0_1.png",
+            "videoPath": "https://cdn.midjourney.com/video/8b5f0258-043a-4981-b530-a97429c338d9/3.mp4",
             "name": "Little Fire Spirit",
             "collection": "Little Element Spirits",
             "color": "purple",

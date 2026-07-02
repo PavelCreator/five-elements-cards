@@ -726,6 +726,8 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         
         const bankValue = this.gameBankHexagons[color];
         if (bankValue === undefined || bankValue <= 0) return;
+
+        this._animateBankTokenToPlayer(color, this.activePlayer);
         
         // Decrease bank value
         this.gameBankHexagons[color] = bankValue - 1;
@@ -1030,19 +1032,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
             const sourceRect = sourceCoin.getBoundingClientRect();
             const targetRect = targetCoin.getBoundingClientRect();
-            const flightNode = sourceCoin.cloneNode(true) as HTMLElement;
-            const numberNode = flightNode.querySelector('.number-wrapper');
-            if (numberNode) {
-                numberNode.remove();
-            }
-
-            flightNode.classList.add('token-flight-clone');
-            flightNode.style.left = `${sourceRect.left}px`;
-            flightNode.style.top = `${sourceRect.top}px`;
-            flightNode.style.width = `${sourceRect.width}px`;
-            flightNode.style.height = `${sourceRect.height}px`;
+            const flightNode = this._createFlightTokenNode(sourceCoin, sourceRect);
             flightNode.style.transform = 'translate(0, 0) scale(1)';
-            flightNode.style.opacity = '0.95';
+            flightNode.style.opacity = '1';
 
             document.body.appendChild(flightNode);
 
@@ -1050,13 +1042,74 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
                 const deltaX = targetRect.left - sourceRect.left;
                 const deltaY = targetRect.top - sourceRect.top;
                 flightNode.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.92)`;
-                flightNode.style.opacity = '0';
             });
 
             window.setTimeout(() => {
                 flightNode.remove();
-            }, 760);
+            }, 810);
         }, delayMs);
+    }
+
+    private _animateBankTokenToPlayer(color: Color, playerNumber: number): void {
+        const sourceSelector = `.left-bank-panel .roll-wrapper[data-bank-token-color="${color}"] .coin`;
+        const targetSelector = `.player-token-slot[data-player-number="${playerNumber}"][data-token-color="${color}"] .coin`;
+
+        const sourceCoin = document.querySelector(sourceSelector) as HTMLElement | null;
+        const targetCoin = document.querySelector(targetSelector) as HTMLElement | null;
+        if (!sourceCoin || !targetCoin) {
+            return;
+        }
+
+        const sourceRect = sourceCoin.getBoundingClientRect();
+        const targetRect = targetCoin.getBoundingClientRect();
+        const sourceSize = Math.max(sourceRect.width, sourceRect.height);
+        if (sourceSize <= 0) {
+            return;
+        }
+
+        const targetSize = Math.max(targetRect.width, targetRect.height);
+        const scale = Math.max(0.62, Math.min(1.1, targetSize / sourceSize));
+
+        const deltaX = targetRect.left + (targetRect.width / 2) - (sourceRect.left + (sourceRect.width / 2));
+        const deltaY = targetRect.top + (targetRect.height / 2) - (sourceRect.top + (sourceRect.height / 2));
+
+        const flightNode = this._createFlightTokenNode(sourceCoin, sourceRect);
+        flightNode.style.transform = 'translate(0, 0) scale(1)';
+        flightNode.style.opacity = '1';
+
+        document.body.appendChild(flightNode);
+
+        requestAnimationFrame(() => {
+            flightNode.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scale})`;
+        });
+
+        window.setTimeout(() => {
+            flightNode.remove();
+        }, 810);
+    }
+
+    private _createFlightTokenNode(sourceCoin: HTMLElement, sourceRect: DOMRect): HTMLElement {
+        const flightNode = sourceCoin.cloneNode(true) as HTMLElement;
+        const numberNode = flightNode.querySelector('.number-wrapper');
+        if (numberNode) {
+            numberNode.remove();
+        }
+
+        flightNode.classList.add('token-flight-clone');
+        flightNode.style.position = 'fixed';
+        flightNode.style.pointerEvents = 'none';
+        flightNode.style.zIndex = '2200';
+        flightNode.style.left = `${sourceRect.left}px`;
+        flightNode.style.top = `${sourceRect.top}px`;
+        flightNode.style.width = `${sourceRect.width}px`;
+        flightNode.style.height = `${sourceRect.height}px`;
+        flightNode.style.backgroundSize = '100% 100%';
+        flightNode.style.backgroundRepeat = 'no-repeat';
+        flightNode.style.backgroundPosition = 'center';
+        flightNode.style.transformOrigin = 'center center';
+        flightNode.style.willChange = 'transform, opacity';
+        flightNode.style.transition = 'transform 0.75s cubic-bezier(0.42, 0, 0.58, 1)';
+        return flightNode;
     }
 
     public isTokenToDiscardModalDisabled(color: Color): boolean {
@@ -5016,6 +5069,10 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         const purpleStack = this._shuffle(
             levelSpecialCards.filter((card) => (card.get?.purple ?? 0) > 0)
         );
+        if (level === 1) {
+            // Temporary hotfix: keep Little Fire Spirit as first revealed level-1 purple special card.
+            this._moveCardByNameToFront(purpleStack, 'Little Fire Spirit');
+        }
         const blackStack = this._shuffle(
             levelSpecialCards.filter((card) => (card.get?.black ?? 0) > 0)
         );
@@ -5055,6 +5112,16 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             [cards[i], cards[j]] = [cards[j], cards[i]];
         }
         return cards;
+    }
+
+    private _moveCardByNameToFront(cards: Card[], cardName: string): void {
+        const index = cards.findIndex((card) => card.name === cardName);
+        if (index <= 0) {
+            return;
+        }
+
+        const [picked] = cards.splice(index, 1);
+        cards.unshift(picked);
     }
 
     private _assignColors(cards: Card[]): Card[] {

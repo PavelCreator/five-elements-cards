@@ -35,31 +35,31 @@
                 <div [class.hexagon-empty]="getCardHexagonValue(getPlayerNumber(i), 'red') === 0">
                     <app-hexagon [color]="'red'" [number]="getCardHexagonValue(getPlayerNumber(i), 'red')" [type]="'getWin'"></app-hexagon>
                 </div>
-                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'red') === 0">
+                <div class="player-token-slot" [attr.data-player-number]="getPlayerNumber(i)" data-token-color="red" [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'red') === 0">
                     <app-hexagon [color]="'red'" [number]="getHexagonValue(getPlayerNumber(i), 'red')" [type]="'playerBank'"></app-hexagon>
                 </div>
                 <div [class.hexagon-empty]="getCardHexagonValue(getPlayerNumber(i), 'blue') === 0">
                     <app-hexagon [color]="'blue'" [number]="getCardHexagonValue(getPlayerNumber(i), 'blue')" [type]="'getWin'"></app-hexagon>
                 </div>
-                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'blue') === 0">
+                <div class="player-token-slot" [attr.data-player-number]="getPlayerNumber(i)" data-token-color="blue" [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'blue') === 0">
                     <app-hexagon [color]="'blue'" [number]="getHexagonValue(getPlayerNumber(i), 'blue')" [type]="'playerBank'"></app-hexagon>
                 </div>
                 <div [class.hexagon-empty]="getCardHexagonValue(getPlayerNumber(i), 'white') === 0">
                     <app-hexagon [color]="'white'" [number]="getCardHexagonValue(getPlayerNumber(i), 'white')" [type]="'getWin'"></app-hexagon>
                 </div>
-                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'white') === 0">
+                <div class="player-token-slot" [attr.data-player-number]="getPlayerNumber(i)" data-token-color="white" [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'white') === 0">
                     <app-hexagon [color]="'white'" [number]="getHexagonValue(getPlayerNumber(i), 'white')" [type]="'playerBank'"></app-hexagon>
                 </div>
                 <div [class.hexagon-empty]="getCardHexagonValue(getPlayerNumber(i), 'green') === 0">
                     <app-hexagon [color]="'green'" [number]="getCardHexagonValue(getPlayerNumber(i), 'green')" [type]="'getWin'"></app-hexagon>
                 </div>
-                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'green') === 0">
+                <div class="player-token-slot" [attr.data-player-number]="getPlayerNumber(i)" data-token-color="green" [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'green') === 0">
                     <app-hexagon [color]="'green'" [number]="getHexagonValue(getPlayerNumber(i), 'green')" [type]="'playerBank'"></app-hexagon>
                 </div>
                 <div [class.hexagon-empty]="getCardHexagonValue(getPlayerNumber(i), 'purple') === 0">
                     <app-hexagon [color]="'purple'" [number]="getCardHexagonValue(getPlayerNumber(i), 'purple')" [type]="'getWin'"></app-hexagon>
                 </div>
-                <div [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'purple') === 0">
+                <div class="player-token-slot" [attr.data-player-number]="getPlayerNumber(i)" data-token-color="purple" [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'purple') === 0">
                     <app-hexagon [color]="'purple'" [number]="getHexagonValue(getPlayerNumber(i), 'purple')" [type]="'playerBank'"></app-hexagon>
                 </div>
 
@@ -79,7 +79,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="player-black-token-cell" [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'black') === 0">
+                <div class="player-black-token-cell player-token-slot" [attr.data-player-number]="getPlayerNumber(i)" data-token-color="black" [class.hexagon-empty]="getHexagonValue(getPlayerNumber(i), 'black') === 0">
                     <app-hexagon [color]="'black'" [number]="getHexagonValue(getPlayerNumber(i), 'black')" [type]="'playerBank'"></app-hexagon>
                 </div>
             </div>

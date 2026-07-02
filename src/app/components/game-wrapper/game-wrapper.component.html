@@ -19,28 +19,28 @@
                 <div class="left-bank-panel__title">Bank</div>
 
                 <div class="left-bank-panel__row game-hex-row">
-                    <button class="roll-wrapper" type="button" aria-label="Red bank" (click)="onHexagonClick('red')" [disabled]="isHexagonDisabled('red')">
+                    <button class="roll-wrapper" type="button" data-bank-token-color="red" aria-label="Red bank" (click)="onHexagonClick('red')" [disabled]="isHexagonDisabled('red')">
                         <app-hexagon [color]="'red'" [number]="gameBankHexagons['red']" [type]="'gameBank'"></app-hexagon>
                     </button>
-                    <button class="roll-wrapper" type="button" aria-label="Blue bank" (click)="onHexagonClick('blue')" [disabled]="isHexagonDisabled('blue')">
+                    <button class="roll-wrapper" type="button" data-bank-token-color="blue" aria-label="Blue bank" (click)="onHexagonClick('blue')" [disabled]="isHexagonDisabled('blue')">
                         <app-hexagon [color]="'blue'" [number]="gameBankHexagons['blue']" [type]="'gameBank'"></app-hexagon>
                     </button>
                 </div>
 
                 <div class="left-bank-panel__row game-hex-row">
-                    <button class="roll-wrapper" type="button" aria-label="White bank" (click)="onHexagonClick('white')" [disabled]="isHexagonDisabled('white')">
+                    <button class="roll-wrapper" type="button" data-bank-token-color="white" aria-label="White bank" (click)="onHexagonClick('white')" [disabled]="isHexagonDisabled('white')">
                         <app-hexagon [color]="'white'" [number]="gameBankHexagons['white']" [type]="'gameBank'"></app-hexagon>
                     </button>
-                    <button class="roll-wrapper" type="button" aria-label="Green bank" (click)="onHexagonClick('green')" [disabled]="isHexagonDisabled('green')">
+                    <button class="roll-wrapper" type="button" data-bank-token-color="green" aria-label="Green bank" (click)="onHexagonClick('green')" [disabled]="isHexagonDisabled('green')">
                         <app-hexagon [color]="'green'" [number]="gameBankHexagons['green']" [type]="'gameBank'"></app-hexagon>
                     </button>
                 </div>
 
                 <div class="left-bank-panel__row game-hex-row">
-                    <button class="roll-wrapper" type="button" aria-label="Purple bank" (click)="onHexagonClick('purple')" [disabled]="isHexagonDisabled('purple')">
+                    <button class="roll-wrapper" type="button" data-bank-token-color="purple" aria-label="Purple bank" (click)="onHexagonClick('purple')" [disabled]="isHexagonDisabled('purple')">
                         <app-hexagon [color]="'purple'" [number]="gameBankHexagons['purple']" [type]="'gameBank'"></app-hexagon>
                     </button>
-                    <button class="roll-wrapper" type="button" aria-label="Black bank" (click)="onHexagonClick('black')" [disabled]="isHexagonDisabled('black')">
+                    <button class="roll-wrapper" type="button" data-bank-token-color="black" aria-label="Black bank" (click)="onHexagonClick('black')" [disabled]="isHexagonDisabled('black')">
                         <app-hexagon [color]="'black'" [number]="gameBankHexagons['black']" [type]="'gameBank'"></app-hexagon>
                     </button>
                 </div>
