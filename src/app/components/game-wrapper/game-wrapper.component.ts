@@ -374,7 +374,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     private _cardAcquisitionPhaseTimerId: number | null = null;
     private _cardAcquisitionFinishTimerId: number | null = null;
     private readonly _cardAcquisitionExpandDurationMs: number = 550;
-    private readonly _cardAcquisitionPlaybackDurationMs: number = 1650;
+    private readonly _cardAcquisitionPlaybackDurationMs: number = 4000;
     private readonly _cardAcquisitionFlyDurationMs: number = 750;
     public cardAcquisitionButtonElement: HTMLElement | null = null;
     private pickedTokensThisTurn: Color[] = [];
