@@ -9,19 +9,32 @@
 	<ng-container *ngIf="cardSide === 'front'">
         <div
             class="card-overlay-wrap"
-            [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled || disableHoverUi }"
+            [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled || disableHoverUi || shouldShowAnimatedVideo }"
             [ngStyle]="{
                 '--card-bg': 'url(' + card.artData?.picturePath + ')',
                 transform: (card.artData?.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')
             }"
         >
-            <div class="card-overlay-mirror-topleft"></div>
-            <div class="card-overlay-mirror-topright"></div>
-            <div class="card-overlay-mirror-left"></div>
-            <div class="card-overlay"></div>
-            <div class="card-overlay-mirror-right"></div>
-            <div class="card-overlay-mirror-bottomleft"></div>
-            <div class="card-overlay-mirror-bottomright"></div>
+            <ng-container *ngIf="!shouldShowAnimatedVideo; else cardVideoTemplate">
+                <div class="card-overlay-mirror-topleft"></div>
+                <div class="card-overlay-mirror-topright"></div>
+                <div class="card-overlay-mirror-left"></div>
+                <div class="card-overlay"></div>
+                <div class="card-overlay-mirror-right"></div>
+                <div class="card-overlay-mirror-bottomleft"></div>
+                <div class="card-overlay-mirror-bottomright"></div>
+            </ng-container>
+            <ng-template #cardVideoTemplate>
+                <video
+                    class="card-overlay-video"
+                    [src]="card.artData?.videoPath"
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                ></video>
+            </ng-template>
         </div>
     <div class="pay-wrapper">
 				<ng-container *ngIf="!editTokensMode">
@@ -59,7 +72,7 @@
         <div
                 class="card-overlay-wrap"
                 [ngClass]="{ 'card-overlay-wrap--no-reflection': !printModeEnabled || disableHoverUi }"
-                *ngIf="card.artData"
+            *ngIf="card.artData && !shouldShowAnimatedVideo"
                 [ngStyle]="{
                 '--card-bg': 'url(' + card.artData.picturePath + ')',
                 transform: (card.artData.horizontalReverse ? 'scaleX(-1)' : 'scaleX(1)')

@@ -86,6 +86,8 @@ interface CollectionColumn {
     cards: Card[];
 }
 
+const LITTLE_FIRE_SPIRIT_ORDER_NUMBER = 38.3;
+
 @Component({
     selector: 'app-game-wrapper',
     standalone: true,
@@ -100,6 +102,9 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('diceModalApplyButton') diceModalApplyButton?: ElementRef<HTMLButtonElement>;
     @Output() gameNavigationRequested = new EventEmitter<'settings' | 'new-game'>();
     public playerCount?: number;
+    public isMusicPanelOpen: boolean = false;
+    private _isMusicPanelHovered: boolean = false;
+    private _isMusicPanelTriggerHovered: boolean = false;
     private _playerCountKey = 'gamePlayerCount';
     private _playerNamesKey = 'gamePlayerNames';
     public leftPlayerSlots: boolean[] = [false, false, false];
@@ -364,7 +369,13 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     public showCardAcquisitionAnimation: boolean = false;
     public cardAcquisitionAnimationCards: Card[] = [];
     public cardAcquisitionAnimationCardsToShow: { card: Card; position: number }[] = [];
+    public cardAcquisitionAnimationPhase: 'prepare' | 'expand' | 'fly' = 'prepare';
     private _cardAcquisitionAnimationEndResolver: (() => void) | null = null;
+    private _cardAcquisitionPhaseTimerId: number | null = null;
+    private _cardAcquisitionFinishTimerId: number | null = null;
+    private readonly _cardAcquisitionExpandDurationMs: number = 550;
+    private readonly _cardAcquisitionPlaybackDurationMs: number = 1650;
+    private readonly _cardAcquisitionFlyDurationMs: number = 750;
     public cardAcquisitionButtonElement: HTMLElement | null = null;
     private pickedTokensThisTurn: Color[] = [];
     public showDiceModal: boolean = false;
@@ -447,6 +458,7 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._cardsSubscription = this._cardsStoreService.cards$.subscribe((cards) => {
             const preparedCards = this._assignColors(cards);
             this.rows = this._buildRows(preparedCards);
+            this._pinLittleFireSpiritAsFirstOpenLevel1Purple();
         });
 
         this._printModeSubscription = this._interactionService.printMode$.subscribe((printMode) => {
@@ -462,12 +474,37 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
         this._cardsSubscription?.unsubscribe();
         this._printModeSubscription?.unsubscribe();
         if (this._resizeRaf) cancelAnimationFrame(this._resizeRaf);
+        this._clearCardAcquisitionAnimationTimers();
         this._setDiceModalScrollLock(false);
     }
 
     @HostListener('window:resize')
     onWindowResize() {
         this._scheduleScaleUpdate();
+    }
+
+    public onMusicPanelTriggerEnter(): void {
+        this._isMusicPanelTriggerHovered = true;
+        this._updateMusicPanelVisibility();
+    }
+
+    public onMusicPanelTriggerLeave(): void {
+        this._isMusicPanelTriggerHovered = false;
+        this._updateMusicPanelVisibility();
+    }
+
+    public onMusicPanelEnter(): void {
+        this._isMusicPanelHovered = true;
+        this._updateMusicPanelVisibility();
+    }
+
+    public onMusicPanelLeave(): void {
+        this._isMusicPanelHovered = false;
+        this._updateMusicPanelVisibility();
+    }
+
+    private _updateMusicPanelVisibility(): void {
+        this.isMusicPanelOpen = this._isMusicPanelTriggerHovered || this._isMusicPanelHovered;
     }
 
     @HostListener('window:keydown', ['$event'])
@@ -483,6 +520,12 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const key = event.key;
         const lowerKey = key.toLowerCase();
+
+        if (this.showCardAcquisitionAnimation && event.code === 'Space') {
+            event.preventDefault();
+            this.skipCardAcquisitionAnimation();
+            return;
+        }
 
         if (key === 'Backspace' || key === 'Delete' || key === 'Escape' || key === 'Esc') {
             event.preventDefault();
@@ -1208,22 +1251,73 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
             card,
             position: index
         }));
-        
+
+        this._clearCardAcquisitionAnimationTimers();
+        this.cardAcquisitionAnimationPhase = 'prepare';
         this.showCardAcquisitionAnimation = true;
         this._cdr.detectChanges();
-        
-        // Calculate target button position after view updates
-        // Use setTimeout to ensure DOM is fully rendered
-        setTimeout(() => {
-            this._calculateCardAnimationTargetPosition();
-        }, 50);
 
-        // Wait for animation to complete (1.5 seconds)
-        setTimeout(() => {
-            this.showCardAcquisitionAnimation = false;
+        // Calculate target/start positions first, then start phase 1.
+        window.setTimeout(() => {
+            this._calculateCardAnimationTargetPosition();
+            this.cardAcquisitionAnimationPhase = 'expand';
             this._cdr.detectChanges();
-            this._continueFinishTurn();
-        }, 1500);
+            this._scheduleCardAcquisitionFlyPhase();
+        }, 0);
+    }
+
+    public skipCardAcquisitionAnimation(): void {
+        if (!this.showCardAcquisitionAnimation) {
+            return;
+        }
+
+        this._startCardAcquisitionFlyPhase();
+    }
+
+    private _scheduleCardAcquisitionFlyPhase(): void {
+        this._clearCardAcquisitionAnimationTimers();
+        this._cardAcquisitionPhaseTimerId = window.setTimeout(() => {
+            this._startCardAcquisitionFlyPhase();
+        }, this._cardAcquisitionExpandDurationMs + this._cardAcquisitionPlaybackDurationMs);
+    }
+
+    private _startCardAcquisitionFlyPhase(): void {
+        if (!this.showCardAcquisitionAnimation) {
+            return;
+        }
+
+        if (this.cardAcquisitionAnimationPhase !== 'fly') {
+            this.cardAcquisitionAnimationPhase = 'fly';
+            this._cdr.detectChanges();
+        }
+
+        if (this._cardAcquisitionFinishTimerId !== null) {
+            return;
+        }
+
+        this._cardAcquisitionFinishTimerId = window.setTimeout(() => {
+            this._finishCardAcquisitionAnimation();
+        }, this._cardAcquisitionFlyDurationMs);
+    }
+
+    private _finishCardAcquisitionAnimation(): void {
+        this._clearCardAcquisitionAnimationTimers();
+        this.showCardAcquisitionAnimation = false;
+        this.cardAcquisitionAnimationPhase = 'prepare';
+        this._cdr.detectChanges();
+        this._continueFinishTurn();
+    }
+
+    private _clearCardAcquisitionAnimationTimers(): void {
+        if (this._cardAcquisitionPhaseTimerId !== null) {
+            window.clearTimeout(this._cardAcquisitionPhaseTimerId);
+            this._cardAcquisitionPhaseTimerId = null;
+        }
+
+        if (this._cardAcquisitionFinishTimerId !== null) {
+            window.clearTimeout(this._cardAcquisitionFinishTimerId);
+            this._cardAcquisitionFinishTimerId = null;
+        }
     }
 
     private _calculateCardAnimationTargetPosition(): void {
@@ -5115,13 +5209,36 @@ export class GameWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     private _moveCardByNameToFront(cards: Card[], cardName: string): void {
-        const index = cards.findIndex((card) => card.name === cardName);
+        const index = cards.findIndex((card) => card.artData?.name === cardName);
         if (index <= 0) {
             return;
         }
 
         const [picked] = cards.splice(index, 1);
         cards.unshift(picked);
+    }
+
+    private _pinLittleFireSpiritAsFirstOpenLevel1Purple(): void {
+        const level1Row = this.rows.find((row) => row.level === 1);
+        if (!level1Row) {
+            return;
+        }
+
+        const purpleSpecialStack = level1Row.specialStacks.find((stack) => stack.color === 'purple');
+        if (!purpleSpecialStack || purpleSpecialStack.stack.length === 0) {
+            return;
+        }
+
+        const littleFireSpiritIndex = purpleSpecialStack.stack.findIndex((card) => {
+            return card.orderNumber === LITTLE_FIRE_SPIRIT_ORDER_NUMBER || card.artData?.name === 'Little Fire Spirit';
+        });
+
+        if (littleFireSpiritIndex > 0) {
+            const [littleFireSpiritCard] = purpleSpecialStack.stack.splice(littleFireSpiritIndex, 1);
+            purpleSpecialStack.stack.unshift(littleFireSpiritCard);
+        }
+
+        purpleSpecialStack.topCard = purpleSpecialStack.stack[0];
     }
 
     private _assignColors(cards: Card[]): Card[] {

@@ -1,4 +1,32 @@
 <div class="game-wrapper">
+    <div
+        class="music-panel-trigger"
+        *ngIf="rows.length && playerCount"
+        (mouseenter)="onMusicPanelTriggerEnter()"
+        (mouseleave)="onMusicPanelTriggerLeave()">
+    </div>
+
+    <aside
+        class="music-panel"
+        *ngIf="rows.length && playerCount"
+        [class.music-panel--open]="isMusicPanelOpen"
+        (mouseenter)="onMusicPanelEnter()"
+        (mouseleave)="onMusicPanelLeave()">
+        <div class="music-panel__title">Ambient Music</div>
+        <iframe
+            class="music-panel__frame"
+            scrolling="no"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2263890488&color=%23484846&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
+        </iframe>
+        <div class="music-panel__meta">
+            <a href="https://soundcloud.com/uz3a" title="uz3a" target="_blank" rel="noopener noreferrer">uz3a</a>
+            <span>·</span>
+            <a href="https://soundcloud.com/uz3a/the-last-druid-of-eiradun-fantasy-celtic-ambience-relaxing-music-no-ads-strings-of-eternity-youtube-7" title="The Last Druid of Eiradun Fantasy Celtic Ambience Relaxing Music [No Ads] - Strings of Eternity (youtube)" target="_blank" rel="noopener noreferrer">The Last Druid of Eiradun</a>
+        </div>
+    </aside>
+
     <div class="game-setup" *ngIf="!playerCount">
         <div class="game-setup__panel">
             <div class="game-setup__title">Select Players</div>
@@ -1268,12 +1296,24 @@
     <!-- Card Acquisition Animation Overlay -->
     <div class="card-acquisition-animation-overlay" *ngIf="showCardAcquisitionAnimation" #cardAcquisitionAnimation>
         <div class="card-acquisition-animation-container">
-            <div class="card-acquisition-animation-card" *ngFor="let item of cardAcquisitionAnimationCardsToShow; let i = index" [style.--animation-delay]="'0ms'">
+            <div
+                class="card-acquisition-animation-card"
+                [class.card-acquisition-animation-card--expand]="cardAcquisitionAnimationPhase === 'expand'"
+                [class.card-acquisition-animation-card--fly]="cardAcquisitionAnimationPhase === 'fly'"
+                *ngFor="let item of cardAcquisitionAnimationCardsToShow; let i = index"
+                [style.--animation-delay]="'0ms'">
                 <div class="card-acquisition-animation-card-inner">
                     <app-card [card]="item.card" [disableHoverUi]="true" [forceNormalTokenSize]="true"></app-card>
                 </div>
                 <div class="card-acquisition-animation-label">Add to Collection</div>
             </div>
+
+            <button
+                type="button"
+                class="card-acquisition-animation-skip"
+                (click)="skipCardAcquisitionAnimation()">
+                Skip (Press Spacebar)
+            </button>
         </div>
     </div>
 </div>

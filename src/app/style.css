@@ -639,6 +639,18 @@ body.theme-dark .settings-win-condition {
     z-index: 1;
 }
 
+.card-overlay-video {
+    position: absolute;
+    width: var(--card-w);
+    height: var(--card-h);
+    top: var(--bleed-y);
+    left: var(--bleed-x);
+    object-fit: cover;
+    z-index: 1;
+    pointer-events: none;
+    background: #000;
+}
+
 
 .card-win {
     width: 146px;

@@ -3,6 +3,7 @@ import { BoundingClientRect } from "./bounding-client-rect.interface";
 
 export interface Art {
     picturePath?: string,
+    videoPath?: string,
     name: string,
     collection?: string
     color?: Color;

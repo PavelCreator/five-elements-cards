@@ -16,6 +16,67 @@
     background: #d8d8d8;
 }
 
+.music-panel-trigger{
+    position:fixed;
+    left:0;
+    top:0;
+    width:12px;
+    height:100vh;
+    z-index:1600;
+}
+
+.music-panel{
+    position:fixed;
+    left:0;
+    top:50%;
+    transform:translate(-100%, -50%);
+    width:min(420px, 88vw);
+    padding:12px;
+    border-radius:0 14px 14px 0;
+    border:1px solid rgba(0, 0, 0, 0.16);
+    background:rgba(255, 255, 255, 0.95);
+    box-shadow:0 14px 28px rgba(0, 0, 0, 0.24);
+    z-index:1601;
+    transition:transform 0.24s ease-out;
+}
+
+.music-panel--open{
+    transform:translate(0, -50%);
+}
+
+.music-panel__title{
+    font-size:24px;
+    line-height:1;
+    color:#1f2937;
+    margin-bottom:10px;
+}
+
+.music-panel__frame{
+    width:100%;
+    height:166px;
+    border:0;
+    display:block;
+}
+
+.music-panel__meta{
+    margin-top:8px;
+    font-size:11px;
+    color:#6b7280;
+    line-height:1.2;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.music-panel__meta a{
+    color:#6b7280;
+    text-decoration:none;
+}
+
+.music-panel__meta a:hover{
+    text-decoration:underline;
+}
+
 .game-layout{
     display:grid;
     grid-template-columns: 380px auto 380px;
@@ -2679,7 +2740,15 @@
     top: 50%;
     left: 50%;
     transform-origin: center;
-    animation: cardScaleInAndFly 1.5s ease-out forwards;
+}
+
+.card-acquisition-animation-card--expand {
+    animation: cardScaleToFocus 0.55s ease-out forwards;
+    animation-delay: var(--animation-delay, 0ms);
+}
+
+.card-acquisition-animation-card--fly {
+    animation: cardFlyToCollection 0.75s ease-in-out forwards;
     animation-delay: var(--animation-delay, 0ms);
 }
 
@@ -2705,6 +2774,28 @@
     animation-delay: var(--animation-delay, 0ms);
 }
 
+.card-acquisition-animation-skip {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 25px;
+    background: rgba(15, 23, 42, 0.58);
+    color: #f8fafc;
+    font-family: "Faculty Glyphic", sans-serif;
+    font-size: 38px;
+    font-weight: 700;
+    padding: 21px 38px;
+    cursor: pointer;
+    transition: transform 0.12s ease-out, background-color 0.12s ease-out;
+}
+
+.card-acquisition-animation-skip:hover {
+    background: rgba(30, 41, 59, 0.8);
+    transform: translateX(-50%) translateY(-1px);
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -2714,7 +2805,7 @@
     }
 }
 
-@keyframes cardScaleInAndFly {
+@keyframes cardScaleToFocus {
     0% {
         left: var(--card-start-left, 50%);
         top: var(--card-start-top, 50%);
@@ -2727,7 +2818,16 @@
         transform: translate(-50%, -50%) scale(3);
         opacity: 1;
     }
-    85% {
+    100% {
+        left: var(--card-start-left, 50%);
+        top: var(--card-start-top, 50%);
+        transform: translate(-50%, -50%) scale(3);
+        opacity: 1;
+    }
+}
+
+@keyframes cardFlyToCollection {
+    0% {
         left: var(--card-start-left, 50%);
         top: var(--card-start-top, 50%);
         transform: translate(-50%, -50%) scale(3);

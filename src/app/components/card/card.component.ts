@@ -436,6 +436,10 @@ export class CardComponent implements OnInit {
         return !this.forceNormalTokenSize && this._settingsService.getCardTokenDisplayMode() === 'big';
     }
 
+    public get shouldShowAnimatedVideo(): boolean {
+        return this._settingsService.isCardAcquisitionAnimationEnabled() && !!this.card.artData?.videoPath;
+    }
+
     constructor(
         private _interactionService: InteractionService,
         private _imageService: ImageService,
